@@ -1,0 +1,5 @@
+responsibilities:
++ Statement of responsibility relating to the edition
++ Parallel statement of responsibility relating to the edition
++ Publisher
++ Printer

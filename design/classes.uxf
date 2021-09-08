@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>11</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>143</x>
+      <y>55</y>
+      <w>198</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Permissions
+-
+SAVE_TO_LIST = 1
+EDIT_BIBLIOGRAPHY = 2
+ADMIN = 4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>407</x>
+      <y>55</y>
+      <w>253</w>
+      <h>143</h>
+    </coordinates>
+    <panel_attributes>Role(db.Model)
+-
+__tablename__ = 'roles'
++ add_permission(perm)
++ remove_permission(perm)
++ reset_permission()
++ has_permission(perm)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>253</x>
+      <y>198</y>
+      <w>154</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>db fields as in
+ERM diagram</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>132</y>
+      <w>99</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>121</x>
+      <y>319</y>
+      <w>253</w>
+      <h>143</h>
+    </coordinates>
+    <panel_attributes>User(UserMixin, db.Model)
+-
+__tablename__ = 'users'
++ </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>264</x>
+      <y>264</y>
+      <w>33</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+</diagram>
