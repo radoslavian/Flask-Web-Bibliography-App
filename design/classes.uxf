@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>143</x>
-      <y>55</y>
+      <x>253</x>
+      <y>88</y>
       <w>198</w>
       <h>110</h>
     </coordinates>
@@ -19,8 +19,8 @@ ADMIN = 4</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>407</x>
-      <y>55</y>
+      <x>814</x>
+      <y>88</y>
       <w>253</w>
       <h>143</h>
     </coordinates>
@@ -37,8 +37,8 @@ __tablename__ = 'roles'
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>253</x>
-      <y>198</y>
+      <x>22</x>
+      <y>22</y>
       <w>154</w>
       <h>77</h>
     </coordinates>
@@ -47,39 +47,16 @@ ERM diagram</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>330</x>
-      <y>132</y>
-      <w>99</w>
-      <h>88</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>70.0;10.0;10.0;60.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>121</x>
-      <y>319</y>
+      <x>506</x>
+      <y>88</y>
       <w>253</w>
       <h>143</h>
     </coordinates>
     <panel_attributes>User(UserMixin, db.Model)
 -
-__tablename__ = 'users'
-+ </panel_attributes>
+__tablename__ = 'users'</panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>264</x>
-      <y>264</y>
-      <w>33</w>
-      <h>77</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
 </diagram>
