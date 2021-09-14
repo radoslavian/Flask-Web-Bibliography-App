@@ -45,22 +45,9 @@ class User:
     pass
 
 
-class RelatedDocuments(db.Model):
-    "Self-referential relationship table for the documents table."
-
-    __tablename__ = 'related_documents'
-    master_doc_id = db.Column(
-        db.Integer, db.ForeignKey('documents.document_id'), primary_key=True)
-    dependent_doc_id = db.Column(
-        db.Integer, db.ForeignKey('documents.document_id'), primary_key=True)
-    description = db.Column(db.String(45))
-    ordering = db.Column(db.Integer, default=0)
-
-
 class Document(db.Model):
     __tablename__ = 'documents'
-    document_id = db.Column(db.Integer, unique=True, nullable=False,
-                            primary_key=True, autoincrement=True)
+    document_id = db.Column(db.Integer, primary_key=True)
 
     document_type_id = db.Column(
         db.Integer, db.ForeignKey('document_types.type_id'))
@@ -69,19 +56,10 @@ class Document(db.Model):
     # language_id = db.relationship()
     # original_language_id = db.relationship()
 
-    _master_doc = db.relationship(
-        'RelatedDocuments',
-        foreign_keys=[RelatedDocuments.master_doc_id],
-        backref=db.backref('master_doc', lazy='joined'),
-        lazy='dynamic',
-        cascade='all, delete-orphan')
+    from sqlalchemy.ext.associationproxy import association_proxy
 
-    _dependent_doc = db.relationship(
-        'RelatedDocuments',
-        foreign_keys=[RelatedDocuments.dependent_doc_id],
-        backref=db.backref('dependent_doc', lazy='joined'),
-        lazy='dynamic',
-        cascade='all, delete-orphan')
+    _master_doc = association_proxy('master_document', 'dependent_doc')
+    _dependent_docs = association_proxy('dependent_docs', 'master_doc')
 
     title_proper = db.Column(db.String(255))
     parallel_title = db.Column(db.String(255))
@@ -108,6 +86,28 @@ class Document(db.Model):
     issn = db.Column(db.String(9))
     isbn_10 = db.Column(db.String(13))
     isbn_13 = db.Column(db.String(17))
+
+
+class RelatedDocuments(db.Model):
+    "Self-referential relationship table for the documents table."
+
+    __tablename__ = 'related_documents'
+    master_doc_id = db.Column(
+        db.Integer, db.ForeignKey('documents.document_id'), primary_key=True)
+    dependent_doc_id = db.Column(
+        db.Integer, db.ForeignKey('documents.document_id'), primary_key=True)
+    description = db.Column(db.String(45))
+    ordering = db.Column(db.Integer, default=0)
+
+    dependent_doc = db.relationship(
+        Document,
+        primaryjoin=(dependent_doc_id == Document.document_id),
+        backref='master_document')
+    master_doc = db.relationship(
+        Document,
+        primaryjoin=(master_doc_id == Document.document_id),
+        backref='dependent_docs')
+
 
 
 class DocumentType(db.Model):

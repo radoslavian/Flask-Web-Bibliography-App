@@ -53,7 +53,7 @@ class TestApp(unittest.TestCase):
                 name='Periodical').first().description,
             'A type for periodicals.')
 
-    def test_document_relations(self):
+    def test_documents_selfref_relations(self):
         master_doc = Document(
             title_proper='Fantastyka',
             other_title_inf='[miesięcznik literatury SF / '
@@ -62,12 +62,30 @@ class TestApp(unittest.TestCase):
             + '"Prasa-Książka-Ruch" 1982, 1-1990, 6 = 93 (czerw.).',
             publication_date='1982-1990',
             issn='0209-1631')
-        dependent_doc = Document(
-            title_proper='Magiczne zwierciadła baśni i fantasy')
 
-        docs = RelatedDocuments(master_doc=master_doc,
-                                dependent_doc=dependent_doc,
-                                description='Article in a periodical.')
-        db.session.add_all([master_doc, dependent_doc, docs])
+        title_1 = 'Magiczne zwierciadła baśni i fantasy'
+        title_2 = 'Trudna droga do miasta'
+        dependent_doc_1 = Document(
+            title_proper=title_1)
+        dependent_doc_2 = Document(
+            title_proper=title_2)
 
-        #self.assertTrue(RelatedDocuments.query.filter_by())
+        for dependent_doc in (dependent_doc_1, dependent_doc_2):
+            master_doc.dependent_docs.append(RelatedDocuments(
+                dependent_doc=dependent_doc,
+                description='Article'))
+            db.session.add(dependent_doc)
+
+        db.session.add_all([master_doc])
+        db.session.commit()
+
+        master = Document.query.filter_by(title_proper='Fantastyka').first()
+        self.assertEqual(master.title_proper, 'Fantastyka')
+        self.assertTrue(master.dependent_docs[0].dependent_doc.title_proper in
+                        (title_1, title_2))
+
+        dependent = Document.query.filter_by(
+            title_proper=title_1).first()
+        self.assertEqual(dependent.master_document[0].master_doc.title_proper,
+                         'Fantastyka')
+        self.assertFalse(dependent.dependent_docs)
