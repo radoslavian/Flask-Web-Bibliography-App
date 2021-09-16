@@ -28,7 +28,7 @@
     <coordinates>
       <x>418</x>
       <y>0</y>
-      <w>825</w>
+      <w>869</w>
       <h>836</h>
     </coordinates>
     <panel_attributes>Flask Bibliography App
@@ -50,7 +50,7 @@ entry list</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1276</x>
+      <x>1364</x>
       <y>0</y>
       <w>253</w>
       <h>88</h>
@@ -64,13 +64,13 @@ App"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1232</x>
+      <x>1353</x>
       <y>33</y>
-      <w>66</w>
+      <w>33</w>
       <h>55</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;30.0;40.0;10.0</additional_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLUseCase</id>
@@ -412,7 +412,7 @@ article, fragment)</panel_attributes>
     <coordinates>
       <x>407</x>
       <y>902</y>
-      <w>715</w>
+      <w>781</w>
       <h>616</h>
     </coordinates>
     <panel_attributes>Flask Bibliography App
@@ -651,10 +651,10 @@ accounts</panel_attributes>
     <coordinates>
       <x>968</x>
       <y>1111</y>
-      <w>132</w>
+      <w>165</w>
       <h>44</h>
     </coordinates>
-    <panel_attributes>add/delete</panel_attributes>
+    <panel_attributes>add/modify/delete</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -699,12 +699,12 @@ ERM diagram.</panel_attributes>
     <coordinates>
       <x>847</x>
       <y>1133</y>
-      <w>154</w>
+      <w>143</w>
       <h>66</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>120.0;10.0;10.0;40.0</additional_attributes>
+    <additional_attributes>110.0;10.0;10.0;40.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -721,8 +721,8 @@ ERM diagram.</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>792</x>
-      <y>704</y>
+      <x>803</x>
+      <y>715</y>
       <w>187</w>
       <h>55</h>
     </coordinates>
@@ -734,18 +734,18 @@ ERM diagram.</panel_attributes>
     <coordinates>
       <x>737</x>
       <y>561</y>
-      <w>143</w>
-      <h>165</h>
+      <w>154</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>90.0;130.0;10.0;10.0</additional_attributes>
+    <additional_attributes>100.0;140.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>1034</x>
-      <y>704</y>
+      <x>561</x>
+      <y>759</y>
       <w>187</w>
       <h>55</h>
     </coordinates>
@@ -755,30 +755,8 @@ ERM diagram.</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>968</x>
-      <y>715</y>
-      <w>88</w>
-      <h>44</h>
-    </coordinates>
-    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
-    <additional_attributes>60.0;20.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>572</x>
+      <x>726</x>
       <y>737</y>
-      <w>154</w>
-      <h>55</h>
-    </coordinates>
-    <panel_attributes>subject</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>715</x>
-      <y>726</y>
       <w>99</w>
       <h>55</h>
     </coordinates>
@@ -1259,5 +1237,60 @@ details</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>1122</x>
+      <y>506</y>
+      <w>154</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>subject</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1067</x>
+      <y>517</y>
+      <w>77</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1056</x>
+      <y>440</y>
+      <w>165</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <additional_attributes>130.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>979</x>
+      <y>550</y>
+      <w>253</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <additional_attributes>210.0;10.0;10.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1276</x>
+      <y>33</y>
+      <w>110</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
   </element>
 </diagram>

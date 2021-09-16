@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>253</x>
+      <x>231</x>
       <y>88</y>
       <w>198</w>
       <h>110</h>
@@ -19,7 +19,7 @@ ADMIN = 4</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>814</x>
+      <x>792</x>
       <y>88</y>
       <w>253</w>
       <h>143</h>
@@ -37,7 +37,7 @@ __tablename__ = 'roles'
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>22</x>
+      <x>0</x>
       <y>22</y>
       <w>154</w>
       <h>77</h>
@@ -49,7 +49,24 @@ ERM diagram</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>506</x>
+      <x>165</x>
+      <y>297</y>
+      <w>253</w>
+      <h>143</h>
+    </coordinates>
+    <panel_attributes>Lock
+-
+# _locking_user_id
+- __commit
++ locking_user
++ lock()
++ unlock()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>484</x>
       <y>88</y>
       <w>253</w>
       <h>143</h>
