@@ -1,9 +1,12 @@
 "Database models for the application."
 
+__name__ = 'models'
+
 from app import db
 from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.declarative import declared_attr
+
 
 class Permissions:
     # save bibliography items to a list:
@@ -59,11 +62,11 @@ class User(db.Model):
 
 
 class Lock:
-    '''Class mix-in for record locking.
+    '''A mix-in class for record locking.
 
 Helps prevent simultaneous record access for modification
-in order to avoid data inconsistency.'''
-
+in order to avoid data inconsistency.
+'''
     locked = db.Column(db.Boolean, default=False)
     lock_timestamp = db.Column(db.DateTime)
 
@@ -95,11 +98,12 @@ in order to avoid data inconsistency.'''
 
 
 subjects_collectivities = db.Table(
-    'subjects_collectivities',
+    'subjects_collectivities_join',
     db.Column('document_id', db.Integer,
               db.ForeignKey('documents.document_id'), nullable=False),
     db.Column('collectivities_id', db.Integer,
-              db.ForeignKey('collectivities.id'), nullable=False)
+              db.ForeignKey('collectivities.id'), nullable=False),
+    db.UniqueConstraint('document_id', 'collectivities_id')
 )
 
 
@@ -107,8 +111,8 @@ class Language(db.Model, Lock):
     __tablename__ = 'languages'
 
     language_id = db.Column(db.Integer, primary_key=True)
-    language_name = db.Column(db.String(45), nullable=False)
-    native_name = db.Column(db.String(45))
+    language_name = db.Column(db.String(45), nullable=False, index=True)
+    native_name = db.Column(db.String(45), index=True)
     other_name = db.Column(db.String(45))
     iso_639_1_language_code = db.Column(db.String(5))
     iso_639_2_language_code = db.Column(db.String(3))
@@ -120,42 +124,17 @@ class Document(db.Model, Lock):
     document_id = db.Column(db.Integer, primary_key=True)
     document_type_id = db.Column(
         db.Integer, db.ForeignKey('document_types.type_id'))
-
-    #document_type = db.relationship()
-
     language_id = db.Column(
         db.Integer, db.ForeignKey('languages.language_id'))
     original_language_id = db.Column(
         db.Integer, db.ForeignKey('languages.language_id'))
-
-    language = db.relationship(
-        'Language',
-        backref='documents',
-        foreign_keys=[language_id])
-    original_language = db.relationship(
-        'Language', backref='documents_original_lang',
-        foreign_keys=[original_language_id])
-
-    collectivity_subjects = db.relationship(
-        'CollectiveBody',
-        secondary=subjects_collectivities,
-        backref=db.backref('subjects_collectivities', lazy='dynamic'),
-        lazy='dynamic')
-
-    _master_doc = association_proxy('master_document', 'dependent_doc')
-    _dependent_docs = association_proxy('dependent_docs', 'master_doc')
-
-    responsibility_collectivities = db.relationship(
-        'ResponsibilityCollectivity',
-        back_populates='document')
-
-    title_proper = db.Column(db.String(255))
+    title_proper = db.Column(db.String(255), index=True)
     parallel_title = db.Column(db.String(255))
     other_title_inf = db.Column(db.String(255))
     edition_statement = db.Column(db.String(40))
     parallel_edition_stmt = db.Column(db.String(40))
 
-    # text field length:
+    # how to get text field length:
     # Model.column.property.columns[0].type.length
 
     additional_edition_stmt = db.Column(db.String(40))
@@ -175,6 +154,53 @@ class Document(db.Model, Lock):
     isbn_10 = db.Column(db.String(13))
     isbn_13 = db.Column(db.String(17))
 
+    document_type = db.relationship(
+        'DocumentType', backref='documents')
+    responsibilities_people = db.relationship(
+        'ResponsibilityPerson',
+        back_populates='document',
+        cascade='all, delete-orphan')
+    language = db.relationship(
+        'Language',
+        backref='documents',
+        foreign_keys=[language_id])
+    original_language = db.relationship(
+        'Language',
+        backref=db.backref('documents_original_lang', lazy='dynamic'),
+        foreign_keys=[original_language_id])
+    collectivity_subjects = db.relationship(
+        'CollectiveBody',
+        secondary='subjects_collectivities_join',
+        backref=db.backref('documents_collectivity_subject',
+                           lazy='dynamic'),
+        lazy='dynamic')
+    keywords = db.relationship(
+        'Keyword',
+        secondary='subject_keywords',
+        backref=db.backref('documents', lazy='dynamic'),
+        lazy='dynamic')
+    topic_people = db.relationship(
+        'Person',
+        secondary='topic_people_join',
+        backref=db.backref('documents_topics', lazy='dynamic'),
+        lazy='dynamic')
+    subjects_locations = db.relationship(
+        'GeographicLocation',
+        secondary='subjects_locations_join',
+        backref=db.backref('documents_topics', lazy='dynamic'))
+    publication_places = db.relationship(
+        'GeographicLocation',
+        secondary='publication_places_join',
+        backref=db.backref('document_publication_place', lazy='dynamic'),
+        lazy='dynamic')
+    responsibility_collectivities = db.relationship(
+        'ResponsibilityCollectivity',
+        back_populates='document',
+            cascade='all, delete-orphan')
+
+    _master_doc = association_proxy('master_document', 'dependent_doc')
+    _dependent_docs = association_proxy('dependent_docs', 'master_doc')
+
 
 class DocumentType(db.Model, Lock):
     __tablename__ = 'document_types'
@@ -190,28 +216,36 @@ class DocumentType(db.Model, Lock):
 class CollectiveBody(db.Model, Lock):
     __tablename__ = 'collectivities'
 
-    responsibility_collectivities = db.relationship(
-        'ResponsibilityCollectivity',
-        back_populates='collectivity')
-
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
+    name = db.Column(db.String(100), index=True)
     address = db.Column(db.String(200))
     abbr = db.Column(db.String(45))
     description = db.Column(db.String(200))
 
+    responsibility_collectivities = db.relationship(
+        'ResponsibilityCollectivity',
+        back_populates='collectivity',
+        cascade='all, delete-orphan')
+
 
 class ResponsibilityName(db.Model, Lock):
+    '''Model for collective bodies.
+These include (among others): organisations, companies, events, publishers.
+'''
     __tablename__ = 'responsibility_names'
+
+    id = db.Column(db.Integer, primary_key=True)
+    responsibility_name = db.Column(db.String(45), nullable=False, index=True)
+    responsibility_abbr = db.Column(db.String(6))
+    modifiable = db.Column(db.Boolean, default=True)
 
     responsibility_collectivities = db.relationship(
         'ResponsibilityCollectivity',
+        back_populates='responsibility',
+        cascade='all, delete-orphan')
+    responsibilities_people = db.relationship(
+        'ResponsibilityPerson',
         back_populates='responsibility')
-
-    id = db.Column(db.Integer, primary_key=True)
-    responsibility_name = db.Column(db.String(45), nullable=False)
-    responsibility_abbr = db.Column(db.String(6))
-    modifiable = db.Column(db.Boolean, default=True)
 
 
 class ResponsibilityCollectivity(db.Model):
@@ -232,9 +266,8 @@ holding responsibilities (authorship etc.) in a document.
     document_id = db.Column(
         db.Integer, db.ForeignKey('documents.document_id'),
         nullable=False)
-    ordering = db.Column(db.Integer)
+    ordering = db.Column(db.SmallInteger, default=0)
 
-    #jak nie będzie działało, spróbować z back_populates
     responsibility = db.relationship(
         'ResponsibilityName', back_populates='responsibility_collectivities')
     collectivity = db.relationship(
@@ -245,74 +278,148 @@ holding responsibilities (authorship etc.) in a document.
 
 class Keyword(db.Model, Lock):
     __tablename__ = 'keywords'
+    __table_args__ = (db.UniqueConstraint('keyword'),)
 
     id = db.Column(db.Integer, primary_key=True)
-    keyword = db.Column(db.String(70), nullable=False)
+    keyword = db.Column(db.String(70), nullable=False, index=True)
     determiner = db.Column(db.String(45))
 
 
-# subject_keywords
+subjects_keywords = db.Table(
+    'subject_keywords',
+    db.Column('document_id', db.Integer,
+              db.ForeignKey('documents.document_id'), nullable=False),
+    db.Column('keyword_id', db.Integer,
+              db.ForeignKey('keywords.id'), nullable=False),
+    db.PrimaryKeyConstraint('document_id', 'keyword_id', name='subject_pk'),
+    db.UniqueConstraint('document_id', 'keyword_id')
+)
+
+
+publication_places = db.Table(
+    'publication_places_join',
+    db.Column('place_id', db.Integer,
+              db.ForeignKey('geographic_locations.location_id'),
+              nullable=False),
+    db.Column('document_id', db.Integer,
+              db.ForeignKey('documents.document_id'), nullable=False),
+    db.PrimaryKeyConstraint('place_id', 'document_id'),
+    db.UniqueConstraint('place_id', 'document_id')
+)
 
 
 class GeographicLocation(db.Model, Lock):
+    '''Model for geographic names (cities, states etc.)'''
     __tablename__ = 'geographic_locations'
 
     location_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(45))
-    name_variant = db.Column(db.String(45))
+    name = db.Column(db.String(45), nullable=False, index=True)
+    native_name = db.Column(db.String(45), index=True)
+    other_name = db.Column(db.String(45))
     determiner = db.Column(db.String(45))
     note = db.Column(db.String(100))
 
 
-# subject_locations
+subjects_locations = db.Table(
+    'subjects_locations_join',
+    db.Column('document_id', db.Integer,
+              db.ForeignKey('documents.document_id'), nullable=False),
+    db.Column('location_id', db.Integer,
+              db.ForeignKey('geographic_locations.location_id'),
+              nullable=False),
+    db.UniqueConstraint('document_id', 'location_id'),
+    db.PrimaryKeyConstraint('document_id', 'location_id')
+)
 
 
 class Person(db.Model, Lock):
     __tablename__ = 'people'
 
     person_id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(68))
-    last_name = db.Column(db.String(68))
+    forenames = db.Column(db.String(68)) # name and/or second name
+    last_name = db.Column(db.String(68), index=True)
     note = db.Column(db.String(200))
     life_years = db.Column(db.String(14))
     birth_date = db.Column(db.Date)
     death_date = db.Column(db.Date)
 
+    responsibilities = db.relationship(
+        'ResponsibilityPerson',
+        back_populates='person')
+    name_variants = db.relationship(
+        'PersonNameVariant',
+        backref=db.backref('person'), lazy='dynamic')
+
+
+class ResponsibilityPerson(db.Model):
+    __tablename__ = 'responsibilities_people'
+    __table_args__ = (db.UniqueConstraint(
+        'responsibility_id', 'person_id', 'document_id'),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    responsibility_id = db.Column(
+        db.Integer, db.ForeignKey('responsibility_names.id'),
+        nullable=False)
+    person_id = db.Column(
+        db.Integer, db.ForeignKey('people.person_id'),
+        nullable=False)
+    document_id = db.Column(
+        db.Integer, db.ForeignKey('documents.document_id'),
+        nullable=False)
+    ordering = db.Column(db.SmallInteger, default=0)
+
+    responsibility = db.relationship(
+        'ResponsibilityName', back_populates='responsibilities_people')
+    person = db.relationship(
+        'Person', back_populates='responsibilities')
+    document = db.relationship(
+        'Document', back_populates='responsibilities_people')
+
 
 class PersonNameVariant(db.Model, Lock):
     __tablename__ = 'person_name_variants'
 
-    individual_id = db.Column(db.Integer, primary_key=True)
+    variant_id = db.Column(db.Integer, primary_key=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('people.person_id'))
     first_name_variant = db.Column(db.String(68))
-    last_name_variant = db.Column(db.String(68))
+    last_name_variant = db.Column(db.String(68), index=True)
     variant_notes = db.Column(db.String(45))
 
 
-# subjects_people
-
-
-# responsibilities_people
+topic_people = db.Table(
+    'topic_people_join',
+    db.Column('document_id', db.Integer,
+              db.ForeignKey('documents.document_id'), nullable=False),
+    db.Column('person_id', db.Integer,
+              db.ForeignKey('people.person_id'), nullable=False),
+    db.UniqueConstraint('document_id', 'person_id'),
+    db.PrimaryKeyConstraint('document_id', 'person_id')
+)
 
 
 class RelatedDocuments(db.Model, Lock):
     "Self-referential relationship table for the documents table."
-
     __tablename__ = 'related_documents'
     __table_args__ = (db.UniqueConstraint(
         'master_doc_id', 'dependent_doc_id'),)
 
+    id = db.Column(db.Integer, primary_key=True)
     master_doc_id = db.Column(
-        db.Integer, db.ForeignKey('documents.document_id'), primary_key=True)
+        db.Integer, db.ForeignKey('documents.document_id'),
+        nullable=False)
     dependent_doc_id = db.Column(
-        db.Integer, db.ForeignKey('documents.document_id'), primary_key=True)
+        db.Integer, db.ForeignKey('documents.document_id'),
+        nullable=False)
     description = db.Column(db.String(45))
-    ordering = db.Column(db.Integer, default=0)
+    ordering = db.Column(db.SmallInteger, default=0)
 
     dependent_doc = db.relationship(
         'Document',
         primaryjoin=(dependent_doc_id == Document.document_id),
-        backref='master_document')
+        backref=db.backref('master_document', uselist=False,
+                           cascade='all, delete-orphan'))
     master_doc = db.relationship(
         'Document',
         primaryjoin=(master_doc_id == Document.document_id),
-        backref='dependent_docs')
+        backref=db.backref('dependent_docs', cascade='all, delete-orphan'),
+        uselist=False)
