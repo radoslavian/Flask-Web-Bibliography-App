@@ -1,18 +1,26 @@
-"Database models for the application."
+'''Database models for the application.
+
+Portions of the code (when specified in the docstring/comments)
+are adapted from:
+Miguel Grinberg, Flask Web Development, [Beijing etc.], 2018.
+'''
 
 __name__ = 'models'
 
-from app import db
+from app import db, login_manager
 from datetime import datetime
+from flask import current_app
+from flask_login import UserMixin, AnonymousUserMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.declarative import declared_attr
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Permissions:
     # save bibliography items to a list:
     SAVE_TO_LIST = 1
     EDIT_BIBLIOGRAPHY = 2
-    ADMIN = 4
+    ADMIN = 4 # += activate/modify user accounts
 
 
 class Role(db.Model):
@@ -29,6 +37,36 @@ class Role(db.Model):
         if self.permissions is None:
             self.permissions = 0
 
+    @staticmethod
+    def insert_roles():
+        '''Inserts roles in the database.
+
+New role objects are only created for roles that are not already
+present in the database. This way the list can be updated
+in the future when changes need to be made.
+Adapted from: M. Grinberg...
+'''
+        roles = {
+            'User': [Permissions.SAVE_TO_LIST],
+            'Editor': [Permissions.SAVE_TO_LIST,
+                       Permissions.EDIT_BIBLIOGRAPHY],
+            'Administrator:': [Permissions.SAVE_TO_LIST,
+                               Permissions.EDIT_BIBLIOGRAPHY,
+                               Permissions.ADMIN]
+        }
+        default_role = 'User'
+
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if role is None:
+                role = Role(name=r)
+            role.reset_permissions()
+            for perm in roles[r]:
+                role.add_permission(perm)
+            role.default = (role.name == default_role)
+            db.session.add(role)
+        db.session.commit()
+
     def add_permission(self, perm):
         if not self.has_permission(perm):
             self.permissions += perm
@@ -44,10 +82,13 @@ class Role(db.Model):
         return self.permissions & perm == perm
 
     def __repr__(self):
-        return f'<Role {self.name}>'
+        return f'<Role: {self.name}>'
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
+    '''User representation in the application.
+Solutions adapted from: M. Grinberg...
+'''
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer, primary_key=True)
@@ -58,7 +99,43 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     member_since = db.Column(db.DateTime, default=datetime.utcnow)
-    last_seen = db.Column(db.DateTime, default=datetime.utcnow)    
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['APP_ADMIN']:
+                self.role = Role.query.filter_by(name='Administrator').first()
+            if self.role is None:
+                self.role = Role.query.filter_by(default=True).first()
+
+    @property
+    def password(self):
+        raise AttributeError('Password is not a readable attribute.')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def can(self, perm):
+        return self.role is not None and self.role.has_permission(perm)
+
+    def is_administrator(self):
+        return self.can(Permissions.ADMIN)
+
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
+
+
+login_manager.anonymous_user = AnonymousUser
 
 
 class Lock:
@@ -96,6 +173,9 @@ in order to avoid data inconsistency.
             self.lock_timestamp = None
             self.__commit()
 
+    def is_locked(self):
+        pass
+
 
 subjects_collectivities = db.Table(
     'subjects_collectivities_join',
@@ -116,6 +196,9 @@ class Language(db.Model, Lock):
     other_name = db.Column(db.String(45))
     iso_639_1_language_code = db.Column(db.String(5))
     iso_639_2_language_code = db.Column(db.String(3))
+
+    def __repr__(self):
+        return f'Language: <{self.language_name}>'
 
 
 class Document(db.Model, Lock):
@@ -209,15 +292,18 @@ class DocumentType(db.Model, Lock):
     # Book, Article, Periodical, Series
 
     type_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(45))
+    name = db.Column(db.String(45), nullable=False)
     description = db.Column(db.String(200))
+
+    def __repr__(self):
+        return f'<Document type: {self.name}>'
 
 
 class CollectiveBody(db.Model, Lock):
     __tablename__ = 'collectivities'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), index=True)
+    name = db.Column(db.String(100), index=True, nullable=False)
     address = db.Column(db.String(200))
     abbr = db.Column(db.String(45))
     description = db.Column(db.String(200))
@@ -226,6 +312,9 @@ class CollectiveBody(db.Model, Lock):
         'ResponsibilityCollectivity',
         back_populates='collectivity',
         cascade='all, delete-orphan')
+
+    def __repr__(self):
+        return f'<Collective body: {self.name}>'
 
 
 class ResponsibilityName(db.Model, Lock):
@@ -247,6 +336,8 @@ These include (among others): organisations, companies, events, publishers.
         'ResponsibilityPerson',
         back_populates='responsibility')
 
+    def __repr__(self):
+        return f'<Document responsibility: {self.responsibility_name}>'
 
 class ResponsibilityCollectivity(db.Model):
     '''Three entity association table for collective bodies
@@ -284,6 +375,9 @@ class Keyword(db.Model, Lock):
     keyword = db.Column(db.String(70), nullable=False, index=True)
     determiner = db.Column(db.String(45))
 
+    def __repr__(self):
+        return f'<Keyword: {self.keyword}>'
+
 
 subjects_keywords = db.Table(
     'subject_keywords',
@@ -319,6 +413,9 @@ class GeographicLocation(db.Model, Lock):
     determiner = db.Column(db.String(45))
     note = db.Column(db.String(100))
 
+    def __repr__(self):
+        return f'<{self.name}>'
+
 
 subjects_locations = db.Table(
     'subjects_locations_join',
@@ -349,6 +446,9 @@ class Person(db.Model, Lock):
     name_variants = db.relationship(
         'PersonNameVariant',
         backref=db.backref('person'), lazy='dynamic')
+
+    def __repr__(self):
+        return f'<Person names: {self.forenames} {self.last_name}>'
 
 
 class ResponsibilityPerson(db.Model):
@@ -385,6 +485,10 @@ class PersonNameVariant(db.Model, Lock):
     last_name_variant = db.Column(db.String(68), index=True)
     variant_notes = db.Column(db.String(45))
 
+    def __repr__(self):
+        return f'<Person name variant: \
+{self.first_name_variant} {self.last_name_variant}>'
+
 
 topic_people = db.Table(
     'topic_people_join',
@@ -399,6 +503,7 @@ topic_people = db.Table(
 
 class RelatedDocuments(db.Model, Lock):
     "Self-referential relationship table for the documents table."
+
     __tablename__ = 'related_documents'
     __table_args__ = (db.UniqueConstraint(
         'master_doc_id', 'dependent_doc_id'),)
