@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!--
+	Base templated - based on:
+	https://bootstrap-flask.readthedocs.io/en/stable/migrate.html#create-base-template
+	-->
+	{% block head %}
+          <!-- Required meta tags -->
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	  {% block styles %}
+	    <!-- Bootstrap CSS -->
+	  {{ bootstrap.load_css() }}
+	{% endblock %}
+
+	<title>Flask Bibliography Application</title>
+      {% endblock %}
+  </head>
+  <body>
+    {% block navbar %}
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-center">
+	<div class="d-flex flex-grow-1">
+	  <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
+	  <a class="navbar-brand" href="/">Logo</a>
+	  <div class="w-100 text-right">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+	</div>
+	<div class="collapse navbar-collapse flex-grow-1 text-right" id="navbar">
+	  <ul class="navbar-nav ml-auto flex-nowrap">
+	    <div class="container">
+	      <form class="form-inline row text-right"> <!-- todo: add action --> 
+	    	<div class="col pr-1"> 
+	    	<input class="form-control w-100"
+	    	       type="text" placeholder="Full text search"
+		       data-toggle="tooltip" title="Search for documents,
+		       personal/geographic/
+		       collective names and subject keywords."></input>
+	    	</div>
+	    	<div class="col-auto p-0"> 
+	    	  <button class="btn btn-success mr-3">Search</button> 
+	    	</div> 
+	      </form> 
+	    </div>
+
+	    <li class="nav-item dropdown">
+	      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+		 title="Paginated, ordered lists of items.">Browse</a>
+	      <div class="dropdown-menu">
+		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of authors, editors etc., but also individuals being subjects of the documents." data-placement="left" href="#">Personal names</a>
+		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of subject headers." data-placement="left" href="#">Subject keywords</a>
+		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of geographic locations (publication places and subjects)." data-placement="left" href="#">Geographic locations</a>
+		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of collective names (organisations - companies, foundation etc.) attached to documents as responsibility statements or subjects." data-placement="left" href="#">Collective names</a>
+		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of documents with title filter." data-placement="left" href="#">Documents</a>
+	      </div>
+	    </li>
+	    <li class="nav-item dropdown"> 
+	      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> 
+	    	Search documents 
+	      </a> 
+	      <div class="dropdown-menu"> 
+	    	<a class="dropdown-item" href="#" data-toggle="tooltip" title="Search using one criterion and one search-expression at a time." data-placement="left">Basic search</a>
+	    	<a class="dropdown-item" href="#" data-toggle="tooltip" title="Select multiple fields to be searched." data-placement="left">Search multiple fields</a>
+	    	<a class="dropdown-item" data-toggle="tooltip" title="Search using multiple fields and multiple search-criteria." data-placement="left" href="#">Advanced search</a> 
+	      </div> 
+	    </li> 
+	  </ul>
+	  <ul class="navbar-nav mr-auto flex-nowrap">
+	    <li class="nav-item dropdown">
+	      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+		Username <!-- Username - shall be uploaded from the db or set to Anonymous -->
+	      </a>
+	      <!-- More detailed description in views.graphml -->
+	      <div class="dropdown-menu">
+		<a class="dropdown-item">Account details</a> <!-- displayed for logged-in users -->
+		<a class="dropdown-item">Log in</a> <!-- or Log out -->
+	      </div>
+	    </li>
+	  </ul>
+	</div>
+      </nav>
+    {% endblock %}
+
+    <!-- Your page content -->
+    {% block content %}
+      
+    {% endblock %}
+
+    {% block scripts %}		       
+
+      <!-- Optional JavaScript -->
+      {{ bootstrap.load_js() }}
+
+      <!-- Enable bs tooltips -->
+      <script>
+	$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+	});
+      </script>
+  {% endblock %}			       
+  </body>
+</html>

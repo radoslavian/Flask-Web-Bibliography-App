@@ -284,21 +284,14 @@ Ossoliński Institute is a Polish cultural foundation''',
 
         from sqlalchemy.exc import IntegrityError
 
-        def check_UniqueConstraint(keywords):
-            try:
-                fantastyka.keywords.extend(keywords)
-                db.session.add(fantastyka)
-                db.session.commit()
-            except IntegrityError:
-                db.session.rollback()
-                raise
-
         for keywords in ([keyword_2],
                          [keyword_1, keyword_2],
                          [keyword_1, keyword_3]):
-            self.assertRaises(
-                IntegrityError,
-                lambda: check_UniqueConstraint(keywords))
+            with self.assertRaises(IntegrityError):
+                fantastyka.keywords.extend(keywords)
+                db.session.add(fantastyka)
+                db.session.commit()
+            db.session.rollback()
 
         fantastyka_keywords = tuple(
             keyword in fantastyka.keywords
@@ -309,6 +302,10 @@ Ossoliński Institute is a Polish cultural foundation''',
         self.assertFalse(keyword_3 in fantastyka.keywords)
         self.assertEqual(keyword_1.documents.count(), 1)
         self.assertEqual(keyword_1.documents[0].title_proper, 'Fantastyka')
+
+        fantastyka.keywords = []
+        db.session.add(fantastyka)
+        db.session.commit()
 
     def test_topic_people(self):
         self.setup_people_records()

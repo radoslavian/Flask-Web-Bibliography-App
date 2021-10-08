@@ -7,7 +7,7 @@ Miguel Grinberg, Flask Web Development, [Beijing etc.], 2018.
 
 __name__ = 'models'
 
-from app import db, login_manager
+from app import db#, login_manager
 from datetime import datetime
 from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
@@ -17,7 +17,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Permissions:
-    # save bibliography items to a list:
+    # permission to save bibliography items to a list:
     SAVE_TO_LIST = 1
     EDIT_BIBLIOGRAPHY = 2
     ADMIN = 4 # += activate/modify user accounts
@@ -25,6 +25,7 @@ class Permissions:
 
 class Role(db.Model):
     __tablename__ = 'roles'
+
     role_id = db.Column(db.Integer, unique=True, nullable=False,
                         primary_key=True, autoincrement=True)
     name = db.Column(db.String(64), unique=True)
@@ -135,7 +136,7 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
 
-login_manager.anonymous_user = AnonymousUser
+#login_manager.anonymous_user = AnonymousUser
 
 
 class Lock:

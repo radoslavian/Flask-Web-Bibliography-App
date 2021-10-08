@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>13</zoom_level>
+  <zoom_level>11</zoom_level>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>806</x>
-      <y>273</y>
-      <w>182</w>
-      <h>78</h>
+      <x>462</x>
+      <y>231</y>
+      <w>154</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>attempt to enter
 view requiring
@@ -17,10 +17,10 @@ logging in</panel_attributes>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>780</x>
-      <y>52</y>
-      <w>234</w>
-      <h>156</h>
+      <x>440</x>
+      <y>44</y>
+      <w>198</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>anonymous/unconfirmed
 user</panel_attributes>
@@ -29,10 +29,10 @@ user</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>884</x>
-      <y>195</y>
-      <w>39</w>
-      <h>104</h>
+      <x>528</x>
+      <y>165</y>
+      <w>33</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -40,10 +40,10 @@ user</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>871</x>
-      <y>416</y>
-      <w>52</w>
-      <h>52</h>
+      <x>517</x>
+      <y>352</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -51,10 +51,10 @@ user</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>884</x>
-      <y>338</y>
-      <w>39</w>
-      <h>104</h>
+      <x>528</x>
+      <y>286</y>
+      <w>33</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -62,10 +62,10 @@ user</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>624</x>
-      <y>507</y>
-      <w>208</w>
-      <h>65</h>
+      <x>308</x>
+      <y>429</y>
+      <w>176</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>display notification</panel_attributes>
     <additional_attributes/>
@@ -73,10 +73,10 @@ user</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>936</x>
-      <y>507</y>
-      <w>208</w>
-      <h>78</h>
+      <x>572</x>
+      <y>429</y>
+      <w>176</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>redirect to the
 registration site</panel_attributes>
@@ -85,10 +85,10 @@ registration site</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>429</y>
-      <w>182</w>
-      <h>104</h>
+      <x>385</x>
+      <y>363</y>
+      <w>154</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[unconfirmed
@@ -98,10 +98,10 @@ account]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>910</x>
-      <y>429</y>
-      <w>208</w>
-      <h>104</h>
+      <x>550</x>
+      <y>363</y>
+      <w>176</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[anonymous user]</panel_attributes>
@@ -110,10 +110,10 @@ m2=[anonymous user]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>624</x>
-      <y>624</y>
-      <w>208</w>
-      <h>78</h>
+      <x>308</x>
+      <y>528</y>
+      <w>176</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>option to resend
 activation link</panel_attributes>
@@ -122,10 +122,10 @@ activation link</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>559</y>
-      <w>39</w>
-      <h>91</h>
+      <x>385</x>
+      <y>473</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -133,10 +133,10 @@ activation link</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>702</x>
-      <y>754</y>
-      <w>52</w>
-      <h>52</h>
+      <x>374</x>
+      <y>638</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -144,10 +144,10 @@ activation link</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>689</y>
-      <w>39</w>
-      <h>91</h>
+      <x>385</x>
+      <y>583</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -155,10 +155,10 @@ activation link</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>598</x>
-      <y>767</y>
-      <w>130</w>
-      <h>156</h>
+      <x>286</x>
+      <y>649</y>
+      <w>110</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[resend]</panel_attributes>
@@ -167,10 +167,10 @@ m2=[resend]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>793</y>
-      <w>91</w>
-      <h>104</h>
+      <x>385</x>
+      <y>671</y>
+      <w>77</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[leave]</panel_attributes>
@@ -179,10 +179,10 @@ m2=[leave]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>702</x>
-      <y>871</y>
-      <w>52</w>
-      <h>52</h>
+      <x>374</x>
+      <y>737</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -190,10 +190,10 @@ m2=[leave]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>741</x>
-      <y>572</y>
-      <w>351</w>
-      <h>351</h>
+      <x>407</x>
+      <y>484</y>
+      <w>297</w>
+      <h>297</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;250.0;250.0;250.0;250.0;10.0</additional_attributes>
@@ -201,10 +201,10 @@ m2=[leave]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>715</x>
-      <y>975</y>
-      <w>26</w>
-      <h>26</h>
+      <x>385</x>
+      <y>825</y>
+      <w>22</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>type=flow_final</panel_attributes>
     <additional_attributes/>
@@ -212,10 +212,10 @@ m2=[leave]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>910</y>
-      <w>39</w>
-      <h>91</h>
+      <x>385</x>
+      <y>770</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -223,10 +223,10 @@ m2=[leave]</panel_attributes>
   <element>
     <id>UMLObject</id>
     <coordinates>
-      <x>559</x>
+      <x>253</x>
       <y>0</y>
-      <w>637</w>
-      <h>1027</h>
+      <w>539</w>
+      <h>869</h>
     </coordinates>
     <panel_attributes>Flask Bibliography App
 valign=top</panel_attributes>
@@ -235,10 +235,10 @@ valign=top</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>715</x>
-      <y>1079</y>
-      <w>26</w>
-      <h>26</h>
+      <x>341</x>
+      <y>946</y>
+      <w>22</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>type=initial</panel_attributes>
     <additional_attributes/>
@@ -246,23 +246,22 @@ valign=top</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>637</x>
-      <y>1144</y>
-      <w>182</w>
-      <h>65</h>
+      <x>275</x>
+      <y>1001</y>
+      <w>154</w>
+      <h>55</h>
     </coordinates>
-    <panel_attributes>attempt to
-open record
+    <panel_attributes>open record
 for modifications</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>1092</y>
-      <w>39</w>
-      <h>78</h>
+      <x>341</x>
+      <y>957</y>
+      <w>33</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -270,10 +269,10 @@ for modifications</panel_attributes>
   <element>
     <id>UMLObject</id>
     <coordinates>
-      <x>663</x>
-      <y>1248</y>
-      <w>130</w>
-      <h>52</h>
+      <x>297</x>
+      <y>1100</y>
+      <w>110</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>record</panel_attributes>
     <additional_attributes/>
@@ -281,10 +280,10 @@ for modifications</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>884</x>
-      <y>1235</y>
-      <w>169</w>
-      <h>91</h>
+      <x>484</x>
+      <y>1089</y>
+      <w>143</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>bibliography,
 personal etc.
@@ -294,10 +293,10 @@ record</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>780</x>
-      <y>1261</y>
-      <w>130</w>
-      <h>39</h>
+      <x>396</x>
+      <y>1111</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
@@ -305,21 +304,21 @@ record</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>1196</y>
-      <w>39</w>
-      <h>78</h>
+      <x>341</x>
+      <y>1045</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>702</x>
-      <y>1443</y>
-      <w>52</w>
-      <h>52</h>
+      <x>330</x>
+      <y>1254</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -327,10 +326,10 @@ record</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>481</x>
-      <y>1456</y>
-      <w>247</w>
-      <h>117</h>
+      <x>143</x>
+      <y>1265</y>
+      <w>209</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[record locked]</panel_attributes>
@@ -339,21 +338,21 @@ m2=[record locked]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>1287</y>
-      <w>39</w>
-      <h>91</h>
+      <x>341</x>
+      <y>1133</y>
+      <w>33</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>429</x>
-      <y>1547</y>
-      <w>130</w>
-      <h>52</h>
+      <x>99</x>
+      <y>1342</y>
+      <w>110</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>display
 notification</panel_attributes>
@@ -362,34 +361,33 @@ notification</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>975</x>
-      <y>1963</y>
-      <w>130</w>
-      <h>52</h>
+      <x>561</x>
+      <y>1573</y>
+      <w>110</w>
+      <h>44</h>
     </coordinates>
-    <panel_attributes>modify/edit
-record</panel_attributes>
+    <panel_attributes>edit record</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>741</x>
-      <y>1456</y>
-      <w>234</w>
-      <h>130</h>
+      <x>363</x>
+      <y>1265</y>
+      <w>275</w>
+      <h>121</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[record not locked]</panel_attributes>
-    <additional_attributes>160.0;80.0;160.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>230.0;90.0;230.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>663</x>
-      <y>1352</y>
-      <w>130</w>
-      <h>52</h>
+      <x>297</x>
+      <y>1177</y>
+      <w>110</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>check lock
 status</panel_attributes>
@@ -398,10 +396,10 @@ status</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>1391</y>
-      <w>39</w>
-      <h>78</h>
+      <x>341</x>
+      <y>1210</y>
+      <w>33</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -409,10 +407,10 @@ status</panel_attributes>
   <element>
     <id>UMLTimer</id>
     <coordinates>
-      <x>1001</x>
-      <y>2158</y>
-      <w>78</w>
-      <h>117</h>
+      <x>583</x>
+      <y>1727</y>
+      <w>66</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>10 min.
 idle
@@ -422,32 +420,10 @@ bg=black</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1027</x>
-      <y>2002</y>
-      <w>39</w>
-      <h>78</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLState</id>
-    <coordinates>
-      <x>975</x>
-      <y>2327</y>
-      <w>130</w>
-      <h>52</h>
-    </coordinates>
-    <panel_attributes>unlock record</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1027</x>
-      <y>2262</y>
-      <w>39</w>
-      <h>91</h>
+      <x>605</x>
+      <y>1606</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -455,10 +431,21 @@ bg=black</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>975</x>
-      <y>2431</y>
-      <w>130</w>
-      <h>52</h>
+      <x>561</x>
+      <y>1848</y>
+      <w>110</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>unlock record</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>561</x>
+      <y>1914</y>
+      <w>110</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>lock edit
 form</panel_attributes>
@@ -467,21 +454,21 @@ form</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1027</x>
-      <y>2366</y>
-      <w>39</w>
-      <h>91</h>
+      <x>605</x>
+      <y>1881</y>
+      <w>33</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>962</x>
-      <y>2535</y>
-      <w>156</w>
-      <h>52</h>
+      <x>550</x>
+      <y>1991</y>
+      <w>132</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>enable the
 "unlock" button</panel_attributes>
@@ -490,21 +477,21 @@ form</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1027</x>
-      <y>2470</y>
-      <w>39</w>
-      <h>91</h>
+      <x>605</x>
+      <y>1947</y>
+      <w>33</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1014</x>
-      <y>2639</y>
-      <w>52</w>
-      <h>52</h>
+      <x>594</x>
+      <y>2156</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -512,91 +499,44 @@ form</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1027</x>
-      <y>2574</y>
-      <w>39</w>
-      <h>91</h>
+      <x>605</x>
+      <y>2024</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>806</x>
-      <y>1170</y>
-      <w>559</w>
-      <h>1534</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-m2=[click "unlock"]</panel_attributes>
-    <additional_attributes>10.0;10.0;410.0;10.0;410.0;1150.0;200.0;1150.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLSpecialState</id>
-    <coordinates>
-      <x>923</x>
-      <y>1560</y>
-      <w>52</w>
-      <h>52</h>
-    </coordinates>
-    <panel_attributes>type=decision</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>962</x>
-      <y>1573</y>
-      <w>286</w>
-      <h>91</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-m2=[form is already opened]</panel_attributes>
-    <additional_attributes>200.0;50.0;200.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>1144</x>
-      <y>1456</y>
-      <w>169</w>
-      <h>52</h>
-    </coordinates>
-    <panel_attributes>but is disabled
-("greyed-out")</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1131</x>
-      <y>1495</y>
-      <w>39</w>
-      <h>117</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1144</x>
-      <y>1638</y>
-      <w>143</w>
-      <h>52</h>
+      <x>561</x>
+      <y>1364</y>
+      <w>110</w>
+      <h>44</h>
     </coordinates>
-    <panel_attributes>re-enable
-edit form</panel_attributes>
+    <panel_attributes>open edit
+form</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>605</x>
+      <y>1397</y>
+      <w>33</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1014</x>
-      <y>1768</y>
-      <w>52</w>
-      <h>52</h>
+      <x>594</x>
+      <y>1661</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -604,89 +544,21 @@ edit form</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1053</x>
-      <y>1677</y>
-      <w>195</w>
-      <h>143</h>
+      <x>605</x>
+      <y>1694</y>
+      <w>33</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;90.0;130.0;90.0;130.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLState</id>
-    <coordinates>
-      <x>741</x>
-      <y>1664</y>
-      <w>130</w>
-      <h>52</h>
-    </coordinates>
-    <panel_attributes>open new
-edit form</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>793</x>
-      <y>1573</y>
-      <w>156</w>
-      <h>117</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-m2=[else]</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0;100.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>793</x>
-      <y>1703</y>
-      <w>247</w>
-      <h>117</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>170.0;70.0;10.0;70.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1027</x>
-      <y>1807</y>
-      <w>39</w>
-      <h>91</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1014</x>
-      <y>2054</y>
-      <w>52</w>
-      <h>52</h>
-    </coordinates>
-    <panel_attributes>type=decision</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1027</x>
-      <y>2093</y>
-      <w>39</w>
-      <h>91</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLSpecialState</id>
-    <coordinates>
-      <x>702</x>
-      <y>3094</y>
-      <w>26</w>
-      <h>26</h>
+      <x>330</x>
+      <y>2981</y>
+      <w>22</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>type=final</panel_attributes>
     <additional_attributes/>
@@ -694,10 +566,10 @@ m2=[else]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>689</x>
-      <y>2977</y>
-      <w>52</w>
-      <h>52</h>
+      <x>319</x>
+      <y>2794</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -705,10 +577,10 @@ m2=[else]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1027</x>
-      <y>2678</y>
-      <w>78</w>
-      <h>156</h>
+      <x>605</x>
+      <y>2189</y>
+      <w>66</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[else]</panel_attributes>
@@ -717,56 +589,44 @@ m2=[else]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>702</x>
-      <y>3016</y>
-      <w>39</w>
-      <h>104</h>
+      <x>330</x>
+      <y>2926</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>481</x>
-      <y>1586</y>
-      <w>39</w>
-      <h>130</h>
+      <x>143</x>
+      <y>1375</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>806</x>
-      <y>2067</y>
-      <w>234</w>
-      <h>117</h>
+      <x>506</x>
+      <y>1694</y>
+      <w>121</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[save &amp; exit]</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0;160.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLObject</id>
-    <coordinates>
-      <x>325</x>
-      <y>1040</y>
-      <w>1144</w>
-      <h>2106</h>
-    </coordinates>
-    <panel_attributes>Flask Bibliography App - record editing &amp; locking mechanism
-valign=top</panel_attributes>
-    <additional_attributes/>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>975</x>
-      <y>1872</y>
-      <w>130</w>
-      <h>52</h>
+      <x>561</x>
+      <y>1463</y>
+      <w>110</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>lock record</panel_attributes>
     <additional_attributes/>
@@ -774,21 +634,21 @@ valign=top</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1027</x>
-      <y>1911</y>
-      <w>39</w>
-      <h>78</h>
+      <x>605</x>
+      <y>1496</y>
+      <w>33</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>728</x>
-      <y>2158</y>
-      <w>169</w>
-      <h>52</h>
+      <x>352</x>
+      <y>1848</y>
+      <w>187</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>display message</panel_attributes>
     <additional_attributes/>
@@ -796,21 +656,21 @@ valign=top</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>806</x>
-      <y>2197</y>
-      <w>39</w>
-      <h>520</h>
+      <x>418</x>
+      <y>1881</y>
+      <w>33</w>
+      <h>374</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;320.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>793</x>
-      <y>2691</y>
-      <w>52</w>
-      <h>52</h>
+      <x>407</x>
+      <y>2233</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -818,10 +678,10 @@ valign=top</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>728</x>
-      <y>2730</y>
-      <w>195</w>
-      <h>169</h>
+      <x>352</x>
+      <y>2266</y>
+      <w>165</w>
+      <h>143</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[success]</panel_attributes>
@@ -830,22 +690,22 @@ m2=[success]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>676</x>
-      <y>2704</y>
-      <w>143</w>
-      <h>52</h>
+      <x>253</x>
+      <y>2244</y>
+      <w>176</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[error]</panel_attributes>
-    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>637</x>
-      <y>2691</y>
-      <w>52</w>
-      <h>52</h>
+      <x>220</x>
+      <y>2233</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -853,22 +713,22 @@ m2=[error]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>650</x>
-      <y>1976</y>
-      <w>351</w>
-      <h>741</h>
+      <x>231</x>
+      <y>1584</y>
+      <w>352</w>
+      <h>671</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=[return to form]</panel_attributes>
-    <additional_attributes>250.0;10.0;10.0;10.0;10.0;550.0</additional_attributes>
+m2=[return to form]</panel_attributes>
+    <additional_attributes>300.0;10.0;10.0;10.0;10.0;590.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>689</x>
-      <y>2847</y>
-      <w>52</w>
-      <h>52</h>
+      <x>319</x>
+      <y>2365</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -876,33 +736,33 @@ m1=[return to form]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>533</x>
-      <y>2704</y>
-      <w>182</w>
-      <h>195</h>
+      <x>187</x>
+      <y>2244</y>
+      <w>154</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m2=[drop]</panel_attributes>
-    <additional_attributes>120.0;130.0;10.0;130.0;10.0;10.0;80.0;10.0</additional_attributes>
+[drop]</panel_attributes>
+    <additional_attributes>120.0;130.0;10.0;130.0;10.0;10.0;30.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>702</x>
-      <y>2886</y>
-      <w>39</w>
-      <h>117</h>
+      <x>330</x>
+      <y>2398</y>
+      <w>33</w>
+      <h>418</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;360.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>468</x>
-      <y>1690</y>
-      <w>52</w>
-      <h>52</h>
+      <x>132</x>
+      <y>1430</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -910,34 +770,34 @@ m2=[drop]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>364</x>
-      <y>1365</y>
-      <w>325</w>
-      <h>390</h>
+      <x>22</x>
+      <y>1023</y>
+      <w>275</w>
+      <h>462</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m2=[retry]</panel_attributes>
-    <additional_attributes>230.0;10.0;10.0;10.0;10.0;270.0;80.0;270.0</additional_attributes>
+m2=[retry later]</panel_attributes>
+    <additional_attributes>230.0;10.0;30.0;10.0;30.0;390.0;100.0;390.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>481</x>
-      <y>1729</y>
-      <w>234</w>
-      <h>1300</h>
+      <x>143</x>
+      <y>1463</y>
+      <w>198</w>
+      <h>1375</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[cancel]</panel_attributes>
-    <additional_attributes>160.0;980.0;10.0;980.0;10.0;10.0</additional_attributes>
+    <additional_attributes>160.0;1230.0;10.0;1230.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>975</x>
-      <y>2808</y>
-      <w>130</w>
-      <h>52</h>
+      <x>561</x>
+      <y>2299</y>
+      <w>110</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>msg: drop
 changes?</panel_attributes>
@@ -946,55 +806,633 @@ changes?</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>650</x>
-      <y>2730</y>
-      <w>351</w>
-      <h>130</h>
+      <x>605</x>
+      <y>2332</y>
+      <w>33</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;80.0;250.0;80.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLState</id>
-    <coordinates>
-      <x>598</x>
-      <y>1690</y>
-      <w>130</w>
-      <h>52</h>
-    </coordinates>
-    <panel_attributes>save copy</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>507</x>
-      <y>1703</y>
-      <w>117</w>
-      <h>52</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-m1=[else]</panel_attributes>
-    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>650</x>
-      <y>1794</y>
-      <w>26</w>
-      <h>26</h>
+      <x>594</x>
+      <y>2398</y>
+      <w>44</w>
+      <h>44</h>
     </coordinates>
-    <panel_attributes>type=flow_final</panel_attributes>
+    <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>650</x>
-      <y>1729</y>
-      <w>39</w>
-      <h>91</h>
+      <x>605</x>
+      <y>2431</y>
+      <w>77</w>
+      <h>385</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[drop]</panel_attributes>
+    <additional_attributes>10.0;330.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>506</x>
+      <y>2090</y>
+      <w>110</w>
+      <h>363</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[else]</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0;10.0;300.0;80.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>825</x>
+      <y>2299</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>627</x>
+      <y>2156</y>
+      <w>187</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[click unlock]</panel_attributes>
+    <additional_attributes>150.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1089</x>
+      <y>2387</y>
+      <w>110</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>check
+modification
+stamp</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>858</x>
+      <y>2310</y>
+      <w>308</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[record exists]</panel_attributes>
+    <additional_attributes>260.0;70.0;260.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1001</x>
+      <y>2167</y>
+      <w>154</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>check in case it
+was removed
+by an another user</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>891</x>
+      <y>2167</y>
+      <w>132</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>726</x>
+      <y>2310</y>
+      <w>121</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[else]</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>660</x>
+      <y>2387</y>
+      <w>165</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>Notification:
+"record removed,
+return to form?"</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>715</x>
+      <y>2519</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>726</x>
+      <y>2442</y>
+      <w>33</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>594</x>
+      <y>2794</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>726</x>
+      <y>2552</y>
+      <w>165</w>
+      <h>187</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[no]</panel_attributes>
+    <additional_attributes>130.0;150.0;10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>352</x>
+      <y>2805</y>
+      <w>264</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;220.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1265</x>
+      <y>2398</y>
+      <w>187</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>md5 hash(?) stored
+in a record field - shall
+be automatically
+updated on row
+modification</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1188</x>
+      <y>2409</y>
+      <w>99</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1122</x>
+      <y>2508</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1133</x>
+      <y>2431</y>
+      <w>33</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>979</x>
+      <y>2596</y>
+      <w>132</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>display modified
+record</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1034</x>
+      <y>2519</y>
+      <w>110</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[modified]</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>979</x>
+      <y>1584</y>
+      <w>550</w>
+      <h>1155</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;480.0;10.0;480.0;1030.0;330.0;1030.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1023</x>
+      <y>2695</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1034</x>
+      <y>2629</y>
+      <w>33</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1056</x>
+      <y>2706</y>
+      <w>264</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[save new copy]</panel_attributes>
+    <additional_attributes>220.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1034</x>
+      <y>2728</y>
+      <w>308</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[load new version]</panel_attributes>
+    <additional_attributes>260.0;10.0;260.0;70.0;10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1298</x>
+      <y>2695</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1155</x>
+      <y>2519</y>
+      <w>187</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[not modified]</panel_attributes>
+    <additional_attributes>150.0;70.0;150.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>869</x>
+      <y>2695</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>748</x>
+      <y>2046</y>
+      <w>242</w>
+      <h>528</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[yes]</panel_attributes>
+    <additional_attributes>200.0;10.0;200.0;450.0;10.0;450.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>902</x>
+      <y>2695</y>
+      <w>143</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[drop]</panel_attributes>
+    <additional_attributes>10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>627</x>
+      <y>2728</y>
+      <w>286</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;240.0;80.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>946</x>
+      <y>1573</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>1584</y>
+      <w>308</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;260.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1265</x>
+      <y>2596</y>
+      <w>110</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>unlock</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1309</x>
+      <y>2629</y>
+      <w>33</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>0</x>
+      <y>913</y>
+      <w>1606</w>
+      <h>2123</h>
+    </coordinates>
+    <panel_attributes>Flask Bibliography App - record editing, adding &amp; locking mechanism
+valign=top</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>275</x>
+      <y>2893</y>
+      <w>132</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>display general
+record view</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>2827</y>
+      <w>33</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>605</x>
+      <y>1804</y>
+      <w>33</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>594</x>
+      <y>2079</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>605</x>
+      <y>2112</y>
+      <w>33</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>792</x>
+      <y>2156</y>
+      <w>110</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>check if
+record exists</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>836</x>
+      <y>2189</y>
+      <w>33</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>495</x>
+      <y>1661</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>528</x>
+      <y>1672</y>
+      <w>88</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>407</x>
+      <y>1694</y>
+      <w>110</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[save copy]</panel_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>396</x>
+      <y>1661</y>
+      <w>44</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>429</x>
+      <y>1661</y>
+      <w>88</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[else]</panel_attributes>
+    <additional_attributes>10.0;20.0;60.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>308</x>
+      <y>1672</y>
+      <w>110</w>
+      <h>275</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[drop]</panel_attributes>
+    <additional_attributes>10.0;230.0;10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>253</x>
+      <y>1925</y>
+      <w>110</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>confirm</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>308</x>
+      <y>2013</y>
+      <w>22</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>type=final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>308</x>
+      <y>1958</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -1002,25 +1440,112 @@ m1=[else]</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>585</x>
-      <y>1547</y>
-      <w>169</w>
-      <h>78</h>
+      <x>748</x>
+      <y>1826</y>
+      <w>165</w>
+      <h>66</h>
     </coordinates>
-    <panel_attributes>valid only if the
-form is already
-opened</panel_attributes>
+    <panel_attributes>if record exists; else
+return to
+"edit record"</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>533</x>
-      <y>1599</y>
-      <w>78</w>
-      <h>143</h>
+      <x>660</x>
+      <y>1859</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;90.0;40.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>858</x>
+      <y>2002</y>
+      <w>198</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>disable the
+"save changes" button</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1100</x>
+      <y>1991</y>
+      <w>187</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>only "save as a copy"
+and "drop" are enabled
++ after saving copy,
+  "save" shall be
+  re-enabled</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1045</x>
+      <y>2024</y>
+      <w>77</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>957</x>
+      <y>1606</y>
+      <w>33</w>
+      <h>418</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;360.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>737</x>
+      <y>1210</y>
+      <w>297</w>
+      <h>275</h>
+    </coordinates>
+    <panel_attributes>The form shall have
+following options/buttons:
++ save changes &amp; exit
++ save as a copy &amp; exit
++ drop changes &amp; exit
+
+In subsequent version:
++ save locally to a file
++ update local file
++ load from a file
+
+Later on add saving without closing
+view (with record/modification stamp
+updating-additional diagram).</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>726</x>
+      <y>1001</y>
+      <w>187</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>if modification stamp
+and id are empty-form
+content shall be saved
+as a new record</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
