@@ -1,0 +1,10 @@
+{% macro render_person_name_variants(person_record) %}
+  <ul>
+  {% for variant in person_record.name_variants %}
+    <li>{{ variant.last_name_variant }},
+      {{ variant.first_name_variant }}&nbsp;
+      <a href="{{ url_for('main.name_variant',
+	 variant_id=variant.variant_id) }}">details&nbsp;&hellip;</a></li>
+  {% endfor %}
+  </ul>
+{% endmacro %}

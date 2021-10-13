@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <h4>
+    Name variant for:
+    <small><a href="{{ url_for('main.person_details',
+		    person_id=name_variant.person.person_id) }}">
+      {{ name_variant.person.last_name }},
+      {{ name_variant.person.forenames }}
+      {% if name_variant.person.life_years %}
+	({{ name_variant.person.life_years }})
+      {% endif %}
+    </a></small>
+  </h4>
+    <p class="lead text-monospace">
+      {{ name_variant.first_name_variant }}
+      {{ name_variant.last_name_variant}}
+    </p>
+    {% if name_variant.variant_notes %}
+      <dl>
+	<dt>Notes:</dt>
+	<dd>{{ name_variant.variant_notes }}</dd>
+      </dl>
+    {% endif %}
+{% endblock %}

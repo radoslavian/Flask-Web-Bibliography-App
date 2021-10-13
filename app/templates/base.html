@@ -1,22 +1,28 @@
 <!doctype html>
 <html lang="en">
+  {% import "macros.html" as macros %}
   <head>
     <!--
-	Base templated - based on:
-	https://bootstrap-flask.readthedocs.io/en/stable/migrate.html#create-base-template
-	-->
-	{% block head %}
-          <!-- Required meta tags -->
-	  <meta charset="utf-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	 Base templated - based on:
+	 https://bootstrap-flask.readthedocs.io/en/stable/migrate.html#create-base-template
+    -->
+      {% block head %}
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	  {% block styles %}
-	    <!-- Bootstrap CSS -->
-	  {{ bootstrap.load_css() }}
-	{% endblock %}
+      {% block styles %}
+	<style type="text/css">
+	  #footer {
+	  font-size: 14px;}
+	</style>
+	<!-- Bootstrap CSS -->
 
-	<title>Flask Bibliography Application</title>
-      {% endblock %}
+      {{ bootstrap.load_css() }}
+    {% endblock %}
+
+    <title>Flask Bibliography Application</title>
+  {% endblock %}
   </head>
   <body>
     {% block navbar %}
@@ -33,13 +39,17 @@
 	<div class="collapse navbar-collapse flex-grow-1 text-right" id="navbar">
 	  <ul class="navbar-nav ml-auto flex-nowrap">
 	    <div class="container">
-	      <form class="form-inline row text-right"> <!-- todo: add action --> 
+	      <form class="form-inline row text-right" action="{{ url_for('main.search') }}"
+		    method="get">
 	    	<div class="col pr-1"> 
-	    	<input class="form-control w-100"
-	    	       type="text" placeholder="Full text search"
-		       data-toggle="tooltip" title="Search for documents,
-		       personal/geographic/
-		       collective names and subject keywords."></input>
+	    	  <input class="form-control w-100"
+			 name="q"
+	    		 type="text"
+			 placeholder="Full text search"
+			 data-toggle="tooltip"
+			 title="Search for documents,
+			 personal/geographic/
+			 collective names and subject keywords." />
 	    	</div>
 	    	<div class="col-auto p-0"> 
 	    	  <button class="btn btn-success mr-3">Search</button> 
@@ -86,9 +96,50 @@
     {% endblock %}
 
     <!-- Your page content -->
-    {% block content %}
-      
-    {% endblock %}
+
+    <div class="cointainer ml-3 mr-3 mt-3 mb-1">
+	{% block content %}
+	  
+	{% endblock %}
+      </div>
+
+      {% block footer %}
+
+	<footer class="row jumbotron jumbotron-fluid pl-4 pr-3 mr-0">
+	  <div class="col-md-4 list-group mb-3">
+	    <h3 class="list-group-item list-group-item-action list-group-item-info">External links</h3>
+	    <a class="list-group-item list-group-item-action list-group-item-info" href="https://www.python.org/" target="_blank">Python</a>
+	    <a class="list-group-item list-group-item-action list-group-item-info" href="https://palletsprojects.com/p/flask/" target="_blank">Flask</a>
+	    <a class="list-group-item list-group-item-action list-group-item-info" href="https://www.sqlalchemy.org/" target="_blank">SQLAlchemy</a>
+	    <a class="list-group-item list-group-item-action list-group-item-info" href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
+	  </div>
+	 <div class="col-md-4">
+	    <h3>About the project</h3>
+	    <p>The purpose of the application is to facilitate creating and managing bibliographies of the following resources (documents):
+	      <ul>
+		<li>Books</li>
+		<li>Periodicals</li>
+		<li>Articles from periodicals and from collective works (published as books).</li>
+	      </ul>
+	      The application uses a relational database, allows browsing bibliographic records over the web and has separate views for editing bibliographic information.</p>
+	      <p><a href="https://docs.google.com/document/d/1l2sDb6wOPnfhyzBBr6hmPlrVnx5hCmTDyNj_LDbgHxs/edit?usp=sharing">Read More&nbsp;>></a></p>
+	 </div>
+	 <div class="col-md-4">
+	   <h3>Quick-start</h3>
+	   <ul>
+	     <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+	     <li>Maecenas eu viverra dolor, et dapibus turpis.</li>
+	     <li>Sed eu ante in sapien convallis accumsan.</li>
+	     <li>Nullam at nunc vel mi porttitor porta.</li>
+	     <li>Ut erat nisl, blandit at nibh vitae, tristique bibendum nisl.</li>
+	   </ul>
+	 </div>
+	 <div id="footer" class="col-md-12">
+	   Copyright<sup>&copy;</sup> Radosław Kuzyk. Demo web-application for presentational purposes.
+	   Click <a href="#">here</a> for details about licence and disclaimer.
+	 </div>
+	</footer>
+      {% endblock %}
 
     {% block scripts %}		       
 

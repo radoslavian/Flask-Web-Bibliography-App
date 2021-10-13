@@ -337,6 +337,10 @@ These include (among others): organisations, companies, events, publishers.
         'ResponsibilityPerson',
         back_populates='responsibility')
 
+    def add_basic_responsibilities(self):
+        # author, translator, editor, ilustrator
+        pass
+
     def __repr__(self):
         return f'<Document responsibility: {self.responsibility_name}>'
 

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+  <h6>Details for personal entry, id number
+    {{ person_record.person_id }}:
+  </h6>
+  <h1>{{ person_record.last_name }}, {{ person_record.forenames }}
+    {% if person_record.life_years %}
+      ({{ person_record.life_years }})
+    {% endif %}</h1>
+
+    <table class="table table-hover col-md-6">
+      {% if person_record.birth_date %}
+	<tr>
+	  <td>Exact birth date:</td>
+	  <td>{{ person_record.birth_date }}</td>
+	</tr>
+      {% endif %}
+      {% if person_record.death_date %}
+	<tr>
+	  <td>Exact death date:</td>
+	  <td>{{ person_record.death_date }}</td>
+	</tr>
+      {% endif %}
+      {% if person_record.note %}
+      <tr>
+	<td>Notes:</td>
+	<td>{{ person_record.note }}</td>
+      </tr>
+      {% endif %}
+      {% if person_record.name_variants %}
+	<tr>
+	  <td data-toggle="tooltip" title="Pseudonyms, spelling variations etc.">Name variants:</td>
+	  <td>
+	    {{ macros.render_person_name_variants(person_record) }}
+	  </td>
+	</tr>
+      {% endif %}
+    </table>
+{% endblock %}
