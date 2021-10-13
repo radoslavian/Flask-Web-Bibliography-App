@@ -27,7 +27,7 @@
 	<td>{{ person_record.note }}</td>
       </tr>
       {% endif %}
-      {% if person_record.name_variants %}
+      {% if person_record.name_variants.count() %}
 	<tr>
 	  <td data-toggle="tooltip" title="Pseudonyms, spelling variations etc.">Name variants:</td>
 	  <td>
