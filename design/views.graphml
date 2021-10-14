@@ -562,7 +562,7 @@ users.<y:LabelModel>
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="1149.0958353678388" width="1762.6271066121462" x="1615.5457422829259" y="-214.83777823925752"/>
+              <y:Geometry height="1198.873105795665" width="1762.6271066121462" x="1615.5457422829259" y="-264.61504866708367"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="24.429168701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="1762.6271066121462" x="0.0" y="0.0">Personal Names Browse View</y:NodeLabel>
@@ -1120,10 +1120,10 @@ be linked to main person entry.<y:LabelModel>
           <data key="d5"/>
           <data key="d6">
             <y:UMLNoteNode>
-              <y:Geometry height="57.999999999999986" width="213.71333333333587" x="1935.1365756162559" y="-175.40860953808564"/>
+              <y:Geometry height="107.77727042782611" width="213.71333333333587" x="1935.1365756162559" y="-225.18587996591177"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="53.00506591796875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="189.11825561523438" x="12.297538859050746" y="2.497467041015625">The "browse" part of the path
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="53.00506591796875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="189.11825561523438" x="12.297538859050746" y="27.386102254928687">The "browse" part of the path
 should link to general page with
 list of links to all "browse" pages.<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>

@@ -18,6 +18,7 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_SUBJECT_PREFIX = '[Bibliography App]'
     MAIL_SENDER = 'Admin <bibapp@example.com>'
+    PEOPLE_POSTS_PER_PAGE = 15
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod

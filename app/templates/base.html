@@ -61,7 +61,11 @@
 	      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
 		 title="Paginated, ordered lists of items.">Browse</a>
 	      <div class="dropdown-menu">
-		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of authors, editors etc., but also individuals being subjects of the documents." data-placement="left" href="#">Personal names</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   title="Ordered list of authors, editors etc., but also individuals being subjects of the documents."
+		   data-placement="left"
+		   href="{{ url_for('.browse_people') }}">Personal names</a>
 		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of subject headers." data-placement="left" href="#">Subject keywords</a>
 		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of geographic locations (publication places and subjects)." data-placement="left" href="#">Geographic locations</a>
 		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of collective names (organisations - companies, foundation etc.) attached to documents as responsibility statements or subjects." data-placement="left" href="#">Collective names</a>

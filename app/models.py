@@ -453,7 +453,7 @@ class Person(db.Model, Lock):
         backref=db.backref('person'), lazy='dynamic')
 
     def __repr__(self):
-        return f'<Person names: {self.forenames} {self.last_name}>'
+        return f'<Person name: {self.forenames} {self.last_name}>'
 
 
 class ResponsibilityPerson(db.Model):
