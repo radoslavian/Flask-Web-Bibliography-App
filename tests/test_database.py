@@ -1,6 +1,7 @@
 import unittest
 from flask import current_app
 from app import create_app, db
+from sqlalchemy.exc import IntegrityError
 from app.models import *
 from datetime import date
 
@@ -262,6 +263,7 @@ Ossoliński Institute is a Polish cultural foundation''',
         self.assertEqual(doc.language.language_name, 'Polish')
         self.assertEqual(chinese.documents_original_lang.count(), 2)
 
+
     def test_subject_keywords(self):
         keyword_1 = Keyword(keyword='Fantastyka naukowa')
         keyword_2 = Keyword(keyword='Literatura fantasy')
@@ -281,8 +283,6 @@ Ossoliński Institute is a Polish cultural foundation''',
 
         db.session.add_all([fantastyka, article_1, article_2])
         db.session.commit()
-
-        from sqlalchemy.exc import IntegrityError
 
         for keywords in ([keyword_2],
                          [keyword_1, keyword_2],

@@ -13,7 +13,7 @@ db = SQLAlchemy()
 # login_manager = LoginManager()
 # login_manager.login_view = 'auth.login'
 
-def create_app(config_name='default'):
+def create_app(config_name='development'):
     '''Application factory function.
 
 Based on solutions from:

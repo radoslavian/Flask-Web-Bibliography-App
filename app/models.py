@@ -6,6 +6,11 @@ Miguel Grinberg, Flask Web Development, [Beijing etc.], 2018.
 '''
 
 __name__ = 'models'
+__all__ = ['Permissions', 'Role', 'User', 'AnonymousUser', 'Language',
+           'Document', 'DocumentType', 'CollectiveBody', 'ResponsibilityName',
+           'ResponsibilityCollectivity','Keyword', 'GeographicLocation',
+           'Person', 'ResponsibilityPerson', 'PersonNameVariant',
+           'RelatedDocuments']
 
 from app import db#, login_manager
 from datetime import datetime
@@ -190,6 +195,9 @@ subjects_collectivities = db.Table(
 
 class Language(db.Model, Lock):
     __tablename__ = 'languages'
+    __table_args__ = (db.UniqueConstraint(
+        'language_name', 'iso_639_1_language_code',
+        'iso_639_2_language_code'),)
 
     language_id = db.Column(db.Integer, primary_key=True)
     language_name = db.Column(db.String(45), nullable=False, index=True)
@@ -197,6 +205,24 @@ class Language(db.Model, Lock):
     other_name = db.Column(db.String(45))
     iso_639_1_language_code = db.Column(db.String(5))
     iso_639_2_language_code = db.Column(db.String(3))
+
+    @staticmethod
+    def add_languages():
+        '''Adds English (only) language names to the database from
+        a pycountry dataset.
+        '''
+        import pycountry
+
+        for language in pycountry.languages:
+            if Language.query.filter_by(
+                    language_name=language.name).first() is None:
+                iso_639_1_code = getattr(language, 'alpha_2', None)
+                iso_639_2_code = getattr(language, 'alpha_3', None)
+                db.session.add(Language(
+                    language_name=language.name,
+                    iso_639_1_language_code=iso_639_1_code,
+                    iso_639_2_language_code=iso_639_2_code))
+        db.session.commit()
 
     def __repr__(self):
         return f'Language: <{self.language_name}>'
@@ -295,12 +321,29 @@ class DocumentType(db.Model, Lock):
     type_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(45), nullable=False)
     description = db.Column(db.String(200))
+    modifiable = db.Column(db.Boolean, default=True)
+
+    @staticmethod
+    def add_basic_document_types():
+        document_types = ['book', 'article', 'periodical', 'series']
+
+        for document_type in document_types:
+            doc_type = DocumentType.query.filter_by(
+                name=document_type).first()
+            if not doc_type:
+                db.session.add(DocumentType(name=document_type,
+                                            modifiable=False))
+                db.session.commit()
 
     def __repr__(self):
         return f'<Document type: {self.name}>'
 
 
 class CollectiveBody(db.Model, Lock):
+    '''Model for collective bodies.
+    These include (among others): organisations, companies,
+    events, publishers.
+    '''
     __tablename__ = 'collectivities'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -319,8 +362,8 @@ class CollectiveBody(db.Model, Lock):
 
 
 class ResponsibilityName(db.Model, Lock):
-    '''Model for collective bodies.
-These include (among others): organisations, companies, events, publishers.
+    '''Entity's (individual, organisation) responsibility/function name in
+the document (author, editor, publisher etc.)
 '''
     __tablename__ = 'responsibility_names'
 
@@ -337,9 +380,20 @@ These include (among others): organisations, companies, events, publishers.
         'ResponsibilityPerson',
         back_populates='responsibility')
 
-    def add_basic_responsibilities(self):
-        # author, translator, editor, ilustrator
-        pass
+    @staticmethod
+    def add_basic_responsibilities():
+        responsibilities = ['afterword', 'author', 'editor',
+                            'editor in chief', 'graphic designer',
+                            'illustrator', 'proofreader', 'publisher',
+                            'publishing house', 'translator']
+
+        for responsibility in responsibilities:
+            responsibility_name = ResponsibilityName.query.filter_by(
+                responsibility_name=responsibility).first()
+            if not responsibility_name:
+                db.session.add(ResponsibilityName(
+                    responsibility_name=responsibility, modifiable=False))
+                db.session.commit()
 
     def __repr__(self):
         return f'<Document responsibility: {self.responsibility_name}>'
@@ -374,7 +428,7 @@ holding responsibilities (authorship etc.) in a document.
 
 class Keyword(db.Model, Lock):
     __tablename__ = 'keywords'
-    __table_args__ = (db.UniqueConstraint('keyword'),)
+    __table_args__ = (db.UniqueConstraint('keyword', 'determiner'),)
 
     id = db.Column(db.Integer, primary_key=True)
     keyword = db.Column(db.String(70), nullable=False, index=True)
