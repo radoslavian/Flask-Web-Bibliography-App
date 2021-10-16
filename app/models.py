@@ -262,14 +262,19 @@ class Document(db.Model, Lock):
     isbn_13 = db.Column(db.String(17))
 
     document_type = db.relationship(
-        'DocumentType', backref='documents')
+        'DocumentType',
+        backref=db.backref('documents', lazy='dynamic'))
+    responsibility_collectivities = db.relationship(
+        'ResponsibilityCollectivity',
+        back_populates='document',
+        cascade='all, delete-orphan')
     responsibilities_people = db.relationship(
         'ResponsibilityPerson',
         back_populates='document',
         cascade='all, delete-orphan')
     language = db.relationship(
         'Language',
-        backref='documents',
+        backref=db.backref('documents', lazy='dynamic'),
         foreign_keys=[language_id])
     original_language = db.relationship(
         'Language',
@@ -278,8 +283,7 @@ class Document(db.Model, Lock):
     collectivity_subjects = db.relationship(
         'CollectiveBody',
         secondary='subjects_collectivities_join',
-        backref=db.backref('documents_collectivity_subject',
-                           lazy='dynamic'),
+        backref=db.backref('documents_collectivity_subject', lazy='dynamic'),
         lazy='dynamic')
     keywords = db.relationship(
         'Keyword',
@@ -294,19 +298,20 @@ class Document(db.Model, Lock):
     subjects_locations = db.relationship(
         'GeographicLocation',
         secondary='subjects_locations_join',
-        backref=db.backref('documents_topics', lazy='dynamic'))
+        backref=db.backref('documents_topics', lazy='dynamic'),
+        lazy='dynamic')
     publication_places = db.relationship(
         'GeographicLocation',
         secondary='publication_places_join',
         backref=db.backref('document_publication_place', lazy='dynamic'),
         lazy='dynamic')
-    responsibility_collectivities = db.relationship(
-        'ResponsibilityCollectivity',
-        back_populates='document',
-            cascade='all, delete-orphan')
 
     _master_doc = association_proxy('master_document', 'dependent_doc')
     _dependent_docs = association_proxy('dependent_docs', 'master_doc')
+
+    def __repr__(self):
+        # shall print isbd compliant bibliographic description
+        return f'<Document: {self.title_proper} ({self.document_type.name})>'
 
 
 class DocumentType(db.Model, Lock):
@@ -375,6 +380,9 @@ the document (author, editor, publisher etc.)
         cascade='all, delete-orphan')
     responsibilities_people = db.relationship(
         'ResponsibilityPerson',
+
+        # czy tu też nie powinno być:
+        # cascade='all, delete-orphan'
         back_populates='responsibility')
 
     @staticmethod
@@ -382,7 +390,7 @@ the document (author, editor, publisher etc.)
         responsibilities = ['afterword', 'author', 'editor',
                             'editor in chief', 'graphic designer',
                             'illustrator', 'proofreader', 'publisher',
-                            'publishing house', 'translator']
+                            'publishing house', 'translator', 'unspecified']
 
         for responsibility in responsibilities:
             responsibility_name = ResponsibilityName.query.filter_by(

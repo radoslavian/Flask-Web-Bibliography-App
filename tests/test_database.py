@@ -391,9 +391,9 @@ Ossoliński Institute is a Polish cultural foundation''',
         self.assertEqual(
             document_2.subjects_locations[1].name, 'Georgia')
         self.assertEqual(cracow.documents_topics.count(), 2)
-        self.assertEqual(
-            cracow.documents_topics[0].title_proper,
-            'Magiczne zwierciadła baśni i fantasy')
+        self.assertTrue(
+            'Magiczne zwierciadła baśni i fantasy' in
+            [topic.title_proper for topic in cracow.documents_topics])
 
         document_2.subjects_locations = []
         db.session.add(document_2)
@@ -449,3 +449,6 @@ Ossoliński Institute is a Polish cultural foundation''',
 
         hollanek.name_variants = []
         db.session.commit()
+
+    def test_fake_documents(self):
+        from app.fake import documents
