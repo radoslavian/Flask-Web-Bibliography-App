@@ -179,9 +179,6 @@ in order to avoid data inconsistency.
             self.lock_timestamp = None
             self.__commit()
 
-    def is_locked(self):
-        pass
-
 
 subjects_collectivities = db.Table(
     'subjects_collectivities_join',
