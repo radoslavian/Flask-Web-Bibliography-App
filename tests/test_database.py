@@ -450,5 +450,47 @@ Ossoliński Institute is a Polish cultural foundation''',
         hollanek.name_variants = []
         db.session.commit()
 
-    def test_fake_documents(self):
-        from app.fake import documents
+    def test_documents(self):
+        from app import fake
+        # from random import choice
+        # from sqlalchemy.sql.expression import func
+
+        Language.add_languages(5)
+        DocumentType.add_basic_document_types()
+        ResponsibilityName.add_basic_responsibilities()
+        fake.people(5)
+        fake.geographic_locations(5)
+        fake.collective_bodies(5)
+        fake.keywords(5)
+        documents = fake.documents(5)
+
+        # document = choice(documents)
+        for document in documents:
+            responsibilities_authors = list(
+                ResponsibilityName.query.filter_by(
+                    responsibility_name='author').first(
+                    ).responsibilities_people)
+            authors = [author.person for author in
+                       responsibilities_authors]
+            document_resp_author = [individual_resp for individual_resp in
+                                    document.responsibilities_people
+                                    if individual_resp.responsibility \
+                                    .responsibility_name == 'author' ]
+            author_responsibility_id = document_resp_author[0].id
+            document_author = document_resp_author[0].person
+
+            self.assertTrue(document.title_proper)
+            self.assertEqual(len(document_resp_author), 1)
+            self.assertTrue(document_author in authors)
+
+            document.responsibilities_people = []
+            db.session.add(document)
+            db.session.commit()
+
+            self.assertTrue(Person.query.filter_by(
+                person_id=document_author.person_id).first())
+            self.assertFalse(ResponsibilityPerson.query.filter_by(
+                id=author_responsibility_id).first())
+
+            # add tests of other fields
+            # add integrity checks for deleting rows

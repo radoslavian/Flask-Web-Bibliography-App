@@ -38,14 +38,21 @@ class TestingConfig(Config):
     # os.environ.get('TEST_DATABASE_URL') or \
 
 
+class TestingMysqlConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('MYSQL_DATABASE_URL')
+
+
 class ProductionConfig(Config):
     "Production config for MySQL server."
-    pass
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('MYSQL_DATABASE_URL')
 
 
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
+    'testing_mysql' : TestingMysqlConfig,
     'production': ProductionConfig,
 
     'default': DevelopmentConfig

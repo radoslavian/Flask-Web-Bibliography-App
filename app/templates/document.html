@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ document.title_proper }}
+    {% if document.document_type %}({{ document.document_type.name }})
+    {% endif %}</h1>
+    <h6>Details for document, id: {{ document.document_id }}</h6>
+
+    <table class="table table-hover col-md-6">
+      {% if document.document_type %}
+      <tr>
+	  <td>Document type:</td>
+	  <td>{{ document.document_type.name.capitalize() }}</td>
+      </tr>
+    {% endif %}
+    {% if document.master_document.master_doc %}
+      <tr>
+	  <td>Master document:</td>
+	  <td>
+	    <a href="{{ url_for('.document_view', 
+		     document_id=document.master_document.
+		     master_doc.document_id) }}">
+	      {{ document.master_document.master_doc.title_proper }}
+	      {% if document.master_document.master_doc.document_type %}
+		({{ document.master_document.master_doc.document_type.name }})
+	      {% endif %}
+	    </a>
+	  </td>
+      </tr>
+    {% endif %}
+      <tr>
+	<td>Title proper:</td>
+	  <td>{{ document.title_proper }}</td>
+      </tr>
+      {% if document.parallel_title %}
+      <tr>
+	  <td>Parallel title:</td>
+	  <td>{{ document.parallel_title }}</td>
+      </tr>
+    {% endif %}
+    {% if document.other_title_inf %}
+      <tr>
+	  <td>Other title information:</td>
+	  <td>{{ document.other_title_inf }}</td>
+      </tr>
+    {% endif %}
+    {% if document.responsibilities_people %}
+      <tr>
+	<td>Statements of responsibility (individuals):</td>
+	<td>
+	  <ul>
+	    {% for responsibility_ind in document.responsibilities_people %}
+	      <li>{{ macros.render_person(responsibility_ind.person) }}
+		  &mdash;&nbsp;{{ responsibility_ind.responsibility.
+		  responsibility_name.capitalize() }}
+	      </li>
+	    {% endfor %}
+	  </ul>
+	</td>
+      </tr>
+    {% endif %}
+    {% if document.responsibility_collectivities %}
+      <tr>
+	<td>Statements of responsibility (collective bodies):</td>
+	<td>
+
+	  {# add page link for collective body #}
+	  <ul>
+	    {% for responsibility_col in document.responsibility_collectivities %}
+	      <li>
+		<strong>{{ responsibility_col.
+		  responsibility.responsibility_name.capitalize() }}:</strong><br>
+		  {{ responsibility_col.collectivity.name }}
+	      </li>
+	    {% endfor %}
+	  </ul>
+	</td>
+      </tr>
+    {% endif %}
+    {% if document.publication_places.count() %}
+      <tr>
+	<td>Publication places:</td>
+	<td>
+	  {{ macros.render_list(document.publication_places,
+	  macros.render_location) }}
+	</td>
+      </tr>
+    {% endif %}
+    {% if document.language %}
+      <tr>
+	<td>Document language:</td>
+
+	{# hyperlink for language site #}
+	<td>{{ document.language.language_name }}</td>
+      </tr>
+    {% endif %}
+    {% if document.original_language %}
+      <tr>
+	<td>Original language:</td>
+
+	{# hyperlink for language site #}
+	<td>{{ document.original_language.language_name }}</td>
+      </tr>
+    {% endif %}
+    {% if document.edition_statement %}
+      <tr>
+	  <td>Edition statement:</td>
+	  <td>{{ document.edition_statement }}</td>
+      </tr>
+    {% endif %}
+    {% if document.parallel_edition_stmt %}
+      <tr>
+	  <td>Parallel edition statement:</td>
+	  <td>{{ document.parallel_edition_stmt }}</td>
+      </tr>
+    {% endif %}
+    {% if document.additional_edition_stmt %}
+      <tr>
+	  <td>Additional edition statement:</td>
+	  <td>{{ document.additional_edition_stmt }}</td>
+      </tr>
+    {% endif %}
+    {% if document.numbering %}
+      <tr>
+	  <td>Numbering:</td>
+	  <td>{{ document.numbering }}</td>
+      </tr>
+    {% endif %}
+    {% if document.publication_date %}
+      <tr>
+	  <td>Publication date:</td>
+	  <td>{{ document.publication_date }}</td>
+      </tr>
+    {% endif %}
+    {% if document.pagination %}
+      <tr>
+	  <td>Pagination:</td>
+	  <td>{{ document.pagination }}</td>
+      </tr>
+    {% endif %}
+    {% if document.physical_details %}
+      <tr>
+	  <td>Physical details:</td>
+	  <td>{{ document.physical_details }}</td>
+      </tr>
+    {% endif %}
+    {% if document.dimensions %}
+      <tr>
+	  <td>Dimensions:</td>
+	  <td>{{ document.dimensions }}</td>
+      </tr>
+    {% endif %}
+    {% if document.accompanying_material %}
+      <tr>
+	  <td>Accompanying material:</td>
+	  <td>{{ document.accompanying_material }}</td>
+      </tr>
+    {% endif %}
+    {% if document.series %}
+      <tr>
+	  <td>Series:</td>
+	  <td>{{ document.series }}</td>
+      </tr>
+    {% endif %}
+    {% if document.note %}
+      <tr>
+	  <td>Note:</td>
+	  <td>{{ document.note }}</td>
+      </tr>
+    {% endif %}
+    {% if document.isbn_10 %}
+      <tr>
+	  <td>ISBN-10:</td>
+	  <td>{{ document.isbn_10 }}</td>
+      </tr>
+    {% endif %}
+    {% if document.isbn_13 %}
+      <tr>
+	  <td>ISBN-13:</td>
+	  <td>{{ document.isbn_13 }}</td>
+      </tr>
+    {% endif %}
+    {% if document.issn %}
+      <tr>
+	  <td>ISSN:</td>
+	  <td>{{ document.issn }}</td>
+      </tr>
+    {% endif %}
+    {% if document.collectivity_subjects %}
+      <tr>
+	  <td>Subjects&nbsp;&mdash; collective bodies:</td>
+	  <td>
+	    <ul>
+	      {% for subject in document.collectivity_subjects %}
+		<li>{{ subject.name }}</li>
+	      {% endfor %}
+	    </ul>
+	  </td>
+      </tr>
+    {% endif %}
+    {% if document.keywords.count() %}
+      <tr>
+	  <td>Subject&nbsp;&mdash; keywords:</td>
+	  <td>
+	    {{ macros.render_list(document.keywords, macros.render_keyword) }}
+	  </td>
+      </tr>
+    {% endif %}
+    {% if document.topic_people %}
+      <tr>
+	<td>Subjects&nbsp;&mdash; people:</td>
+	<td>
+	  {{ macros.render_list(document.topic_people,
+	  macros.render_person) }}
+	</td>
+      </tr>
+    {% endif %}
+    {% if document.subjects_locations %}
+      <tr>
+	<td>Subjects&nbsp;&mdash; geographic locations:</td>
+	<td>
+	  {{ macros.render_list(document.subjects_locations,
+	  macros.render_location) }}
+	</td>
+      </tr>
+    {% endif %}
+    {% if document.dependent_docs %}
+      <tr>
+	<td>Dependent documents:</td>
+	<td>
+	  {% include "_dependent_documents.html" %}
+	</td>
+      </tr>
+    {% endif %}
+    </table>
+{% endblock %}

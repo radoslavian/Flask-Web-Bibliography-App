@@ -29,11 +29,36 @@
       {% endif %}
       {% if person_record.name_variants.count() %}
 	<tr>
-	  <td data-toggle="tooltip" title="Pseudonyms, spelling variations etc.">Name variants:</td>
+	  <td data-toggle="tooltip" title="Pseudonyms, spelling variations etc.">
+	    Name variants:
+	  </td>
 	  <td>
-	    {{ macros.render_person_name_variants(person_record) }}
+	    {{ macros.render_list(person_record.name_variants,
+	    macros.render_person_name_variant) }}
 	  </td>
 	</tr>
       {% endif %}
+      <tr>
+	<td>
+	  Responsibilities of this person in documents:
+	</td>
+	<td>
+	  <ul>
+	    {% for responsibility in person_record.responsibilities %}
+	      {# now get documents for which this person has each of these #}
+	      {# responsibilities #}
+	      <li>{{ responsibility.responsibility.responsibility_name.capitalize() }}
+	      {{ responsibility.responsibility.document }}</li>
+	    {% endfor %}
+	  </ul>
+	</td>
+      </tr>
+      <tr>
+	<td colspan="2">
+	  <h5>Documents for which this person is a topic:
+	    <span class="badge badge-dark">
+	    &nbsp;{{ person_record.documents_topics.count() }}&nbsp;</span></h5>
+	</td>
+      </tr>
     </table>
-{% endblock %}
+  {% endblock %}

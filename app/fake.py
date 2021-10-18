@@ -1,7 +1,7 @@
 from random import randint, choice
 from datetime import date
 from faker import Faker
-from  sqlalchemy.sql.expression import func
+from sqlalchemy.sql.expression import func
 from sqlalchemy.exc import IntegrityError
 import re
 from . import db
@@ -240,3 +240,17 @@ def documents(count=1):
         documents_list.append(document)
         i += 1
     return documents_list
+
+
+def create_all():
+    '''Creates new database with fake data.
+    '''
+    Language.add_languages()
+    Role.insert_roles()
+    DocumentType.add_basic_document_types()
+    ResponsibilityName.add_basic_responsibilities()
+    people()
+    geographic_locations()
+    collective_bodies()
+    keywords()
+    documents(count=100)

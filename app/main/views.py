@@ -1,48 +1,10 @@
-'''View functions for the application's main blueprint.
+'''View functions for the the application main blueprint.
 '''
 
 from . import main
-from flask import render_template
-from flask import request
+from flask import render_template, request, current_app
 from app import db
 from ..models import *
-
-@main.route('/', methods=['GET', 'POST'])
-def index():
-    # url_for('main.index') # main - przestrzeń nazw
-    # url_for('.index') # przestrzeń n. akt. żądania
-
-    return render_template('index.html')
-
-
-@main.route('/search')
-def search():
-    '''Route for full-text search.
-    '''
-    return request.args.get('q') # dummy response
-
-
-@main.route('/browse/people/id=<person_id>')
-def person_details(person_id):
-    '''Route for detailed view of person authority (people as
-    document's authors, translators, subjects etc.)
-    '''
-    person_record = Person.query.filter_by(person_id=person_id).first_or_404()
-
-    return render_template('person_record_details.html',
-                           person_record=person_record)
-
-
-@main.route('/browse/people/name-variants/id=<variant_id>')
-def name_variant(variant_id):
-    '''Name variant route for individual (person) name.
-    '''
-    name_variant = PersonNameVariant.query.filter_by(
-        variant_id=variant_id).first_or_404()
-
-    return render_template('person_name_variant.html',
-                           name_variant=name_variant)
-
 
 @main.route('/browse/people/list')
 def browse_people():
@@ -73,3 +35,53 @@ def browse_people():
     return render_template('people_list.html',
                            literal_column=db.literal_column,
                            pagination=pagination)
+
+
+@main.route('/browse/documents/id=<document_id>', methods=['GET', 'POST'])
+def document_view(document_id):
+    document = Document.query.filter_by(
+        document_id=document_id).first_or_404()
+
+    return render_template('document.html', document=document)
+
+
+@main.route('/browse/documents/list')
+def browse_documents():
+    pass
+
+
+@main.route('/', methods=['GET', 'POST'])
+def index():
+    # url_for('main.index') # main - przestrzeń nazw
+    # url_for('.index') # przestrzeń n. akt. żądania
+
+    return render_template('index.html')
+
+
+@main.route('/browse/people/name-variants/id=<variant_id>')
+def name_variant(variant_id):
+    '''Name variant route for individual (person) name.
+    '''
+    name_variant = PersonNameVariant.query.filter_by(
+        variant_id=variant_id).first_or_404()
+
+    return render_template('person_name_variant.html',
+                           name_variant=name_variant)
+
+
+@main.route('/browse/people/id=<person_id>')
+def person_details(person_id):
+    '''Route for detailed view of person authority (people as
+    document's authors, translators, subjects etc.)
+    '''
+    person_record = Person.query.filter_by(person_id=person_id).first_or_404()
+
+    return render_template('person_record_details.html',
+                           person_record=person_record)
+
+
+@main.route('/search')
+def search():
+    '''Route for full-text search.
+    '''
+    return request.args.get('q') # dummy response

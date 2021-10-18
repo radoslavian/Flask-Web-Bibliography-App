@@ -20,6 +20,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.declarative import declared_attr
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# COLLATION = 'utf8_general_ci'
 
 class Permissions:
     # permission to save bibliography items to a list:
@@ -47,11 +48,11 @@ class Role(db.Model):
     def insert_roles():
         '''Inserts roles in the database.
 
-New role objects are only created for roles that are not already
-present in the database. This way the list can be updated
-in the future when changes need to be made.
-Adapted from: M. Grinberg...
-'''
+        New role objects are only created for roles that are not already
+        present in the database. This way the list can be updated
+        in the future when changes need to be made.
+        Adapted from: M. Grinberg...
+        '''
         roles = {
             'User': [Permissions.SAVE_TO_LIST],
             'Editor': [Permissions.SAVE_TO_LIST,
@@ -147,9 +148,9 @@ class AnonymousUser(AnonymousUserMixin):
 class Lock:
     '''A mix-in class for record locking.
 
-Helps prevent simultaneous record access for modification
-in order to avoid data inconsistency.
-'''
+    Helps prevent simultaneous record access for modification
+    in order to avoid data inconsistency.
+    '''
     locked = db.Column(db.Boolean, default=False)
     lock_timestamp = db.Column(db.DateTime)
 
@@ -197,18 +198,20 @@ class Language(db.Model, Lock):
         'iso_639_2_language_code'),)
 
     language_id = db.Column(db.Integer, primary_key=True)
-    language_name = db.Column(db.String(45), nullable=False, index=True)
-    native_name = db.Column(db.String(45), index=True)
-    other_name = db.Column(db.String(45))
+    language_name = db.Column(db.String(64),
+                              nullable=False, index=True)
+    native_name = db.Column(db.String(64), index=True)
+    other_name = db.Column(db.String(64))
     iso_639_1_language_code = db.Column(db.String(5))
     iso_639_2_language_code = db.Column(db.String(3))
 
     @staticmethod
-    def add_languages():
+    def add_languages(number=0):
         '''Adds English (only) language names to the database from
         a pycountry dataset.
         '''
         import pycountry
+        i = 0
 
         for language in pycountry.languages:
             if Language.query.filter_by(
@@ -219,6 +222,9 @@ class Language(db.Model, Lock):
                     language_name=language.name,
                     iso_639_1_language_code=iso_639_1_code,
                     iso_639_2_language_code=iso_639_2_code))
+                if number:
+                    if i > number: break
+                    i += 1
         db.session.commit()
 
     def __repr__(self):
@@ -303,7 +309,8 @@ class Document(db.Model, Lock):
     publication_places = db.relationship(
         'GeographicLocation',
         secondary='publication_places_join',
-        backref=db.backref('document_publication_place', lazy='dynamic'),
+        backref=db.backref('document_publication_place',
+                           lazy='dynamic'),
         lazy='dynamic')
 
     _master_doc = association_proxy('master_document', 'dependent_doc')
@@ -365,8 +372,8 @@ class CollectiveBody(db.Model, Lock):
 
 class ResponsibilityName(db.Model, Lock):
     '''Entity's (individual, organisation) responsibility/function name in
-the document (author, editor, publisher etc.)
-'''
+    the document (author, editor, publisher etc.)
+    '''
     __tablename__ = 'responsibility_names'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -405,8 +412,8 @@ the document (author, editor, publisher etc.)
 
 class ResponsibilityCollectivity(db.Model):
     '''Three entity association table for collective bodies
-holding responsibilities (authorship etc.) in a document.
-'''
+    holding responsibilities (authorship etc.) in a document.
+    '''
     __tablename__ = 'responsibilities_collectivities'
     __table_args__ = (db.UniqueConstraint(
         'responsibility_id', 'collectivity_id', 'document_id'),)
@@ -448,7 +455,7 @@ subjects_keywords = db.Table(
     db.Column('document_id', db.Integer,
               db.ForeignKey('documents.document_id'), nullable=False),
     db.Column('keyword_id', db.Integer,
-              db.ForeignKey('keywords.id'), nullable=False),
+              db.ForeignKey('keywords.id'), nullable=False,),
     db.PrimaryKeyConstraint('document_id', 'keyword_id', name='subject_pk'),
     db.UniqueConstraint('document_id', 'keyword_id')
 )
@@ -533,7 +540,8 @@ class ResponsibilityPerson(db.Model):
     ordering = db.Column(db.SmallInteger, default=0)
 
     responsibility = db.relationship(
-        'ResponsibilityName', back_populates='responsibilities_people')
+        'ResponsibilityName',
+        back_populates='responsibilities_people')
     person = db.relationship(
         'Person', back_populates='responsibilities')
     document = db.relationship(
@@ -565,8 +573,9 @@ topic_people = db.Table(
 )
 
 
-class RelatedDocuments(db.Model, Lock):
-    "Self-referential relationship table for the documents table."
+class RelatedDocuments(db.Model):
+    '''Self-referential relationship table for the documents table.
+    '''
 
     __tablename__ = 'related_documents'
     __table_args__ = (db.UniqueConstraint(
