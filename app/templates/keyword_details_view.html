@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ keyword.keyword }}</h1>
+<h6>Details for keyword id: {{ keyword.id }}</h6>
+<table class="table table-hover col-md-6">
+  {% if keyword.determiner %}
+    <tr>
+      <td>Keyword determiner:</td>
+      <td>{{ keyword.determiner }}</td>
+    </tr>
+  {% endif %}
+  <tr>
+    <td>Documents referencing this keyword:</td>
+    <td>
+      <span class="badge badge-dark">
+	{# add hyperlink #}
+	&nbsp;{{ keyword.documents.count() }}&nbsp;-&nbsp;see&nbsp;list
+      </span>
+    </td>
+  </tr>
+</table>
+{% endblock %}

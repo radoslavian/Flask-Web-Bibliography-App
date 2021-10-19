@@ -72,6 +72,7 @@
 
 
 {% macro render_keyword(kw) %}
-  {# add hyperlink to view with keyword details #}
-  {{ kw.keyword }} {% if kw.determiner %}({{ kw.determiner }}) {% endif %}
+  <a href="{{ url_for('.keyword_details', keyword_id=kw.id) }}">
+    {{ kw.keyword }} {% if kw.determiner %}({{ kw.determiner }}) {% endif %}
+  </a>
 {% endmacro %}

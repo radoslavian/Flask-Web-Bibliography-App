@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% block styles %}
+  {{ super() }}
+  <style type="text/css">
+    #table-responsibilities tr:hover { background-color: inherit; }
+  </style>
+{% endblock %}
 {% block content %}
   <h6>Details for personal entry, id number
     {{ person_record.person_id }}:
@@ -40,17 +46,22 @@
       {% endif %}
       <tr>
 	<td>
-	  Responsibilities of this person in documents:
+	  This person's responsibilities in documents:
 	</td>
 	<td>
-	  <ul>
-	    {% for responsibility in person_record.responsibilities %}
-	      {# now get documents for which this person has each of these #}
-	      {# responsibilities #}
-	      <li>{{ responsibility.responsibility.responsibility_name.capitalize() }}
-	      {{ responsibility.responsibility.document }}</li>
-	    {% endfor %}
-	  </ul>
+	  {% if person_record.responsibilities_list %}
+	    <table id="table-responsibilities" class="table-sm">
+	      {% for (name, count) in person_record.responsibilities_list %}
+		{# now get documents for which this person has each of these #}
+		{# responsibilities #}
+		<tr>
+		  <td>{{ name.capitalize() }}</td>
+		  <td><span class="badge badge-dark">documents:
+		    {{ count }}</span></td>
+		  {% endfor %}
+		</tr>
+	  </table>
+	  {% endif %}
 	</td>
       </tr>
       <tr>

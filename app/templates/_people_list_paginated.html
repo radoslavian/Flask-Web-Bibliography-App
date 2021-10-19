@@ -1,8 +1,8 @@
 <div class="list-group">
   {% for person in pagination.items %}
     {%if literal_column(person).name[4] == 'person' %}
-      <a href="{{ url_for('.person_details', person_id=person.person_id) }}" 
-	 class="list-group-item list-group-item-action"> 
+      <a class="list-group-item list-group-item-action"
+	 href="{{ url_for('.person_details', person_id=person.person_id) }}"> 
 	 <strong>{{ person.last_name }}</strong>, {{ person.forenames }}
 	 {% if person.life_years %} ({{ person.life_years }}) {% endif %} 
       </a>

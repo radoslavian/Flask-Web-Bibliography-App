@@ -3,7 +3,7 @@
   {% import "macros.html" as macros %}
   <head>
     <!--
-	 Base templated - based on:
+	 Base templated based on:
 	 https://bootstrap-flask.readthedocs.io/en/stable/migrate.html#create-base-template
     -->
       {% block head %}
@@ -39,7 +39,8 @@
 	<div class="collapse navbar-collapse flex-grow-1 text-right" id="navbar">
 	  <ul class="navbar-nav ml-auto flex-nowrap">
 	    <div class="container">
-	      <form class="form-inline row text-right" action="{{ url_for('main.search') }}"
+	      <form class="form-inline row text-right"
+		    action="{{ url_for('main.search') }}"
 		    method="get">
 	    	<div class="col pr-1"> 
 	    	  <input class="form-control w-100"
@@ -66,8 +67,13 @@
 		   title="Ordered list of authors, editors etc., but also individuals being subjects of the documents."
 		   data-placement="left"
 		   href="{{ url_for('.browse_people') }}">Personal names</a>
-		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of subject headers." data-placement="left" href="#">Subject keywords</a>
-		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of geographic locations (publication places and subjects)." data-placement="left" href="#">Geographic locations</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   title="Ordered list of subject headers."
+		   data-placement="left"
+		   href="{{ url_for('.keywords_list') }}">Subject keywords</a>
+		<a class="dropdown-item" data-toggle="tooltip"
+		   title="Ordered list of geographic locations (publication places and subjects)." data-placement="left" href="#">Geographic locations</a>
 		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of collective names (organisations - companies, foundation etc.) attached to documents as responsibility statements or subjects." data-placement="left" href="#">Collective names</a>
 		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of documents with title filter." data-placement="left" href="#">Documents</a>
 		<a class="dropdown-item" data-toggle="tooltip" title="Document types, number of documents for each type and links to list of documents for each set." data-placement="left" href="#">Document types</a>

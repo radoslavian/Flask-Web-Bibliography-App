@@ -29,7 +29,7 @@ def browse_people():
     people_variants_union = people.union_all(name_variants).order_by(
         Person.last_name.asc(), Person.forenames.asc())
     pagination = people_variants_union.paginate(
-        page, per_page=current_app.config['PEOPLE_POSTS_PER_PAGE'],
+        page, per_page=current_app.config['PEOPLE_ENTRIES_PER_PAGE'],
         error_out=False)
 
     return render_template('people_list.html',
@@ -58,6 +58,26 @@ def index():
     return render_template('index.html')
 
 
+@main.route('/browse/keywords/id=<keyword_id>')
+def keyword_details(keyword_id):
+    keyword = Keyword.query.filter_by(id=keyword_id).first_or_404()
+
+    return render_template('keyword_details_view.html',
+                           keyword=keyword)
+
+
+@main.route('/browse/keywords/list')
+def keywords_list():
+    page = request.args.get('page', 1, type=int)
+    keywords = Keyword.query.order_by(Keyword.keyword)
+    pagination = keywords.paginate(
+        page, per_page=current_app.config['KEYWORD_ENTRIES_PER_PAGE'],
+        error_out=False)
+
+    return render_template('keywords_list.html',
+                           pagination=pagination)
+
+
 @main.route('/browse/people/name-variants/id=<variant_id>')
 def name_variant(variant_id):
     '''Name variant route for individual (person) name.
@@ -75,6 +95,19 @@ def person_details(person_id):
     document's authors, translators, subjects etc.)
     '''
     person_record = Person.query.filter_by(person_id=person_id).first_or_404()
+    responsibilities = {person_resp.responsibility.responsibility_name
+                        for person_resp in
+                        person_record.responsibilities}
+
+    person_record.responsibilities_list = []
+    for responsibility_name in responsibilities:
+        resp_id = ResponsibilityName.query.filter_by(
+            responsibility_name=responsibility_name).first().id
+        resp_count = ResponsibilityPerson.query.filter_by(
+            person_id=person_id, responsibility_id=resp_id).count()
+        person_record.responsibilities_list.append(
+            [responsibility_name, resp_count])
+    person_record.responsibilities_list.sort(key=lambda item: item[0])
 
     return render_template('person_record_details.html',
                            person_record=person_record)
