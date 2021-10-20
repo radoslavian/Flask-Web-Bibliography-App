@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{# add hyperlink to the referenced documents #}
+
+{% block content %}
+  <h1>{{ location.name }}</h1>
+  <h6>Details for geographic location id: {{ location.location_id }}</h6>
+  <table class="table table-hover col-md-6">
+    {% if location.native_name %}
+      <tr>
+	<td>Native name:</td>
+	<td>{{ location.native_name }}</td>
+      </tr>
+    {% endif %}
+    {% if location.other_name %}
+      <tr>
+	<td>Other name:</td>
+	<td>{{ location.other_name }}</td>
+      </tr>
+    {% endif %}
+    {% if location.determiner %}
+      <tr>
+	<td>Determiner:</td>
+	<td>{{ location.determiner }}</td>
+      </tr>
+    {% endif %}
+    {% if location.note %}
+      <tr>
+	<td>Note:</td>
+	<td>{{ location.note }}</td>
+      </tr>
+    {% endif %}
+    {% if location.document_publication_place.count() %}
+      <tr>
+	<td colspan="2">
+	  <p class="h5">
+	    Number of documents published in this location:
+	    <span class="badge badge-primary badge-dark">
+	      &nbsp;{{ location.document_publication_place.count() }}&nbsp;
+	    </span>
+	  </p>
+	</td>
+      </tr>
+    {% endif %}
+    {% if location.documents_topics.count() %}
+      <tr>
+	<td colspan="2">
+	  <p class="h5">
+	    Number of documents for which this location is a topic:
+	    <span class="badge badge-primary badge-dark">
+	      &nbsp;{{ location.documents_topics.count() }}&nbsp;
+	    </span>
+	  </p>
+	</td>
+      </tr>
+    {% endif %}
+  </table>
+{% endblock %}

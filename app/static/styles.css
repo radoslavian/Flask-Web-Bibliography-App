@@ -1,3 +1,7 @@
-.footer {
-    display: flex;
+table.responsibilities tr:hover {
+    background-color: inherit;
+}
+
+#footer {
+    font-size: 14px;
 }

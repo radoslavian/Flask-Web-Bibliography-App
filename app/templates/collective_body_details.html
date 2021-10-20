@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ collective_body.name }}</h1>
+  <h6>
+    Details for collective body, id number
+    {{ collective_body.id }}:
+  </h6>
+  <table class="table table-hover col-md-6">
+    {% if collective_body.adress %}
+      <tr>
+	<td>Address data:</td>
+	<td>{{ collective_body.adress }}</td>
+      </tr>
+    {% endif %}
+    {% if collective_body.abbr %}
+      <tr>
+	<td>Official abbreviation:</td>
+	<td>{{ collective_body.abbr }}</td>
+      </tr>
+    {% endif %}
+    {% if collective_body.description %}
+      <tr>
+	<td>Description:</td>
+	<td>{{ collective_body.description }}</td>
+      </tr>
+    {% endif %}
+    {% if collective_body.responsibilities_list %}
+      <tr>
+	<td>
+	  Collective body's responsibilities in documents:
+	</td>
+
+	{# Later add hyperlinks #}
+	<td>
+	  {{ macros.responsibilities_list(
+	  collective_body.responsibilities_list) }}
+	  </td>
+      </tr>
+    {% endif %}
+      <tr> 
+    	<td colspan="2">
+	  Documents for which this collective body is a topic:
+	  <span class="badge badge-dark">
+	    &nbsp;{{ collective_body.documents_topics.count() }}&nbsp;</span></h5>
+	</td>
+      </tr>
+  </table>
+{% endblock %}

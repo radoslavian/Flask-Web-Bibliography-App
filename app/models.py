@@ -185,9 +185,21 @@ subjects_collectivities = db.Table(
     'subjects_collectivities_join',
     db.Column('document_id', db.Integer,
               db.ForeignKey('documents.document_id'), nullable=False),
-    db.Column('collectivities_id', db.Integer,
+    db.Column('collectivity_id', db.Integer,
               db.ForeignKey('collectivities.id'), nullable=False),
-    db.UniqueConstraint('document_id', 'collectivities_id')
+    db.PrimaryKeyConstraint('document_id', 'collectivity_id'),
+    db.UniqueConstraint('document_id', 'collectivity_id')
+)
+
+
+subjects_languages = db.Table(
+     'subjects_languages_join',
+    db.Column('document_id', db.Integer,
+              db.ForeignKey('documents.document_id'), nullable=False),
+    db.Column('language_id', db.Integer,
+              db.ForeignKey('languages.language_id'), nullable=False),
+    db.PrimaryKeyConstraint('document_id', 'language_id'),
+    db.UniqueConstraint('document_id', 'language_id')
 )
 
 
@@ -289,8 +301,14 @@ class Document(db.Model, Lock):
     collectivity_subjects = db.relationship(
         'CollectiveBody',
         secondary='subjects_collectivities_join',
-        backref=db.backref('documents_collectivity_subject', lazy='dynamic'),
+        backref=db.backref('documents_topics', lazy='dynamic'),
         lazy='dynamic')
+    languages_subjects = db.relationship(
+        'Language',
+        secondary='subjects_languages_join',
+        backref=db.backref('documents_topics', lazy='dynamic'),
+        lazy='dynamic'
+    )
     keywords = db.relationship(
         'Keyword',
         secondary='subject_keywords',
@@ -361,7 +379,7 @@ class CollectiveBody(db.Model, Lock):
     abbr = db.Column(db.String(45))
     description = db.Column(db.String(200))
 
-    responsibility_collectivities = db.relationship(
+    responsibilities = db.relationship(
         'ResponsibilityCollectivity',
         back_populates='collectivity',
         cascade='all, delete-orphan')
@@ -433,7 +451,7 @@ class ResponsibilityCollectivity(db.Model):
     responsibility = db.relationship(
         'ResponsibilityName', back_populates='responsibility_collectivities')
     collectivity = db.relationship(
-        'CollectiveBody', back_populates='responsibility_collectivities')
+        'CollectiveBody', back_populates='responsibilities')
     document = db.relationship(
         'Document', back_populates='responsibility_collectivities')
 

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>List of geographic locations</h1>
+  <h5>Ordered alphabetically, ascending.</h5>
+  <table class="table table-hover col-lg-7">
+    {% for location in pagination.items %}
+      <tr>
+	<td>
+	  <a href="{{ url_for('.geographic_location_details',
+		   location_id=location.location_id) }}">
+		   {{ location.name }}
+		   {% if location.determiner %}
+		     ({{ location.determiner }})
+		   {% endif %}
+	  </a>
+	</td>
+	<td>
+	  {# badges shall be clickable and take to document lists #}
+	  <span class="badge badge-primary badge-dark">
+	    documents&nbsp;published:&nbsp;{{
+	    location.document_publication_place.count() }}
+	  </span>
+	<!-- </td>
+	<td> -->
+	  <span class="badge badge-primary badge-secondary">
+	    documents&nbsp;&ndash;&nbsp;topic:&nbsp;{{
+	    location.documents_topics.count() }}
+	  </span>
+	</td>
+      </tr>
+    {% endfor %}
+  </table>
+  {{ macros.pagination_widget(pagination, '.geographic_locations_list') }}
+{% endblock %}

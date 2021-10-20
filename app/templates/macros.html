@@ -76,3 +76,18 @@
     {{ kw.keyword }} {% if kw.determiner %}({{ kw.determiner }}) {% endif %}
   </a>
 {% endmacro %}
+
+
+{% macro responsibilities_list(_list) %}
+  <table class="table-sm responsibilities">
+    {% for (name, count) in _list %}
+      <tr>
+	<td>{{ name.capitalize() }}</td>
+	<td><span class="badge badge-dark">
+	    documents:
+	    {{ count }}
+	</span></td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endmacro %}

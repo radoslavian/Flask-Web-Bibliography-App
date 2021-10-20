@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
+  <h1>List of subject headers from the database</h1>
+  <h5>Ordered alphabetically, ascending.</h5>
   <ul class="list-group col-md-7">
     {% for keyword in pagination.items %}
       <li class="h5 list-group-item-action d-flex justify-content-between align-items-center">

@@ -228,7 +228,7 @@ Ossoliński Institute is a Polish cultural foundation''',
 
         collective_body = CollectiveBody.query.filter_by(
             name='Zakład Narodowy im Ossolińskich').first()
-        self.assertEqual(collective_body.responsibility_collectivities[0]. \
+        self.assertEqual(collective_body.responsibilities[0]. \
                          document.title_proper, 'Fantastyka')
 
         main_doc.responsibility_collectivities = []

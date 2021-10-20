@@ -4,11 +4,12 @@ from faker import Faker
 from sqlalchemy.sql.expression import func
 from sqlalchemy.exc import IntegrityError
 import re
+import os
 from . import db
 from .models import *
 
-
-fake = Faker()
+faker_lang = os.environ.get('FAKER_LANG') or ''
+fake = Faker(faker_lang)
 
 
 def fake_lifeyears(min_age=18):

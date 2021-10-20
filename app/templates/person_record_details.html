@@ -1,19 +1,12 @@
 {% extends "base.html" %}
-{% block styles %}
-  {{ super() }}
-  <style type="text/css">
-    #table-responsibilities tr:hover { background-color: inherit; }
-  </style>
-{% endblock %}
 {% block content %}
-  <h6>Details for personal entry, id number
-    {{ person_record.person_id }}:
-  </h6>
   <h1>{{ person_record.last_name }}, {{ person_record.forenames }}
     {% if person_record.life_years %}
       ({{ person_record.life_years }})
     {% endif %}</h1>
-
+    <h6>Details for personal entry, id number
+      {{ person_record.person_id }}:
+    </h6>
     <table class="table table-hover col-md-6">
       {% if person_record.birth_date %}
 	<tr>
@@ -50,17 +43,8 @@
 	</td>
 	<td>
 	  {% if person_record.responsibilities_list %}
-	    <table id="table-responsibilities" class="table-sm">
-	      {% for (name, count) in person_record.responsibilities_list %}
-		{# now get documents for which this person has each of these #}
-		{# responsibilities #}
-		<tr>
-		  <td>{{ name.capitalize() }}</td>
-		  <td><span class="badge badge-dark">documents:
-		    {{ count }}</span></td>
-		  {% endfor %}
-		</tr>
-	  </table>
+	    {{ macros.responsibilities_list(
+	    person_record.responsibilities_list) }}
 	  {% endif %}
 	</td>
       </tr>
