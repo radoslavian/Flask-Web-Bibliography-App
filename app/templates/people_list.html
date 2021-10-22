@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-{% import "macros.html" as macros%}
-{% block content %}
-  <h1>List of individuals from the database</h1>
-  <h5>Alphabetical order, ascending</h5>
-  {% include "_people_list_paginated.html" %}
-  {{ macros.pagination_widget(pagination, '.browse_people') }}
-{% endblock %}

@@ -32,9 +32,15 @@ def browse_people():
         page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
         error_out=False)
 
-    return render_template('people_list.html',
-                           literal_column=db.literal_column,
-                           pagination=pagination)
+    return render_template(
+        'list_of_items.html',
+        literal_column=db.literal_column,
+        title='List of individuals from the database',
+        subtitle='Alphabetical order, ascending',
+        endpoint='.browse_people',
+        pagination=pagination,
+        partial_template_name='_people_list_paginated.html')
+        
 
 
 @main.route('/browse/documents/id=<document_id>', methods=['GET', 'POST'])
@@ -97,6 +103,32 @@ def keywords_list():
 
     return render_template('keywords_list.html',
                            pagination=pagination)
+
+
+@main.route('/browse/languages/')
+def language_list():
+    page = request.args.get('page', 1, type=int)
+    languages = Language.query.order_by(Language.language_name)
+    pagination = languages.paginate(
+        page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
+        error_out=False)
+
+    return render_template(
+        'list_of_items.html',
+        title='List of languages in the database',
+        subtitle='Alphabetical order, ascending',
+        pagination=pagination,
+        endpoint='.language_list',
+        partial_template_name='_language_list.html')
+
+
+@main.route('/browse/languages/id=<language_id>')
+def language_details(language_id):
+    language = Language.query.filter_by(
+        language_id=language_id).first_or_404()
+
+    return render_template('language_details.html',
+                           language=language)
 
 
 @main.route('/browse/people/name-variants/id=<variant_id>')
@@ -189,12 +221,44 @@ def collective_bodies_list():
         page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
         error_out=False)
 
-    return render_template('collective_bodies_list.html',
-                           pagination=pagination)
+    return render_template(
+        'list_of_items.html',
+        title='List of collective bodies from the database',
+        subtitle='Alphabetical order, ascending',
+        endpoint='.collective_bodies_list',
+        pagination=pagination,
+        partial_template_name='_collective_bodies_list.html')
+
+
+@main.route('/browse/document-types/id=<type_id>')
+def document_type(type_id):
+    '''Route for details of the document type entry from
+    the database, identified by type_id.
+    '''
+    document_type = DocumentType.query.filter_by(
+        type_id=type_id).first_or_404()
+
+    return render_template('document_type_details.html',
+                           document_type=document_type)
+
+
+@main.route('/browse/document-types/')
+def document_types_list():
+    '''Generates view for the list of document types from the database.
+    '''
+    document_types = DocumentType.query.order_by(
+        DocumentType.name).all()
+
+    return render_template('list_of_items.html',
+                           pagination=None,
+                           title='List of document types',
+                           partial_template_name='_document_types_list.html',
+                           subtitle='Alphabetical order, ascending',
+                           document_types=document_types)
 
 
 @main.route('/search')
 def search():
     '''Route for full-text search.
     '''
-    return request.args.get('to be written')
+    return 'to be written'

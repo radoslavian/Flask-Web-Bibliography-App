@@ -1,0 +1,7 @@
+{% for language in pagination.items %}
+  <a class="list-group-item list-group-item-action"
+     href="{{ url_for('.language_details',
+     language_id=language.language_id) }}">
+     {{ language.language_name }}
+  </a>
+{% endfor %}

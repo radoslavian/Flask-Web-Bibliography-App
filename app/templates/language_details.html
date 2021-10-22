@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ language.language_name }}</h1>
+  <h6>Details for language entry, id: {{ language.language_id }}</h6>
+  <table class="table table-hover col-md-6">
+    {% if language.native_name %}
+      <tr>
+	<td>Native language name:</td>
+	<td>{{ language.native_name }}</td>
+      </tr>
+    {% endif %}
+    {% if language.other_name %}
+      <tr>
+	<td>Other name:</td>
+	<td>{{ language.other_name }}</td>
+      </tr>
+    {% endif %}
+    {% if language.iso_639_1_language_code %}
+      <tr>
+	<td>ISO 639-1 language code:</td>
+	<td>{{ language.iso_639_1_language_code }}</td>
+      </tr>
+    {% endif %}
+    {% if language %}
+      <tr>
+	<td>ISO 639-2 language code:</td>
+	<td>{{ language.iso_639_2_language_code }}</td>
+      </tr>
+    {% endif %}
+    <tr>
+      <td>Documents published in this language:</td>
+      <td>
+	{{ macros.see_documents_list_badge(language.documents) }}
+      </td>
+    </tr>
+    <tr>
+      <td>Documents for which this is an original language:</td>
+      <td>
+	{{ macros.see_documents_list_badge(language.documents_original_lang) }}
+      </td>
+    </tr>
+    <tr>
+      <td>Documents for which this language is a topic:</td>
+      <td>
+	{{ macros.see_documents_list_badge(language.documents_topics) }}
+      </td>
+    </tr>
+  </table>
+{% endblock %}
+
+{# documents: language, original lang, subjects #}

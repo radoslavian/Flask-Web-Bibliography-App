@@ -1,0 +1,7 @@
+{% for document_type in document_types %}
+  <a class="list-group-item list-group-item-action"
+     href="{{ url_for('.document_type',
+     type_id=document_type.type_id) }}">
+     {{ document_type.name }}
+  </a>
+{% endfor %}

@@ -1,0 +1,14 @@
+{########################################}
+{# General (polymorphic) list of items. #}
+{########################################}
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ title }}</h1>
+  {% if subtitle %} <h5>{{ subtitle }}</h5> {% endif %}
+  <div class="list-group col-md-7">
+    {% include partial_template_name %}
+  </div>
+  {% if pagination %}
+    {{ macros.pagination_widget(pagination, endpoint=endpoint) }}
+  {% endif %}
+{% endblock %}

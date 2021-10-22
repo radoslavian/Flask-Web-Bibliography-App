@@ -4,16 +4,16 @@
   <h5>Ordered alphabetically, ascending.</h5>
   <ul class="list-group col-md-7">
     {% for keyword in pagination.items %}
-      <li class="h5 list-group-item-action d-flex justify-content-between align-items-center">
+      <li class="h5 list-group-item-action d-flex
+		 justify-content-between align-items-center">
 	<a href="{{ url_for('.keyword_details', keyword_id=keyword.id) }}">
 	  {{ keyword.keyword }}
 	  {% if keyword.determiner %} ({{ keyword.determiner }}) {% endif %}
 	</a>
 
-	{# later add hyperlink for documents list #}
-      <span class="badge badge-primary badge-dark">
-	documents: {{ keyword.documents.count() }}
-      </span>
+      {# later add hyperlink for documents list #}
+	{{ macros.see_documents_list_badge(keyword.documents,
+	pre_title='documents:&nbsp', post_title=None) }}
       </li>
     {% endfor %}
     </ul>

@@ -24,12 +24,16 @@
   </head>
   <body>
     {% block navbar %}
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-center">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark
+		  justify-content-center">
 	<div class="d-flex flex-grow-1">
 	  <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
 	  <a class="navbar-brand" href="/">Logo</a>
 	  <div class="w-100 text-right">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+            <button class="navbar-toggler"
+		    type="button"
+		    data-toggle="collapse"
+		    data-target="#navbar">
               <span class="navbar-toggler-icon"></span>
             </button>
           </div>
@@ -57,14 +61,17 @@
 	    </div>
 
 	    <li class="nav-item dropdown">
-	      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+	      <a class="nav-link dropdown-toggle"
+		 href="#"
+		 data-toggle="dropdown"
 		 title="Paginated, ordered lists of items.">
 		Browse
 	      </a>
 	      <div class="dropdown-menu">
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
-		   title="Ordered list of authors, editors etc., but also individuals being subjects of the documents."
+		   title="Ordered list of authors, editors etc., but also
+		   individuals being subjects of the documents."
 		   data-placement="left"
 		   href="{{ url_for('.browse_people') }}">
 		  Personal names
@@ -77,20 +84,43 @@
 		  Subject keywords
 		</a>
 		<a class="dropdown-item" data-toggle="tooltip"
-		   title="Ordered list of geographic locations (publication places and subjects)."
+		   title="Ordered list of geographic locations
+		   (publication places and subjects)."
 		   data-placement="left"
 		   href="{{ url_for('.geographic_locations_list') }}">
 		  Geographic locations
 		</a>
+		<a class="dropdown-item" data-toggle="tooltip"
+		   title="Ordered list of languages (as languages in which
+		   documents were written/published or as topics
+		   for the documents)."
+		   data-placement="left"
+		   href="{{ url_for('.language_list') }}">
+		  Languages
+		</a>
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
-		   title="Ordered list of collective names (organisations - companies, foundation etc.) attached to documents as responsibility statements or subjects."
+		   title="Ordered list of collective names (organisations -
+		   companies, foundation etc.) attached to documents as
+		   responsibility statements or subjects."
 		   data-placement="left"
 		   href="{{ url_for('.collective_bodies_list') }}">
 		   Collective names
 		</a>
-		<a class="dropdown-item" data-toggle="tooltip" title="Ordered list of documents with title filter." data-placement="left" href="#">Documents</a>
-		<a class="dropdown-item" data-toggle="tooltip" title="Document types, number of documents for each type and links to list of documents for each set." data-placement="left" href="#">Document types</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   title="Ordered list of documents with title filter."
+		   data-placement="left" href="#">
+		   Documents
+		</a>
+		<a class="dropdown-item"
+		   href="{{ url_for('.document_types_list') }}"
+		   data-toggle="tooltip"
+		   title="Document types, number of documents for each
+		   type and links to list of documents for each set."
+		   data-placement="left" href="#">
+		   Document types
+		</a>
 	      </div>
 	    </li>
 	    <li class="nav-item dropdown"> 
@@ -98,15 +128,35 @@
 	    	Search documents 
 	      </a> 
 	      <div class="dropdown-menu"> 
-	    	<a class="dropdown-item" href="#" data-toggle="tooltip" title="Search using one criterion and one search-expression at a time." data-placement="left">Basic search</a>
-	    	<a class="dropdown-item" href="#" data-toggle="tooltip" title="Select multiple fields to be searched." data-placement="left">Search multiple fields</a>
-	    	<a class="dropdown-item" data-toggle="tooltip" title="Search using multiple fields and multiple search-criteria." data-placement="left" href="#">Advanced search</a> 
+	    	<a class="dropdown-item"
+		   href="#"
+		   data-toggle="tooltip"
+		   title="Search using one criterion and one search-expression
+		   at a time." data-placement="left">
+		   Basic search
+		</a>
+	    	<a class="dropdown-item"
+		   href="#"
+		   data-toggle="tooltip"
+		   title="Select multiple fields to be searched."
+		   data-placement="left">
+		   Search multiple fields
+		</a>
+	    	<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   title="Search using multiple fields and multiple
+		   search-criteria."
+		   data-placement="left"
+		   href="#">
+		   Advanced search
+		</a> 
 	      </div> 
 	    </li> 
 	  </ul>
 	  <ul class="navbar-nav mr-auto flex-nowrap">
 	    <li class="nav-item dropdown">
-	      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+	      <a class="nav-link dropdown-toggle"
+		 href="#" data-toggle="dropdown">
 		Username <!-- Username - shall be uploaded from the db or set to Anonymous -->
 	      </a>
 	      <!-- More detailed description in views.graphml -->

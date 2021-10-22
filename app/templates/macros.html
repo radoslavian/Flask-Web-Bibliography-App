@@ -39,46 +39,95 @@
 {% macro render_list(items, item_fn) %}
   {# Renders list of items (people, geographic location) #}
   {# using funtion creating individual item. #}
-  <ul>
+  <ul class="items-list list-group">
     {% for item in items %}
-      <li>{{ item_fn(item) }}</li>
+      <li class="list-group-item">{{ item_fn(item) }}</li>
     {% endfor %}
   </ul>
+{% endmacro %}
+
+
+{% macro render_collective_body(col_body) %}
+  {# Prints collective body name and hyperlink for a detailed view. #}
+  <a href="{{ url_for('.collective_body_details',
+	   c_body_id=col_body.id) }}">
+	   {{ col_body.name }}
+  </a>
+{% endmacro %}
+
+
+{% macro render_collective_body_responsibility(col_body) %}
+  {# Prints collective body (name) and it's responsibility in #}
+  {# a document template. #}
+  <strong>
+    {{ render_responsibility(col_body.responsibility) }}:
+  </strong>
+  <br>
+  {{ render_collective_body(col_body.collectivity) }}
+{% endmacro %}
+
+
+{% macro render_person(person) %}
+  {# Prints person's name and hyperlink for a detailed view. #}
+  <a href="{{ url_for('.person_details', person_id=person.person_id) }}">
+    <em>{{ person.last_name }}</em>, {{ person.forenames }}
+  {% if person.life_years %} ({{ person.life_years }}) {% endif %}</a>
 {% endmacro %}
 
 
 {% macro render_person_name_variant(variant) %}
   {{ variant.last_name_variant }},
   {{ variant.first_name_variant }}&nbsp;
-  <a href="{{ url_for('main.name_variant',
+  <a href="{{ url_for('.name_variant',
 	   variant_id=variant.variant_id) }}">details&nbsp;&hellip;</a>
 {% endmacro %}
 
 
-{% macro render_person(person) %}
-  <a href="{{ url_for('.person_details', person_id=person.person_id) }}">
-    <strong>{{ person.last_name }},</strong> {{ person.forenames }}
-  {% if person.life_years %} ({{ person.life_years }}) {% endif %}</a>
+{% macro render_responsibility(responsibility) %}
+  {# add url #}
+  <strong>{{ responsibility.responsibility_name.capitalize() }}</strong>
+{% endmacro %}
+
+
+{% macro render_person_responsibility(person_responsibility) %}
+  {{ render_responsibility(
+  person_responsibility.responsibility) }}:<br>
+  {{ render_person(person_responsibility.person) }}
 {% endmacro %}
 
 
 {% macro render_location(location) %}
-  {# add individual pages for each location #}
-  <strong>{{ location.name }}</strong>
-  {% if location.determiner %}
-    ({{ location.determiner }})
+  <a href="{{ url_for('.geographic_location_details',
+	   location_id=location.location_id) }}">
+    <strong>{{ location.name }}</strong>
+    {% if location.determiner %}
+      ({{ location.determiner }})
+    {% endif %}
+  </a>
+{% endmacro %}
+
+
+{% macro render_language(language) %}
+  {# add hyperlink #}
+  {{ language.language_name }}
+  {% if language.iso_639_1_language_code %}
+    ({{ language.iso_639_1_language_code }})
+  {% elif language.iso_639_2_language_code %}
+    ({{ language.iso_639_2_language_code }})
   {% endif %}
 {% endmacro %}
 
 
 {% macro render_keyword(kw) %}
   <a href="{{ url_for('.keyword_details', keyword_id=kw.id) }}">
-    {{ kw.keyword }} {% if kw.determiner %}({{ kw.determiner }}) {% endif %}
+    {{ kw.keyword }} {% if kw.determiner %} ({{ kw.determiner }}) {% endif %}
   </a>
 {% endmacro %}
 
 
 {% macro responsibilities_list(_list) %}
+  {# List of (person, collective body) responsibilities #}
+  {# with number of attached documents (printed from the tuple).#}
   <table class="table-sm responsibilities">
     {% for (name, count) in _list %}
       <tr>
@@ -90,4 +139,18 @@
       </tr>
     {% endfor %}
   </table>
+{% endmacro %}
+
+
+{% macro see_documents_list_badge(documents_relationship,
+  pre_title=None, post_title="&nbsp;-&nbsp;see&nbsp;list") %}
+  <span class="badge badge-dark">
+    {% if pre_title %}
+      {{ pre_title|safe }}
+    {% endif %}
+    {{ documents_relationship.count() }}
+    {% if post_title %}
+      {{ post_title|safe }}
+    {% endif %}
+  </span>
 {% endmacro %}

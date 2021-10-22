@@ -12,10 +12,7 @@
   <tr>
     <td>Documents referencing this keyword:</td>
     <td>
-      <span class="badge badge-dark">
-	{# add hyperlink #}
-	&nbsp;{{ keyword.documents.count() }}&nbsp;-&nbsp;see&nbsp;list
-      </span>
+      {{ macros.see_documents_list_badge(keyword.documents) }}
     </td>
   </tr>
 </table>

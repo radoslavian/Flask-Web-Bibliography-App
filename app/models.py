@@ -303,7 +303,7 @@ class Document(db.Model, Lock):
         secondary='subjects_collectivities_join',
         backref=db.backref('documents_topics', lazy='dynamic'),
         lazy='dynamic')
-    languages_subjects = db.relationship(
+    language_subjects = db.relationship(
         'Language',
         secondary='subjects_languages_join',
         backref=db.backref('documents_topics', lazy='dynamic'),
@@ -492,7 +492,8 @@ publication_places = db.Table(
 
 
 class GeographicLocation(db.Model, Lock):
-    '''Model for geographic names (cities, states etc.)'''
+    '''Model for geographic names (cities, states etc.)
+    '''
     __tablename__ = 'geographic_locations'
 
     location_id = db.Column(db.Integer, primary_key=True)

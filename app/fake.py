@@ -8,6 +8,7 @@ import os
 from . import db
 from .models import *
 
+
 faker_lang = os.environ.get('FAKER_LANG') or ''
 fake = Faker(faker_lang)
 
@@ -99,6 +100,10 @@ def keywords(count=300):
 def _entity_list(model, max_repetition=4):
     '''Helper function for documents().
     '''
+    __mapper_args__ = {
+        'polymorphic_identity':'documents',
+        'polymorphic_on': '*'
+    }
     entities = []
     iterator = 0
     while iterator < randint(1, max_repetition):
@@ -136,6 +141,9 @@ def documents(count=1):
 
     while i < count:
         document = Document()
+        for _ in range(0, randint(0, MAX_REPETITION_NUMBER+1)):
+            language_subject = Language.query.order_by(func.random()).first()
+            document.language_subjects.append(language_subject)
         document_type = DocumentType.query.order_by(func.random()).first()
         if document_type.name == 'article':
             periodical = DocumentType.query.filter_by(
@@ -153,7 +161,6 @@ def documents(count=1):
         resp_author = ResponsibilityName.query.filter_by(
             responsibility_name='author').first()
 
-        # potem przypisywanie pól do dokumentu przenieść na koniec
         document.document_type = document_type
 
         author_person = Person.query.order_by(func.random()).first()

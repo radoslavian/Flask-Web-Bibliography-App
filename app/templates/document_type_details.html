@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ document_type.name }}</h1>
+  <h6>Details for the <em>document type</em> entry, id number:
+    {{ document_type.type_id }}</h6>
+  <table class="table table-hover col-md-6">
+    {% if document_type.description %}
+      <tr>
+	<td>Description of the document type:</td>
+	<td>{{ document_type.description }}</td>
+      </tr>
+    {% endif %}
+    <tr>
+      <td>Application default (built-in) or editable?</td>
+      <td>
+	{% if document_type.modifiable %}
+	  Editable.
+	{% else %}
+	  Application built-in (not editable).
+      </td>
+    </tr>
+   {% endif %}
+    <tr>
+      <td>Number of documents of this type:</td>
+      <td>{{ macros.see_documents_list_badge(document_type.documents) }}</td>
+    </tr>
+  </table>
+{% endblock %}

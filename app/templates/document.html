@@ -47,14 +47,8 @@
       <tr>
 	<td>Statements of responsibility (individuals):</td>
 	<td>
-	  <ul>
-	    {% for responsibility_ind in document.responsibilities_people %}
-	      <li>{{ macros.render_person(responsibility_ind.person) }}
-		  &mdash;&nbsp;{{ responsibility_ind.responsibility.
-		  responsibility_name.capitalize() }}
-	      </li>
-	    {% endfor %}
-	  </ul>
+	  {{ macros.render_list(document.responsibilities_people,
+	  macros.render_person_responsibility) }}
 	</td>
       </tr>
     {% endif %}
@@ -62,17 +56,8 @@
       <tr>
 	<td>Statements of responsibility (collective bodies):</td>
 	<td>
-
-	  {# add page link for collective body #}
-	  <ul>
-	    {% for responsibility_col in document.responsibility_collectivities %}
-	      <li>
-		<strong>{{ responsibility_col.
-		  responsibility.responsibility_name.capitalize() }}:</strong><br>
-		  {{ responsibility_col.collectivity.name }}
-	      </li>
-	    {% endfor %}
-	  </ul>
+	    {{ macros.render_list(document.responsibility_collectivities,
+		macros.render_collective_body_responsibility) }}
 	</td>
       </tr>
     {% endif %}
@@ -88,17 +73,13 @@
     {% if document.language %}
       <tr>
 	<td>Document language:</td>
-
-	{# hyperlink for language site #}
-	<td>{{ document.language.language_name }}</td>
+	<td>{{ macros.render_language(document.language) }}</td>
       </tr>
     {% endif %}
     {% if document.original_language %}
       <tr>
 	<td>Original language:</td>
-
-	{# hyperlink for language site #}
-	<td>{{ document.original_language.language_name }}</td>
+	<td>{{ macros.render_language(document.original_language) }}</td>
       </tr>
     {% endif %}
     {% if document.edition_statement %}
@@ -189,20 +170,24 @@
       <tr>
 	  <td>Subjects&nbsp;&mdash; collective bodies:</td>
 	  <td>
-	    <ul>
-	      {% for subject in document.collectivity_subjects %}
-		<li>{{ subject.name }}</li>
-	      {% endfor %}
-	    </ul>
+	    {{ macros.render_list(document.collectivity_subjects,
+	    macros.render_collective_body) }}
 	  </td>
       </tr>
     {% endif %}
     {% if document.keywords.count() %}
       <tr>
-	  <td>Subject&nbsp;&mdash; keywords:</td>
+	  <td>Subjects&nbsp;&mdash; keywords:</td>
 	  <td>
 	    {{ macros.render_list(document.keywords, macros.render_keyword) }}
 	  </td>
+      </tr>
+    {% endif %}
+    {% if document.language_subjects.count() %}
+      <tr>
+	<td>Subjects&nbsp;&mdash; languages:</td>
+	<td>{{ macros.render_list(document.language_subjects,
+	  macros.render_language) }}</td>
       </tr>
     {% endif %}
     {% if document.topic_people %}

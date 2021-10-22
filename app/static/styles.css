@@ -5,3 +5,12 @@ table.responsibilities tr:hover {
 #footer {
     font-size: 14px;
 }
+
+.items-list > * {
+    background: inherit;
+    border-width: 0px 0px 1px 0px;
+}
+
+.items-list > :last-child {
+    border-width: 0px;
+}
