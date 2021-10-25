@@ -38,7 +38,8 @@
 
 {% macro render_list(items, item_fn) %}
   {# Renders list of items (people, geographic location) #}
-  {# using funtion creating individual item. #}
+  {# using funtion for creating individual item. #}
+  {# Used to create lists of items in detailed document view. #}
   <ul class="items-list list-group">
     {% for item in items %}
       <li class="list-group-item">{{ item_fn(item) }}</li>
@@ -47,9 +48,10 @@
 {% endmacro %}
 
 
-{% macro render_collective_body(col_body) %}
-  {# Prints collective body name and hyperlink for a detailed view. #}
-  <a href="{{ url_for('.collective_body_details',
+{% macro render_collective_body(col_body, class=None) %}
+  {# Prints collective body name and hyperlink in a detailed view route. #}
+  <a {% if class %} class="{{ class }}" {% endif %}
+     href="{{ url_for('.collective_body_details',
 	   c_body_id=col_body.id) }}">
 	   {{ col_body.name }}
   </a>
@@ -59,33 +61,37 @@
 {% macro render_collective_body_responsibility(col_body) %}
   {# Prints collective body (name) and it's responsibility in #}
   {# a document template. #}
-  <strong>
     {{ render_responsibility(col_body.responsibility) }}:
-  </strong>
   <br>
   {{ render_collective_body(col_body.collectivity) }}
 {% endmacro %}
 
 
-{% macro render_person(person) %}
+{% macro render_person(person, class=None) %}
   {# Prints person's name and hyperlink for a detailed view. #}
-  <a href="{{ url_for('.person_details', person_id=person.person_id) }}">
+  <a {% if class %} class="{{ class }}" {% endif %}
+    href="{{ url_for('.person_details', person_id=person.person_id) }}">
     <em>{{ person.last_name }}</em>, {{ person.forenames }}
   {% if person.life_years %} ({{ person.life_years }}) {% endif %}</a>
 {% endmacro %}
 
 
 {% macro render_person_name_variant(variant) %}
-  {{ variant.last_name_variant }},
+  {% if variant.last_name_variant %}
+    {{ variant.last_name_variant }},
+  {% endif %}
   {{ variant.first_name_variant }}&nbsp;
   <a href="{{ url_for('.name_variant',
 	   variant_id=variant.variant_id) }}">details&nbsp;&hellip;</a>
 {% endmacro %}
 
 
-{% macro render_responsibility(responsibility) %}
-  {# add url #}
-  <strong>{{ responsibility.responsibility_name.capitalize() }}</strong>
+{% macro render_responsibility(responsibility, class=None) %}
+  <a {% if class %} class="{{ class }}" {% endif %}
+     href="{{ url_for('.responsibility_details',
+     responsibility_id=responsibility.id) }}">
+     {{ responsibility.responsibility_name.capitalize() }}
+  </a>
 {% endmacro %}
 
 
@@ -99,22 +105,24 @@
 {% macro render_location(location) %}
   <a href="{{ url_for('.geographic_location_details',
 	   location_id=location.location_id) }}">
-    <strong>{{ location.name }}</strong>
+     {{ location.name }}
     {% if location.determiner %}
-      ({{ location.determiner }})
+      <em>({{ location.determiner }})</em>
     {% endif %}
   </a>
 {% endmacro %}
 
 
 {% macro render_language(language) %}
-  {# add hyperlink #}
+<a href="{{ url_for('.language_details',
+	 language_id=language.language_id) }}">
   {{ language.language_name }}
   {% if language.iso_639_1_language_code %}
     ({{ language.iso_639_1_language_code }})
   {% elif language.iso_639_2_language_code %}
     ({{ language.iso_639_2_language_code }})
   {% endif %}
+</a>
 {% endmacro %}
 
 
@@ -125,32 +133,45 @@
 {% endmacro %}
 
 
-{% macro responsibilities_list(_list) %}
+{% macro responsibilities_list(responsibilities) %}
   {# List of (person, collective body) responsibilities #}
-  {# with number of attached documents (printed from the tuple).#}
+  {# with number of attached documents.#}
   <table class="table-sm responsibilities">
-    {% for (name, count) in _list %}
+    {% for (responsibility, count) in responsibilities %}
       <tr>
-	<td>{{ name.capitalize() }}</td>
-	<td><span class="badge badge-dark">
-	    documents:
-	    {{ count }}
-	</span></td>
+	<td>
+	  {{ render_responsibility(responsibility) }}
+	</td>
+	<td>
+	  {{ see_list_badge(count=count,
+	  pre_title='documents:', post_title=None) }}
+	</td>
       </tr>
     {% endfor %}
   </table>
 {% endmacro %}
 
 
-{% macro see_documents_list_badge(documents_relationship,
+{% macro see_list_badge(relationship=None,
+  endpoint=None,
+  count=None,
+  badge_class="badge badge-dark",
   pre_title=None, post_title="&nbsp;-&nbsp;see&nbsp;list") %}
-  <span class="badge badge-dark">
+  {% if endpoint %} <a href="{{ url_for(endpoint, **kwargs) }}"> {% endif %}
+  <span class="{{ badge_class }}">
     {% if pre_title %}
       {{ pre_title|safe }}
     {% endif %}
-    {{ documents_relationship.count() }}
+    {% if count %}
+      {{ count }}
+    {% elif relationship.count() %}
+      {{ relationship.count() }}
+    {% else %}
+      {% set post_title = "empty list" %}
+    {% endif %}
     {% if post_title %}
       {{ post_title|safe }}
     {% endif %}
   </span>
+  {% if endpoint %} </a> {% endif %}
 {% endmacro %}

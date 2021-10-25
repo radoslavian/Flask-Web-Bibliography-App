@@ -21,7 +21,7 @@
 	<td>{{ language.iso_639_1_language_code }}</td>
       </tr>
     {% endif %}
-    {% if language %}
+    {% if language.iso_639_2_language_code %}
       <tr>
 	<td>ISO 639-2 language code:</td>
 	<td>{{ language.iso_639_2_language_code }}</td>
@@ -30,22 +30,20 @@
     <tr>
       <td>Documents published in this language:</td>
       <td>
-	{{ macros.see_documents_list_badge(language.documents) }}
+	{{ macros.see_list_badge(language.documents) }}
       </td>
     </tr>
     <tr>
       <td>Documents for which this is an original language:</td>
       <td>
-	{{ macros.see_documents_list_badge(language.documents_original_lang) }}
+	{{ macros.see_list_badge(language.documents_original_lang) }}
       </td>
     </tr>
     <tr>
       <td>Documents for which this language is a topic:</td>
       <td>
-	{{ macros.see_documents_list_badge(language.documents_topics) }}
+	{{ macros.see_list_badge(language.documents_topics) }}
       </td>
     </tr>
   </table>
 {% endblock %}
-
-{# documents: language, original lang, subjects #}

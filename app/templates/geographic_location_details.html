@@ -32,25 +32,22 @@
     {% endif %}
     {% if location.document_publication_place.count() %}
       <tr>
-	<td colspan="2">
-	  <p class="h5">
+	<td>
 	    Number of documents published in this location:
-	    <span class="badge badge-primary badge-dark">
-	      &nbsp;{{ location.document_publication_place.count() }}&nbsp;
-	    </span>
-	  </p>
+	</td>
+	<td>
+	  {{ macros.see_list_badge(
+	  location.document_publication_place) }}
 	</td>
       </tr>
     {% endif %}
     {% if location.documents_topics.count() %}
       <tr>
-	<td colspan="2">
-	  <p class="h5">
+	<td>
 	    Number of documents for which this location is a topic:
-	    <span class="badge badge-primary badge-dark">
-	      &nbsp;{{ location.documents_topics.count() }}&nbsp;
-	    </span>
-	  </p>
+	</td>
+	<td>
+	  {{ macros.see_list_badge(location.documents_topics) }}
 	</td>
       </tr>
     {% endif %}

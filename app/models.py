@@ -395,20 +395,24 @@ class ResponsibilityName(db.Model, Lock):
     __tablename__ = 'responsibility_names'
 
     id = db.Column(db.Integer, primary_key=True)
-    responsibility_name = db.Column(db.String(45), nullable=False, index=True)
+    responsibility_name = db.Column(db.String(45),
+                                    nullable=False,
+                                    index=True) # + unique
     responsibility_abbr = db.Column(db.String(6))
     modifiable = db.Column(db.Boolean, default=True)
 
     responsibility_collectivities = db.relationship(
         'ResponsibilityCollectivity',
         back_populates='responsibility',
-        cascade='all, delete-orphan')
+        cascade='all, delete-orphan',
+        lazy='dynamic')
     responsibilities_people = db.relationship(
         'ResponsibilityPerson',
 
         # czy tu też nie powinno być:
         # cascade='all, delete-orphan'
-        back_populates='responsibility')
+        back_populates='responsibility',
+        lazy='dynamic')
 
     @staticmethod
     def add_basic_responsibilities():

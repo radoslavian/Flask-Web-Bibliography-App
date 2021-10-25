@@ -1,59 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>{{ person_record.last_name }}, {{ person_record.forenames }}
+  <h1>
+    {{ person_record.last_name }}, {{ person_record.forenames }}
     {% if person_record.life_years %}
       ({{ person_record.life_years }})
-    {% endif %}</h1>
-    <h6>Details for personal entry, id number
-      {{ person_record.person_id }}:
-    </h6>
-    <table class="table table-hover col-md-6">
-      {% if person_record.birth_date %}
-	<tr>
-	  <td>Exact birth date:</td>
-	  <td>{{ person_record.birth_date }}</td>
-	</tr>
-      {% endif %}
-      {% if person_record.death_date %}
-	<tr>
-	  <td>Exact death date:</td>
-	  <td>{{ person_record.death_date }}</td>
-	</tr>
-      {% endif %}
-      {% if person_record.note %}
+    {% endif %}
+  </h1>
+  <h6>Details for personal entry, id number
+    {{ person_record.person_id }}:
+  </h6>
+  <table class="table table-hover col-md-6">
+    {% if person_record.birth_date %}
+      <tr>
+	<td>Exact birth date:</td>
+	<td>{{ person_record.birth_date }}</td>
+      </tr>
+    {% endif %}
+    {% if person_record.death_date %}
+      <tr>
+	<td>Exact expiration date:</td>
+	<td>{{ person_record.death_date }}</td>
+      </tr>
+    {% endif %}
+    {% if person_record.note %}
       <tr>
 	<td>Notes:</td>
 	<td>{{ person_record.note }}</td>
       </tr>
-      {% endif %}
-      {% if person_record.name_variants.count() %}
-	<tr>
-	  <td data-toggle="tooltip" title="Pseudonyms, spelling variations etc.">
-	    Name variants:
-	  </td>
-	  <td>
-	    {{ macros.render_list(person_record.name_variants,
-	    macros.render_person_name_variant) }}
-	  </td>
-	</tr>
-      {% endif %}
+    {% endif %}
+    {% if person_record.name_variants.count() %}
       <tr>
-	<td>
-	  This person's responsibilities in documents:
+	<td data-toggle="tooltip" title="Pseudonyms, spelling variations etc.">
+	  Name variants:
 	</td>
 	<td>
-	  {% if person_record.responsibilities_list %}
-	    {{ macros.responsibilities_list(
-	    person_record.responsibilities_list) }}
-	  {% endif %}
+	  {{ macros.render_list(person_record.name_variants,
+	  macros.render_person_name_variant) }}
 	</td>
       </tr>
-      <tr>
-	<td colspan="2">
-	  <h5>Documents for which this person is a topic:
-	    <span class="badge badge-dark">
-	    &nbsp;{{ person_record.documents_topics.count() }}&nbsp;</span></h5>
-	</td>
-      </tr>
-    </table>
-  {% endblock %}
+    {% endif %}
+    <tr>
+      <td>
+	This person responsibilities in documents:
+      </td>
+      <td>
+	{% if person_record.responsibilities_list %}
+	  {{ macros.responsibilities_list(
+	  person_record.responsibilities_list) }}
+	{% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+	Documents for which this person is a topic:
+	{{ macros.see_list_badge(
+	person_record.documents_topics) }}
+      </td>
+    </tr>
+  </table>
+{% endblock %}

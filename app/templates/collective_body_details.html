@@ -37,12 +37,12 @@
 	  </td>
       </tr>
     {% endif %}
-      <tr> 
-    	<td colspan="2">
-	  Documents for which this collective body is a topic:
-	  <span class="badge badge-dark">
-	    &nbsp;{{ collective_body.documents_topics.count() }}&nbsp;</span></h5>
-	</td>
-      </tr>
+    <tr> 
+      <td colspan="2">
+	Documents for which this collective body is a topic:
+	{{ macros.see_list_badge(
+	collective_body.documents_topics) }}
+      </td>
+    </tr>
   </table>
 {% endblock %}

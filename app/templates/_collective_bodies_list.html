@@ -1,7 +1,4 @@
 {% for collective_body in pagination.items %}
-  <a class="list-group-item list-group-item-action"
-     href="{{ url_for('.collective_body_details',
-     c_body_id=collective_body.id) }}">
-     {{ collective_body.name }}
-  </a>
+  {{ macros.render_collective_body(collective_body,
+  class="list-group-item list-group-item-action") }}
 {% endfor %}

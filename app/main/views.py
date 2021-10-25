@@ -1,6 +1,8 @@
 '''View functions for the the application main blueprint.
 '''
 
+__name__ = 'views'
+
 from . import main
 from flask import render_template, request, current_app
 from app import db
@@ -12,35 +14,68 @@ def browse_people():
     record authorities.
     '''
     page = request.args.get('page', 1, type=int)
-    people = Person.query.with_entities(
-        Person.person_id,
-        Person.forenames,
-        Person.last_name,
-        Person.life_years,
-        db.literal('person'))
-    name_variants = PersonNameVariant.query.with_entities(
-        PersonNameVariant.variant_id,
-        PersonNameVariant.first_name_variant,
-        PersonNameVariant.last_name_variant,
+    responsibility_id = request.args.get(
+        'responsibility_id', None, type=int)
+    responsibility = None
+    if responsibility_id:
 
-        # dummy field, couldn't find any better solution
-        db.literal(''),
-        db.literal('name_variant'))
-    people_variants_union = people.union_all(name_variants).order_by(
-        Person.last_name.asc(), Person.forenames.asc())
-    pagination = people_variants_union.paginate(
+        # ta kwerenda działa, ale funkcja/logika
+        # do wyświetlania tej listy wymagają
+        # zmiany (druga funkcja dla innej trasy
+        # lub inne rozwiązanie)
+        # lepsza kwerenda:
+        # Flask Web..., s. 182
+        # sprawdzić czy działa:
+        # db.session.query(Person).select_from(ResponsibilityPerson) \
+        # .filter(ResponsibilityPerson.responsibility_id==1) \
+        # .join(Person, ResponsibilityPerson.person_id == Person.person_id) \
+        # .all()
+        # (na kolejnych stronach przepis na prostszą wersję)
+
+        responsibility = ResponsibilityName.query.filter_by(
+            id=responsibility_id).first_or_404()
+        result = ResponsibilityPerson.query.join(
+            ResponsibilityPerson.responsibility).filter_by(
+                id=responsibility_id).join(
+                    ResponsibilityPerson.person).with_entities(
+                        Person.person_id,
+                        Person.forenames,
+                        Person.last_name,
+                        Person.life_years,
+                        db.literal('person')
+                    )
+    else:
+        people = ResponsibilityPerson.query.with_entities(
+            Person.person_id,
+            Person.forenames,
+            Person.last_name,
+            Person.life_years,
+            db.literal('person'))
+        name_variants = PersonNameVariant.query.with_entities(
+            PersonNameVariant.variant_id,
+            PersonNameVariant.first_name_variant,
+            PersonNameVariant.last_name_variant,
+
+            # dummy field, couldn't find any better solution
+            db.literal(''),
+            db.literal('name_variant'))
+        result = people.union_all(name_variants).order_by(
+            Person.last_name.asc(), Person.forenames.asc())
+    pagination = result.paginate(
         page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
         error_out=False)
 
+    responsibility_name = None
+    if responsibility:
+        responsibility_name = responsibility.responsibility_name
+
     return render_template(
-        'list_of_items.html',
+        'people_list.html',
+        responsibility_name=responsibility_name,
+        responsibility_id=responsibility_id,
         literal_column=db.literal_column,
-        title='List of individuals from the database',
-        subtitle='Alphabetical order, ascending',
         endpoint='.browse_people',
-        pagination=pagination,
-        partial_template_name='_people_list_paginated.html')
-        
+        pagination=pagination)        
 
 
 @main.route('/browse/documents/id=<document_id>', methods=['GET', 'POST'])
@@ -73,8 +108,12 @@ def geographic_locations_list():
         page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
         error_out=False)
 
-    return render_template('geographic_locations_list.html',
-                           pagination=pagination)
+    return render_template(
+        'geographic_locations_list.html',
+        title='List of geographic locations',
+        subtitle='Ordered alphabetically, ascending.',
+        pagination=pagination,
+        endpoint='.geographic_locations_list')
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -102,7 +141,10 @@ def keywords_list():
         error_out=False)
 
     return render_template('keywords_list.html',
-                           pagination=pagination)
+                           title='List of subject headers from the database',
+                           subtitle='Ordered alphabetically, ascending.',
+                           pagination=pagination,
+                           endpoint='.keywords_list')
 
 
 @main.route('/browse/languages/')
@@ -142,44 +184,26 @@ def name_variant(variant_id):
                            name_variant=name_variant)
 
 
-def get_responsibilities(record):
-    '''Returns unique list (set) of responsibilities for person
-    and CollectiveBody models.
+def get_unique_responsibilities(item_responsibilities):
+    '''Returns unique list (set) of responsibilities
+    from a responsibility relationship in a model.
     '''
-    return {item.responsibility.responsibility_name
-            for item in record.responsibilities}
+    return {responsibility_person.responsibility
+            for responsibility_person in item_responsibilities}
 
 
-def person_responsibility_list(responsibilities, person_id):
-    '''List of responsibilities and-for each one-count of documents
-    in which a given person appears with a particular responsibility.
+def responsibility_list(responsibilities, query_fn):
+    '''Lists responsibilities from a collective body or person relationship
+    field and counts number of documents for each one
+    in which a given entity appears with a particular responsibility.
     '''
+
     responsibilities_list = []
-    for responsibility_name in responsibilities:
-        resp_id = ResponsibilityName.query.filter_by(
-            responsibility_name=responsibility_name).first().id
-        resp_count = ResponsibilityPerson.query.filter_by(
-            person_id=person_id, responsibility_id=resp_id).count()
+    for responsibility in responsibilities:
+        resp_count = query_fn(responsibility).count()
         responsibilities_list.append(
-            [responsibility_name, resp_count])
-    responsibilities_list.sort(key=lambda item: item[0])
-
-    return responsibilities_list
-
-
-def collective_body_resp_list(responsibilities, c_body_id):
-    '''List of responsibilities and-for each one-count of documents
-    in which a given collective body appears with a particular responsibility.
-    '''
-    responsibilities_list = []
-    for responsibility_name in responsibilities:
-        resp_id = ResponsibilityName.query.filter_by(
-            responsibility_name=responsibility_name).first().id
-        resp_count = ResponsibilityCollectivity.query.filter_by(
-            collectivity_id=c_body_id, responsibility_id=resp_id).count()
-        responsibilities_list.append(
-            [responsibility_name, resp_count])
-    responsibilities_list.sort(key=lambda item: item[0])
+            [responsibility, resp_count])
+    responsibilities_list.sort(key=lambda item: item[0].responsibility_name)
 
     return responsibilities_list
 
@@ -190,12 +214,38 @@ def person_details(person_id):
     document's authors, translators, subjects etc.)
     '''
     person_record = Person.query.filter_by(person_id=person_id).first_or_404()
-    responsibilities = get_responsibilities(person_record)
-    person_record.responsibilities_list = person_responsibility_list(
-        responsibilities, person_id)
+    responsibilities = get_unique_responsibilities(
+        person_record.responsibilities)
+    person_record.responsibilities_list = responsibility_list(
+        responsibilities,
+        query_fn=lambda responsibility: ResponsibilityPerson.query.filter_by(
+            person_id=person_id,
+            responsibility_id=responsibility.id))
 
     return render_template('person_record_details.html',
                            person_record=person_record)
+
+
+@main.route('/browse/responsibilities/')
+def responsibilities_list():
+    responsibilities = ResponsibilityName.query.order_by(
+        ResponsibilityName.responsibility_name).all()
+
+    return render_template(
+        'list_of_items.html',
+        responsibilities=responsibilities,
+        title='List of document responsibilities',
+        subtitle='Alphabetical order, ascending',
+        partial_template_name='_responsibilities.html')
+
+
+@main.route('/browse/responsibilities/id=<responsibility_id>')
+def responsibility_details(responsibility_id):
+    responsibility = ResponsibilityName.query.filter_by(
+        id=responsibility_id).first_or_404()
+
+    return render_template('responsibility_details.html',
+                           responsibility=responsibility)
 
 
 @main.route('/browse/collective-bodies/id=<c_body_id>')
@@ -204,9 +254,13 @@ def collective_body_details(c_body_id):
     '''
     collective_body_record = CollectiveBody.query.filter_by(
         id=c_body_id).first_or_404()
-    responsibilities = get_responsibilities(collective_body_record)
-    collective_body_record.responsibilities_list = collective_body_resp_list(
-        responsibilities, c_body_id)
+    responsibilities = get_unique_responsibilities(
+        collective_body_record.responsibilities)
+    collective_body_record.responsibilities_list = responsibility_list(
+        responsibilities,
+        query_fn=lambda responsibility: ResponsibilityCollectivity. \
+        query.filter_by(collectivity_id=c_body_id,
+                        responsibility_id=responsibility.id))
 
     return render_template('collective_body_details.html',
                            collective_body=collective_body_record)
@@ -255,6 +309,12 @@ def document_types_list():
                            partial_template_name='_document_types_list.html',
                            subtitle='Alphabetical order, ascending',
                            document_types=document_types)
+
+# @main.route('/browse/documents/')
+# def documents_list(query_fn=None):
+#     def default_query_fn():
+#         pass
+#     pass
 
 
 @main.route('/search')

@@ -70,18 +70,26 @@
 	      <div class="dropdown-menu">
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
-		   title="Ordered list of authors, editors etc., but also
-		   individuals being subjects of the documents."
+		   title="Ordered list of collective names (organisations -
+		   companies, foundation etc.) attached to documents as
+		   responsibility statements or subjects."
 		   data-placement="left"
-		   href="{{ url_for('.browse_people') }}">
-		  Personal names
+		   href="{{ url_for('.collective_bodies_list') }}">
+		   Collective names
+		</a>
+		<a class="dropdown-item"
+		   href="{{ url_for('.document_types_list') }}"
+		   data-toggle="tooltip"
+		   title="Document types, number of documents for each
+		   type and links to list of documents for each set."
+		   data-placement="left" href="#">
+		   Document types
 		</a>
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
-		   title="Ordered list of subject headers."
-		   data-placement="left"
-		   href="{{ url_for('.keywords_list') }}">
-		  Subject keywords
+		   title="Ordered list of documents with title filter."
+		   data-placement="left" href="#">
+		   Documents
 		</a>
 		<a class="dropdown-item" data-toggle="tooltip"
 		   title="Ordered list of geographic locations
@@ -89,6 +97,13 @@
 		   data-placement="left"
 		   href="{{ url_for('.geographic_locations_list') }}">
 		  Geographic locations
+		</a>
+		<a class="dropdown-item" data-toggle="tooltip"
+		   title="Ordered list of subject headers (topics)
+			  of documents."
+		   data-placement="left"
+		   href="{{ url_for('.keywords_list') }}">
+		  Subject keywords
 		</a>
 		<a class="dropdown-item" data-toggle="tooltip"
 		   title="Ordered list of languages (as languages in which
@@ -100,26 +115,19 @@
 		</a>
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
-		   title="Ordered list of collective names (organisations -
-		   companies, foundation etc.) attached to documents as
-		   responsibility statements or subjects."
+		   title="Ordered list of authors, editors etc., but also
+		   individuals being subjects of the documents."
 		   data-placement="left"
-		   href="{{ url_for('.collective_bodies_list') }}">
-		   Collective names
+		   href="{{ url_for('.browse_people') }}">
+		  Personal names
 		</a>
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
-		   title="Ordered list of documents with title filter."
-		   data-placement="left" href="#">
-		   Documents
-		</a>
-		<a class="dropdown-item"
-		   href="{{ url_for('.document_types_list') }}"
-		   data-toggle="tooltip"
-		   title="Document types, number of documents for each
-		   type and links to list of documents for each set."
-		   data-placement="left" href="#">
-		   Document types
+		   title="Ordered list of collective body / individual
+			  responsibilities in documents."
+		   data-placement="left"
+		   href="{{ url_for('.responsibilities_list') }}">
+		  Responsibilities
 		</a>
 	      </div>
 	    </li>

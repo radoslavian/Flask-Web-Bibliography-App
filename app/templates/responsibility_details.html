@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ responsibility.responsibility_name.capitalize() }}</h1>
+  <h6>Details for responsibility entry, id number:
+    {{ responsibility.id }}
+  </h6>
+  <table class="table table-hover col-md-6">
+    <tr>
+      <td>Responsibility name in the database:</td>
+      <td>{{ responsibility.responsibility_name }}</td>
+    </tr>
+    {% if responsibility.responsibility_abbr %}
+      <tr>
+	<td>Responsibility abbreviation:</td>
+	<td>{{ responsibility.responsibility_abbr }}</td>
+      </tr>
+    {% endif %}
+    <tr>
+      <td>Entry is modifiable:</td>
+      <td>{{ responsibility.modifiable }}</td>
+    </tr>
+    {% if responsibility.responsibility_collectivities.count()  %}
+      <tr>
+	<td>
+	  Number of <strong>collective bodies</strong>
+	  with this responsibility:
+	</td>
+	<td>
+	  {% if responsibility.responsibility_collectivities.count() %}
+	    {{ macros.see_list_badge(
+	    responsibility.responsibility_collectivities) }}
+	  {% endif %}
+	</td>
+      </tr>
+    {% endif %}
+    {% if responsibility.responsibilities_people.count() %}
+    <tr>
+      <td>
+	Number of <strong>individuals</strong> with this
+	responsibility:
+      </td>
+      <td>
+	{{ macros.see_list_badge(
+	responsibility.responsibilities_people,
+	responsibility_id=responsibility.id,
+	endpoint='.browse_people') }}
+      </td>
+    </tr>
+    {% endif %}
+  </table>
+{% endblock %}

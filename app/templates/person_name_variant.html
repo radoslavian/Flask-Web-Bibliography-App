@@ -6,14 +6,7 @@
   </h4>
 <p class="lead text-monospace">
   <small>Name variant for:
-  <a href="{{ url_for('main.person_details',
-		  person_id=name_variant.person.person_id) }}">
-	   {{ name_variant.person.last_name }},
-	   {{ name_variant.person.forenames }}
-	   {% if name_variant.person.life_years %}
-	     ({{ name_variant.person.life_years }})
-	   {% endif %}
-  </a>
+    {{ macros.render_person(name_variant.person) }}
 </small></p>
 {% if name_variant.variant_notes %}
   <dl>
