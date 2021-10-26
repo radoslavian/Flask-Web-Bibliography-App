@@ -71,7 +71,8 @@
   {# Prints person's name and hyperlink for a detailed view. #}
   <a {% if class %} class="{{ class }}" {% endif %}
     href="{{ url_for('.person_details', person_id=person.person_id) }}">
-    <em>{{ person.last_name }}</em>, {{ person.forenames }}
+    <em>{{ person.last_name }}</em>{% if person.forenames %},
+    {{ person.forenames }} {% endif %}
   {% if person.life_years %} ({{ person.life_years }}) {% endif %}</a>
 {% endmacro %}
 
@@ -151,27 +152,26 @@
   </table>
 {% endmacro %}
 
-
-{% macro see_list_badge(relationship=None,
-  endpoint=None,
-  count=None,
-  badge_class="badge badge-dark",
-  pre_title=None, post_title="&nbsp;-&nbsp;see&nbsp;list") %}
-  {% if endpoint %} <a href="{{ url_for(endpoint, **kwargs) }}"> {% endif %}
-  <span class="{{ badge_class }}">
-    {% if pre_title %}
-      {{ pre_title|safe }}
-    {% endif %}
-    {% if count %}
-      {{ count }}
-    {% elif relationship.count() %}
-      {{ relationship.count() }}
-    {% else %}
-      {% set post_title = "empty list" %}
-    {% endif %}
-    {% if post_title %}
-      {{ post_title|safe }}
-    {% endif %}
-  </span>
-  {% if endpoint %} </a> {% endif %}
-{% endmacro %}
+{% macro see_list_badge(relationship=None, 
+  endpoint=None, 
+  count=None, 
+  badge_class="badge badge-dark", 
+  pre_title=None, post_title="&nbsp;-&nbsp;see&nbsp;list") %} 
+  {% if endpoint %}<a href="{{ url_for(endpoint, **kwargs) }}"> {% endif %} 
+  <span class="{{ badge_class }}"> 
+    {% if pre_title %} 
+      {{ pre_title|safe }} 
+    {% endif %} 
+    {% if count %} 
+      {{ count }} 
+    {% elif relationship.count() %} 
+      {{ relationship.count() }} 
+    {% else %} 
+      {% set post_title = "empty list" %} 
+    {% endif %} 
+    {% if post_title %} 
+      {{ post_title|safe }} 
+    {% endif %} 
+  </span> 
+  {% if endpoint %} </a> {% endif %} 
+{% endmacro %} 

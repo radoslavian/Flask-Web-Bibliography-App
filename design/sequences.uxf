@@ -5,7 +5,7 @@
     <id>UMLActor</id>
     <coordinates>
       <x>140</x>
-      <y>60</y>
+      <y>150</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -16,7 +16,7 @@
     <id>Relation</id>
     <coordinates>
       <x>160</x>
-      <y>150</y>
+      <y>240</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -27,7 +27,7 @@
     <id>UMLGeneric</id>
     <coordinates>
       <x>160</x>
-      <y>200</y>
+      <y>290</y>
       <w>20</w>
       <h>60</h>
     </coordinates>
@@ -38,29 +38,32 @@
     <id>Relation</id>
     <coordinates>
       <x>170</x>
-      <y>200</y>
+      <y>280</y>
       <w>230</w>
-      <h>30</h>
+      <h>50</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>210.0;10.0;10.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+[number] - see list
+click</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
       <x>300</x>
-      <y>110</y>
+      <y>190</y>
       <w>180</w>
-      <h>30</h>
+      <h>40</h>
     </coordinates>
-    <panel_attributes>_:individual_names_view_</panel_attributes>
+    <panel_attributes>_:responsibility_details_
+view</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>380</x>
-      <y>130</y>
+      <y>220</y>
       <w>30</w>
       <h>100</h>
     </coordinates>
@@ -71,7 +74,7 @@
     <id>UMLGeneric</id>
     <coordinates>
       <x>380</x>
-      <y>210</y>
+      <y>300</y>
       <w>20</w>
       <h>60</h>
     </coordinates>
@@ -81,19 +84,19 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>550</x>
-      <y>110</y>
+      <x>540</x>
+      <y>200</y>
       <w>120</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>_:Person_</panel_attributes>
+    <panel_attributes>views</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>590</x>
-      <y>130</y>
+      <y>220</y>
       <w>30</w>
       <h>110</h>
     </coordinates>
@@ -104,9 +107,9 @@
     <id>UMLGeneric</id>
     <coordinates>
       <x>590</x>
-      <y>220</y>
+      <y>310</y>
       <w>20</w>
-      <h>60</h>
+      <h>50</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes/>
@@ -115,11 +118,115 @@
     <id>Relation</id>
     <coordinates>
       <x>390</x>
-      <y>210</y>
+      <y>290</y>
       <w>220</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+collective_bodies_list(
+responsibility.id)</panel_attributes>
+    <additional_attributes>200.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>220</x>
+      <y>120</y>
+      <w>170</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Number of individuals
+with this responsibility:</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>200</x>
+      <y>160</y>
+      <w>90</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;140.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>730</x>
+      <y>200</y>
+      <w>160</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>200.0;10.0;10.0;10.0</additional_attributes>
+    <panel_attributes>_:CollectiveBody_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>220</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>780</x>
+      <y>320</y>
+      <w>20</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>300</y>
+      <w>200</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+query</panel_attributes>
+    <additional_attributes>180.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>830</x>
+      <y>120</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Database call.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>830</x>
+      <y>150</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>60</y>
+      <w>970</w>
+      <h>370</h>
+    </coordinates>
+    <panel_attributes>
+layer=0</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

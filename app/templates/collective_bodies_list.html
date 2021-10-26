@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>List of collective bodies from the database</h1>
+  {% if subtitle %}
+    <h4>{{ subtitle }}</h4>
+  {% endif %}
+  <div class="list-group col-md-7">
+    {% for collective_body in pagination.items %}
+      {{ macros.render_collective_body(collective_body,
+      class="list-group-item list-group-item-action") }}
+    {% endfor %}
+  </div>
+  {{ macros.pagination_widget(pagination, endpoint=endpoint,
+  responsibility_id=responsibility_id) }}
+{% endblock %}

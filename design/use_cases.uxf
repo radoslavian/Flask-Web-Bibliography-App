@@ -99,11 +99,11 @@ by bibliographic records</panel_attributes>
     <coordinates>
       <x>770</x>
       <y>275</y>
-      <w>99</w>
-      <h>77</h>
+      <w>88</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>70.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>60.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLUseCase</id>

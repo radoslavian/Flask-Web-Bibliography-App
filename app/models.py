@@ -265,6 +265,11 @@ class Document(db.Model, Lock):
     additional_edition_stmt = db.Column(db.String(40))
     numbering = db.Column(db.String(70))
     publication_date = db.Column(db.String(10))
+
+    # for searching purposes
+    # view page shall give hints about using each of
+    # the two fields.
+    # publication_year = db.Column(db.Integer)
     pagination = db.Column(db.String(30))
     physical_details = db.Column(db.String(45))
     dimensions = db.Column(db.String(60))

@@ -26,10 +26,10 @@
 	  with this responsibility:
 	</td>
 	<td>
-	  {% if responsibility.responsibility_collectivities.count() %}
-	    {{ macros.see_list_badge(
-	    responsibility.responsibility_collectivities) }}
-	  {% endif %}
+	  {{ macros.see_list_badge(
+	  responsibility.responsibility_collectivities,
+	  responsibility_id=responsibility.id,
+	  endpoint='.collective_bodies_list') }}
 	</td>
       </tr>
     {% endif %}

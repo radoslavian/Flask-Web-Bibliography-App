@@ -1,22 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>List of individuals from the database</h1>
-  <h4>
-    {% if responsibility_name %}
-      Responsibility: {{ responsibility_name }}
-    {% endif %}
-  </h4>
+  {% if subtitle %}
+    <h4>
+      {{ subtitle }}
+    </h4>
+  {% endif %}
   <div class="list-group col-md-7">
-  {% for person in pagination.items %}
-    {% if literal_column(person).name[4] == 'person' %}
+    {% for person in pagination.items %}
+      {% if literal_column(person).name[3] == 'name_variant' %}
+	<em><small>
+	    <a class="list-group-item"
+		      href="{{ url_for('.name_variant',
+		      variant_id=person.person_id) }}"> 
+		      {{ person.last_name }}, {{ person.forenames }}
+	    </a>
+	</small></em>
+    {% else  %}
       {{ macros.render_person(person,
       class="list-group-item list-group-item-action") }}
-    {% elif literal_column(person).name[4] == 'name_variant' %}
-      <em><small><a class="list-group-item"
-		    href="{{ url_for('.name_variant',
-		    variant_id=person.person_id) }}"> 
-		    {{ person.last_name }}, {{ person.forenames }}
-      </a></small></em>
     {% endif %}
   {% endfor %}
   </div>

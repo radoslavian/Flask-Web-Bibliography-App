@@ -10,72 +10,58 @@ from ..models import *
 
 @main.route('/browse/people/')
 def browse_people():
-    '''Displays list of people - individual
-    record authorities.
+    '''Displays list of people - individual record authorities.
     '''
     page = request.args.get('page', 1, type=int)
     responsibility_id = request.args.get(
         'responsibility_id', None, type=int)
-    responsibility = None
-    if responsibility_id:
+    responsibility_name = None
 
-        # ta kwerenda działa, ale funkcja/logika
-        # do wyświetlania tej listy wymagają
-        # zmiany (druga funkcja dla innej trasy
-        # lub inne rozwiązanie)
-        # lepsza kwerenda:
-        # Flask Web..., s. 182
-        # sprawdzić czy działa:
-        # db.session.query(Person).select_from(ResponsibilityPerson) \
-        # .filter(ResponsibilityPerson.responsibility_id==1) \
-        # .join(Person, ResponsibilityPerson.person_id == Person.person_id) \
-        # .all()
-        # (na kolejnych stronach przepis na prostszą wersję)
+    if responsibility_id is not None:
+        def query():
+            responsibility = ResponsibilityName.query.filter_by(
+                id=responsibility_id).first_or_404()
+            nonlocal responsibility_name
+            responsibility_name = responsibility.responsibility_name
 
-        responsibility = ResponsibilityName.query.filter_by(
-            id=responsibility_id).first_or_404()
-        result = ResponsibilityPerson.query.join(
-            ResponsibilityPerson.responsibility).filter_by(
-                id=responsibility_id).join(
-                    ResponsibilityPerson.person).with_entities(
-                        Person.person_id,
-                        Person.forenames,
-                        Person.last_name,
-                        Person.life_years,
-                        db.literal('person')
-                    )
+            return db.session.query(Person).select_from(
+                ResponsibilityPerson).filter(
+                    ResponsibilityPerson \
+                    .responsibility_id == responsibility_id).join(
+                        Person,
+                        ResponsibilityPerson.person_id == Person.person_id)
     else:
-        people = ResponsibilityPerson.query.with_entities(
-            Person.person_id,
-            Person.forenames,
-            Person.last_name,
-            Person.life_years,
-            db.literal('person'))
-        name_variants = PersonNameVariant.query.with_entities(
-            PersonNameVariant.variant_id,
-            PersonNameVariant.first_name_variant,
-            PersonNameVariant.last_name_variant,
+        def query():
+            people = ResponsibilityPerson.query.with_entities(
+                Person.person_id,
+                Person.forenames,
+                Person.last_name,
+                Person.life_years)
+            name_variants = PersonNameVariant.query.with_entities(
+                PersonNameVariant.variant_id,
+                PersonNameVariant.first_name_variant,
+                PersonNameVariant.last_name_variant,
+                db.literal('name_variant'))
 
-            # dummy field, couldn't find any better solution
-            db.literal(''),
-            db.literal('name_variant'))
-        result = people.union_all(name_variants).order_by(
-            Person.last_name.asc(), Person.forenames.asc())
-    pagination = result.paginate(
+            return people.union_all(name_variants).order_by(
+                Person.last_name.asc(), Person.forenames.asc())
+
+    pagination = query().paginate(
         page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
         error_out=False)
 
-    responsibility_name = None
-    if responsibility:
-        responsibility_name = responsibility.responsibility_name
+    if responsibility_name:
+        subtitle = f'Responsibility: {responsibility_name.capitalize()}'
+    else:
+        subtitle = 'Alphabetical order, ascending.'
 
     return render_template(
         'people_list.html',
-        responsibility_name=responsibility_name,
+        subtitle=subtitle,
         responsibility_id=responsibility_id,
         literal_column=db.literal_column,
         endpoint='.browse_people',
-        pagination=pagination)        
+        pagination=pagination)
 
 
 @main.route('/browse/documents/id=<document_id>', methods=['GET', 'POST'])
@@ -84,11 +70,6 @@ def document_view(document_id):
         document_id=document_id).first_or_404()
 
     return render_template('document.html', document=document)
-
-
-@main.route('/browse/documents/')
-def browse_documents():
-    pass
 
 
 @main.route('/browse/geographic-locations/id=<location_id>')
@@ -269,19 +250,45 @@ def collective_body_details(c_body_id):
 @main.route('/browse/collective-bodies/')
 def collective_bodies_list():
     page = request.args.get('page', 1, type=int)
-    collective_bodies = CollectiveBody.query.order_by(
-        CollectiveBody.name)
-    pagination = collective_bodies.paginate(
+    responsibility_id = request.args.get(
+        'responsibility_id', None, type=int)
+    responsibility_name = None
+
+    if responsibility_id is not None:
+        def query():
+            responsibility = ResponsibilityName.query.filter_by(
+                id=responsibility_id).first_or_404()
+            nonlocal responsibility_name
+            responsibility_name = responsibility.responsibility_name
+
+            return db.session.query(CollectiveBody).select_from(
+                ResponsibilityCollectivity).filter(
+                    ResponsibilityCollectivity \
+                    .responsibility_id == responsibility_id).join(
+                        CollectiveBody,
+                        ResponsibilityCollectivity \
+                        .collectivity_id == CollectiveBody.id)
+            
+    else:
+        def query():
+            return CollectiveBody.query.order_by(
+                CollectiveBody.name)
+
+    pagination = query().paginate(
         page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
         error_out=False)
 
+    if responsibility_name:
+        subtitle = f'Responsibility: {responsibility_name.capitalize()}'
+    else:
+        subtitle = 'Alphabetical order, ascending.'
+
     return render_template(
-        'list_of_items.html',
-        title='List of collective bodies from the database',
-        subtitle='Alphabetical order, ascending',
+        'collective_bodies_list.html',
+        subtitle=subtitle,
+        responsibility_id=responsibility_id,
         endpoint='.collective_bodies_list',
-        pagination=pagination,
-        partial_template_name='_collective_bodies_list.html')
+        pagination=pagination)
 
 
 @main.route('/browse/document-types/id=<type_id>')
