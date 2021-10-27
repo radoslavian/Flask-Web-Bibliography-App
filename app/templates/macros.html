@@ -1,6 +1,10 @@
-{% macro pagination_widget(pagination, endpoint) %}
+{% macro pagination_widget(pagination, endpoint, kargs={}) %}
   {# Generates bootstrap pager for paginated sites. #}
   {# Reused (with changes) from: M. Grinberg, Flask..., p. 159-160 #}
+  {% if kargs %}
+      {# Dummy asssignment in order to mergs kargs with kwargs: #}
+    {% set dummy = kwargs.update(kargs) %}
+  {% endif %}
   <ul class="pagination">
     <li class="page-item {% if not pagination.has_prev %} disabled{% endif %}">
       <a class="page-link"

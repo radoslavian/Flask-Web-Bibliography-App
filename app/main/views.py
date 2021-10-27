@@ -4,64 +4,49 @@
 __name__ = 'views'
 
 from . import main
-from flask import render_template, request, current_app
+from flask import render_template
 from app import db
 from ..models import *
+from app.helpers import *
 
 @main.route('/browse/people/')
 def browse_people():
     '''Displays list of people - individual record authorities.
+    Route for 
     '''
-    page = request.args.get('page', 1, type=int)
-    responsibility_id = request.args.get(
-        'responsibility_id', None, type=int)
-    responsibility_name = None
+    responsibility_id, responsibility_name = get_responsibility_identifiers(
+        request.args.get('responsibility_id', None, type=int))
 
     if responsibility_id is not None:
-        def query():
-            responsibility = ResponsibilityName.query.filter_by(
-                id=responsibility_id).first_or_404()
-            nonlocal responsibility_name
-            responsibility_name = responsibility.responsibility_name
-
-            return db.session.query(Person).select_from(
-                ResponsibilityPerson).filter(
-                    ResponsibilityPerson \
-                    .responsibility_id == responsibility_id).join(
-                        Person,
-                        ResponsibilityPerson.person_id == Person.person_id)
+        query = db.session.query(Person).select_from(
+            ResponsibilityPerson).filter(
+                ResponsibilityPerson \
+                .responsibility_id == responsibility_id).join(
+                    Person,
+                    ResponsibilityPerson.person_id == Person.person_id)
     else:
-        def query():
-            people = ResponsibilityPerson.query.with_entities(
-                Person.person_id,
-                Person.forenames,
-                Person.last_name,
-                Person.life_years)
-            name_variants = PersonNameVariant.query.with_entities(
-                PersonNameVariant.variant_id,
-                PersonNameVariant.first_name_variant,
-                PersonNameVariant.last_name_variant,
-                db.literal('name_variant'))
+        people = ResponsibilityPerson.query.with_entities(
+            Person.person_id,
+            Person.forenames,
+            Person.last_name,
+            Person.life_years)
+        name_variants = PersonNameVariant.query.with_entities(
+            PersonNameVariant.variant_id,
+            PersonNameVariant.first_name_variant,
+            PersonNameVariant.last_name_variant,
+            db.literal('name_variant'))
 
-            return people.union_all(name_variants).order_by(
-                Person.last_name.asc(), Person.forenames.asc())
-
-    pagination = query().paginate(
-        page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
-        error_out=False)
-
-    if responsibility_name:
-        subtitle = f'Responsibility: {responsibility_name.capitalize()}'
-    else:
-        subtitle = 'Alphabetical order, ascending.'
+        query = people.union_all(name_variants).order_by(
+            Person.last_name.asc(), Person.forenames.asc())
 
     return render_template(
         'people_list.html',
-        subtitle=subtitle,
+        subtitle=(f'Responsibility: {responsibility_name.capitalize()}' if
+                  responsibility_name else 'Alphabetical order, ascending.'),
         responsibility_id=responsibility_id,
         literal_column=db.literal_column,
         endpoint='.browse_people',
-        pagination=pagination)
+        pagination=paginate(query))
 
 
 @main.route('/browse/documents/id=<document_id>', methods=['GET', 'POST'])
@@ -83,17 +68,13 @@ def geographic_location_details(location_id):
 
 @main.route('/browse/geographic-locations/')
 def geographic_locations_list():
-    page = request.args.get('page', 1, type=int)
     locations = GeographicLocation.query.order_by(GeographicLocation.name)
-    pagination = locations.paginate(
-        page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
-        error_out=False)
-
+    
     return render_template(
         'geographic_locations_list.html',
         title='List of geographic locations',
         subtitle='Ordered alphabetically, ascending.',
-        pagination=pagination,
+        pagination=paginate(locations),
         endpoint='.geographic_locations_list')
 
 
@@ -115,32 +96,24 @@ def keyword_details(keyword_id):
 
 @main.route('/browse/keywords/')
 def keywords_list():
-    page = request.args.get('page', 1, type=int)
     keywords = Keyword.query.order_by(Keyword.keyword)
-    pagination = keywords.paginate(
-        page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
-        error_out=False)
 
     return render_template('keywords_list.html',
                            title='List of subject headers from the database',
                            subtitle='Ordered alphabetically, ascending.',
-                           pagination=pagination,
+                           pagination=paginate(keywords),
                            endpoint='.keywords_list')
 
 
 @main.route('/browse/languages/')
 def language_list():
-    page = request.args.get('page', 1, type=int)
     languages = Language.query.order_by(Language.language_name)
-    pagination = languages.paginate(
-        page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
-        error_out=False)
 
     return render_template(
         'list_of_items.html',
         title='List of languages in the database',
         subtitle='Alphabetical order, ascending',
-        pagination=pagination,
+        pagination=paginate(languages),
         endpoint='.language_list',
         partial_template_name='_language_list.html')
 
@@ -250,42 +223,29 @@ def collective_body_details(c_body_id):
 @main.route('/browse/collective-bodies/')
 def collective_bodies_list():
     page = request.args.get('page', 1, type=int)
-    responsibility_id = request.args.get(
-        'responsibility_id', None, type=int)
-    responsibility_name = None
+    responsibility_id, responsibility_name = get_responsibility_identifiers(
+        request.args.get('responsibility_id', None, type=int))
 
     if responsibility_id is not None:
-        def query():
-            responsibility = ResponsibilityName.query.filter_by(
-                id=responsibility_id).first_or_404()
-            nonlocal responsibility_name
-            responsibility_name = responsibility.responsibility_name
-
-            return db.session.query(CollectiveBody).select_from(
-                ResponsibilityCollectivity).filter(
+        query = db.session.query(CollectiveBody).select_from(
+            ResponsibilityCollectivity).filter(
+                ResponsibilityCollectivity \
+                .responsibility_id == responsibility_id).join(
+                    CollectiveBody,
                     ResponsibilityCollectivity \
-                    .responsibility_id == responsibility_id).join(
-                        CollectiveBody,
-                        ResponsibilityCollectivity \
-                        .collectivity_id == CollectiveBody.id)
-            
+                    .collectivity_id == CollectiveBody.id)
     else:
-        def query():
-            return CollectiveBody.query.order_by(
-                CollectiveBody.name)
+        query = CollectiveBody.query.order_by(
+            CollectiveBody.name)
 
-    pagination = query().paginate(
+    pagination = query.paginate(
         page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
         error_out=False)
 
-    if responsibility_name:
-        subtitle = f'Responsibility: {responsibility_name.capitalize()}'
-    else:
-        subtitle = 'Alphabetical order, ascending.'
-
     return render_template(
         'collective_bodies_list.html',
-        subtitle=subtitle,
+        subtitle=(f'Responsibility: {responsibility_name.capitalize()}' if
+                  responsibility_name else 'Alphabetical order, ascending.'),
         responsibility_id=responsibility_id,
         endpoint='.collective_bodies_list',
         pagination=pagination)
@@ -317,11 +277,31 @@ def document_types_list():
                            subtitle='Alphabetical order, ascending',
                            document_types=document_types)
 
-# @main.route('/browse/documents/')
-# def documents_list(query_fn=None):
-#     def default_query_fn():
-#         pass
-#     pass
+
+@main.route('/browse/documents/')
+def documents_list(query_fn=None):
+    entry_type = request.args.get('entry_type', None)
+    id_number = request.args.get('id_number', None)
+    kargs = None
+    subtitle = None
+
+    if entry_type == 'collective_body_subject':
+        collective_body = CollectiveBody.query.filter_by(
+            id=id_number).first_or_404()
+        query = collective_body.documents_topics
+        kargs = {'entry_type': 'collective_body_subject',
+                 'id_number' : id_number}
+        subtitle = f'''Documents where
+        <em>{collective_body.name}</em> is a subject.'''
+    else:
+        query = Document.query.order_by(Document.title_proper)
+
+    return render_template(
+        'list_of_items.html', kargs=kargs, subtitle=subtitle,
+        pagination=paginate(query),
+        title='List of the document titles from the database',
+        partial_template_name='_documents_list.html',
+        endpoint='.documents_list')
 
 
 @main.route('/search')

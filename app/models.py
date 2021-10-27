@@ -351,7 +351,7 @@ class DocumentType(db.Model, Lock):
     # Book, Article, Periodical, Series
 
     type_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(45), nullable=False)
+    name = db.Column(db.String(45), nullable=False) # + unique
     description = db.Column(db.String(200))
     modifiable = db.Column(db.Boolean, default=True)
 

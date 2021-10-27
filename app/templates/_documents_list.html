@@ -1,0 +1,9 @@
+{% for document in pagination.items %}
+  <a class="list-group-item list-group-item-action"
+     href="{{ url_for('.document_view', document_id=document.document_id) }}">
+     {{ document.title_proper }}
+     {% if document.document_type %}
+       ({{ document.document_type.name.capitalize() }})
+     {% endif %}
+  </a>
+{% endfor %}

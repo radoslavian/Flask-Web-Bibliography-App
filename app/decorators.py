@@ -24,4 +24,3 @@ def permission_required(permission):
 
 def admin_required(f):
     permission_required(Permissions.ADMIN)(f)
-

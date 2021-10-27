@@ -40,8 +40,12 @@
     <tr> 
       <td colspan="2">
 	Documents for which this collective body is a topic:
+	
 	{{ macros.see_list_badge(
-	collective_body.documents_topics) }}
+	collective_body.documents_topics,
+	endpoint='.documents_list',
+	entry_type='collective_body_subject',
+	id_number=collective_body.id) }}
       </td>
     </tr>
   </table>
