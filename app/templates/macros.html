@@ -138,7 +138,9 @@
 {% endmacro %}
 
 
-{% macro responsibilities_list(responsibilities) %}
+{% macro responsibilities_list(responsibilities,
+  by_entry_type=None, filter_type=None, id_number=None) %}
+  {% if False %} {{ kwargs }} {% endif %}
   {# List of (person, collective body) responsibilities #}
   {# with number of attached documents.#}
   <table class="table-sm responsibilities">
@@ -148,21 +150,32 @@
 	  {{ render_responsibility(responsibility) }}
 	</td>
 	<td>
-	  {{ see_list_badge(count=count,
-	  pre_title='documents:', post_title=None) }}
+	  {{ see_list_badge(
+	  count=count,
+	  pre_title='documents:',
+	  post_title=None,
+	  endpoint='.documents_list',
+	  by_entry_type=by_entry_type,
+	  filter_type=filter_type,
+	  id_number=id_number,
+	  responsibility_id=responsibility.id) }}
 	</td>
       </tr>
     {% endfor %}
   </table>
 {% endmacro %}
 
+
 {% macro see_list_badge(relationship=None, 
   endpoint=None, 
   count=None, 
-  badge_class="badge badge-dark", 
-  pre_title=None, post_title="&nbsp;-&nbsp;see&nbsp;list") %} 
-  {% if endpoint %}<a href="{{ url_for(endpoint, **kwargs) }}"> {% endif %} 
-  <span class="{{ badge_class }}"> 
+  badge_class="btn btn-outline-dark btn-sm",
+  pre_title=None, post_title="&nbsp;&mdash;&nbsp;see&nbsp;list") %}
+  {% set items_number = count or relationship.count() %}
+  {% if endpoint and items_number %}
+    <a href="{{ url_for(endpoint, **kwargs) }}"> {% endif %} 
+  <span class="{{ badge_class }}
+{% if not endpoint or not items_number %}disabled{% endif %}"> 
     {% if pre_title %} 
       {{ pre_title|safe }} 
     {% endif %} 
@@ -171,11 +184,11 @@
     {% elif relationship.count() %} 
       {{ relationship.count() }} 
     {% else %} 
-      {% set post_title = "empty list" %} 
+      {% set post_title = "0" %}
     {% endif %} 
     {% if post_title %} 
       {{ post_title|safe }} 
     {% endif %} 
   </span> 
-  {% if endpoint %} </a> {% endif %} 
+  {% if endpoint and items_number %} </a> {% endif %} 
 {% endmacro %} 

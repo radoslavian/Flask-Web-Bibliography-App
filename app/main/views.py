@@ -4,7 +4,7 @@
 __name__ = 'views'
 
 from . import main
-from flask import render_template
+from flask import render_template, abort
 from app import db
 from ..models import *
 from app.helpers import *
@@ -12,7 +12,6 @@ from app.helpers import *
 @main.route('/browse/people/')
 def browse_people():
     '''Displays list of people - individual record authorities.
-    Route for 
     '''
     responsibility_id, responsibility_name = get_responsibility_identifiers(
         request.args.get('responsibility_id', None, type=int))
@@ -279,25 +278,90 @@ def document_types_list():
 
 
 @main.route('/browse/documents/')
-def documents_list(query_fn=None):
-    entry_type = request.args.get('entry_type', None)
-    id_number = request.args.get('id_number', None)
-    kargs = None
+def documents_list():
+    search_parameters = {}
+    # source entry for document list (collective body, person etc.)
+    search_parameters['by_entry_type'] = request.args.get(
+        'by_entry_type', None)
+    search_parameters['filter_type'] = request.args.get(
+        'filter_type', None)
+    search_parameters['id_number'] = request.args.get(
+        'id_number', None, type=int)
+    (search_parameters['responsibility_id'],
+     responsibility_name) = get_responsibility_identifiers(request.args.get(
+         'responsibility_id', None, type=int))
     subtitle = None
 
-    if entry_type == 'collective_body_subject':
+    if search_parameters['by_entry_type'] == 'collective_body':
+        # collective-body search
+
         collective_body = CollectiveBody.query.filter_by(
-            id=id_number).first_or_404()
-        query = collective_body.documents_topics
-        kargs = {'entry_type': 'collective_body_subject',
-                 'id_number' : id_number}
-        subtitle = f'''Documents where
-        <em>{collective_body.name}</em> is a subject.'''
+            id=search_parameters['id_number']).first_or_404()
+        if search_parameters['filter_type'] == 'by_subject':
+            # collective body as a subject
+
+            query = collective_body.documents_topics
+            subtitle = f'''Documents where collective body
+            <em>{collective_body.name}</em> is a subject.'''
+        elif search_parameters['filter_type'] == 'by_responsibility':
+            # collective body as a responsibility
+
+            # czy tą kwerendę da się poprawić?
+            query = db.session.query(Document).select_from(
+                ResponsibilityCollectivity).filter(
+                    ResponsibilityCollectivity \
+                    .responsibility_id == search_parameters[
+                        'responsibility_id']
+                ).join(Document,
+                       ResponsibilityCollectivity \
+                       .document_id == Document.document_id).filter(
+                           ResponsibilityCollectivity.collectivity_id \
+                           == search_parameters['id_number'])
+            subtitle = f'''Documents where collective body
+            <em>{collective_body.name}</em> holds responsibility -
+            <em>{responsibility_name}</em>:'''
+        else:
+            # w razie błędnego URL zawsze powinno wyświetlać 404
+            abort(404)
+    elif search_parameters['by_entry_type'] == 'person':
+        person = Person.query.filter_by(
+            person_id=search_parameters['id_number']).first_or_404()
+
+        if search_parameters['filter_type'] == 'by_subject':
+            # person as a subject list
+            query = person.documents_topics
+            subtitle = f'''Documents where an individual name
+            <em>{person.forenames} {person.last_name}</em> is a subject.'''
+
+        elif search_parameters['filter_type'] == 'by_responsibility':
+            query = db.session.query(Document).select_from(
+                ResponsibilityPerson).filter(
+                    ResponsibilityPerson \
+                    .responsibility_id == search_parameters[
+                        'responsibility_id']
+                ).join(Document,
+                       ResponsibilityPerson \
+                       .document_id == Document.document_id).filter(
+                           ResponsibilityPerson.person_id \
+                           == search_parameters['id_number'])
+            subtitle = f'''Documents where <em>{person.forenames}
+            {person.last_name}</em> holds responsibility:
+            <em>{responsibility_name}</em>.'''
     else:
-        query = Document.query.order_by(Document.title_proper)
+        # jeżeli nie ma entry_type, zawsze będzie tu wpadać
+        # a powinno być abort()
+        # z czego wniosek - wzorzec dopasowania trzeba będzie rozpisać
+        # na diagramie i poprawić
+
+        # at this point, search parameters should be reset to None
+        # otherwise, if keys exist, they would appear in a page
+        # URL
+        search_parameters = None
+        query = Document.query
+    query = query.order_by(Document.title_proper)
 
     return render_template(
-        'list_of_items.html', kargs=kargs, subtitle=subtitle,
+        'list_of_items.html', kargs=search_parameters, subtitle=subtitle,
         pagination=paginate(query),
         title='List of the document titles from the database',
         partial_template_name='_documents_list.html',

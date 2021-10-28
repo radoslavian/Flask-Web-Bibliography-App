@@ -29,11 +29,13 @@
 	<td>
 	  Collective body's responsibilities in documents:
 	</td>
-
-	{# Later add hyperlinks #}
 	<td>
 	  {{ macros.responsibilities_list(
-	  collective_body.responsibilities_list) }}
+	  collective_body.responsibilities_list,
+	  id_number=collective_body.id,
+	  filter_type='by_responsibility',
+	  endpoint='.documents_list',
+	  by_entry_type='collective_body') }}
 	  </td>
       </tr>
     {% endif %}
@@ -43,9 +45,10 @@
 	
 	{{ macros.see_list_badge(
 	collective_body.documents_topics,
+	id_number=collective_body.id,
+	filter_type='by_subject',
 	endpoint='.documents_list',
-	entry_type='collective_body_subject',
-	id_number=collective_body.id) }}
+	by_entry_type='collective_body') }}
       </td>
     </tr>
   </table>

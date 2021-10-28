@@ -46,7 +46,10 @@
       <td>
 	{% if person_record.responsibilities_list %}
 	  {{ macros.responsibilities_list(
-	  person_record.responsibilities_list) }}
+	  person_record.responsibilities_list,
+	  filter_type='by_responsibility',
+	  by_entry_type='person',
+	  id_number=person_record.person_id) }}
 	{% endif %}
       </td>
     </tr>
@@ -54,7 +57,11 @@
       <td colspan="2">
 	Documents for which this person is a topic:
 	{{ macros.see_list_badge(
-	person_record.documents_topics) }}
+	person_record.documents_topics,
+	id_number=person_record.person_id,
+	filter_type='by_subject',
+	endpoint='.documents_list',
+	by_entry_type='person') }}
       </td>
     </tr>
   </table>
