@@ -114,6 +114,22 @@ def _entity_list(model, max_repetition=4):
     return entities
 
 
+def add_language_subjects(document, max_number):
+    '''Adds languages as document subjects.
+    '''
+    i = 0
+    while i < randint(1, max_number):
+        language_subject = Language.query.order_by(func.random()).first()
+        document.language_subjects.append(language_subject)
+        db.session.add(document)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            continue
+        i += 1
+
+
 def documents(count=1):
     # opis:
     # Losuje typ dokumentu
@@ -141,9 +157,8 @@ def documents(count=1):
 
     while i < count:
         document = Document()
-        for _ in range(0, randint(0, MAX_REPETITION_NUMBER+1)):
-            language_subject = Language.query.order_by(func.random()).first()
-            document.language_subjects.append(language_subject)
+        add_language_subjects(document, 4)
+
         document_type = DocumentType.query.order_by(func.random()).first()
         if document_type.name == 'article':
             periodical = DocumentType.query.filter_by(

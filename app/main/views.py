@@ -6,6 +6,7 @@ __name__ = 'views'
 from . import main
 from flask import render_template, abort
 from app import db
+from app import queries
 from ..models import *
 from app.helpers import *
 
@@ -24,19 +25,7 @@ def browse_people():
                     Person,
                     ResponsibilityPerson.person_id == Person.person_id)
     else:
-        people = ResponsibilityPerson.query.with_entities(
-            Person.person_id,
-            Person.forenames,
-            Person.last_name,
-            Person.life_years)
-        name_variants = PersonNameVariant.query.with_entities(
-            PersonNameVariant.variant_id,
-            PersonNameVariant.first_name_variant,
-            PersonNameVariant.last_name_variant,
-            db.literal('name_variant'))
-
-        query = people.union_all(name_variants).order_by(
-            Person.last_name.asc(), Person.forenames.asc())
+        query = queries.list_people_name_variants()
 
     return render_template(
         'people_list.html',
@@ -237,17 +226,13 @@ def collective_bodies_list():
         query = CollectiveBody.query.order_by(
             CollectiveBody.name)
 
-    pagination = query.paginate(
-        page, per_page=current_app.config['LIST_ENTRIES_PER_PAGE'],
-        error_out=False)
-
     return render_template(
         'collective_bodies_list.html',
         subtitle=(f'Responsibility: {responsibility_name.capitalize()}' if
                   responsibility_name else 'Alphabetical order, ascending.'),
         responsibility_id=responsibility_id,
         endpoint='.collective_bodies_list',
-        pagination=pagination)
+        pagination=paginate(query))
 
 
 @main.route('/browse/document-types/id=<type_id>')
