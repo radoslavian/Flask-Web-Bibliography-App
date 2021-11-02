@@ -1,9 +1,27 @@
-{% for document in pagination.items %}
-  <a class="list-group-item list-group-item-action"
-     href="{{ url_for('.document_view', document_id=document.document_id) }}">
-     {{ document.title_proper }}
-     {% if document.document_type %}
-       ({{ document.document_type.name.capitalize() }})
-     {% endif %}
-  </a>
-{% endfor %}
+{% from "bootstrap/form.html" import render_form %}
+{% block list_items %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+	<form method="POST">
+	  <div class="form-group">
+	    <h5>Display documents of the following types:</h5>
+	    {{ render_form(document_types, method="GET") }}
+	  </div>
+	</form>
+      </div>
+      <div class="col-md-8 list-group">
+	{% for document in pagination.items %}
+	  <a class="list-group-item list-group-item-action"
+	     href="{{ url_for('.document_view',
+	     document_id=document.document_id) }}">
+	     {{ document.title_proper }}
+	    {% if document.document_type %}
+	      ({{ document.document_type.name.capitalize() }})
+	    {% endif %}
+	  </a>
+	{% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

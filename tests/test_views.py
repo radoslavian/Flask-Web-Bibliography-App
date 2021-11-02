@@ -120,7 +120,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(names_count_from_query,
                          TestApp.PersonNames(self.client).main_loop())
 
-        # check if each item in the list of names and name variants
+        # check if each item from the list of names and name variants
         # appears only once
         name_and_variant_urls = TestApp.NamesVariantsList(
             client=self.client).main_loop()

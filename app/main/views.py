@@ -262,8 +262,35 @@ def document_types_list():
                            document_types=document_types)
 
 
-@main.route('/browse/documents/')
+from flask_wtf import FlaskForm
+from wtforms import BooleanField, SubmitField
+
+def get_type_ids(document_types_form):
+    '''Returns dictionary of DocumentType ids with values (True/False)
+    from document_list.SelectDocumentTypes form.
+    '''
+    document_types_ids = {}
+    for fieldname, value in document_types_form.data.items():
+        field_id = str(getattr(document_types_form, fieldname).id)
+        if field_id.isnumeric():
+            # {'1': True, ...}
+            document_types_ids[field_id] = value
+    return document_types_ids
+
+
+@main.route('/browse/documents/', methods=['GET', 'POST'])
 def documents_list():
+    class SelectDocumentTypes(FlaskForm):
+        for doc in DocumentType.query.order_by(
+                DocumentType.name).all():
+            locals()[f'doctype_{doc.type_id}'] = BooleanField(
+                doc.name.capitalize(), id=doc.type_id,
+                default='checked')
+        submit = SubmitField('Apply filter')
+
+    document_types_form = SelectDocumentTypes()
+    document_types_ids = get_type_ids(document_types_form)
+
     search_parameters = {}
     # source entry for document list (collective body, person etc.)
     search_parameters['by_entry_type'] = request.args.get(
@@ -343,11 +370,16 @@ def documents_list():
         # URL
         search_parameters = None
         query = Document.query
+
+    if not all(v for v in document_types_ids.values()):
+        query = query.filter(Document.document_type_id.in_(
+            k for k, v in document_types_ids.items() if v))
     query = query.order_by(Document.title_proper)
 
     return render_template(
         'list_of_items.html', kargs=search_parameters, subtitle=subtitle,
         pagination=paginate(query),
+        document_types=document_types_form,
         title='List of the document titles from the database',
         partial_template_name='_documents_list.html',
         endpoint='.documents_list')
