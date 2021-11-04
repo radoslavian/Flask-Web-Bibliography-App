@@ -4,7 +4,7 @@
 __name__ = 'views'
 
 from . import main
-from flask import render_template, abort
+from flask import abort, render_template, session, redirect, url_for
 from app import db
 from app import queries
 from ..models import *
@@ -269,13 +269,12 @@ def get_type_ids(document_types_form):
     '''Returns dictionary of DocumentType ids with values (True/False)
     from document_list.SelectDocumentTypes form.
     '''
-    document_types_ids = {}
+    selected_doc_types_ids = []
     for fieldname, value in document_types_form.data.items():
         field_id = str(getattr(document_types_form, fieldname).id)
-        if field_id.isnumeric():
-            # {'1': True, ...}
-            document_types_ids[field_id] = value
-    return document_types_ids
+        if field_id.isnumeric() and value:
+            selected_doc_types_ids.append(int(field_id))
+    return selected_doc_types_ids
 
 
 @main.route('/browse/documents/', methods=['GET', 'POST'])
@@ -283,13 +282,24 @@ def documents_list():
     class SelectDocumentTypes(FlaskForm):
         for doc in DocumentType.query.order_by(
                 DocumentType.name).all():
+            # ten fragment może doprowadzić do nieprzewidzianego
+            # zachowania
+            selected_doc_types_ids =  session.get('selected_doc_types_ids')
             locals()[f'doctype_{doc.type_id}'] = BooleanField(
                 doc.name.capitalize(), id=doc.type_id,
-                default='checked')
+                default='checked' if doc.type_id in
+                selected_doc_types_ids else '')
         submit = SubmitField('Apply filter')
 
+    start_page = 0
     document_types_form = SelectDocumentTypes()
-    document_types_ids = get_type_ids(document_types_form)
+    session['selected_doc_types_ids'] = get_type_ids(document_types_form)
+    if session.get(
+            'prev_selected_doc_types_ids') != session.get(
+                'selected_doc_types_ids'):
+        start_page = 1
+        session['prev_selected_doc_types_ids'] = session.get(
+            'selected_doc_types_ids')
 
     search_parameters = {}
     # source entry for document list (collective body, person etc.)
@@ -368,17 +378,24 @@ def documents_list():
         # at this point, search parameters should be reset to None
         # otherwise, if keys exist, they would appear in a page
         # URL
-        search_parameters = None
+        search_parameters = {}
         query = Document.query
 
-    if not all(v for v in document_types_ids.values()):
+    if len(session.get(
+            'selected_doc_types_ids')) != DocumentType.query.count():
         query = query.filter(Document.document_type_id.in_(
-            k for k, v in document_types_ids.items() if v))
+            session.get('selected_doc_types_ids')))
     query = query.order_by(Document.title_proper)
+    kargs = search_parameters
+
+    if request.method == 'POST':
+        return redirect(url_for('.documents_list', **kargs))
 
     return render_template(
-        'list_of_items.html', kargs=search_parameters, subtitle=subtitle,
-        pagination=paginate(query),
+        'list_of_items.html',
+        kargs=kargs,
+        subtitle=subtitle,
+        pagination=paginate(query, start_page=start_page),
         document_types=document_types_form,
         title='List of the document titles from the database',
         partial_template_name='_documents_list.html',

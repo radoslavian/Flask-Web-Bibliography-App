@@ -23,28 +23,6 @@ class TestApp(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def count_person_names(self, max_iteration_count=2000):
-        '''Counts entries (names and name variants) from
-        the browse_people() /browse/people/ route (values for
-        every page).
-        '''
-        while True:
-            if page_num > max_iteration_count:
-                raise ValueError(f'max_iteration_count '
-                                 '({max_iteration_count} exceeded.')
-
-            response = self.client.get(f'/browse/people/?page={page_num}')
-            if response.status_code != 200:
-                break
-            response_text = response.get_data(as_text=True)
-            people_names_number += len(re.findall(
-                'href="/browse/people/id', response_text))
-            name_variants_number += len(re.findall(
-                'href="/browse/people/name-variants/', response_text))
-            page_num += 1
-
-        return people_names_number + name_variants_number
-
     # pomyśleć o lepszych nazwach metod i klas
     class Counter:
         '''Helper abstract class for testing /browse/people/
@@ -95,20 +73,11 @@ class TestApp(unittest.TestCase):
                 r'href="/browse/people/name-variants/id.*',
                 self.response_text))
 
-
     def test_person_name_list(self):
         '''Test for basic (with no additional parameters)
         /browse/people/ route.
         '''
-        Role.insert_roles()
-        DocumentType.add_basic_document_types()
-        ResponsibilityName.add_basic_responsibilities()
         fake.people(30)
-        fake.geographic_locations(10)
-        fake.collective_bodies(10)
-        fake.keywords(10)
-        Language.add_languages(10)
-        fake.documents(10)
 
         # check if the route exists:
         response = self.client.get('/browse/people/')
