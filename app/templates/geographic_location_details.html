@@ -37,7 +37,11 @@
 	</td>
 	<td>
 	  {{ macros.see_list_badge(
-	  location.document_publication_place) }}
+	  location.document_publication_place,
+	  id_number=location.location_id,
+	  by_entry_type='geographic_location',
+	  filter_type='by_publication_place',
+	  endpoint='.documents_list') }}
 	</td>
       </tr>
     {% endif %}
@@ -47,7 +51,12 @@
 	    Number of documents for which this location is a topic:
 	</td>
 	<td>
-	  {{ macros.see_list_badge(location.documents_topics) }}
+	  {{ macros.see_list_badge(
+	  location.documents_topics,
+	  id_number=location.location_id,
+	  by_entry_type='geographic_location',
+	  filter_type='by_subject',
+	  endpoint='.documents_list') }}
 	</td>
       </tr>
     {% endif %}

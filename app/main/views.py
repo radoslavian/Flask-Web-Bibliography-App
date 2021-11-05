@@ -284,22 +284,22 @@ def documents_list():
                 DocumentType.name).all():
             # ten fragment może doprowadzić do nieprzewidzianego
             # zachowania
-            selected_doc_types_ids =  session.get('selected_doc_types_ids')
+            selected_doc_types_ids = request.args.getlist(
+                'type_id', type=int)
             locals()[f'doctype_{doc.type_id}'] = BooleanField(
                 doc.name.capitalize(), id=doc.type_id,
                 default='checked' if doc.type_id in
-                selected_doc_types_ids else '')
+                selected_doc_types_ids
+                or not selected_doc_types_ids else '')
         submit = SubmitField('Apply filter')
 
     start_page = 0
-    document_types_form = SelectDocumentTypes()
-    session['selected_doc_types_ids'] = get_type_ids(document_types_form)
+    document_types_form = SelectDocumentTypes(id='myform')
+    selected_doc_types_ids = get_type_ids(document_types_form)
     if session.get(
-            'prev_selected_doc_types_ids') != session.get(
-                'selected_doc_types_ids'):
+            'prev_selected_doc_types_ids') != selected_doc_types_ids:
         start_page = 1
-        session['prev_selected_doc_types_ids'] = session.get(
-            'selected_doc_types_ids')
+        session['prev_selected_doc_types_ids'] = selected_doc_types_ids
 
     search_parameters = {}
     # source entry for document list (collective body, person etc.)
@@ -369,6 +369,46 @@ def documents_list():
             subtitle = f'''Documents where <em>{person.forenames}
             {person.last_name}</em> holds responsibility:
             <em>{responsibility_name}</em>.'''
+
+    elif search_parameters['by_entry_type'] == 'geographic_location':
+        geographic_location = GeographicLocation.query.filter_by(
+            location_id=search_parameters['id_number']).first_or_404()
+
+        if search_parameters['filter_type'] == 'by_publication_place':
+            query = geographic_location.document_publication_place
+            subtitle = f'''Documents published in
+            <em>{geographic_location.name}:</em>'''
+        elif search_parameters['filter_type'] == 'by_subject':
+            query = geographic_location.documents_topics
+            subtitle = f'''Documents where <em>{geographic_location.name}
+            </em> is a subject:'''
+
+    elif search_parameters['by_entry_type'] == 'subject_keyword':
+        keyword_entry = Keyword.query.filter_by(
+            id=search_parameters['id_number']).first_or_404()
+        query = keyword_entry.documents
+        subtitle = f'''Documents where keyword
+        <em>{keyword_entry.keyword}</em> is a subject:'''
+
+    elif search_parameters['by_entry_type'] == 'language':
+        language = Language.query.filter_by(
+            language_id=search_parameters['id_number']).first_or_404()
+
+        if search_parameters['filter_type'] == 'by_publication_language':
+            query = language.documents
+            subtitle = f'''Documents published in
+            <em>language.language_name</em> language:'''
+
+        elif search_parameters['filter_type'] == 'by_original_language':
+            query = language.documents_original_lang
+            subtitle = f'''Documents for which
+            <em>language.language_name</em> is an original language:'''
+
+        elif search_parameters['filter_type'] == 'by_topic':
+            query = language.documents_topics
+            subtitle = f'''Documents where
+            <em>language.language_name</em> language is a topic:'''
+
     else:
         # jeżeli nie ma entry_type, zawsze będzie tu wpadać
         # a powinno być abort()
@@ -381,13 +421,15 @@ def documents_list():
         search_parameters = {}
         query = Document.query
 
-    if len(session.get(
-            'selected_doc_types_ids')) != DocumentType.query.count():
+    if len(selected_doc_types_ids) != DocumentType.query.count():
         query = query.filter(Document.document_type_id.in_(
-            session.get('selected_doc_types_ids')))
+            selected_doc_types_ids))
     query = query.order_by(Document.title_proper)
-    kargs = search_parameters
+    kargs = {**search_parameters,
+             'type_id': selected_doc_types_ids}
 
+    # mieli wszystkie kwerendy, żeby na końcu zrobić
+    # przekierowanie
     if request.method == 'POST':
         return redirect(url_for('.documents_list', **kargs))
 

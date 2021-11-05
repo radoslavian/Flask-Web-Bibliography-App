@@ -3,12 +3,10 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-4">
-	<form method="POST">
-	  <div class="form-group">
-	    <h5>Display documents of the following types:</h5>
-	    {{ render_form(document_types, method="GET") }}
-	  </div>
-	</form>
+	<div class="form-group">
+	  <h5>Display documents of the following types:</h5>
+    {{ render_form(document_types, id="select_doc_type") }}
+	</div>
       </div>
       <div class="col-md-8 list-group">
 	{% for document in pagination.items %}
@@ -24,4 +22,16 @@
       </div>
     </div>
   </div>
+    <script type="application/javascript">
+    let checkboxes = document.querySelectorAll(
+	'#select_doc_type input[type=checkbox]');
+for(checkbox of checkboxes) {
+    checkbox.addEventListener('click', function(event) {
+	if(document.querySelectorAll(
+	    '#select_doc_type input[type=checkbox]:checked').length < 1) {
+	    event.preventDefault();
+	}
+    })
+}
+</script>
 {% endblock %}

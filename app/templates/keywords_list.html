@@ -5,8 +5,13 @@
       <li class="h5 list-group-item-action d-flex
 		 justify-content-between align-items-center">
 	{{ macros.render_keyword(keyword) }}
-	{{ macros.see_list_badge(keyword.documents,
-	pre_title='documents:&nbsp', post_title=None) }}
+	{{ macros.see_list_badge(
+		 keyword.documents,
+		 pre_title='documents:&nbsp',
+		 post_title=None,
+		 by_entry_type='subject_keyword',
+		 id_number=keyword.id,
+		 endpoint='.documents_list') }}
       </li>
     {% endfor %}
   </ul>

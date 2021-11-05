@@ -63,7 +63,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="82" RULE="ON_BRANCH_CREATION"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="84" RULE="ON_BRANCH_CREATION"/>
 <node TEXT="ustalić parametry dla wszystkich odsyłaczy (do listy dokumentów); wpisać to na diagramie interakcji (jednym)" POSITION="right" ID="ID_384302744" CREATED="1635365989602" MODIFIED="1636035723318">
 <icon BUILTIN="button_ok"/>
 <font BOLD="false"/>
@@ -284,16 +284,9 @@
 <edge COLOR="#7c7c00"/>
 <node TEXT="na podstawie diagramów" ID="ID_929126477" CREATED="1634072116928" MODIFIED="1634072125055"/>
 </node>
-<node TEXT="testy dla widoków" POSITION="right" ID="ID_665735923" CREATED="1633631241937" MODIFIED="1636035723371">
-<edge COLOR="#ff0000"/>
-</node>
 <node TEXT="kolejność pracy" POSITION="right" ID="ID_1868652500" CREATED="1633981398760" MODIFIED="1636035723371">
 <edge COLOR="#0000ff"/>
 <node TEXT="Sprawy zw. z użytkownikami - na końcu." ID="ID_1178698675" CREATED="1633981405529" MODIFIED="1633981423147"/>
-</node>
-<node TEXT="bugtracker" POSITION="right" ID="ID_524977360" CREATED="1634300796153" MODIFIED="1636035723372">
-<edge COLOR="#00ff00"/>
-<node TEXT="Login manager nie działa" ID="ID_1314422306" CREATED="1633631167236" MODIFIED="1633631171445"/>
 </node>
 <node TEXT="dodać osobną trasę z listą linków prowadzących do rekordów które można przeglądać (&quot;browse&quot;) - szczegóły w diagramach widoków" POSITION="right" ID="ID_1229959108" CREATED="1634135358907" MODIFIED="1636035723373">
 <edge COLOR="#ff00ff"/>
@@ -1155,40 +1148,9 @@
 <edge COLOR="#ff0000"/>
 <node TEXT="zaprojektować listę dokumentów" ID="ID_27005830" CREATED="1634932507217" MODIFIED="1635505194090">
 <font BOLD="false"/>
-<node TEXT="Jak resetować filtr dokumentów (w widoku listy dokumentów) przy przechodzeniu między stronami? (jeżeli nie jest to paginacja)." ID="ID_1510763130" CREATED="1636040460608" MODIFIED="1636041238857">
+<node TEXT="dopisywać kolejne kwerendy (wg. schematu interakcji) wraz z testami tych tras: każda nowa kwerenda - test" ID="ID_1716623346" CREATED="1635975150407" MODIFIED="1636105612221">
 <font BOLD="true"/>
-<node TEXT="Ręcznie poprzez przycisk na stronie" ID="ID_1640878452" CREATED="1636041227412" MODIFIED="1636041235484"/>
-<node TEXT="zapisać argumenty kargs - jeżeli się różnią," ID="ID_1873386970" CREATED="1636041467663" MODIFIED="1636041485993"/>
-<node TEXT="zapisanie id typów dokumentów w URL" ID="ID_847683826" CREATED="1636041903672" MODIFIED="1636041917426"/>
 </node>
-<node TEXT="Jak aplikacja ma zachowywać pozycje które były zaznaczone na liście typów dokumentów (formularzu) przy przechodzeniu pomiędzy stronami paginacji?" ID="ID_423374964" CREATED="1635878017947" MODIFIED="1636039906084">
-<font BOLD="false"/>
-<node TEXT="" ID="ID_658749521" CREATED="1635879002592" MODIFIED="1635879002593">
-<hook NAME="FirstGroupNode"/>
-</node>
-<node TEXT="użycie jakichś obiektów globalnych?" ID="ID_823816640" CREATED="1635880005749" MODIFIED="1635880006580">
-<node TEXT="session" ID="ID_321620381" CREATED="1635880620203" MODIFIED="1636039904778">
-<font BOLD="false"/>
-<node TEXT="ciastka mogę kasować przy wejściu na stronę - jeżeli w url nie ma ?page= (chyba przy pomocy JS)" ID="ID_575133979" CREATED="1635886036355" MODIFIED="1635886068468"/>
-</node>
-</node>
-<node TEXT="Po stronie serwera." ID="ID_1692476151" CREATED="1635878776837" MODIFIED="1635878782111"/>
-<node TEXT="Po stronie przeglądarki: ciastka." ID="ID_1136742078" CREATED="1635878783314" MODIFIED="1635878791571"/>
-<node TEXT="" ID="ID_459123520" CREATED="1635879002568" MODIFIED="1635879002592">
-<hook NAME="SummaryNode"/>
-<hook NAME="AlwaysUnfoldedNode"/>
-<node TEXT="nie można odróżnić przejść między stronami przy pomocy dolnej paginacji od wyjścia ze strony - przez co zaznaczenia zostaną zapamiętane nawet jak wrócę tam po pewnym czasie (a powinny zostać zapamiętane tylko kiedy przechodzę pomiędzy stronami przy pomocy dolnej paginacji)" ID="ID_1538447759" CREATED="1635879002593" MODIFIED="1635879188369"/>
-</node>
-<node TEXT="Użycie AJAX-a" ID="ID_40865297" CREATED="1635878974732" MODIFIED="1635878980250">
-<node TEXT="wymagałoby przebudowy paginacji" ID="ID_957130091" CREATED="1635878980284" MODIFIED="1635878985745"/>
-<node TEXT="mogę to zrobić w późniejszej wersji" ID="ID_26862344" CREATED="1635879216787" MODIFIED="1635879224692"/>
-</node>
-<node TEXT="Użycie metody GET i czytanie URL" ID="ID_1982594876" CREATED="1635880083888" MODIFIED="1635880145660">
-<node TEXT="będzie przesyłało tokeny etc." ID="ID_792435614" CREATED="1635880237791" MODIFIED="1635880245658"/>
-<node TEXT="Czy da się w ten sposób przesłać tylko część danych?" ID="ID_1327428292" CREATED="1635880245854" MODIFIED="1635880257991"/>
-</node>
-</node>
-<node TEXT="dopisywać kolejne kwerendy (wg. schematu interakcji) wraz z testami tych tras: każda nowa kwerenda - test" ID="ID_1716623346" CREATED="1635975150407" MODIFIED="1635975210562"/>
 <node TEXT="poprawić funkcję wyświetlającą listę dokumentów i kwerendy w niej (refactoring)" ID="ID_1195185219" CREATED="1635874224975" MODIFIED="1635877994293">
 <node TEXT="które elementy w funkcji wyświetlającej listę dokumentów będą się powtarzały - do klasy abstrakcyjnej" ID="ID_238175533" CREATED="1635854646578" MODIFIED="1635860243486">
 <font BOLD="false"/>
@@ -1314,12 +1276,76 @@
 <icon BUILTIN="button_ok"/>
 <font BOLD="false"/>
 </node>
+<node TEXT="Jak resetować filtr dokumentów (w widoku listy dokumentów) przy przechodzeniu między stronami? (jeżeli nie jest to paginacja)." ID="ID_1510763130" CREATED="1636040460608" MODIFIED="1636051330629">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="zapisanie id typów dokumentów w URL" ID="ID_847683826" CREATED="1636041903672" MODIFIED="1636043364280">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Żeby to wszystko elegancko wyglądało, po stronie przeglądarki trzeba pilnować, żeby przynajmniej jeden checkbox pozostał zaznaczony." ID="ID_1087498474" CREATED="1636043616103" MODIFIED="1636051303425">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Ręcznie poprzez przycisk na stronie" ID="ID_1640878452" CREATED="1636041227412" MODIFIED="1636041235484"/>
+<node TEXT="zapisać argumenty kargs - jeżeli się różnią," ID="ID_1873386970" CREATED="1636041467663" MODIFIED="1636041485993"/>
+</node>
+<node TEXT="Jak aplikacja ma zachowywać pozycje które były zaznaczone na liście typów dokumentów (formularzu) przy przechodzeniu pomiędzy stronami paginacji?" ID="ID_423374964" CREATED="1635878017947" MODIFIED="1636051930161">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="" ID="ID_658749521" CREATED="1635879002592" MODIFIED="1635879002593">
+<hook NAME="FirstGroupNode"/>
+</node>
+<node TEXT="Po stronie serwera." ID="ID_1692476151" CREATED="1635878776837" MODIFIED="1635878782111">
+<node TEXT="użycie jakichś obiektów globalnych?" ID="ID_823816640" CREATED="1635880005749" MODIFIED="1636051927891">
+<icon BUILTIN="button_ok"/>
+<node TEXT="session" ID="ID_321620381" CREATED="1635880620203" MODIFIED="1636039904778">
+<font BOLD="false"/>
+<node TEXT="ciastka mogę kasować przy wejściu na stronę - jeżeli w url nie ma ?page= (chyba przy pomocy JS)" ID="ID_575133979" CREATED="1635886036355" MODIFIED="1635886068468"/>
+</node>
+<node TEXT="id w URL-ach" ID="ID_812299628" CREATED="1636051917821" MODIFIED="1636051922375"/>
+</node>
+</node>
+<node TEXT="Po stronie przeglądarki: ciastka." ID="ID_1136742078" CREATED="1635878783314" MODIFIED="1635878791571"/>
+<node TEXT="" ID="ID_459123520" CREATED="1635879002568" MODIFIED="1635879002592">
+<hook NAME="SummaryNode"/>
+<hook NAME="AlwaysUnfoldedNode"/>
+<node TEXT="nie można odróżnić przejść między stronami przy pomocy dolnej paginacji od wyjścia ze strony - przez co zaznaczenia zostaną zapamiętane nawet jak wrócę tam po pewnym czasie (a powinny zostać zapamiętane tylko kiedy przechodzę pomiędzy stronami przy pomocy dolnej paginacji)" ID="ID_1538447759" CREATED="1635879002593" MODIFIED="1635879188369"/>
+</node>
+<node TEXT="Użycie AJAX-a" ID="ID_40865297" CREATED="1635878974732" MODIFIED="1635878980250">
+<node TEXT="wymagałoby przebudowy paginacji" ID="ID_957130091" CREATED="1635878980284" MODIFIED="1635878985745"/>
+<node TEXT="mogę to zrobić w późniejszej wersji" ID="ID_26862344" CREATED="1635879216787" MODIFIED="1635879224692"/>
+</node>
+<node TEXT="Użycie metody GET i czytanie URL" ID="ID_1982594876" CREATED="1635880083888" MODIFIED="1635880145660">
+<node TEXT="będzie przesyłało tokeny etc." ID="ID_792435614" CREATED="1635880237791" MODIFIED="1635880245658"/>
+<node TEXT="Czy da się w ten sposób przesłać tylko część danych?" ID="ID_1327428292" CREATED="1635880245854" MODIFIED="1635880257991"/>
+</node>
+</node>
+</node>
+<node TEXT="ciała zbiorowe -&gt; ozn.odpowiedzialności-&gt;brak id ozn. odp:" ID="ID_174201013" CREATED="1636109182178" MODIFIED="1636109203474">
+<node TEXT="Nie powinno to mieć miejsca: Documents where collective body Baker, Trevino and Bennett holds responsibility - None:" ID="ID_962111098" CREATED="1636109203480" MODIFIED="1636109212685"/>
 </node>
 <node TEXT="napisać testy" ID="ID_1252667547" CREATED="1634676737843" MODIFIED="1634931662537" LINK="#ID_1401736301">
-<node TEXT="widoki" FOLDED="true" ID="ID_773548487" CREATED="1635973028732" MODIFIED="1635973032233">
-<node TEXT="dla wszystkich" ID="ID_725839855" CREATED="1635973383808" MODIFIED="1635973386625">
-<node TEXT="sprawdzić czy wyskakują pod określonymi trasami strony (200)" ID="ID_1066228768" CREATED="1634720912962" MODIFIED="1635973418532"/>
-<node TEXT="czy w wypadku podania błędnej trasy (np. id poza zakresem) wyskakuje 404" ID="ID_1622901513" CREATED="1634720925029" MODIFIED="1634720942308"/>
+<node TEXT="widoki" ID="ID_773548487" CREATED="1635973028732" MODIFIED="1635973032233">
+<node TEXT="Ogólne:" ID="ID_1559895521" CREATED="1636062494667" MODIFIED="1636062600448">
+<font BOLD="true"/>
+<node TEXT="wyszukiwanie terminu na liście" ID="ID_1313177677" CREATED="1636062498799" MODIFIED="1636062504960">
+<node TEXT="losowanie, np. osoby z bd, wyszukiwanie tej osoby na liście (za każdym uruchomieniem testu będzie to inny rekord) - potwierdzenie, że element ten wystąpił tylko raz" ID="ID_1617432788" CREATED="1636062504968" MODIFIED="1636063453618">
+<node TEXT="ciała zbiorowe" ID="ID_502291863" CREATED="1636063387543" MODIFIED="1636065436066">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="osoby" ID="ID_1715702780" CREATED="1636063390949" MODIFIED="1636065538287">
+<icon BUILTIN="button_cancel"/>
+<node TEXT="przetestowane w inny sposób" ID="ID_251116527" CREATED="1636065539500" MODIFIED="1636065545513"/>
+</node>
+<node TEXT="warianty nazwy osoby" ID="ID_1309235139" CREATED="1636063473651" MODIFIED="1636063480470"/>
+<node TEXT="ozn. odpowiedzialności" ID="ID_1591984271" CREATED="1636063403030" MODIFIED="1636063409918"/>
+<node TEXT="typy dokumentów" ID="ID_940734132" CREATED="1636063410373" MODIFIED="1636063415715"/>
+<node TEXT="lista dokumentów" ID="ID_814705851" CREATED="1636063418743" MODIFIED="1636063421984"/>
+<node TEXT="lokalizacje geograficzne" ID="ID_918587485" CREATED="1636063422581" MODIFIED="1636063428554"/>
+<node TEXT="lista języków" ID="ID_1784760849" CREATED="1636063429014" MODIFIED="1636063433760"/>
+<node TEXT="słowa kluczowe" ID="ID_564128013" CREATED="1636063459879" MODIFIED="1636063467823"/>
+</node>
+</node>
+<node TEXT="sprawdzić czy url_for z odpowiednimi argumentami zwróci taki sam url jak te na stronach z listami elementów oraz czy zawartość strony pod tym URL będzie zgodna z oczekiwaniami" ID="ID_1009302702" CREATED="1636114609992" MODIFIED="1636114609992"/>
 </node>
 <node TEXT="osoby" ID="ID_1448106474" CREATED="1634676744996" MODIFIED="1635972736792">
 <node TEXT="Testy dla listy:" ID="ID_556699425" CREATED="1634232029410" MODIFIED="1634232078013"><richcontent TYPE="DETAILS">
@@ -1417,6 +1443,25 @@
 <node TEXT="czy przycisk obok &quot;Number of collective bodies with this responsibility:&quot; oraz &quot;Number of individuals...&quot; zawiera odpowiednie hiperłącza" ID="ID_1645875210" CREATED="1635974237139" MODIFIED="1635974277150"/>
 </node>
 </node>
+<node TEXT="dokumenty" ID="ID_720269153" CREATED="1636052884466" MODIFIED="1636052886579">
+<node TEXT="czy po zaznaczeniu tylko jednej kategorii (typu dokumentów) na liście wyświetla tylko jeden typ dokumentów" ID="ID_917326190" CREATED="1636053412868" MODIFIED="1636053435812">
+<node TEXT="czy podczas przechodzenia między stronami paginacji w dalszym ciągu wyświetla tylko jeden typ dokumentów" ID="ID_717084656" CREATED="1636053435862" MODIFIED="1636053467137"/>
+<node TEXT="Policzyć liczbę dokumentów danego typu w bd i sprawdzić, czy po zaznaczeniu tego typu wyświetli właściwą ilość" ID="ID_31325160" CREATED="1636053492499" MODIFIED="1636053626774"/>
+<node TEXT="Zaznaczyć dwa typy dokumentów i policzyć czy lista będzie zawierała właściwą ilość każdego z nich." ID="ID_681185431" CREATED="1636053627112" MODIFIED="1636053651555"/>
+</node>
+<node TEXT="czy po w trasie, jaka prowadziłaby od linku dla strony widoku szczegółów: ciało zbiorowe-&gt;topic wyświetli właściwe dokumenty" ID="ID_1371699036" CREATED="1636053699463" MODIFIED="1636053795008">
+<node TEXT="czy po zaznaczeniu na liście dokumentów tylko wybranych kategorii dokumentów, wyświetli tylko dokumenty z tej kategorii - sprawdzić też, czy będzie wyświetlało prawidłowe dokumety przy przechodzeniu na kolejne strony (w paginacji)" ID="ID_515561299" CREATED="1636053796073" MODIFIED="1636053944469"/>
+</node>
+</node>
+<node TEXT="dla wszystkich" FOLDED="true" ID="ID_725839855" CREATED="1635973383808" MODIFIED="1636062434983">
+<icon BUILTIN="button_ok"/>
+<node TEXT="sprawdzić czy wyskakują pod określonymi trasami strony (200)" ID="ID_1066228768" CREATED="1634720912962" MODIFIED="1636061277748">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="czy w wypadku podania błędnej trasy (np. id poza zakresem) wyskakuje 404" ID="ID_1622901513" CREATED="1634720925029" MODIFIED="1636062432534">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
 </node>
 <node TEXT="języki" ID="ID_387573057" CREATED="1634762145651" MODIFIED="1634766133727">
 <node TEXT="losuje języki (1-3 - zapamiętuje liczbę)" ID="ID_1099156413" CREATED="1634762189713" MODIFIED="1634762207069"/>
@@ -1474,6 +1519,17 @@
 </node>
 <node TEXT="Tadzik poszukuje informacji o książkach autora: Jana Nowaka-Kowalskiego. W tym celu w aplikacji bibliograficznej wybiera z menu: przeglądaj (browse) -&gt; nazwy osobowe (personal names). Wyświetla się stronicowana lista nazwisk w alfabetycznym porządku nazwisk, domyślnie rosnącym (A-Z). W górnej części listy znajduje się grupa hiperłączy w postaci liter alfabetu, odsyłających do konkretnej lokalizacji na liście: strony, gdzie nazwiska autorów rozpoczynają się od konkretnej litery. Aby ułatwić sobie przeglądanie, Tadzik klika na &quot;N&quot; po czym wyświetla mu się strona, na której rozpoczynają się nazwiska osób na tą literę." ID="ID_1130692478" CREATED="1635265917629" MODIFIED="1635268704674"/>
 <node TEXT="Linki od litery powinny odsyłać do określonej grupy." ID="ID_244576480" CREATED="1634294577977" MODIFIED="1634294605142"/>
+</node>
+</node>
+<node TEXT="bugtracker" POSITION="left" ID="ID_524977360" CREATED="1634300796153" MODIFIED="1636035723372">
+<edge COLOR="#00ff00"/>
+<node TEXT="Login manager nie działa" ID="ID_1314422306" CREATED="1633631167236" MODIFIED="1633631171445"/>
+<node TEXT="Na liście lokalizacji geograficznych klikam na &quot;documents published&quot;, odznaczam jedną kategorię typów dokumentów, klikam &quot;Apply filter&quot;, w przeglądarce klikam &quot;wstecz&quot;: wyświetla mi się pełna lista dokumentów, ale wcześniej odznaczone pole &quot;Document type&quot; jest w dalszym ciągu odznaczone (z dużym prawdopodobieństwem dotyczy to pozostałych tras)." ID="ID_1279260684" CREATED="1636111088697" MODIFIED="1636111434793">
+<node TEXT="Prześledzić przepływ kontroli (zrobić diagram aktywności z uwzględnieniem aktywności użytkownika - np. węzły z aktywnością &quot;kliknięcie cofnij&quot; etc.)" ID="ID_98352682" CREATED="1636111275909" MODIFIED="1636111323356"/>
+<node TEXT="Rozwiązania:" ID="ID_1106679376" CREATED="1636111271874" MODIFIED="1636111275903">
+<node TEXT="Strona powinna zostać przepisana z użyciem AJAXa." ID="ID_336291607" CREATED="1636111323870" MODIFIED="1636111339610"/>
+<node TEXT="Powinien być link ze strzałką &quot;wstecz&quot; (na stronie) - tak, żeby użytkownik nie używał przycisków w przeglądarce." ID="ID_1888322140" CREATED="1636111546367" MODIFIED="1636111663808"/>
+</node>
 </node>
 </node>
 <node TEXT="gotowe" FOLDED="true" POSITION="left" ID="ID_269536781" CREATED="1631029724333" MODIFIED="1636035723453">
@@ -1854,6 +1910,9 @@
 <icon BUILTIN="button_ok"/>
 <font BOLD="false"/>
 </node>
+</node>
+<node TEXT="Zamiast documents: none powinno wyświetlać &quot;empty list&quot;." POSITION="left" ID="ID_546065696" CREATED="1636117064374" MODIFIED="1636117064383">
+<edge COLOR="#00007c"/>
 </node>
 </node>
 </map>

@@ -12,7 +12,11 @@
   <tr>
     <td>Documents referencing this keyword:</td>
     <td>
-      {{ macros.see_list_badge(keyword.documents) }}
+      {{ macros.see_list_badge(
+		 keyword.documents,
+		 by_entry_type='subject_keyword',
+		 id_number=keyword.id,
+		 endpoint='.documents_list') }}
     </td>
   </tr>
 </table>

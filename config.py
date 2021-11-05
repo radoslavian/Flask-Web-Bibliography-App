@@ -34,7 +34,9 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
+    SERVER_NAME = 'localhost.localdomain:5000'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    LIST_ENTRIES_PER_PAGE = 10
     # os.environ.get('TEST_DATABASE_URL') or \
 
 

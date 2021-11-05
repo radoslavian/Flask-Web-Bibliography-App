@@ -7,16 +7,13 @@
 	  {{ macros.render_location(location) }}
 	</td>
 	<td>
-	  {{ macros.see_list_badge(
+	  {{ macros.geo_location_docs_published(
 	  location.document_publication_place,
-	  pre_title='documents&nbsp;published:',
-	  post_title=None) }}
+	  id_number=location.location_id) }}
 
-	  {{ macros.see_list_badge(
+	  {{ macros.geo_location_docs_topics(
 	  location.documents_topics,
-	  badge_class="btn btn btn-outline-secondary btn-sm",
-	  pre_title='documents&nbsp;&ndash;&nbsp;topic:',
-	  post_title=None) }}
+	  id_number=location.location_id) }}
 	</td>
       </tr>
     {% endfor %}

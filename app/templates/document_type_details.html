@@ -21,8 +21,10 @@
     </tr>
    {% endif %}
     <tr>
-      <td>Number of documents of this type:</td>
-      <td>{{ macros.see_list_badge(document_type.documents) }}</td>
+      <td colspan="2"><h4>Number of documents of this type:
+	<span class="badge badge-pill badge-secondary">
+	  {{ document_type.documents.count() }}
+      </span></h4></td>
     </tr>
   </table>
 {% endblock %}

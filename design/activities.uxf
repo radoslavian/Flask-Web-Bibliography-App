@@ -1680,7 +1680,7 @@ as a new record</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>create Boolean field
-for doc_type</panel_attributes>
+for doc_type ⋔</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -1732,8 +1732,8 @@ m2=[!doc]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1090</x>
-      <y>2810</y>
+      <x>1120</x>
+      <y>2860</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
@@ -1743,8 +1743,8 @@ m2=[!doc]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1090</x>
-      <y>2820</y>
+      <x>1120</x>
+      <y>2870</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -1754,8 +1754,8 @@ m2=[!doc]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1080</x>
-      <y>2870</y>
+      <x>1110</x>
+      <y>2920</y>
       <w>40</w>
       <h>40</h>
     </coordinates>
@@ -1765,8 +1765,8 @@ m2=[!doc]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>880</x>
-      <y>2970</y>
+      <x>910</x>
+      <y>3020</y>
       <w>220</w>
       <h>40</h>
     </coordinates>
@@ -1776,8 +1776,8 @@ m2=[!doc]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1000</x>
-      <y>2880</y>
+      <x>1030</x>
+      <y>2930</y>
       <w>280</w>
       <h>110</h>
     </coordinates>
@@ -1789,8 +1789,8 @@ or !page]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1110</x>
-      <y>2880</y>
+      <x>1140</x>
+      <y>2930</y>
       <w>280</w>
       <h>120</h>
     </coordinates>
@@ -1801,8 +1801,8 @@ or !page]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1250</x>
-      <y>2980</y>
+      <x>1280</x>
+      <y>3030</y>
       <w>190</w>
       <h>40</h>
     </coordinates>
@@ -1957,5 +1957,50 @@ m2=[else]</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1190</x>
+      <y>3130</y>
+      <w>20</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>type=flow_final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1010</x>
+      <y>3050</y>
+      <w>200</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>180.0;90.0;10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>3060</y>
+      <w>180</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;160.0;80.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>880</x>
+      <y>2820</y>
+      <w>620</w>
+      <h>380</h>
+    </coordinates>
+    <panel_attributes>create Boolean field for doc_type
+valign=top</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

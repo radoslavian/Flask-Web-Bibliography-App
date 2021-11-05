@@ -30,19 +30,28 @@
     <tr>
       <td>Documents published in this language:</td>
       <td>
-	{{ macros.see_list_badge(language.documents) }}
+	{{ macros.language_docs_list(
+	language.documents,
+	filter_type='by_publication_language',
+	id_number=language.language_id) }}
       </td>
     </tr>
     <tr>
       <td>Documents for which this is an original language:</td>
       <td>
-	{{ macros.see_list_badge(language.documents_original_lang) }}
+	{{ macros.language_docs_list(
+	language.documents_original_lang,
+	filter_type='by_original_language',
+	id_number=language.language_id) }}
       </td>
     </tr>
     <tr>
       <td>Documents for which this language is a topic:</td>
       <td>
-	{{ macros.see_list_badge(language.documents_topics) }}
+	{{ macros.language_docs_list(
+	language.documents_topics,
+	filter_type='by_topic',
+	id_number=language.language_id) }}
       </td>
     </tr>
   </table>
