@@ -265,37 +265,44 @@ def document_types_list():
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, SubmitField
 
-def get_type_ids(document_types_form):
-    '''Returns dictionary of DocumentType ids with values (True/False)
-    from document_list.SelectDocumentTypes form.
+def select_document_types():
+    '''Returns a WTForms form/class that requires current request context
+    available during creation and for this sake should be called
+    inside a route function.
     '''
-    selected_doc_types_ids = []
-    for fieldname, value in document_types_form.data.items():
-        field_id = str(getattr(document_types_form, fieldname).id)
-        if field_id.isnumeric() and value:
-            selected_doc_types_ids.append(int(field_id))
-    return selected_doc_types_ids
+    selected_doc_types_ids = request.args.getlist(
+        'type_id', type=int)
+
+    class SelectDocumentTypes(FlaskForm):
+        for doc in DocumentType.query.order_by(
+                DocumentType.name).all():
+            locals()[f'doctype_{doc.type_id}'] = BooleanField(
+                doc.name.capitalize(),
+                id=doc.type_id,
+                default='checked' if doc.type_id in
+                selected_doc_types_ids
+                or not selected_doc_types_ids else '',
+                render_kw={'autocomplete': 'off'})
+        submit = SubmitField('Apply filter')
+
+        def get_type_ids(document_types_form):
+            '''Returns list of selected DocumentType ids.
+            '''
+            selected_doc_types_ids = []
+            for fieldname, value in document_types_form.data.items():
+                field_id = str(getattr(document_types_form, fieldname).id)
+                if field_id.isnumeric() and value:
+                    selected_doc_types_ids.append(int(field_id))
+            return selected_doc_types_ids
+
+    return SelectDocumentTypes
 
 
 @main.route('/browse/documents/', methods=['GET', 'POST'])
 def documents_list():
-    class SelectDocumentTypes(FlaskForm):
-        for doc in DocumentType.query.order_by(
-                DocumentType.name).all():
-            # ten fragment może doprowadzić do nieprzewidzianego
-            # zachowania
-            selected_doc_types_ids = request.args.getlist(
-                'type_id', type=int)
-            locals()[f'doctype_{doc.type_id}'] = BooleanField(
-                doc.name.capitalize(), id=doc.type_id,
-                default='checked' if doc.type_id in
-                selected_doc_types_ids
-                or not selected_doc_types_ids else '')
-        submit = SubmitField('Apply filter')
-
     start_page = 0
-    document_types_form = SelectDocumentTypes(id='myform')
-    selected_doc_types_ids = get_type_ids(document_types_form)
+    document_types_form = select_document_types()(id='myform')
+    selected_doc_types_ids = document_types_form.get_type_ids()
     if session.get(
             'prev_selected_doc_types_ids') != selected_doc_types_ids:
         start_page = 1
@@ -313,6 +320,11 @@ def documents_list():
      responsibility_name) = get_responsibility_identifiers(request.args.get(
          'responsibility_id', None, type=int))
     subtitle = None
+
+    kargs = {**search_parameters,
+             'type_id': selected_doc_types_ids}
+    if request.method == 'POST':
+        return redirect(url_for('.documents_list', **kargs))
 
     if search_parameters['by_entry_type'] == 'collective_body':
         # collective-body search
@@ -425,13 +437,6 @@ def documents_list():
         query = query.filter(Document.document_type_id.in_(
             selected_doc_types_ids))
     query = query.order_by(Document.title_proper)
-    kargs = {**search_parameters,
-             'type_id': selected_doc_types_ids}
-
-    # mieli wszystkie kwerendy, żeby na końcu zrobić
-    # przekierowanie
-    if request.method == 'POST':
-        return redirect(url_for('.documents_list', **kargs))
 
     return render_template(
         'list_of_items.html',
