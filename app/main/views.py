@@ -4,11 +4,12 @@
 __name__ = 'views'
 
 from . import main
-from flask import abort, render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for
 from app import db
-from app import queries
+from app.utils import queries
 from ..models import *
-from app.helpers import *
+from app.utils.helpers import *
+from app.utils.queries import *
 
 @main.route('/browse/people/')
 def browse_people():
@@ -262,175 +263,30 @@ def document_types_list():
                            document_types=document_types)
 
 
-from flask_wtf import FlaskForm
-from wtforms import BooleanField, SubmitField
-
-def select_document_types():
-    '''Returns a WTForms form/class that requires current request context
-    available during creation and for this sake should be called
-    inside a route function.
-    '''
-    selected_doc_types_ids = request.args.getlist(
-        'type_id', type=int)
-
-    class SelectDocumentTypes(FlaskForm):
-        for doc in DocumentType.query.order_by(
-                DocumentType.name).all():
-            locals()[f'doctype_{doc.type_id}'] = BooleanField(
-                doc.name.capitalize(),
-                id=doc.type_id,
-                default='checked' if doc.type_id in
-                selected_doc_types_ids
-                or not selected_doc_types_ids else '',
-                render_kw={'autocomplete': 'off'})
-        submit = SubmitField('Apply filter')
-
-        def get_type_ids(document_types_form):
-            '''Returns list of selected DocumentType ids.
-            '''
-            selected_doc_types_ids = []
-            for fieldname, value in document_types_form.data.items():
-                field_id = str(getattr(document_types_form, fieldname).id)
-                if field_id.isnumeric() and value:
-                    selected_doc_types_ids.append(int(field_id))
-            return selected_doc_types_ids
-
-    return SelectDocumentTypes
-
-
 @main.route('/browse/documents/', methods=['GET', 'POST'])
 def documents_list():
     start_page = 0
     document_types_form = select_document_types()(id='myform')
     selected_doc_types_ids = document_types_form.get_type_ids()
+    search_parameters = get_search_parameters()
+    subtitle = None
+
     if session.get(
             'prev_selected_doc_types_ids') != selected_doc_types_ids:
         start_page = 1
         session['prev_selected_doc_types_ids'] = selected_doc_types_ids
-
-    search_parameters = {}
-    # source entry for document list (collective body, person etc.)
-    search_parameters['by_entry_type'] = request.args.get(
-        'by_entry_type', None)
-    search_parameters['filter_type'] = request.args.get(
-        'filter_type', None)
-    search_parameters['id_number'] = request.args.get(
-        'id_number', None, type=int)
-    (search_parameters['responsibility_id'],
-     responsibility_name) = get_responsibility_identifiers(request.args.get(
-         'responsibility_id', None, type=int))
-    subtitle = None
 
     kargs = {**search_parameters,
              'type_id': selected_doc_types_ids}
     if request.method == 'POST':
         return redirect(url_for('.documents_list', **kargs))
 
-    if search_parameters['by_entry_type'] == 'collective_body':
-        # collective-body search
+    query_fn = query_pattern_matching.get(
+        search_parameters.get('by_entry_type'))
 
-        collective_body = CollectiveBody.query.filter_by(
-            id=search_parameters['id_number']).first_or_404()
-        if search_parameters['filter_type'] == 'by_subject':
-            # collective body as a subject
-
-            query = collective_body.documents_topics
-            subtitle = f'''Documents where collective body
-            <em>{collective_body.name}</em> is a subject.'''
-        elif search_parameters['filter_type'] == 'by_responsibility':
-            # collective body as a responsibility
-
-            # czy tą kwerendę da się poprawić?
-            query = db.session.query(Document).select_from(
-                ResponsibilityCollectivity).filter(
-                    ResponsibilityCollectivity \
-                    .responsibility_id == search_parameters[
-                        'responsibility_id']
-                ).join(Document,
-                       ResponsibilityCollectivity \
-                       .document_id == Document.document_id).filter(
-                           ResponsibilityCollectivity.collectivity_id \
-                           == search_parameters['id_number'])
-            subtitle = f'''Documents where collective body
-            <em>{collective_body.name}</em> holds responsibility -
-            <em>{responsibility_name}</em>:'''
-        else:
-            # w razie błędnego URL zawsze powinno wyświetlać 404
-            abort(404)
-    elif search_parameters['by_entry_type'] == 'person':
-        person = Person.query.filter_by(
-            person_id=search_parameters['id_number']).first_or_404()
-
-        if search_parameters['filter_type'] == 'by_subject':
-            # person as a subject list
-            query = person.documents_topics
-            subtitle = f'''Documents where an individual name
-            <em>{person.forenames} {person.last_name}</em> is a subject.'''
-
-        elif search_parameters['filter_type'] == 'by_responsibility':
-            query = db.session.query(Document).select_from(
-                ResponsibilityPerson).filter(
-                    ResponsibilityPerson \
-                    .responsibility_id == search_parameters[
-                        'responsibility_id']
-                ).join(Document,
-                       ResponsibilityPerson \
-                       .document_id == Document.document_id).filter(
-                           ResponsibilityPerson.person_id \
-                           == search_parameters['id_number'])
-            subtitle = f'''Documents where <em>{person.forenames}
-            {person.last_name}</em> holds responsibility:
-            <em>{responsibility_name}</em>.'''
-
-    elif search_parameters['by_entry_type'] == 'geographic_location':
-        geographic_location = GeographicLocation.query.filter_by(
-            location_id=search_parameters['id_number']).first_or_404()
-
-        if search_parameters['filter_type'] == 'by_publication_place':
-            query = geographic_location.document_publication_place
-            subtitle = f'''Documents published in
-            <em>{geographic_location.name}:</em>'''
-        elif search_parameters['filter_type'] == 'by_subject':
-            query = geographic_location.documents_topics
-            subtitle = f'''Documents where <em>{geographic_location.name}
-            </em> is a subject:'''
-
-    elif search_parameters['by_entry_type'] == 'subject_keyword':
-        keyword_entry = Keyword.query.filter_by(
-            id=search_parameters['id_number']).first_or_404()
-        query = keyword_entry.documents
-        subtitle = f'''Documents where keyword
-        <em>{keyword_entry.keyword}</em> is a subject:'''
-
-    elif search_parameters['by_entry_type'] == 'language':
-        language = Language.query.filter_by(
-            language_id=search_parameters['id_number']).first_or_404()
-
-        if search_parameters['filter_type'] == 'by_publication_language':
-            query = language.documents
-            subtitle = f'''Documents published in
-            <em>language.language_name</em> language:'''
-
-        elif search_parameters['filter_type'] == 'by_original_language':
-            query = language.documents_original_lang
-            subtitle = f'''Documents for which
-            <em>language.language_name</em> is an original language:'''
-
-        elif search_parameters['filter_type'] == 'by_topic':
-            query = language.documents_topics
-            subtitle = f'''Documents where
-            <em>language.language_name</em> language is a topic:'''
-
+    if query_fn:
+        query, subtitle = query_fn(search_parameters)
     else:
-        # jeżeli nie ma entry_type, zawsze będzie tu wpadać
-        # a powinno być abort()
-        # z czego wniosek - wzorzec dopasowania trzeba będzie rozpisać
-        # na diagramie i poprawić
-
-        # at this point, search parameters should be reset to None
-        # otherwise, if keys exist, they would appear in a page
-        # URL
-        search_parameters = {}
         query = Document.query
 
     if len(selected_doc_types_ids) != DocumentType.query.count():

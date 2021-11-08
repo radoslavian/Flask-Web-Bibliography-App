@@ -1,7 +1,8 @@
 import unittest
 from flask import current_app, url_for
 from app import create_app, db
-from app import fake, queries
+from app import fake
+from app.utils import queries
 from app.main.views import *
 from app.models import *
 from sqlalchemy.sql.expression import func
@@ -45,14 +46,14 @@ class TestApp(unittest.TestCase):
         def custom_fn(self):
             pass
 
-        def main_loop(self, max_iteration_count=2000):
+        def main_loop(self, max_iteration_count=500):
             while True:
                 self.response = self.client.get(
                     url_for(self.endpoint, page=self.page_num))
                 self.response_text = self.response.get_data(as_text=True)
                 if self.page_num > max_iteration_count:
-                    raise ValueError(f'max_iteration_count '
-                                 '({max_iteration_count} exceeded.')
+                    raise RuntimeError('max_iteration_count '
+                                       f'({max_iteration_count}) exceeded.')
                 if self.response.status_code != 200:
                     break
                 self.custom_fn()
@@ -60,7 +61,7 @@ class TestApp(unittest.TestCase):
             return self.return_value
 
         def __repr__(self):
-            return f'<{self.return_value}>'
+            return f'Endpoint {self.endpoint}: {self.return_value}'
 
     class PersonNames(Counter):
         def custom_fn(self):
@@ -119,6 +120,17 @@ class TestApp(unittest.TestCase):
             self.return_value += len(re.findall(
                 self.collective_body_name, self.response_text))
 
+    class GeneralCounter(Counter):
+        def __init__(self, search_term, *pargs, **kwargs):
+            TestApp.Counter.__init__(self, *pargs, **kwargs)
+
+            # regexp
+            self.search_term = search_term
+
+        def custom_fn(self):
+            self.return_value += len(re.findall(
+                self.search_term, self.response_text))
+
     def test_collective_names_list(self):
         COUNT = 50
         fake.collective_bodies(COUNT)
@@ -175,5 +187,14 @@ class TestApp(unittest.TestCase):
         self.check_response('main.language_list', 404,
                             page=int(COUNT/3))
 
-    def test_document_responsibilities(self):
+    def test_document_responsibilities_list(self):
         self.check_response('main.responsibilities_list', 200)
+
+        responsibility = ResponsibilityName.query.order_by(
+            func.random()).first()
+        regexp = (r'"/browse/responsibilities/id.*'
+                  f'{responsibility.id}">\n'
+                  f'\s+{responsibility.responsibility_name.capitalize()}')
+        response = self.client.get(
+            url_for('main.responsibilities_list')).get_data(as_text=True)
+        self.assertEqual(len(re.findall(regexp, response)), 1)
