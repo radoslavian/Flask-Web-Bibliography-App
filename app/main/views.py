@@ -4,7 +4,7 @@
 __name__ = 'views'
 
 from . import main
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, jsonify
 from app import db
 from app.utils import queries
 from ..models import *
@@ -305,8 +305,27 @@ def documents_list():
         endpoint='.documents_list')
 
 
+@main.route('/search/people', methods=['POST'])
+def get_person_entries():
+    '''Returns JSON Array of <number> entries, on a <page_num> page.
+    '''
+    return jsonify(search_multiple_models([Person, PersonNameVariant]))
+
+
+@main.route('/search/name-variants/', methods=['POST'])
+def get_name_variant():
+    # dodać pobieranie arg.: id = 
+    name_variant = PersonNameVariant.query.filter_by(variant_id=id).first()
+    return jsonify({"text": name_variant,
+                    "points_at": name_variant.person,
+                    "id": name_variant.person.person_id})
+
+
+@main.route('/document-search', methods=['GET', 'POST'])
+def document_search():
+    return render_template('document_search.html')
+
+
 @main.route('/search')
 def search():
-    '''Route for full-text search.
-    '''
-    return 'to be written'
+    return 'to be made'

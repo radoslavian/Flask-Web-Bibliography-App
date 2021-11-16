@@ -4,6 +4,7 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from elasticsearch import Elasticsearch
 #from flask_login import LoginManager
 from config import config
 
@@ -16,9 +17,9 @@ db = SQLAlchemy()
 def create_app(config_name='development'):
     '''Application factory function.
 
-Based on solutions from:
-Grinberg, Miguel. Flask Web Development. Beijing [etc.], 2018.
-'''
+    Based on solutions from:
+    Grinberg, Miguel. Flask Web Development. Beijing [etc.], 2018.
+    '''
 
     app = Flask(__name__)
     app.config.from_object(config[config_name])
@@ -33,5 +34,8 @@ Grinberg, Miguel. Flask Web Development. Beijing [etc.], 2018.
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+    app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
+        if app.config['ELASTICSEARCH_URL'] else None
 
     return app

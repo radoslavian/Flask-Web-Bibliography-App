@@ -187,14 +187,27 @@ class TestApp(unittest.TestCase):
         self.check_response('main.language_list', 404,
                             page=int(COUNT/3))
 
+    def single_occurence(self, endpoint, regexp):
+        '''Checks if item appears only once on a non-paginated list.
+        '''
+        self.assertEqual(len(re.findall(
+            regexp, self.client.get(url_for(endpoint)
+            ).get_data(as_text=True))), 1)
+
     def test_document_responsibilities_list(self):
         self.check_response('main.responsibilities_list', 200)
-
         responsibility = ResponsibilityName.query.order_by(
             func.random()).first()
         regexp = (r'"/browse/responsibilities/id.*'
                   f'{responsibility.id}">\n'
                   f'\s+{responsibility.responsibility_name.capitalize()}')
-        response = self.client.get(
-            url_for('main.responsibilities_list')).get_data(as_text=True)
-        self.assertEqual(len(re.findall(regexp, response)), 1)
+        self.single_occurence('main.responsibilities_list', regexp)
+
+    def test_document_types(self):
+        self.check_response('main.document_types_list', 200)
+        doc_type = DocumentType.query.order_by(
+            func.random()).first()
+        regexp = (r'"/browse/document-types/id.*'
+                  f'{doc_type.type_id}">\n'
+                  f'\s+{doc_type.name.capitalize()}')
+        self.single_occurence('main.document_types_list', regexp)

@@ -14,3 +14,12 @@ table.responsibilities tr:hover {
 .items-list > :last-child {
     border-width: 0px;
 }
+
+.name-variant {
+    color: #bbbbbb;
+    font-size: 0.8rem;
+}
+
+/*.filter_drop_down {
+    min-height: 20em;
+}*/

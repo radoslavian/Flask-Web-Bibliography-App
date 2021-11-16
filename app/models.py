@@ -19,8 +19,61 @@ from flask_login import UserMixin, AnonymousUserMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.declarative import declared_attr
 from werkzeug.security import generate_password_hash, check_password_hash
+from app.search import add_to_index, remove_from_index, query_index
 
 # COLLATION = 'utf8_general_ci'
+
+class SearchableMixin(object):
+    '''Reused from: M. Grinberg, Flask Mega Tutorial.
+    https://blog.miguelgrinberg.com/
+    '''
+    @property
+    def id(self):
+        return getattr(self, self.__primary_key__)
+
+    @classmethod
+    def search(cls, expression, page, per_page):
+        ids, total = query_index(cls.__tablename__,
+                                 expression, page, per_page)
+        if total == 0 or not ids:
+            return cls.query.filter(
+                getattr(cls, cls.__primary_key__) == 0), 0
+        when = []
+        for i in range(len(ids)):
+            when.append((ids[i], i))
+        return cls.query.filter(
+            getattr(cls, cls.__primary_key__).in_(ids)).order_by(
+            db.case(when, value=getattr(cls, cls.__primary_key__))), total
+
+    @classmethod
+    def before_commit(cls, session):
+        session._changes = {
+            'add': list(session.new),
+            'update': list(session.dirty),
+            'delete': list(session.deleted)
+        }
+
+    @classmethod
+    def after_commit(cls, session):
+        for obj in session._changes['add']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
+        for obj in session._changes['update']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
+        for obj in session._changes['delete']:
+            if isinstance(obj, SearchableMixin):
+                remove_from_index(obj.__tablename__, obj)
+        session._changes = None
+
+    @classmethod
+    def reindex(cls):
+        for obj in cls.query:
+            add_to_index(cls.__tablename__, obj)
+
+db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
+db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
+
 
 class Permissions:
     # permission to save bibliography items to a list:
@@ -203,11 +256,15 @@ subjects_languages = db.Table(
 )
 
 
-class Language(db.Model, Lock):
+class Language(db.Model, Lock, SearchableMixin):
     __tablename__ = 'languages'
+    __primary_key__ = 'language_id'
     __table_args__ = (db.UniqueConstraint(
         'language_name', 'iso_639_1_language_code',
         'iso_639_2_language_code'),)
+
+    # searchable fields (for Elasticsearch or other engines)
+    __searchable__ = ['language_name', 'native_name']
 
     language_id = db.Column(db.Integer, primary_key=True)
     language_name = db.Column(db.String(64),
@@ -243,8 +300,11 @@ class Language(db.Model, Lock):
         return f'Language: <{self.language_name}>'
 
 
-class Document(db.Model, Lock):
+class Document(db.Model, Lock, SearchableMixin):
+    __primary_key__ = 'document_id'
     __tablename__ = 'documents'
+    __searchable__ = ['title_proper', 'parallel_title',
+                      'series', 'issn', 'isbn_10', 'isbn_13']
 
     document_id = db.Column(db.Integer, primary_key=True)
     document_type_id = db.Column(
@@ -303,6 +363,12 @@ class Document(db.Model, Lock):
         'Language',
         backref=db.backref('documents_original_lang', lazy='dynamic'),
         foreign_keys=[original_language_id])
+    publication_places = db.relationship(
+        'GeographicLocation',
+        secondary='publication_places_join',
+        backref=db.backref('document_publication_place',
+                           lazy='dynamic'),
+        lazy='dynamic')
     collectivity_subjects = db.relationship(
         'CollectiveBody',
         secondary='subjects_collectivities_join',
@@ -329,19 +395,14 @@ class Document(db.Model, Lock):
         secondary='subjects_locations_join',
         backref=db.backref('documents_topics', lazy='dynamic'),
         lazy='dynamic')
-    publication_places = db.relationship(
-        'GeographicLocation',
-        secondary='publication_places_join',
-        backref=db.backref('document_publication_place',
-                           lazy='dynamic'),
-        lazy='dynamic')
 
     _master_doc = association_proxy('master_document', 'dependent_doc')
     _dependent_docs = association_proxy('dependent_docs', 'master_doc')
 
     def __repr__(self):
-        # shall print isbd compliant bibliographic description
-        return f'<Document: {self.title_proper} ({self.document_type.name})>'
+        output = f'Document: {self.title_proper}'
+        if self.document_type: output += f' ({self.document_type.name})'
+        return '<' + output + '>'
 
 
 class DocumentType(db.Model, Lock):
@@ -371,12 +432,14 @@ class DocumentType(db.Model, Lock):
         return f'<Document type: {self.name}>'
 
 
-class CollectiveBody(db.Model, Lock):
+class CollectiveBody(db.Model, Lock, SearchableMixin):
     '''Model for collective bodies.
     These include (among others): organisations, companies,
     events, publishers.
     '''
+    __primary_key__ = 'id'
     __tablename__ = 'collectivities'
+    __searchable__ = ['name', 'address']
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True, nullable=False)
@@ -393,7 +456,7 @@ class CollectiveBody(db.Model, Lock):
         return f'<Collective body: {self.name}>'
 
 
-class ResponsibilityName(db.Model, Lock):
+class ResponsibilityName(db.Model, Lock, SearchableMixin):
     '''Entity's (individual, organisation) responsibility/function name in
     the document (author, editor, publisher etc.)
     '''
@@ -464,9 +527,10 @@ class ResponsibilityCollectivity(db.Model):
         'Document', back_populates='responsibility_collectivities')
 
 
-class Keyword(db.Model, Lock):
+class Keyword(db.Model, Lock, SearchableMixin):
     __tablename__ = 'keywords'
     __table_args__ = (db.UniqueConstraint('keyword', 'determiner'),)
+    __searchable__ = ['keyword']
 
     id = db.Column(db.Integer, primary_key=True)
     keyword = db.Column(db.String(70), nullable=False, index=True)
@@ -499,10 +563,12 @@ publication_places = db.Table(
 )
 
 
-class GeographicLocation(db.Model, Lock):
+class GeographicLocation(db.Model, Lock, SearchableMixin):
     '''Model for geographic names (cities, states etc.)
     '''
+    __primary_key__ = 'location_id'
     __tablename__ = 'geographic_locations'
+    __searchable__ = ['name', 'native_name', 'other_name']
 
     location_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(45), nullable=False, index=True)
@@ -527,8 +593,10 @@ subjects_locations = db.Table(
 )
 
 
-class Person(db.Model, Lock):
+class Person(db.Model, Lock, SearchableMixin):
+    __primary_key__ = 'person_id'
     __tablename__ = 'people'
+    __searchable__ = ['forenames', 'last_name']
 
     person_id = db.Column(db.Integer, primary_key=True)
     forenames = db.Column(db.String(68)) # name and/or second name
@@ -547,6 +615,22 @@ class Person(db.Model, Lock):
 
     def __repr__(self):
         return f'<Person name: {self.forenames} {self.last_name}>'
+
+    def __str__(self):
+        output = f'{self.last_name}'
+        if self.forenames:
+            output += f', {self.forenames}'
+        if self.life_years:
+            output += f' ({self.life_years})'
+        return output
+
+    def __html__(self):
+        output = f'<em>{self.last_name}</em>'
+        if self.forenames:
+            output += f', {self.forenames}'
+        if self.life_years:
+            output += f' ({self.life_years})'
+        return output
 
 
 class ResponsibilityPerson(db.Model):
@@ -575,8 +659,10 @@ class ResponsibilityPerson(db.Model):
         'Document', back_populates='responsibilities_people')
 
 
-class PersonNameVariant(db.Model, Lock):
+class PersonNameVariant(db.Model, Lock, SearchableMixin):
+    __primary_key__ = 'variant_id'
     __tablename__ = 'person_name_variants'
+    __searchable__ = ['first_name_variant', 'last_name_variant']
 
     variant_id = db.Column(db.Integer, primary_key=True)
     person_id = db.Column(db.Integer, db.ForeignKey('people.person_id'))
@@ -587,6 +673,15 @@ class PersonNameVariant(db.Model, Lock):
     def __repr__(self):
         return f'<Person name variant: \
 {self.first_name_variant} {self.last_name_variant}>'
+
+    def __html__(self):
+        output = ''
+        if self.last_name_variant:
+            output += f'<em>{self.last_name_variant}</em>'
+        if self.first_name_variant:
+            output += f', {self.first_name_variant}'
+        return f'''<span class="name-variant">{output} &#8594;
+        {str(self.person)}</span>'''
 
 
 topic_people = db.Table(

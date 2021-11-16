@@ -63,8 +63,8 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="118" RULE="ON_BRANCH_CREATION"/>
-<node TEXT="Aplikacja minimalna (z możliwością rozbudowy)" FOLDED="true" POSITION="right" ID="ID_394421864" CREATED="1635274763546" MODIFIED="1636035723332">
+<hook NAME="AutomaticEdgeColor" COUNTER="125" RULE="ON_BRANCH_CREATION"/>
+<node TEXT="Aplikacja minimalna (z możliwością rozbudowy)" POSITION="right" ID="ID_394421864" CREATED="1635274763546" MODIFIED="1636035723332">
 <font BOLD="true"/>
 <richcontent TYPE="DETAILS">
 
@@ -90,51 +90,177 @@
 <node TEXT="Logowanie" ID="ID_398581221" CREATED="1635275017369" MODIFIED="1635275020220"/>
 <node TEXT="Edycja bd (projektowane osobno)" ID="ID_516648049" CREATED="1635275031784" MODIFIED="1635275045843"/>
 </node>
-<node TEXT="draft - aktualne zadanie:" FOLDED="true" POSITION="left" ID="ID_1122590423" CREATED="1631875920852" MODIFIED="1636035723316">
+<node TEXT="draft - aktualne zadanie:" POSITION="left" ID="ID_1122590423" CREATED="1631875920852" MODIFIED="1636035723316">
 <font BOLD="true"/>
 <edge COLOR="#ff0000"/>
+<node TEXT="wyszukiwanie" ID="ID_1674711683" CREATED="1636481261653" MODIFIED="1636486164479">
+<font BOLD="true"/>
+<node TEXT="Zaprojektować wyszukiwanie dokumentów" ID="ID_197155600" CREATED="1636486139486" MODIFIED="1636488437566">
+<node TEXT="Zrobić stronę na której będę wybierał parametry wyszukiwania." ID="ID_1360185885" CREATED="1637015091884" MODIFIED="1637015108103">
+<font BOLD="true"/>
+<node TEXT="zrobić funkcję która: doda element do listy id osób z oznaczeń odpowiedzialności w dokumencie&#xa;+ funkcja zwracana przez add_searched_id:&#xa; - sprawdza czy obiekt jest już w zbiorze: jeżeli nie - dodaje; jeżeli jest - wyświetla powiadomienie (?)&#xa; - dodaje komponent z etykietą i callback (do komponentu) usuwający element z listy" ID="ID_1213621710" CREATED="1637097513268" MODIFIED="1637097514847"/>
+</node>
+<node TEXT="opracować funkcjonalność zwracania grupy wpisów z bd, które będę mógł umieścić na liście drop-down filter" ID="ID_1967694927" CREATED="1636738033858" MODIFIED="1637014845874">
+<font BOLD="false"/>
+<node TEXT="na podstawie diagramu sekwencyjnego i diagramu-wireframe" ID="ID_1296292548" CREATED="1636743485617" MODIFIED="1636743511386"/>
+<node TEXT="Powinno się to dać użyć też w szybkim wyszukiwaniu." ID="ID_997220162" CREATED="1636973381591" MODIFIED="1636973402556"/>
+<node TEXT="metoda __html__ jest interpretowana przez Jinja2" ID="ID_349836313" CREATED="1636917200041" MODIFIED="1636917215996"/>
+<node TEXT="gotowy prototyp dla modelu Person" ID="ID_1047904197" CREATED="1636986239156" MODIFIED="1636986249324">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+<node TEXT="zaprojektować parametry dla listy dokumentów - tak, żeby dotychczasowe kwerendy dały się ponownie użyć" ID="ID_284272323" CREATED="1636903252244" MODIFIED="1636973365649">
+<font BOLD="false"/>
+<node TEXT="W dodanych parametrach wyszukiwania na stronie - może dodać sekcje, np. subjects (i tu-wg. kategorii), publication places?" ID="ID_1909128511" CREATED="1636903633104" MODIFIED="1636903734957">
+<node TEXT="Jeżeli w kwerendzie pojawi się więcej np. miejsc wydania, łącznikiem jest OR." ID="ID_58688984" CREATED="1636903918287" MODIFIED="1636903935863"/>
+<node TEXT="Czyli np. miejsca wydania, hasła przedmiotowe określonego typu powinny być grupowane razem." ID="ID_1630041796" CREATED="1636904266369" MODIFIED="1636904284457"/>
+</node>
+</node>
+<node TEXT="wyszukiwanie wg. języka, oryginalnego języka, typu dokumentu, tematów - aktualizacja trasy obsługującej /browse/documents (dodanie kolejnych filtrów opartych na Elasticsearch) - nowa trasa i funkcja" ID="ID_1558963999" CREATED="1636546538933" MODIFIED="1636582748970">
+<node TEXT="Przykład: Chcę znaleźć dokument wg. osoby w oznaczeniach odpowiedzialności:" ID="ID_594708146" CREATED="1636546561885" MODIFIED="1636548595823">
+<node TEXT="1. przechodzę na stronę wyszukiwania dokumentów&#xa;2. na stronie znajduję pole &quot;szukaj wg. osoby&quot; (napisać też wersję gdzie szukam z zastosowaniem kryterium funkcji-ozn. odp: responsibility)&#xa;3. w polu wpisuję fragment imienia/nazwiska; kiedy przerywam pisanie i kursor nie zmienia pozycji przez określoną ilość milisekund, wyskakuje podpowiedź z listą pierwszych n najbardziej trafnych hits (AJAX i Elasticsearch - rozpisać na diagramie)&#xa;  + Jeżeli wybiorę którąś z pozycji, klikam na&#xa;    nią/najeżdżam i wciskam &quot;Enter&quot;, powyżej (w&#xa;    pobliżu) listy pojawia się badge ze znakiem&#xa;    x i nazwą osoby; kliknięcie na x kasuje tą&#xa;    osobę z kryteriów wyszukiwania&#xa;  + jeżeli brak jest podpowiedzi, wyświetla się&#xa;    komunikat &quot;no hits&quot;&#xa;  + jako kryterium wyszukiwania można wybrać&#xa;    tylko pozycję z listy podpowiedzi&#xa;4. Podobnie można dodawać kolejne kryteria&#xa;5. Po wciśnięciu &quot;szukaj&quot; funkcja widoku wyszukiwania dokumentów (może funkcja dla nowej trasy, np. &apos;/search/documents/&apos; z komponentami z f. dla trasy &apos;/browse/documents/&apos; ?) powinna zwrócić wszystkie dokumenty spełniające te kryteria." ID="ID_1873109150" CREATED="1636546583933" MODIFIED="1636548581225">
+<node TEXT="ad 2.: wyszukiwanie z dodaniem oznaczenia odpowiedzialności" ID="ID_1100157871" CREATED="1636546629039" MODIFIED="1636546642576">
+<node TEXT="w kolejnej wersji" ID="ID_464046258" CREATED="1636548600815" MODIFIED="1636548605217"/>
+</node>
+</node>
+</node>
+<node TEXT="Lista elementów" ID="ID_1455860091" CREATED="1636569502963" MODIFIED="1636569508788">
+<node TEXT="Search/filter dropdown" ID="ID_1025647883" CREATED="1636568880220" MODIFIED="1636568885614">
+<node TEXT="https://www.w3schools.com/howto/howto_js_filter_dropdown.asp" ID="ID_797848750" CREATED="1636568886240" MODIFIED="1636568886240" LINK="https://www.w3schools.com/howto/howto_js_filter_dropdown.asp"/>
+</node>
+<node TEXT="Filter list" ID="ID_1313163153" CREATED="1636569514067" MODIFIED="1636569516712">
+<node TEXT="https://www.w3schools.com/howto/howto_js_filter_lists.asp" ID="ID_1048651420" CREATED="1636569517759" MODIFIED="1636569517759" LINK="https://www.w3schools.com/howto/howto_js_filter_lists.asp"/>
+</node>
+<node TEXT="Bootstrap filter" ID="ID_1665894165" CREATED="1636569769618" MODIFIED="1636569773995">
+<node TEXT="https://www.w3schools.com/bootstrap/bootstrap_filters.asp" ID="ID_1525462120" CREATED="1636569774451" MODIFIED="1636569774451" LINK="https://www.w3schools.com/bootstrap/bootstrap_filters.asp"/>
+<node TEXT="https://www.w3schools.com/bootstrap4/bootstrap_filters.asp" ID="ID_828943978" CREATED="1636569849467" MODIFIED="1636569849467" LINK="https://www.w3schools.com/bootstrap4/bootstrap_filters.asp"/>
+</node>
+</node>
+<node TEXT="Chcę zmienić kryteria wyszukiwania pozostając na stronie z aktualnymi wynikami:" ID="ID_45292149" CREATED="1636548652607" MODIFIED="1636548653749">
+<node TEXT="(uzupełnić)" ID="ID_448302555" CREATED="1636548658862" MODIFIED="1636548658862"/>
+</node>
+<node TEXT="Aktualizacja trasy browse/documents lub nowy widok" ID="ID_1689086544" CREATED="1636576804788" MODIFIED="1636576826428">
+<node TEXT="nowy widok" ID="ID_1549970859" CREATED="1636625138439" MODIFIED="1636744494371">
+<node TEXT="+ Funkcje view tworzą tylko wyjście dla trasy (wyświetlane w przeglądarce)." ID="ID_512563241" CREATED="1636625232987" MODIFIED="1636625260478"/>
+<node TEXT="+ Mogę skorzystać z komponentów które użyłem dla funkcji wyświetlającej drugą trasę." ID="ID_276395007" CREATED="1636625362413" MODIFIED="1636625395446"/>
+<node TEXT="+ Jeżeli napiszę nową funkcję/trasę, będę mógł obie funkcje porównać i zmienić ich architekturę, np. na obiektową - wówczas będę mógł zastosować wzorzec rozszerzenia metody żeby nie powtarzać kodu." ID="ID_1578391691" CREATED="1636625480318" MODIFIED="1636625554489">
+<node TEXT="+ Mogę zastosować wzorzec rozszerzenia funkcji" ID="ID_1288796409" CREATED="1636625454591" MODIFIED="1636625479462"/>
+</node>
+</node>
+<node TEXT="aktualizacja trasy" ID="ID_804861298" CREATED="1636625142904" MODIFIED="1636744576135">
+<icon BUILTIN="button_ok"/>
+<node TEXT="- Różnice między funkcjami były by nieduże." ID="ID_1975628322" CREATED="1636625273210" MODIFIED="1636625577589"/>
+<node TEXT="- Zaawansowane/dodatkowe filtry na stronie wymagałyby dużej zmiany podstawowego szablonu i funkcji oraz użycia jakiegoś przełącznika, który by ukrywał/pokazywał dodatkowe filtry, funkcje szukania." ID="ID_928603582" CREATED="1636625408223" MODIFIED="1636744609351">
+<node TEXT="Przełącznik - może być w szablonie:" ID="ID_1241376095" CREATED="1636744512480" MODIFIED="1636744524891">
+<node TEXT="kiedy na stronie brak jest wyników - widać wszystkie opcje" ID="ID_508048944" CREATED="1636744524943" MODIFIED="1636744536038"/>
+<node TEXT="kiedy są wyświetlone wyniki - wymaga kliknięcia na (narzędzie do rozwijania ? - komponent Bootstrapa)" ID="ID_1880211417" CREATED="1636744536419" MODIFIED="1636744570643"/>
+</node>
+<node TEXT="Czy funkcję renderującą komponent do wyszukiwania mogę osadzić w funkcji dla listy dokumentów?" ID="ID_1999097743" CREATED="1636744642769" MODIFIED="1636744671961"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="wyszukiwanie z filtrami" ID="ID_174785008" CREATED="1636719023207" MODIFIED="1636719026844">
+<node TEXT="+ Wybieram pole wyszukiwania (z filtered fields - np. Document language)&#xa;+ wpisuję tekst w polu wyszukiwania&#xa;+ jeżeli nie będę pisał przez określoną ilość czasu, poniżej pola wyszukiwania wyskakuje lista z wyszukanymi elementami&#xa;+ wybór elementu z listy: jeżeli na liście nie ma już takiego samego filtra -&gt; dodanie do listy" ID="ID_1455302003" CREATED="1636719027430" MODIFIED="1636719028415"/>
+<node TEXT="+ każdy typ filtra (z filtered fields) odnosi&#xa;  się do indeksu i pola w dokumencie&#xa;+ jeżeli pole jest puste: nic się nie dzieje&#xa;+ zmieniam zawartość pola:&#xa;  + jeżeli pole zawiera tekst - wywołanie&#xa;    asynchroniczne funkcji na serwerze:&#xa;    search(index, query, page, per_page)&#xa;  funkcja search powinna zwracać dane w&#xa;  formacie JSON zawierające tekst do&#xa;  wyświetleniana stronie i id&#xa;+ wybranie elementu z listy powinno go dodać&#xa;  do zbioru wybranych filtrów (może utworzyć&#xa;  w JS zbiór-typ listy-dodawać do niego&#xa;  elementy, po każdym dodaniu aktualizować&#xa;  listę filtrów?)&#xa;+ kliknięcie ikony usunięcia przy wybranym&#xa;  filtrze powinno go usunąć z listy wybranych&#xa;  filtrów" ID="ID_1823531277" CREATED="1636723572082" MODIFIED="1636723573149"/>
+<node TEXT="Wyświetlenie listy drop-down" ID="ID_596700692" CREATED="1636722124997" MODIFIED="1636722126068">
+<node TEXT="+ każdy typ filtra (z filtered fields) odnosi&#xa;  się do indeksu i pola w dokumencie&#xa;+ jeżeli pole jest puste: nic się nie dzieje&#xa;+ zmieniam zawartość pola:&#xa;  + jeżeli pole zawiera tekst - wywołanie&#xa;    asynchroniczne funkcji na serwerze:&#xa;    search(index, query, page, per_page)&#xa;  funkcja search powinna zwracać dane w&#xa;  formacie JSON zawierające tekst do&#xa;  wyświetleniana stronie i id&#xa;+ wybranie elementu z listy powinno go dodać&#xa;  do zbioru wybranych filtrów (może utworzyć&#xa;  w JS zbiór-typ listy-dodawać do niego&#xa;  elementy, po każdym dodaniu aktualizować&#xa;  listę filtrów?)&#xa;+ kliknięcie ikony usunięcia przy wybranym&#xa;  filtrze powinno go usunąć z listy wybranych&#xa;  filtrów" ID="ID_371284654" CREATED="1636722146661" MODIFIED="1636722147929"/>
+</node>
+</node>
+<node TEXT="tytuł dokumentu powinien być wyszukiwny w sposób rozmyty (z użyciem operatora like i znaków %) - ponadto, mogę wybrać tytuł z listy lub wpisać własny" ID="ID_1023334362" CREATED="1636715455777" MODIFIED="1636717563885"/>
+<node TEXT="Do bardziej rozmytego wyszukiwania, można użyć metody like() - można użyć wewnątrz filter()" ID="ID_574471903" CREATED="1636713944145" MODIFIED="1636713967381">
+<node TEXT="https://stackoverflow.com/questions/3325467/sqlalchemy-equivalent-to-sql-like-statement" ID="ID_266994422" CREATED="1636713987777" MODIFIED="1636713987777" LINK="https://stackoverflow.com/questions/3325467/sqlalchemy-equivalent-to-sql-like-statement"/>
+</node>
+<node TEXT="Diagramy interakcji mają zawierać dokładne parametry wejścia (metod, funkcji) i wyjścia/zmiany stanu." ID="ID_1109756388" CREATED="1636621430171" MODIFIED="1636621453487"/>
+<node TEXT="Wyszukiwanie dokumentów razem z relacjami" ID="ID_1755296897" CREATED="1636712915199" MODIFIED="1636712916693">
+<node TEXT="Na poziomie kwerendy: dodanie wyszukiwanego&#xa;  dokumentu do listy, jeżeli dany obiekt (np.&#xa;  język) jest w polu/relacji dokumentu (np.&#xa;  document_language) - nie trzeba indeksować&#xa;  relacji" ID="ID_1435290410" CREATED="1636712933663" MODIFIED="1636712935117">
+<node TEXT="Ewentualnie przemyśleć to dla kolejnej wersji." ID="ID_1216132478" CREATED="1636714037556" MODIFIED="1636714056677"/>
+</node>
+</node>
+<node TEXT="Wireframe w Yed" ID="ID_1323553361" CREATED="1636488456875" MODIFIED="1636580723992">
+<font BOLD="false"/>
+</node>
+<node TEXT="Zaprojektować indeksy do Elasticsearch" ID="ID_765883756" CREATED="1636580732160" MODIFIED="1636582008558">
+<font BOLD="false"/>
+</node>
+</node>
+<node TEXT="zrobić prototyp listy rozwijanej dla filtra" ID="ID_1353297073" CREATED="1636986324692" MODIFIED="1637014572162">
+<icon BUILTIN="button_ok"/>
+<node TEXT="ma wyświetlać wpisy wyszukane w bd" ID="ID_434690862" CREATED="1636986354197" MODIFIED="1636986360577"/>
+</node>
+<node TEXT="dodać metody zwracające obiekty kwerend na podstawie wyników wyszukiwania (wg. podręcznika)" ID="ID_1121766859" CREATED="1636723598623" MODIFIED="1636729165132">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+<node TEXT="Zapoznać się z Elasticsearch" ID="ID_471750191" CREATED="1636488413451" MODIFIED="1636568030022">
+<font BOLD="false"/>
+<node TEXT="Wg. tutoriala" ID="ID_265484262" CREATED="1636488440940" MODIFIED="1636488443393"/>
+</node>
+<node TEXT="Elasticsearch" ID="ID_218351009" CREATED="1636550763878" MODIFIED="1636550767542">
+<node TEXT="Funkcje do interakcji z silnikiem wyszukiwania zawrzeć w osobnym module - tak, żeby funkcje tras (i pozostałe z aplikacji) nie wywoływały bezpośrednio usług Elasticsearch." ID="ID_1625230784" CREATED="1636550767547" MODIFIED="1636551182217">
+<node TEXT="app/search.py" ID="ID_1803225664" CREATED="1636550814645" MODIFIED="1636550821032"/>
+</node>
+</node>
+<node TEXT="wyszukiwanie pełnotekstowe (quicksearch)" ID="ID_504906659" CREATED="1635710718237" MODIFIED="1636486163295">
+<font BOLD="false"/>
+<node TEXT="Zaprojektować stronę z rezultatami szukania pełnotekstowego (szybkiego wyszukiwania)." ID="ID_1627936475" CREATED="1633725425644" MODIFIED="1636488366275">
+<font BOLD="false"/>
+<node TEXT="Projekt wireframe w Yed (wg. notatek)." ID="ID_1054917511" CREATED="1636481783544" MODIFIED="1636488368508">
+<font BOLD="false"/>
+<node TEXT="Osobna strona dla szukania dokumentów (jedna)" ID="ID_433612848" CREATED="1636485776702" MODIFIED="1636485785795"/>
+</node>
+<node TEXT="Szukanie zaprojektować dopiero gdy przyjrzę się narzędziom do wyszukiwania." ID="ID_1140692085" CREATED="1635259116926" MODIFIED="1635259134522"/>
+<node TEXT="Czy z Elasticsearch można przeszukiwać pola utworzone przez relationship?" ID="ID_1146563244" CREATED="1636549234566" MODIFIED="1636549252297"/>
+<node TEXT="użycie AJAX i list rozwijanych (komponent Bootstrapa)" ID="ID_745258608" CREATED="1636481279158" MODIFIED="1636488392756"/>
+</node>
+<node TEXT="Jeżeli np. wyszukana osoba znajduje się w relacji (jako temat, oznaczenie odpowiedzialności) z dokumentem, powinno również wyświetlić ten dokument." ID="ID_1963637026" CREATED="1636552149014" MODIFIED="1636552206187"/>
+<node TEXT="Zaprojektować interakcje na diagramach sekwencyjnych." ID="ID_314945132" CREATED="1636488502731" MODIFIED="1636488547847">
+<node TEXT="Powinno to uwzględniać przejścia od strony z wynikami wyszukiwania do widoku szczegółów (dokumentu, osoby etc.): na stronie szczegółów powinno zostać zachowane hiperłącze do strony z wynikami wyszukiwania, czyli wyniki wyszukiwania powinny być linkowalne." ID="ID_1568304405" CREATED="1636488642314" MODIFIED="1636488833389">
+<node TEXT="Jak te hiperłącza powinny być przesyłane? W URL? Uwzględnić to na diagramie." ID="ID_1594520995" CREATED="1636488933964" MODIFIED="1636488961137"/>
+</node>
+</node>
+<node TEXT="chyba powinno mieć własną trasę - przejrzeć dokumentację" ID="ID_1381180607" CREATED="1635805404462" MODIFIED="1635805405656">
+<node TEXT="Jeżeli będę robił wyszukiwanie dla wszystkich kategorii rekordów, będzie miało inną trasę. Jak byłoby to zorganizowane:" ID="ID_1223105505" CREATED="1635709916494" MODIFIED="1635709946798">
+<node TEXT="Wyniki z dokumentów: skrócona lista dokumentów - np. 5 pozycji; jeżeli jest więcej - dla pozostałych: link &quot;zobacz więcej&quot; odsyłający do listy zawierającej tylko dokumenty (i prawdopodobnie do trasy przeglądania dokumentów - /browse/documents/) --lub-- &quot;rozwiń&quot; i ładowanie kolejnej grupy wierszy (np. kolejnych 5) przy pomocy AJAXa - link aktywny tak długo, jak długo będą dostępne kolejne dokumenty. Dla pozostałych kategorii - tak samo." ID="ID_607194187" CREATED="1635709946819" MODIFIED="1635710264505"/>
+</node>
+</node>
+<node TEXT="Które pola/tabele będę indeksował?" ID="ID_1455222036" CREATED="1636486103533" MODIFIED="1636486124704"><richcontent TYPE="DETAILS">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Ustalić jak się zapoznam z Elasticsearch.
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node TEXT="Elasticsearch" ID="ID_1737802720" CREATED="1635710727740" MODIFIED="1635710731055">
+<node TEXT="posiada paginację i sortowanie tak, jak bazy relacyjne" ID="ID_588009278" CREATED="1635710789238" MODIFIED="1635710798492"/>
+</node>
+<node TEXT="Szukanie pełnotekstowe (może oparte na możliwościach MySQL?)." ID="ID_754474006" CREATED="1635709784412" MODIFIED="1636481636752">
+<icon BUILTIN="button_cancel"/>
+</node>
+</node>
+<node TEXT="zrobić testy do listy dokumentów" ID="ID_676041441" CREATED="1636582184279" MODIFIED="1636582214234">
+<font BOLD="false"/>
+</node>
+</node>
 <node TEXT="zaprojektować listę dokumentów" ID="ID_27005830" CREATED="1634932507217" MODIFIED="1635505194090">
 <font BOLD="false"/>
-<node TEXT="pisać testy dla widoków - inaczej pisanie pozostałych elementów i poprawianie kodu będzie bardzo trudne" ID="ID_140828065" CREATED="1635444751407" MODIFIED="1636395941694">
-<font BOLD="true"/>
+<node TEXT="pisać testy dla widoków - inaczej pisanie pozostałych elementów i poprawianie kodu będzie bardzo trudne" ID="ID_140828065" CREATED="1635444751407" MODIFIED="1636483255943">
+<font BOLD="false"/>
 </node>
 <node TEXT="Lista dokumentów" ID="ID_568001826" CREATED="1634497996440" MODIFIED="1634498000606">
-<node TEXT="jakie parametry powinna przyjmować funkcja tworząca listę dokumentów:" ID="ID_623761250" CREATED="1634650086080" MODIFIED="1636396874483">
-<icon BUILTIN="button_ok"/>
-<node TEXT="hiperłącze z widoku osoby" ID="ID_388018853" CREATED="1634650105512" MODIFIED="1634650143358">
-<node TEXT="wg. funkcji" ID="ID_1149865242" CREATED="1634650144333" MODIFIED="1634650145158">
-<node TEXT="id osoby, id funkcji" ID="ID_1395696714" CREATED="1634650125857" MODIFIED="1635270835568"/>
-</node>
-<node TEXT="wg. tematu (dokumenty dla których osoba jest tematem)" ID="ID_1462891490" CREATED="1634650147566" MODIFIED="1634650217707"/>
-</node>
-<node TEXT="słowa kluczowe" ID="ID_1452758786" CREATED="1634672368281" MODIFIED="1634672370386">
-<node TEXT="widok słowa kluczowego" ID="ID_625786113" CREATED="1634651628897" MODIFIED="1634651633555">
-<node TEXT="odsyła do listy dokumentów do których to słowo przypisano" ID="ID_615401112" CREATED="1634651633578" MODIFIED="1634669007006"/>
-</node>
-<node TEXT="widok listy słów kluczowych" ID="ID_1576422645" CREATED="1634672337638" MODIFIED="1634672345656">
-<node TEXT="obok każdego słowa - dodać link do referencjonowanych dokumentów" ID="ID_538274096" CREATED="1634672345679" MODIFIED="1634672365232"/>
-</node>
-</node>
-</node>
-<node TEXT="Jeżeli wyświetlę profil osoby i w tym widoku będę miał hiperłącze z listą dokumentów w których: ta osoba jest przedmiotem; posiada funkcję (autor etc.). Po kliknięciu przeniosę się na listę tych dokumentów. Czy dla tych list (i listy wszystkich dokumentów z &apos;Browse/documents&apos;) da się zrobić: jeden szablon i jedną view function?" ID="ID_1620901373" CREATED="1634575203460" MODIFIED="1636396908677">
-<icon BUILTIN="button_ok"/>
-<node TEXT="rozpisać to na diagramie" ID="ID_418475903" CREATED="1634575386228" MODIFIED="1634575392204"/>
-<node TEXT="Funkcja dla trasy musi pobierać odpowiednie parametry dla kwerendy (z URL - generowany funkcją url_for; parametr pobierany przy pomocy request.args.get) - na podstawie tych parametrów powstanie odpowiednia kwerenda a potem te parametry trzeba przekazać do makra tworzącego paginację." ID="ID_1140698634" CREATED="1634635786809" MODIFIED="1635271120240"/>
-<node TEXT="można zastosować odpowiednie filtry w kwerendzie i dynamiczne części kwerendy, np. tworzone z użyciem funkcji" ID="ID_665430857" CREATED="1635265777706" MODIFIED="1635265813277"/>
-<node TEXT="interakcje:" ID="ID_1767833985" CREATED="1634637856780" MODIFIED="1634637859709">
-<node TEXT="hiperłącze z responsibility na stronie osoby (np. author) odsyła na listę dokumentów (z parametrem dla kwerendy)" ID="ID_1092621047" CREATED="1634637803589" MODIFIED="1634637855808"/>
-</node>
-</node>
-<node TEXT="Co się stanie, jeżeli będę chciał wyświetlić na liście dokumentów dokument, który nie ma przypisanego typu?" ID="ID_1824182255" CREATED="1635887032652" MODIFIED="1635887054375"/>
-<node TEXT="Kryteria wyświetlania (artykuły, książki etc.) mają być pobierane z listy typów dokumentów; to jak będą przetwarzane na paginowaną listę powinno zostać uogólnione i możliwe do zastosowania w innych szablonach." ID="ID_1239270300" CREATED="1634299255167" MODIFIED="1634299322064">
-<node TEXT="Tadzik jest studentem literaturoznawstwa i chciałby skorzystać z aplikacji bibliograficznej w celu wyszukania wśród skatalogowanych książek egzemplarzy wydanych w latach 1995-1996. W tym celu korzysta z listy dokumentów. W filtrach zaznacza interesujący go zakres lat wydania oraz typ dokumentu &quot;książka&quot; (book). W celu uzupełnienia wyszukiwania, może skorzystać z dodatkowych filtrów: wybrać osoby pełniące w dokumencie określoną funkcję (np. autora); instytucję - np. wydawcę; temat dokumentu - słowo kluczowe, instytucję, osobę itd. - spośród kategorii, które mogą stać się tematem. Wyboru dokonuje w okienkach modalnych umożliwiających wyszukanie interesujących go terminów." ID="ID_583863172" CREATED="1635269606214" MODIFIED="1635270702747">
+<node TEXT="Kryteria wyświetlania (artykuły, książki etc.) mają być pobierane z listy typów dokumentów; to jak będą przetwarzane na paginowaną listę powinno zostać uogólnione i możliwe do zastosowania w innych szablonach." ID="ID_1239270300" CREATED="1634299255167" MODIFIED="1636481609337">
+<node TEXT="Tadzik jest studentem literaturoznawstwa i chciałby skorzystać z aplikacji bibliograficznej w celu wyszukania wśród skatalogowanych książek egzemplarzy wydanych w latach 1995-1996. W tym celu korzysta z listy dokumentów. W filtrach zaznacza interesujący go zakres lat wydania oraz typ dokumentu &quot;książka&quot; (book). W celu uzupełnienia wyszukiwania, może skorzystać z dodatkowych filtrów: wybrać osoby pełniące w dokumencie określoną funkcję (np. autora); instytucję - np. wydawcę; temat dokumentu - słowo kluczowe, instytucję, osobę itd. - spośród kategorii, które mogą stać się tematem. Wyboru dokonuje w okienkach modalnych umożliwiających wyszukanie interesujących go terminów." ID="ID_583863172" CREATED="1635269606214" MODIFIED="1636481609333">
 <node TEXT="interfejs zaprojektować diagramem stanów" ID="ID_602873862" CREATED="1635270436092" MODIFIED="1635270442853"/>
 </node>
 </node>
 </node>
-</node>
-<node TEXT="ciała zbiorowe -&gt; ozn.odpowiedzialności-&gt;brak id ozn. odp:" FOLDED="true" ID="ID_174201013" CREATED="1636109182178" MODIFIED="1636109203474">
-<node TEXT="Nie powinno to mieć miejsca: Documents where collective body Baker, Trevino and Bennett holds responsibility - None:" ID="ID_962111098" CREATED="1636109203480" MODIFIED="1636109212685"/>
 </node>
 </node>
 <node TEXT="napisać testy" POSITION="left" ID="ID_1252667547" CREATED="1634676737843" MODIFIED="1636385800021" LINK="#ID_1401736301">
@@ -158,7 +284,9 @@
 <node TEXT="ozn. odpowiedzialności" ID="ID_1591984271" CREATED="1636063403030" MODIFIED="1636405358300">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="typy dokumentów" ID="ID_940734132" CREATED="1636063410373" MODIFIED="1636063415715"/>
+<node TEXT="typy dokumentów" ID="ID_940734132" CREATED="1636063410373" MODIFIED="1636901628082">
+<icon BUILTIN="button_ok"/>
+</node>
 <node TEXT="lista dokumentów" ID="ID_814705851" CREATED="1636063418743" MODIFIED="1636063421984"/>
 <node TEXT="lokalizacje geograficzne" ID="ID_918587485" CREATED="1636063422581" MODIFIED="1636063428554"/>
 <node TEXT="lista języków" ID="ID_1784760849" CREATED="1636063429014" MODIFIED="1636063433760"/>
@@ -313,13 +441,10 @@
 <node TEXT="piszę jak ten test ma wyglądać (opis w języku naturalnym lub pseudokodzie)" ID="ID_1169191315" CREATED="1635973078203" MODIFIED="1635973116364"/>
 <node TEXT="jeżeli będę coś sprawdzał ręcznie - zapisać (co sprawdzam ręcznie) i napisać test automatyczny" ID="ID_325597234" CREATED="1635974146018" MODIFIED="1635974163784"/>
 </node>
+<node TEXT="Co się stanie, jeżeli będę chciał wyświetlić na liście dokumentów dokument, który nie ma przypisanego typu?" ID="ID_1824182255" CREATED="1635887032652" MODIFIED="1636478914089"/>
 </node>
 <node TEXT="do zrobienia" FOLDED="true" POSITION="left" ID="ID_1566301330" CREATED="1636142067596" MODIFIED="1636142265552">
 <edge COLOR="#007c00"/>
-<node TEXT="Jeżeli listy (np. słów kluczowych) są puste, powinno wyświetlić komunikat, że brak elementów do wyświetlenia." FOLDED="true" ID="ID_374679143" CREATED="1634723344368" MODIFIED="1636142228895">
-<node TEXT="na stronie nadrzędnej (abstrakcyjnej?) powinien być opis jakich pól/parametrów wymaga" ID="ID_120377629" CREATED="1634723510471" MODIFIED="1634723532354"/>
-<node TEXT="powinno to działać tak jak metoda first_or_404: wyświetlić szablon lub stronę z inf. nt braku elementów" ID="ID_1983601442" CREATED="1634723989232" MODIFIED="1634724039411"/>
-</node>
 <node ID="ID_1227963654" CREATED="1634500543540" MODIFIED="1636142244134"><richcontent TYPE="NODE">
 
 <html>
@@ -335,9 +460,7 @@
 </richcontent>
 </node>
 <node TEXT="Porządkowanie elementów na listach (porządek rosnący lub malejący)" ID="ID_1239304059" CREATED="1634753563582" MODIFIED="1636142306063"/>
-<node TEXT="wyszukiwarka nie powinna przeładowywać całej strony - użycie AJAXa" FOLDED="true" ID="ID_1509402273" CREATED="1634933366756" MODIFIED="1636142327383">
-<node TEXT="ostatecznie zrobię tak tylko listę słów" ID="ID_1660690092" CREATED="1636142317606" MODIFIED="1636142325871"/>
-</node>
+<node TEXT="Niektóre listy (przede wszystkim l. dokumentów) wyglądają dość biednie - wypada je uzupełnić dodatkowymi informacjami." ID="ID_379768895" CREATED="1636489033965" MODIFIED="1636489068542"/>
 <node TEXT="W fake.documents: dokument nie może mieć dodanego samego siebie jako dokumentu podrzędnego." ID="ID_1932536815" CREATED="1634418183047" MODIFIED="1636142350358"/>
 <node TEXT="w jakim porządku powinny być ułożone funkcje dla tras?" FOLDED="true" ID="ID_1221608340" CREATED="1634658431582" MODIFIED="1636142365172">
 <node TEXT="sprawdzić w podręczniku/kodzie aplikacji z podręcznika" ID="ID_630493226" CREATED="1634658443717" MODIFIED="1634658462207"/>
@@ -346,40 +469,22 @@
 <node TEXT="A jeszcze lepiej - zrobić podstronę o ISBD, IFLA etc." ID="ID_916179488" CREATED="1636142581356" MODIFIED="1636142594973"/>
 </node>
 <node TEXT="dodać osobną trasę z listą linków prowadzących do rekordów które można przeglądać (&quot;browse&quot;) - szczegóły w diagramach widoków" ID="ID_1229959108" CREATED="1634135358907" MODIFIED="1636142693972"/>
-<node TEXT="Role (responsibilities) osób/ciał zbiorowych w dokumencie" FOLDED="true" ID="ID_1680901782" CREATED="1633460790504" MODIFIED="1636142741990">
-<icon BUILTIN="button_ok"/>
-<font BOLD="false"/>
-<node TEXT="Podstawowe - dodane do bazy tak jak role użytkowników - w ten sposób będzie to można wykorzystać w interfejsie." FOLDED="true" ID="ID_1874436952" CREATED="1633460800885" MODIFIED="1634305082443">
-<icon BUILTIN="button_ok"/>
-<node TEXT="metoda add_basic_responsibilities w models.py" ID="ID_356482532" CREATED="1633982620575" MODIFIED="1634152796141">
-<font BOLD="false"/>
-</node>
-<node TEXT="autor, tłumacz etc." ID="ID_199733821" CREATED="1633460888535" MODIFIED="1633460892859"/>
-</node>
-<node TEXT="Inne - dodawane/zmieniane z poziomu aplikacji." ID="ID_31238353" CREATED="1633981629719" MODIFIED="1633981649039"/>
-</node>
-<node TEXT="zaprojektować ogólne interakcje (na pdstw. use-cases - np. gdzie po danej interakcji aplikacja powinna mnie odesłać - np. po zmodyfikowaniu i zapisaniu opisu bibliograficznego na stronę wyświetlającą ten opis lub wyświetlić komunikat niepowodzenia modyfikacji [etc.])" FOLDED="true" ID="ID_1006816947" CREATED="1630965034139" MODIFIED="1636142948062">
-<node TEXT="tworzenie konta" ID="ID_519157732" CREATED="1632949869890" MODIFIED="1636142943997"/>
-</node>
 <node TEXT="w bd dodać check constraint w tabeli self-referential many-to-many między dokumentami: dokument nie może odnosić się sam do siebie (np. czasopismo może być dokumentem nadrzędnym wobec artykułu, artykuł/czasopismo nie może być dok. podrzędnym/nadrzędnym wobec samego siebie)" ID="ID_920647133" CREATED="1634897961331" MODIFIED="1636142995464"/>
 <node TEXT="Dodać do bd listę zapisanych przez użytkownika pozycji" ID="ID_761561780" CREATED="1632998613361" MODIFIED="1636143004595"/>
-<node TEXT="Zrobić funkcje które będą automatycznie dodawały klasy do konkretnych elementów w szablonie html (w celu uzyskania odpowiednich stylów na stronach)." FOLDED="true" ID="ID_263205327" CREATED="1634721677770" MODIFIED="1636143080951">
+<node TEXT="Zrobić funkcje które będą automatycznie dodawały klasy do konkretnych elementów w szablonie html (w celu uzyskania odpowiednich stylów na stronach)." ID="ID_263205327" CREATED="1634721677770" MODIFIED="1636143080951">
 <node TEXT="Automatyczne dodawanie klas do elementów w JS." FOLDED="true" ID="ID_1596444331" CREATED="1634721655869" MODIFIED="1634721669259">
 <node TEXT="https://stackoverflow.com/questions/927312/how-to-append-a-css-class-to-an-element-by-javascript/52052493" ID="ID_781362436" CREATED="1634721671261" MODIFIED="1634721671261" LINK="https://stackoverflow.com/questions/927312/how-to-append-a-css-class-to-an-element-by-javascript/52052493"/>
 </node>
 <node TEXT="przemyśleć jakie klasy powinny mieć elementy do których będę dodawał (klasy Bootstrapa), jak będą wyglądały funkcje etc." ID="ID_1920078552" CREATED="1634722176828" MODIFIED="1634722213218"/>
 </node>
 <node TEXT="Dodać sortowanie list w widoku dokumentu." ID="ID_1155687546" CREATED="1634560752599" MODIFIED="1636143090018"/>
-<node TEXT="strony z błędami" FOLDED="true" ID="ID_929969456" CREATED="1633687276556" MODIFIED="1636143096356">
+<node TEXT="strony z błędami" ID="ID_929969456" CREATED="1633687276556" MODIFIED="1636143096356">
 <node TEXT="dodać strony błędów (403, 404) spójne z resztą (stron)" ID="ID_982863066" CREATED="1634149669477" MODIFIED="1634149690838"/>
 </node>
 <node TEXT="Zamiast documents: none powinno wyświetlać &quot;empty list&quot;." ID="ID_546065696" CREATED="1636117064374" MODIFIED="1636143157415"/>
 <node TEXT="lista dokumentów zależnych powinna być taka jak np. lista tematów-ludzi" ID="ID_515296774" CREATED="1635257588879" MODIFIED="1636143197605"/>
 <node TEXT="W stopce dodać m.in. Githuba etc." ID="ID_1979427547" CREATED="1633979286053" MODIFIED="1636143203083"/>
-<node TEXT="Zaprojektować stronę z rezultatami szybkiego wyszukiwania." FOLDED="true" ID="ID_1627936475" CREATED="1633725425644" MODIFIED="1636143242249">
-<node TEXT="Szukanie zaprojektować dopiero gdy przyjrzę się narzędziom do wyszukiwania." ID="ID_1140692085" CREATED="1635259116926" MODIFIED="1635259134522"/>
-</node>
-<node TEXT="blokowanie rekordów do edycji" FOLDED="true" ID="ID_222293649" CREATED="1634117528225" MODIFIED="1636143251734">
+<node TEXT="blokowanie rekordów do edycji" ID="ID_222293649" CREATED="1634117528225" MODIFIED="1636143251734">
 <node TEXT="Record locking strategies" FOLDED="true" ID="ID_735266412" CREATED="1631298262727" MODIFIED="1631298284796">
 <node TEXT="źródła" FOLDED="true" ID="ID_1582640380" CREATED="1631298702721" MODIFIED="1631298705517">
 <node TEXT="Gray, Jim &amp; Reuter, Andreas (1993), Distributed Transaction Processing: Concepts and Techniques, Morgan Kaufmann, pp. 375–437, ISBN 1-55860-190-2" ID="ID_1243386771" CREATED="1631298593687" MODIFIED="1631298595113"/>
@@ -467,18 +572,6 @@
 <node TEXT="powiadomienia o raportach (np. &quot;wprowadzono zmiany w bd&quot;)" ID="ID_1063612012" CREATED="1630416992936" MODIFIED="1630417014341"/>
 </node>
 </node>
-<node ID="ID_837565166" CREATED="1636190418695" MODIFIED="1636190418695"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <span style="color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small; font-style: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none"><font color="rgb(34, 34, 34)" face="Arial, Helvetica, sans-serif" size="small">Formularz selekcji dokumentów: może niech po wyborze typów dok znika, potem można go wywołać przyciskiem, wtedy ładuje parametry wg których wyświetlane są dokumenty, lub - niech jest tworzony w szablonie wg parametrów w url lub np zmiennych przekazywanych do szablonu - np słownika search parameters?</font></span>
-  </body>
-</html>
-</richcontent>
-</node>
 <node ID="ID_888065270" CREATED="1636376057494" MODIFIED="1636376069610"><richcontent TYPE="NODE">
 
 <html>
@@ -491,19 +584,7 @@
     </p>
   </body>
 </html>
-
 </richcontent>
-</node>
-<node TEXT="wyszukiwanie pełnotekstowe" FOLDED="true" ID="ID_504906659" CREATED="1635710718237" MODIFIED="1636394104319">
-<node TEXT="Szukanie pełnotekstowe (może oparte na możliwościach MySQL?)." ID="ID_754474006" CREATED="1635709784412" MODIFIED="1635805403964"/>
-<node TEXT="chyba powinno mieć własną trasę - przejrzeć dokumentację" FOLDED="true" ID="ID_1381180607" CREATED="1635805404462" MODIFIED="1635805405656">
-<node TEXT="Jeżeli będę robił wyszukiwanie dla wszystkich kategorii rekordów, będzie miało inną trasę. Jak byłoby to zorganizowane:" FOLDED="true" ID="ID_1223105505" CREATED="1635709916494" MODIFIED="1635709946798">
-<node TEXT="Wyniki z dokumentów: skrócona lista dokumentów - np. 5 pozycji; jeżeli jest więcej - dla pozostałych: link &quot;zobacz więcej&quot; odsyłający do listy zawierającej tylko dokumenty (i prawdopodobnie do trasy przeglądania dokumentów - /browse/documents/) --lub-- &quot;rozwiń&quot; i ładowanie kolejnej grupy wierszy (np. kolejnych 5) przy pomocy AJAXa - link aktywny tak długo, jak długo będą dostępne kolejne dokumenty. Dla pozostałych kategorii - tak samo." ID="ID_607194187" CREATED="1635709946819" MODIFIED="1635710264505"/>
-</node>
-</node>
-<node TEXT="Elasticsearch" FOLDED="true" ID="ID_1737802720" CREATED="1635710727740" MODIFIED="1635710731055">
-<node TEXT="posiada paginację i sortowanie tak, jak bazy relacyjne" ID="ID_588009278" CREATED="1635710789238" MODIFIED="1635710798492"/>
-</node>
 </node>
 <node TEXT="ResponsibilityName.modifiable powinno mieć atr. nullable=False" ID="ID_1260377471" CREATED="1635157646373" MODIFIED="1636394252999"/>
 <node TEXT="możliwość blokowania/zawieszania konta użytkownika" ID="ID_971220876" CREATED="1635151459650" MODIFIED="1636394284648"/>
@@ -515,7 +596,9 @@
 </node>
 <node TEXT="Jeżeli przewijam np. listę osób po tym, jak dostałem się tam z np. widoku oznaczenia odpowiedzialności, chciałbym łatwym sposobem na stronę widoku ozn. odp. wrócić - jak to zrobić? (Zdaje się, że było o tym w podręczniku)." ID="ID_428121528" CREATED="1635282931718" MODIFIED="1636394355567"/>
 <node TEXT="Z widoków szczegółów od liczby dokumentów wyświetlanej na stronie powinno odsyłać: do listy dokumentów - jeżeli jest ich więcej niż 1, do dokumentu - jeżeli jest tylko 1, hiperłącze nieaktywne - jeżeli jest 0." ID="ID_948933662" CREATED="1634753754227" MODIFIED="1636394672016"/>
-<node TEXT="Rekordu typu miejsce, słowo kluczowe, osoby etc., nie można skasować, jeżeli jest powiązany z jakimkolwiek dokumentem - system ma to blokować (tylko kiedy znikną referencje - wolno skasować)." ID="ID_708705680" CREATED="1635109840847" MODIFIED="1636394688197"/>
+<node TEXT="Rekordu typu miejsce, słowo kluczowe, osoby etc., nie można skasować, jeżeli jest powiązany z jakimkolwiek dokumentem - system ma to blokować (tylko kiedy znikną referencje - wolno skasować)." ID="ID_708705680" CREATED="1635109840847" MODIFIED="1636481341137">
+<icon BUILTIN="xmag"/>
+</node>
 <node TEXT="Anonimowy użytkownik/uż. bez uprawnień/uż. konta nie aktywowanego, który będzie chciał wejść np. na stronę edycji rekordu zostanie przekierowany na inną stronę (szczegóły techniczne w pliku ze źródłami-notatkami i notatkach we Freeplane)." FOLDED="true" ID="ID_123252507" CREATED="1629284097575" MODIFIED="1636394729143">
 <icon BUILTIN="xmag"/>
 <node TEXT="stronę logowania" ID="ID_1091888054" CREATED="1629379887272" MODIFIED="1629379890672"/>
@@ -528,18 +611,24 @@
 <node TEXT="warto też oddzielić funkcje interfejsu ogólniedostępnego od tras dla osób redagujących" ID="ID_1832321193" CREATED="1634920769709" MODIFIED="1636395036609"/>
 </node>
 <node TEXT="Szablony z listami elementów zrobić podobnie jak szablon listy dokumentów (zmienione makro do paginacji)." ID="ID_520352425" CREATED="1635355201345" MODIFIED="1636395173241"/>
-<node TEXT="wyrazić instrukcje warunkowe w funkcji documents_list na diagramie - tak, żeby kod się nie powtarzał i żeby sprawdzić jak dobrze mi idzie robienie instrukcji warunkowych" ID="ID_72117529" CREATED="1635423848683" MODIFIED="1636395201593">
-<icon BUILTIN="button_ok"/>
-<font BOLD="false"/>
-</node>
 <node TEXT="zrobić dokumentację do parametrów do makr (co oznaczają parametry, jakie przyjmują wartości etc.)" ID="ID_53596417" CREATED="1635423978804" MODIFIED="1636395281484"/>
-<node TEXT="paginacja widoku przeglądania" FOLDED="true" ID="ID_1692035509" CREATED="1634201956980" MODIFIED="1636395314847">
-<node TEXT="osoby" ID="ID_1935367177" CREATED="1634294640028" MODIFIED="1634294643637"/>
-<node TEXT="nazwy geograficzne" ID="ID_1877642994" CREATED="1634294645021" MODIFIED="1634294651924"/>
-<node TEXT="słowa kluczowe" ID="ID_667584056" CREATED="1634294662097" MODIFIED="1634294671764"/>
-<node TEXT="nazwy ciał zbiorowych" ID="ID_1996224387" CREATED="1634294677697" MODIFIED="1634294682146"/>
-<node TEXT="dokumenty" ID="ID_1215632252" CREATED="1634294714194" MODIFIED="1634294717255"/>
-<node TEXT="Zamiast filtra, pozostawić tylko listę liter z hiperłączami." FOLDED="true" ID="ID_71345221" CREATED="1634294525594" MODIFIED="1634297078957"><richcontent TYPE="DETAILS">
+<node TEXT="paginacja widoku przeglądania" ID="ID_1692035509" CREATED="1634201956980" MODIFIED="1636395314847">
+<node TEXT="osoby" ID="ID_1935367177" CREATED="1634294640028" MODIFIED="1636481440758">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="nazwy geograficzne" ID="ID_1877642994" CREATED="1634294645021" MODIFIED="1636481440760">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="słowa kluczowe" ID="ID_667584056" CREATED="1634294662097" MODIFIED="1636481440760">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="nazwy ciał zbiorowych" ID="ID_1996224387" CREATED="1634294677697" MODIFIED="1636481440761">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="dokumenty" ID="ID_1215632252" CREATED="1634294714194" MODIFIED="1636481440761">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Zamiast filtra, pozostawić tylko listę liter z hiperłączami." ID="ID_71345221" CREATED="1634294525594" MODIFIED="1634297078957"><richcontent TYPE="DETAILS">
 
 <html>
   <head>
@@ -552,15 +641,22 @@
   </body>
 </html>
 </richcontent>
-<node TEXT="Grupowanie wg. liter" FOLDED="true" ID="ID_1693062899" CREATED="1634294572603" MODIFIED="1634294608547">
+<node TEXT="Grupowanie wg. liter" ID="ID_1693062899" CREATED="1634294572603" MODIFIED="1634294608547">
 <node TEXT="Grupowanie wpisów na stronie/w szablonie wg. liter alfabetu:&#xa;&#xa;+ pętla drukująca listę powinna drukować literę:&#xa; - na początku strony (jeżeli na poprzedniej nie ma wpisów na tą literę)&#xa; - przy przejściu od jednej litery do drugiej&#xa;&#xa;+ linki: hiperłącze od każdej litery powinno mnie odesłać do odpowiedniej strony na liście paginowanej&#xa; - kod funkcji powinien przeglądać/sprawdzać od której strony rozpoczyna się dana litera&#xa;&#xa;+ lista liter:&#xa; - moduł string, lista string.ascii_uppercase&#xa;&#xa;sprawdzić:&#xa;+ jak mogę przeglądać listę paginowaną&#xa;+ dokumentację tej metody" ID="ID_1333784630" CREATED="1634297065363" MODIFIED="1634297376758"/>
 </node>
 <node TEXT="Tadzik poszukuje informacji o książkach autora: Jana Nowaka-Kowalskiego. W tym celu w aplikacji bibliograficznej wybiera z menu: przeglądaj (browse) -&gt; nazwy osobowe (personal names). Wyświetla się stronicowana lista nazwisk w alfabetycznym porządku nazwisk, domyślnie rosnącym (A-Z). W górnej części listy znajduje się grupa hiperłączy w postaci liter alfabetu, odsyłających do konkretnej lokalizacji na liście: strony, gdzie nazwiska autorów rozpoczynają się od konkretnej litery. Aby ułatwić sobie przeglądanie, Tadzik klika na &quot;N&quot; po czym wyświetla mu się strona, na której rozpoczynają się nazwiska osób na tą literę." ID="ID_1130692478" CREATED="1635265917629" MODIFIED="1635268704674"/>
 <node TEXT="Linki od litery powinny odsyłać do określonej grupy." ID="ID_244576480" CREATED="1634294577977" MODIFIED="1634294605142"/>
 </node>
 </node>
+<node TEXT="Jeżeli listy (np. słów kluczowych) są puste, powinno wyświetlić komunikat, że brak elementów do wyświetlenia." ID="ID_374679143" CREATED="1634723344368" MODIFIED="1636142228895">
+<node TEXT="na stronie nadrzędnej (abstrakcyjnej?) powinien być opis jakich pól/parametrów wymaga" ID="ID_120377629" CREATED="1634723510471" MODIFIED="1634723532354"/>
+<node TEXT="powinno to działać tak jak metoda first_or_404: wyświetlić szablon lub stronę z inf. nt braku elementów" ID="ID_1983601442" CREATED="1634723989232" MODIFIED="1634724039411"/>
 </node>
-<node TEXT="testy" FOLDED="true" POSITION="left" ID="ID_1401736301" CREATED="1629383005379" MODIFIED="1636394835927">
+<node TEXT="Spróbować jeszcze raz przepisać formularz z typami dokumentów na liście dokumentów z przesyłaniem danych z formularza metodą get wg. tych informacji (bez przesyłania tokena cs... - można go zablokować):" ID="ID_1351934235" CREATED="1636554817963" MODIFIED="1636554889506">
+<node TEXT="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xvi-full-text-search" ID="ID_467358217" CREATED="1636554872045" MODIFIED="1636554872045" LINK="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xvi-full-text-search"/>
+</node>
+</node>
+<node TEXT="testy" POSITION="left" ID="ID_1401736301" CREATED="1629383005379" MODIFIED="1636394835927">
 <edge COLOR="#7c007c"/>
 <node TEXT="zasady" FOLDED="true" ID="ID_1111186491" CREATED="1630936650178" MODIFIED="1630936651734">
 <node TEXT="Na potrzeby testów należy wypełnić bazę danymi wygenerowanymi przez moduł faker." LOCALIZED_STYLE_REF="defaultstyle.details" ID="ID_1986445917" CREATED="1629383013175" MODIFIED="1634931622597">
@@ -656,6 +752,9 @@
 </node>
 </node>
 </node>
+<node TEXT="ciała zbiorowe -&gt; ozn.odpowiedzialności-&gt;brak id ozn. odp:" ID="ID_174201013" CREATED="1636109182178" MODIFIED="1636478894816">
+<node TEXT="Nie powinno to mieć miejsca: Documents where collective body Baker, Trevino and Bennett holds responsibility - None:" ID="ID_962111098" CREATED="1636109203480" MODIFIED="1636109212685"/>
+</node>
 </node>
 <node TEXT="odrzucone" FOLDED="true" POSITION="right" ID="ID_173883321" CREATED="1636142770917" MODIFIED="1636142773899">
 <edge COLOR="#007c7c"/>
@@ -697,8 +796,8 @@
 <node TEXT="Serię można dodać jako osobny dokument w relacji lub zapisać w polu &quot;series&quot;." ID="ID_1328673962" CREATED="1630963940307" MODIFIED="1630963970997"/>
 <node TEXT="Wyświetlanie komunikatów, zmiany w interfejsie (na stronach, reakcje programu na wybór poszczególnych opcji, kliknięcia przycisków, linków etc.) - opisać na diagramie automatu skończonego." ID="ID_1053619492" CREATED="1629380606296" MODIFIED="1629380653976"/>
 <node TEXT="Napisać use stories." ID="ID_1473096723" CREATED="1629979628688" MODIFIED="1629979640485"/>
-<node TEXT="Czego będę potrzebował" FOLDED="true" ID="ID_132245771" CREATED="1629979799667" MODIFIED="1629979805176">
-<node TEXT=".query.count()" FOLDED="true" ID="ID_1411578835" CREATED="1629979807027" MODIFIED="1629979814948">
+<node TEXT="Czego będę potrzebował" ID="ID_132245771" CREATED="1629979799667" MODIFIED="1629979805176">
+<node TEXT=".query.count()" ID="ID_1411578835" CREATED="1629979807027" MODIFIED="1629979814948">
 <node TEXT="liczy rekordy" ID="ID_1975222968" CREATED="1629979814955" MODIFIED="1629979818665"/>
 </node>
 <node TEXT="tabele asocjacyjne w relacjach many-to-many (w pliku źródłowym z notatkami)" ID="ID_424109971" CREATED="1629980053593" MODIFIED="1629980078462"/>
@@ -709,6 +808,9 @@
 <node TEXT="z PBL" ID="ID_1535798366" CREATED="1633201198386" MODIFIED="1633201200136"/>
 <node TEXT="API Biblioteki Kongresu" ID="ID_1831754446" CREATED="1633201200396" MODIFIED="1633201210028"/>
 <node TEXT="API Biblioteki Narodowej" ID="ID_1887344515" CREATED="1633201210193" MODIFIED="1633201215592"/>
+</node>
+<node TEXT="zaprojektować ogólne interakcje (na pdstw. use-cases - np. gdzie po danej interakcji aplikacja powinna mnie odesłać - np. po zmodyfikowaniu i zapisaniu opisu bibliograficznego na stronę wyświetlającą ten opis lub wyświetlić komunikat niepowodzenia modyfikacji [etc.])" FOLDED="true" ID="ID_1006816947" CREATED="1630965034139" MODIFIED="1636481536416">
+<node TEXT="tworzenie konta" ID="ID_519157732" CREATED="1632949869890" MODIFIED="1636142943997"/>
 </node>
 </node>
 <node TEXT="wymogi" FOLDED="true" POSITION="left" ID="ID_1828324630" CREATED="1636394801812" MODIFIED="1636394813460">
@@ -1839,6 +1941,48 @@
 <node TEXT="oryginał notatki:" FOLDED="true" ID="ID_441910303" CREATED="1635341964221" MODIFIED="1635341968592">
 <node TEXT="Odsyłacze ze stron prowadzące do listy dokumentów - diagramy interakcji z parametrami wejścia/wyjścia:&#xa; + ciało zbiorowe - szczegóły:&#xa;   - responsibility (dokumenty w których to&#xa;     ciało zbiorowe pełni określoną funkcję -&#xa;     parametrem jest id funkcji i c.zbiorowego)&#xa;   - dokumenty dla których ciało zbiorowe jest&#xa;     tematem&#xa; + typ dokumentu (document type) - szczegóły:&#xa;   - dokumenty (określonego typu dokumentu,&#xa;     np. typu &quot;book&quot;)&#xa; + lokalizacje geograficzne (geographic&#xa;   locations) - lista:&#xa;   - dokumenty opublikowane w danej lokalizacji&#xa;     (documents published)&#xa;   - dokumenty dla których dana lokalizacja&#xa;     jest tematem (documents-topic)&#xa; + lokalizacje geograficzne (geographic&#xa;   locations) - szczegóły lokalizacji:&#xa;   - j.w. (powtórzenie linków)&#xa; + słowa kluczowe: lista i szczegóły:&#xa;   - dokumenty dla których dane słowo jest&#xa;     tematem&#xa; + Języki - szczegóły:&#xa;   - dokumenty opublikowane w danym języku&#xa;   - dokumenty dla których jest to język oryg.&#xa;   - dokumenty dla których dany język jest&#xa;     tematem&#xa; + Nazwy osobowe - szczegóły:&#xa;   - responsibility (dokumenty w których osoba&#xa;     pełni określoną funkcję -&#xa;     parametrem jest id funkcji i osoby)&#xa;   - dokumenty, w których dana osoba jest&#xa;     tematem dokumentu" ID="ID_1546401452" CREATED="1635341930317" MODIFIED="1635341938399"/>
 </node>
+</node>
+<node TEXT="jakie parametry powinna przyjmować funkcja tworząca listę dokumentów:" ID="ID_623761250" CREATED="1634650086080" MODIFIED="1636478825481">
+<icon BUILTIN="button_ok"/>
+<node TEXT="hiperłącze z widoku osoby" ID="ID_388018853" CREATED="1634650105512" MODIFIED="1634650143358">
+<node TEXT="wg. funkcji" ID="ID_1149865242" CREATED="1634650144333" MODIFIED="1634650145158">
+<node TEXT="id osoby, id funkcji" ID="ID_1395696714" CREATED="1634650125857" MODIFIED="1635270835568"/>
+</node>
+<node TEXT="wg. tematu (dokumenty dla których osoba jest tematem)" ID="ID_1462891490" CREATED="1634650147566" MODIFIED="1634650217707"/>
+</node>
+<node TEXT="słowa kluczowe" ID="ID_1452758786" CREATED="1634672368281" MODIFIED="1634672370386">
+<node TEXT="widok słowa kluczowego" ID="ID_625786113" CREATED="1634651628897" MODIFIED="1634651633555">
+<node TEXT="odsyła do listy dokumentów do których to słowo przypisano" ID="ID_615401112" CREATED="1634651633578" MODIFIED="1634669007006"/>
+</node>
+<node TEXT="widok listy słów kluczowych" ID="ID_1576422645" CREATED="1634672337638" MODIFIED="1634672345656">
+<node TEXT="obok każdego słowa - dodać link do referencjonowanych dokumentów" ID="ID_538274096" CREATED="1634672345679" MODIFIED="1634672365232"/>
+</node>
+</node>
+</node>
+<node TEXT="Jeżeli wyświetlę profil osoby i w tym widoku będę miał hiperłącze z listą dokumentów w których: ta osoba jest przedmiotem; posiada funkcję (autor etc.). Po kliknięciu przeniosę się na listę tych dokumentów. Czy dla tych list (i listy wszystkich dokumentów z &apos;Browse/documents&apos;) da się zrobić: jeden szablon i jedną view function?" ID="ID_1620901373" CREATED="1634575203460" MODIFIED="1636478825489">
+<icon BUILTIN="button_ok"/>
+<node TEXT="rozpisać to na diagramie" ID="ID_418475903" CREATED="1634575386228" MODIFIED="1634575392204"/>
+<node TEXT="Funkcja dla trasy musi pobierać odpowiednie parametry dla kwerendy (z URL - generowany funkcją url_for; parametr pobierany przy pomocy request.args.get) - na podstawie tych parametrów powstanie odpowiednia kwerenda a potem te parametry trzeba przekazać do makra tworzącego paginację." ID="ID_1140698634" CREATED="1634635786809" MODIFIED="1635271120240"/>
+<node TEXT="można zastosować odpowiednie filtry w kwerendzie i dynamiczne części kwerendy, np. tworzone z użyciem funkcji" ID="ID_665430857" CREATED="1635265777706" MODIFIED="1635265813277"/>
+<node TEXT="interakcje:" ID="ID_1767833985" CREATED="1634637856780" MODIFIED="1634637859709">
+<node TEXT="hiperłącze z responsibility na stronie osoby (np. author) odsyła na listę dokumentów (z parametrem dla kwerendy)" ID="ID_1092621047" CREATED="1634637803589" MODIFIED="1634637855808"/>
+</node>
+</node>
+<node TEXT="Role (responsibilities) osób/ciał zbiorowych w dokumencie" ID="ID_1680901782" CREATED="1633460790504" MODIFIED="1636481127550">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="Podstawowe - dodane do bazy tak jak role użytkowników - w ten sposób będzie to można wykorzystać w interfejsie." ID="ID_1874436952" CREATED="1633460800885" MODIFIED="1634305082443">
+<icon BUILTIN="button_ok"/>
+<node TEXT="metoda add_basic_responsibilities w models.py" ID="ID_356482532" CREATED="1633982620575" MODIFIED="1634152796141">
+<font BOLD="false"/>
+</node>
+<node TEXT="autor, tłumacz etc." ID="ID_199733821" CREATED="1633460888535" MODIFIED="1633460892859"/>
+</node>
+<node TEXT="Inne - dodawane/zmieniane z poziomu aplikacji." ID="ID_31238353" CREATED="1633981629719" MODIFIED="1633981649039"/>
+</node>
+<node TEXT="wyrazić instrukcje warunkowe w funkcji documents_list na diagramie - tak, żeby kod się nie powtarzał i żeby sprawdzić jak dobrze mi idzie robienie instrukcji warunkowych" ID="ID_72117529" CREATED="1635423848683" MODIFIED="1636481378638">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
 </node>
 </node>
 <node TEXT="do zrobienia w kolejnej wersji" FOLDED="true" POSITION="right" ID="ID_566144622" CREATED="1636143329422" MODIFIED="1636395367347">

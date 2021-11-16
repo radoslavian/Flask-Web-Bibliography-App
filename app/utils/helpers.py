@@ -1,11 +1,11 @@
 '''Helper classes/functions for the app.
 '''
 
-from app.models import ResponsibilityName
+from app import models
+from app.models import ResponsibilityName, DocumentType
 from flask import request, current_app
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, SubmitField
-from app.models import DocumentType
 
 def get_responsibility_identifiers(responsibility_id=None):
     '''Returns tuple with responsibility id and name or redirects to 404 page
@@ -83,3 +83,35 @@ def select_document_types():
             return selected_doc_types_ids
 
     return SelectDocumentTypes
+
+
+
+def get_query_list(model):
+    '''Returns list of items from the SQLAlchemy model
+    searched using Elasticsearch.
+
+    Returned items can be serialized into JSON for use
+    in search templates.
+    model - SQLAlchemy model from models.py
+    '''
+    query, _ = model.search(
+        request.json.get('query', None),
+        request.json.get('page', 1),
+        current_app.config['SHORT_LIST_ENTRIES_PER_PAGE'])
+    return [{'text': item,
+             'id': item.id} for item in query]
+
+
+def search_multiple_models(models):
+    '''Searches multiple models from the database and returns
+    combined lists (each made by get_query_list)
+    of results with source specified by a tablename.
+    '''
+    combined_lists = []
+    for model in models:
+        combined_lists.extend(
+            [{'text': item['text'],
+              'id': item['id'],
+              'source': model.__tablename__}
+             for item in get_query_list(model)])
+    return combined_lists

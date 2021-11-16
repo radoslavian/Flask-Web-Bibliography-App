@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="row">
+    <div class="col">
+      <div id="people-responsibilities-list"></div>
+      <h4>Select names of the people to search in document_s
+	responsibility area:</h4>
+      <a class="btn btn-primary" data-toggle="collapse"
+	 href="#search-people" role="button"
+	 aria-expanded="false" aria-controls="search-people">
+	 Select person name:
+      </a>
+      <div class="collapse" id="search-people">
+	<div class="card card-body">
+	  <input class="form-control" id="responsibility-person"
+		 type="text" placeholder="Search...">
+		 <div id="people-names-filter"
+		      class="filter_drop_down list-group"></div>
+	</div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  {{ super() }}
+  <script type="application/javascript" 
+  	  src="{{ url_for('static', filename='document_search.js') }}">
+  </script>
+  <script type="application/javascript">
+    let server_callbacks = [
+	{
+	    "input": "#responsibility-person",
+	    "url": "{{ url_for('.get_person_entries') }}",
+	    "drop_down": "#people-names-filter",
+	    "people_ids_list": Set()
+	}
+    ]
+    $(document).ready(set_up_server_callbacks(server_callbacks));
+  </script>
+{% endblock %}
