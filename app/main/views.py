@@ -309,16 +309,34 @@ def documents_list():
 def get_person_entries():
     '''Returns JSON Array of <number> entries, on a <page_num> page.
     '''
-    return jsonify(search_multiple_models([Person, PersonNameVariant]))
+    output = get_query_list(Person)
+    output.extend(
+        {'text': item, 'id': item.person_id}
+        for item in get_es_search_params(PersonNameVariant)[0])
+    return jsonify(output)
 
 
-@main.route('/search/name-variants/', methods=['POST'])
-def get_name_variant():
-    # dodać pobieranie arg.: id = 
-    name_variant = PersonNameVariant.query.filter_by(variant_id=id).first()
-    return jsonify({"text": name_variant,
-                    "points_at": name_variant.person,
-                    "id": name_variant.person.person_id})
+@main.route('/search/keywords', methods=['POST'])
+def get_keywords():
+    return jsonify(get_query_list(Keyword))
+
+
+@main.route('/search/geographic_locations', methods=['POST'])
+def get_geographic_location():
+    return jsonify(get_query_list(GeographicLocation))
+
+
+@main.route('/search/collective_bodies', methods=['POST'])
+def get_collective_bodies():
+    return jsonify(get_query_list(CollectiveBody))
+
+
+@main.route('/search/languages', methods=['POST'])
+def get_language_entries():
+    '''Returns json array of languages searched in the db using
+    searchengine.
+    '''
+    return jsonify(get_query_list(Language))
 
 
 @main.route('/document-search', methods=['GET', 'POST'])
@@ -329,3 +347,10 @@ def document_search():
 @main.route('/search')
 def search():
     return 'to be made'
+
+
+# For searchign documents testing purposes
+@main.route('/search/documents')
+def search_documents():
+    args = request.args.getlist('keyword_id')
+    return str(args)

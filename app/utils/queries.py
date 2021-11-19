@@ -65,7 +65,7 @@ def collective_body_entry(search_parameters):
 
 def person_entry(search_parameters):
     '''Returns query for documents_list where search entry is
-    a person entry.
+    a person (as a subject or responsibility holder).
     '''
     person = Person.query.filter_by(
         person_id=search_parameters['id_number']).first_or_404()
@@ -169,3 +169,9 @@ query_pattern_matching = {
     'subject_keyword'     : subject_keyword_entry,
     'language'            : language_entry
 }
+
+
+# queries for document search route
+def document_search_people():
+    pass
+    # db.session.query(Document).select_from(Document)

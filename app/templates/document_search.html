@@ -2,24 +2,242 @@
 {% block content %}
   <div class="row">
     <div class="col">
+      <h5>People names in responsibility area:</h5>
       <div id="people-responsibilities-list"></div>
-      <h4>Select names of the people to search in document_s
-	responsibility area:</h4>
+	<a class="btn btn-primary" data-toggle="collapse"
+	   href="#search-people" role="button"
+	   aria-expanded="false" aria-controls="search-people">
+	   Select a person name:
+	</a>
+	<div class="collapse" id="search-people">
+	  <div class="card card-body">
+	    <input class="form-control" id="responsibility-person" type="text" placeholder="Search...">
+	    <div id="people-names-filter" class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div> <!-- id="search-people" -->
+    </div> <!-- col -->
+    <div class="col">
+      <h5>People names as subject headers:</h5>
+      <div id="people-topics-list"></div>
+	<a class="btn btn-primary" data-toggle="collapse"
+	   href="#search-people-topics" role="button"
+	   aria-expanded="false" aria-controls="search-people-topics">
+	   Select a person name:
+	</a>
+	<div class="collapse" id="search-people-topics">
+	  <div class="card card-body">
+	    <input class="form-control" id="topic-person" type="text" placeholder="Search...">
+	    <div id="people-names-topics-filter" class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div> <!-- id="search-people-topics" -->
+    </div> <!-- col -->
+    <div class="col">
+      <h5>Original languages of searched documents:</h5>
+      <div id="document-original-language-list"></div>
+	<a class="btn btn-primary" data-toggle="collapse"
+	   href="#search-original-language" role="button"
+	   aria-expanded="false" aria-controls="search-original-language">
+	   Select language:
+	</a>
+	<div class="collapse" id="search-original-language">
+	  <div class="card card-body">
+	    <input class="form-control" id="original-language" type="text" placeholder="Search...">
+	    <div id="document-original-language-filter" class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div> <!-- id="search-original-language" -->
+    </div> <!-- col -->
+    <div class="col">
+      <h5>Subject keywords:</h5>
+      <div id="document-keyword-list"></div>
+	<a class="btn btn-primary" data-toggle="collapse"
+	   href="#search-keyword" role="button"
+	   aria-expanded="false" aria-controls="search-keyword">
+	   Select language:
+	</a>
+	<div class="collapse" id="search-keyword">
+	  <div class="card card-body">
+	    <input class="form-control" id="keyword-input" type="text" placeholder="Search...">
+	    <div id="document-keyword-filter" class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div> <!-- id="search-keyword" -->
+    </div> <!-- col -->
+  </div> <!-- row -->
+  <div class="row">
+    <div class="col">
+      <h5>Publication places:</h5>
+      <div id="document-publication-places-list"></div>
       <a class="btn btn-primary" data-toggle="collapse"
-	 href="#search-people" role="button"
-	 aria-expanded="false" aria-controls="search-people">
-	 Select person name:
+      href="#search-publication-place" role="button"
+      aria-expanded="false" aria-controls="search-publication-place">
+        Select entries:
       </a>
-      <div class="collapse" id="search-people">
-	<div class="card card-body">
-	  <input class="form-control" id="responsibility-person"
-		 type="text" placeholder="Search...">
-		 <div id="people-names-filter"
-		      class="filter_drop_down list-group"></div>
+	<div class="collapse" id="search-publication-place">
+	  <div class="card card-body">
+	    <input class="form-control" id="publication-place-input"
+		   type="text" placeholder="Search...">
+	    <div id="document-publication-place-dropdown"
+		 class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div>
+    </div> <!-- col -->
+    <div class="col">
+      <h5>Geographic location as a topic:</h5>
+      <div id="places-topics-list"></div>
+      <a class="btn btn-primary" data-toggle="collapse"
+      href="#search-place-topic" role="button"
+      aria-expanded="false" aria-controls="search-place-topic">
+        Select entries:
+      </a>
+	<div class="collapse" id="search-place-topic">
+	  <div class="card card-body">
+	    <input class="form-control" id="topic-place-input"
+		   type="text" placeholder="Search...">
+	    <div id="topic-place-dropdown"
+		 class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div>
+    </div> <!-- col -->
+    <div class="col">
+      <h5>Collective bodies in responsibility area:</h5>
+      <div id="responsibility-collectivity-list"></div>
+      <a class="btn btn-primary" data-toggle="collapse"
+      href="#search-responsibility-collectivity" role="button"
+      aria-expanded="false" aria-controls="search-responsibility-collectivity">
+        Select entries:
+      </a>
+	<div class="collapse" id="search-responsibility-collectivity">
+	  <div class="card card-body">
+	    <input class="form-control" id="responsibility-collectivity-input"
+		   type="text" placeholder="Search...">
+	    <div id="responsibility-collectivity-dropdown"
+		 class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div>
+    </div> <!-- col -->
+    <div class="col">
+      <h5>Collective bodies as subjects:</h5>
+      <div id="subject-collectivity-list"></div>
+      <a class="btn btn-primary" data-toggle="collapse"
+      href="#search-subject-collectivity" role="button"
+      aria-expanded="false" aria-controls="search-subject-collectivity">
+        Select entries:
+      </a>
+	<div class="collapse" id="search-subject-collectivity">
+	  <div class="card card-body">
+	    <input class="form-control" id="subject-collectivity-input"
+		   type="text" placeholder="Search...">
+	    <div id="subject-collectivity-dropdown"
+		 class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div>
+    </div> <!-- col -->
+  </div>
+  <div class="row">
+    <div class="col">
+      <h5>Language as a topic:</h5>
+      <div id="topic-language-list"></div>
+      <a class="btn btn-primary" data-toggle="collapse"
+      href="#search-topic-language" role="button"
+      aria-expanded="false" aria-controls="search-topic-language">
+        Select entries:
+      </a>
+	<div class="collapse" id="search-topic-language">
+	  <div class="card card-body">
+	    <input class="form-control" id="subject-topic-language-input"
+		   type="text" placeholder="Search...">
+	    <div id="topic-language-dropdown"
+		 class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div>
+    </div> <!-- col -->
+    <div class="col">
+      <h5>Publication languages:</h5>
+      <div id="publication-language-list"></div>
+      <a class="btn btn-primary" data-toggle="collapse"
+      href="#search-publication-language" role="button"
+      aria-expanded="false" aria-controls="search-publication-language">
+        Select entries:
+      </a>
+	<div class="collapse" id="search-publication-language">
+	  <div class="card card-body">
+	    <input class="form-control" id="publication-language-input"
+		   type="text" placeholder="Search...">
+	    <div id="publication-language-dropdown"
+		 class="filter_drop_down list-group">
+	    </div>
+	  </div>
+	</div>
+    </div> <!-- col -->
+  </div> <!-- row -->
+  <div class="row">
+    <div class="col-sm">
+      <div class="card card-body">
+	<div class="input-group">
+	  <div class="input-group-text">
+	    <img src="{{ url_for('static', filename='icons/search.svg') }}" />
+	  </div>
+	  <input class="form-control" id="document-text-fields-search"
+		 type="text" placeholder="Search title fields, notes and simple series field&hellip;">
+	  <!-- 
+	       title_proper, parallel_title,
+	       other_title_inf, series (text), note
+	    -->
 	</div>
       </div>
     </div>
-  </div>
+    <div class="col">
+      <div class="card card-body">
+	<div class="input-group">
+	  <div class="input-group-text">
+	    <img src="{{ url_for('static', filename='icons/search.svg') }}" />
+	  </div>
+	  <input class="form-control" id="document-issn"
+		 type="text" placeholder="Document ISSN">
+	  <!-- 
+	       title_proper, parallel_title,
+	       other_title_inf, series (text), note
+	    -->
+	</div>
+      </div>
+    </div> <!-- col -->
+  </div> <!-- row -->
+  <div class="row">
+    <div class="col">
+      <div class="card card-body">
+	<div class="input-group">
+	  <div class="input-group-text">
+	    <img src="{{ url_for('static', filename='icons/search.svg') }}" />
+	  </div>
+	  <input class="form-control" id="document-isbn-10"
+		 type="text" placeholder="ISBN-10">
+	</div>
+      </div>
+    </div> <!-- col -->
+    <div class="col">
+      <div class="card card-body">
+	<div class="input-group">
+	  <div class="input-group-text">
+	    <img src="{{ url_for('static', filename='icons/search.svg') }}" />
+	  </div>
+	  <input class="form-control" id="document-isbn-13"
+		 type="text" placeholder="ISBN-13">
+	</div>
+      </div>
+    </div><!-- col -->
+  </div> <!-- row -->
+  <button type="button" class="btn btn-success btn-block mt-2 mb-2"
+	  id="search-button">
+    Search
+  </button>
 {% endblock %}
 {% block scripts %}
   {{ super() }}
@@ -27,14 +245,106 @@
   	  src="{{ url_for('static', filename='document_search.js') }}">
   </script>
   <script type="application/javascript">
+    // mogę to wydelegować do osobnego pliku dołączanego
+    // dyrektywą include
     let server_callbacks = [
 	{
 	    "input": "#responsibility-person",
 	    "url": "{{ url_for('.get_person_entries') }}",
 	    "drop_down": "#people-names-filter",
-	    "people_ids_list": Set()
-	}
+
+	    // area to put components with selected entries
+	    "parent_component_id": "#people-responsibilities-list",
+	    "url_query_parameter": "responsibility_person_id",
+	    "ids_list": new Set()
+	},
+	{
+	    "input": "#topic-person",
+	    "url": "{{ url_for('.get_person_entries') }}",
+	    "drop_down": "#people-names-topics-filter",
+	    "parent_component_id": "#people-topics-list",
+	    "url_query_parameter": "topic_person_id",
+	    "ids_list": new Set()
+	},
+	{
+	    "input": "#publication-language-input",
+	    "url": "{{ url_for('.get_language_entries') }}",
+	    "drop_down": "#publication-language-dropdown",
+	    "parent_component_id": "#publication-language-list",
+	    "url_query_parameter": "publication_language_id",
+	    "ids_list": new Set()
+	},
+	{
+	    "input": "#original-language",
+	    "url": "{{ url_for('.get_language_entries') }}",
+	    "drop_down": "#document-original-language-filter",
+	    "parent_component_id": "#document-original-language-list",
+	    "url_query_parameter": "original_language_id",
+	    "ids_list": new Set()
+	},
+	{
+	    "input": "#keyword-input",
+	    "url": "{{ url_for('.get_keywords') }}",
+	    "drop_down": "#document-keyword-filter",
+	    "parent_component_id": "#document-keyword-list",
+	    "url_query_parameter": "keyword_id",
+	    "ids_list": new Set()
+	},
+	{
+	    "input": "#publication-place-input",
+	    "url": "{{ url_for('.get_geographic_location') }}",
+	    "drop_down": "#document-publication-place-dropdown",
+	    "parent_component_id": "#document-publication-places-list",
+	    "url_query_parameter": "publication_place_id",
+	    "ids_list": new Set()
+	},
+	{
+	    "input": "#topic-place-input",
+	    "url": "{{ url_for('.get_geographic_location') }}",
+	    "drop_down": "#topic-place-dropdown",
+	    "parent_component_id": "#places-topics-list",
+	    "url_query_parameter": "topic_place_id",
+	    "ids_list": new Set()
+	},
+	{
+	    "input": "#responsibility-collectivity-input",
+	    "url": "{{ url_for('.get_collective_bodies') }}",
+	    "drop_down": "#responsibility-collectivity-dropdown",
+	    "parent_component_id": "#responsibility-collectivity-list",
+	    "url_query_parameter": "responsibility_collectivity_id",
+	    "ids_list": new Set()
+	},
+	{
+	    "input": "#subject-collectivity-input",
+	    "url": "{{ url_for('.get_collective_bodies') }}",
+	    "drop_down": "#subject-collectivity-dropdown",
+	    "parent_component_id": "#subject-collectivity-list",
+	    "url_query_parameter": "collectivity_topic_id",
+	    "ids_list": new Set()
+	},
+	{
+	    "input": "#subject-topic-language-input",
+	    "url": "{{ url_for('.get_language_entries') }}",
+	    "drop_down": "#topic-language-dropdown",
+	    "parent_component_id": "#topic-language-list",
+	    "url_query_parameter": "topic_language_id",
+	    "ids_list": new Set()
+	},
     ]
-    $(document).ready(set_up_server_callbacks(server_callbacks));
+    var root_url = "{{ request.root_url }}";
+
+    // konstruowanie url z listy argumentów:
+    // ["Rome", "Warsaw", "Prague"]
+    // n_url = new URL('http://localhost:5000/test');
+    // for(city of ["Rome", "Warsaw", "Prague"]) {
+    // 	n_url.searchParams.append("city", city);
+    // }
+    // console.log(n_url.href);
+
+    $(document).ready(() => {
+	$("#search-button").click(() => console.log(
+	    url_query_for(root_url + 'test')(server_callbacks).href));
+	set_up_server_callbacks(server_callbacks);
+    });
   </script>
 {% endblock %}

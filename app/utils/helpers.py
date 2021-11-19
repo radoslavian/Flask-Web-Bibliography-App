@@ -85,6 +85,14 @@ def select_document_types():
     return SelectDocumentTypes
 
 
+def get_es_search_params(model):
+    '''Fetches parameters for Elasticsearch query from the POST request.
+    '''
+    return model.search(
+        request.json.get('query', None),
+        request.json.get('page', 1),
+        current_app.config['SHORT_LIST_ENTRIES_PER_PAGE'])
+
 
 def get_query_list(model):
     '''Returns list of items from the SQLAlchemy model
@@ -92,12 +100,9 @@ def get_query_list(model):
 
     Returned items can be serialized into JSON for use
     in search templates.
-    model - SQLAlchemy model from models.py
+    model - SQLAlchemy, Elasticsearch searchable model from models.py
     '''
-    query, _ = model.search(
-        request.json.get('query', None),
-        request.json.get('page', 1),
-        current_app.config['SHORT_LIST_ENTRIES_PER_PAGE'])
+    query, _ = get_es_search_params(model)
     return [{'text': item,
              'id': item.id} for item in query]
 

@@ -299,12 +299,25 @@ class Language(db.Model, Lock, SearchableMixin):
     def __repr__(self):
         return f'Language: <{self.language_name}>'
 
+    def __str__(self):
+        output = self.language_name
+        if self.native_name:
+            output += ' - ' + self.native_name
+        # one out of the two
+        if self.iso_639_1_language_code:
+            output += ' (' + self.iso_639_1_language_code + ')'
+        elif self.iso_639_2_language_code:
+            output += ' (' + self.iso_639_2_language_code + ')'
+        return output
+
+    def __html__(self):
+        return self.__str__()
+
 
 class Document(db.Model, Lock, SearchableMixin):
     __primary_key__ = 'document_id'
     __tablename__ = 'documents'
-    __searchable__ = ['title_proper', 'parallel_title',
-                      'series', 'issn', 'isbn_10', 'isbn_13']
+    __searchable__ = ['title_proper', 'parallel_title', 'series']
 
     document_id = db.Column(db.Integer, primary_key=True)
     document_type_id = db.Column(
@@ -404,6 +417,9 @@ class Document(db.Model, Lock, SearchableMixin):
         if self.document_type: output += f' ({self.document_type.name})'
         return '<' + output + '>'
 
+    def __str__(self):
+        pass
+
 
 class DocumentType(db.Model, Lock):
     __tablename__ = 'document_types'
@@ -454,6 +470,12 @@ class CollectiveBody(db.Model, Lock, SearchableMixin):
 
     def __repr__(self):
         return f'<Collective body: {self.name}>'
+
+    def __str__(self):
+        return self.name
+
+    def __html__(self):
+        return self.__str__()
 
 
 class ResponsibilityName(db.Model, Lock, SearchableMixin):
@@ -531,6 +553,7 @@ class Keyword(db.Model, Lock, SearchableMixin):
     __tablename__ = 'keywords'
     __table_args__ = (db.UniqueConstraint('keyword', 'determiner'),)
     __searchable__ = ['keyword']
+    __primary_key__ = 'id'
 
     id = db.Column(db.Integer, primary_key=True)
     keyword = db.Column(db.String(70), nullable=False, index=True)
@@ -538,6 +561,16 @@ class Keyword(db.Model, Lock, SearchableMixin):
 
     def __repr__(self):
         return f'<Keyword: {self.keyword}>'
+
+    def __str__(self):
+        output = self.keyword
+        if self.determiner:
+            output += ' (' + self.determiner + ')'
+        return output
+
+    def __html__(self):
+        from flask import url_for
+        return self.__str__()
 
 
 subjects_keywords = db.Table(
@@ -579,6 +612,17 @@ class GeographicLocation(db.Model, Lock, SearchableMixin):
 
     def __repr__(self):
         return f'<{self.name}>'
+
+    def __str__(self):
+        output = self.name
+        if self.other_name:
+            output += ' (' + self.other_name + ')'
+        elif self.native_name:
+            output += ' (' + self.native_name + ')'
+        return output
+
+    def __html__(self):
+        return self.__str__()
 
 
 subjects_locations = db.Table(
