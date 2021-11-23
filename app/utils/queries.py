@@ -172,6 +172,34 @@ query_pattern_matching = {
 
 
 # queries for document search route
-def document_search_people():
-    pass
-    # db.session.query(Document).select_from(Document)
+
+# Można użyć zamiast wcześniejszych dla listy dokumentów
+
+def document_search_responsibility_area(model, id_attr):
+    '''Returns function for querying documents with selected
+    people/collective bodies in responsibility area.
+    '''
+    model_id = getattr(model, id_attr)
+    def wrapped(ids : int):
+        '''id_attr - string for queries id attribute
+        ids - list of ids to be selected
+        '''
+        return db.session.query(Document).select_from(
+            Document).join(model).filter(model_id.in_(ids)).distinct()
+    return wrapped
+
+
+def query_documents(model, attr):
+    '''Returns function for querying a given db model.
+    '''
+    id_attr = getattr(model, model.__primary_key__)
+    def wrapped(ids : int):
+        items = model.query.filter(id_attr.in_(ids))
+        query = getattr(items[0], attr)
+
+        if items.count() < 2:
+            return query
+        else:
+            return query.union(
+                *[getattr(item, attr) for item in items[1:]])
+    return wrapped

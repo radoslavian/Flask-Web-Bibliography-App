@@ -343,7 +343,8 @@
 
     $(document).ready(() => {
 	$("#search-button").click(() => console.log(
-	    url_query_for(root_url + 'test')(server_callbacks).href));
+	    url_query_for(
+		root_url + '/search/documents')(server_callbacks).href));
 	set_up_server_callbacks(server_callbacks);
     });
   </script>

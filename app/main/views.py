@@ -349,8 +349,47 @@ def search():
     return 'to be made'
 
 
-# For searchign documents testing purposes
+# For searching documents testing purposes
 @main.route('/search/documents')
 def search_documents():
-    args = request.args.getlist('keyword_id')
-    return str(args)
+    search_parameters = {
+        'responsibility_person_id':
+        document_search_responsibility_area(
+            ResponsibilityPerson, 'person_id'),
+        'responsibility_collectivity_id':
+        document_search_responsibility_area(
+            ResponsibilityCollectivity, 'collectivity_id'),
+        'topic_person_id': query_documents(
+            Person, 'documents_topics'),
+        'publication_language_id' : query_documents(
+            Language, 'documents'),
+        'original_language_id' : query_documents(
+            Language, 'documents_original_lang'),
+        'keyword_id': query_documents(
+            Keyword, 'documents'),
+        'publication_place_id' : query_documents(
+            GeographicLocation, 'document_publication_place'),
+        'topic_place_id': query_documents(
+            GeographicLocation, 'documents_topics'),
+        'collectivity_topic_id': query_documents(
+            CollectiveBody, 'documents_topics'),
+        'topic_language_id': query_documents(
+            Language, 'documents_topics')
+    }
+
+    document_queries = []
+
+    for parameter in search_parameters.keys():
+        ids = request.args.getlist(parameter, type=int)
+        if ids:
+            document_queries.append(search_parameters[parameter](ids))
+
+    if len(document_queries) == 1:
+        query = document_queries[0]
+    elif len(document_queries) > 2:
+        query = document_queries[0].intersect(
+            *[document_q for document_q in document_queries[1:]])
+    else:
+        query = Document.query.filter_by(document_id=0)
+
+    return str(query.count())

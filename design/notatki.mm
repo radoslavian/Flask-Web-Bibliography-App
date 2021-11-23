@@ -2,7 +2,7 @@
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="Baza bibliograficzna (podobna do Polskiej Bibliografii Literackiej)" FOLDED="false" ID="ID_696893020" CREATED="1636035670733" MODIFIED="1636035738762" STYLE="oval">
 <font SIZE="18"/>
-<hook NAME="MapStyle" zoom="1.5">
+<hook NAME="MapStyle" zoom="1.127">
     <properties edgeColorConfiguration="#808080ff,#ff0000ff,#0000ffff,#00ff00ff,#ff00ffff,#00ffffff,#7c0000ff,#00007cff,#007c00ff,#7c007cff,#007c7cff,#7c7c00ff" fit_to_viewport="false"/>
 
 <map_styles>
@@ -63,7 +63,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="125" RULE="ON_BRANCH_CREATION"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="126" RULE="ON_BRANCH_CREATION"/>
 <node TEXT="Aplikacja minimalna (z możliwością rozbudowy)" POSITION="right" ID="ID_394421864" CREATED="1635274763546" MODIFIED="1636035723332">
 <font BOLD="true"/>
 <richcontent TYPE="DETAILS">
@@ -96,24 +96,173 @@
 <node TEXT="wyszukiwanie" ID="ID_1674711683" CREATED="1636481261653" MODIFIED="1636486164479">
 <font BOLD="true"/>
 <node TEXT="Zaprojektować wyszukiwanie dokumentów" ID="ID_197155600" CREATED="1636486139486" MODIFIED="1636488437566">
-<node TEXT="Zrobić stronę na której będę wybierał parametry wyszukiwania." ID="ID_1360185885" CREATED="1637015091884" MODIFIED="1637015108103">
+<node TEXT="poprawić wygląd strony do wybierania kryteriów wyszukiwania" ID="ID_1418135039" CREATED="1637693703150" MODIFIED="1637693717330">
 <font BOLD="true"/>
-<node TEXT="zrobić funkcję która: doda element do listy id osób z oznaczeń odpowiedzialności w dokumencie&#xa;+ funkcja zwracana przez add_searched_id:&#xa; - sprawdza czy obiekt jest już w zbiorze: jeżeli nie - dodaje; jeżeli jest - wyświetla powiadomienie (?)&#xa; - dodaje komponent z etykietą i callback (do komponentu) usuwający element z listy" ID="ID_1213621710" CREATED="1637097513268" MODIFIED="1637097514847"/>
+<node TEXT="Kryteria wyszukiwania (&quot;Przyciski&quot;) mają być w jednej grupie z wyszukiwaniem po tytule dokumentu." ID="ID_260610408" CREATED="1637693837987" MODIFIED="1637694096701"/>
+<node TEXT="Przyciski z wybranymi kryteriami mają być pod listą wyskakującą wyszukanych obiektów." ID="ID_1408003474" CREATED="1637695282225" MODIFIED="1637695303475"/>
+<node TEXT="uzupełnić o paginowaną listę dokumentów (ponownie wykorzystać częściową listę z documents_list)" ID="ID_1033260450" CREATED="1637695085585" MODIFIED="1637695125929"/>
+<node TEXT="napisać funkcję, która będzie ładowała przyciski z kryteriami wyszukiwania" ID="ID_605648802" CREATED="1637695234962" MODIFIED="1637695260661"/>
+<node TEXT="Jeżeli lista dokumentów jest pusta, część strony z wyszukiwaniem jest rozwinięta (i na odwrót)." ID="ID_247795139" CREATED="1637694221161" MODIFIED="1637694251162">
+<node TEXT="Jeżeli na liście znajdują się dokumenty (bo przeglądam kolejne strony wyników wyszukiwania), kliknięcie na komponent wyszukiwania załaduje (wg. numerów id w URL) wszystkie kryteria w postaci przycisków z nazwami. Na czas ładowania można wyświetlić obracające się kółko-klepsydrę." ID="ID_1191016959" CREATED="1637694400872" MODIFIED="1637694662560"/>
+<node TEXT="Gdy na liście znajdują się wyszukane dokumenty, powinno wyświetlić formularz z wyborem typów dokumentów." ID="ID_1749988204" CREATED="1637694836621" MODIFIED="1637694901319"/>
 </node>
-<node TEXT="opracować funkcjonalność zwracania grupy wpisów z bd, które będę mógł umieścić na liście drop-down filter" ID="ID_1967694927" CREATED="1636738033858" MODIFIED="1637014845874">
+</node>
+<node TEXT="Pola isbn-10/13 i issn" ID="ID_405174378" CREATED="1637279177961" MODIFIED="1637279193752">
+<node TEXT="powinny być wskazywane z listy rozwijanej" ID="ID_425010615" CREATED="1637279193763" MODIFIED="1637279241434"/>
+<node TEXT="wybór jednego z tych pól powoduje wyszukiwanie tylko według niego" ID="ID_1639329280" CREATED="1637279241704" MODIFIED="1637279267591">
+<node TEXT="Powinno to być możliwe do zaznaczenia na stronie: wyszukiwanie wg. tych pól lub pozostałych (tytulatura, język etc.), za pomocą np. przycisku radio" ID="ID_1107904013" CREATED="1637279315209" MODIFIED="1637279362174"/>
+<node TEXT="po stronie serwera" ID="ID_155134154" CREATED="1637279382281" MODIFIED="1637279387834">
+<node TEXT="jeżeli test wykaże któreś te pola, nie powinno szukać w pozostałych - jest to ważne, bo inaczej można by kwerendę zawrzeć w URL" ID="ID_1986555572" CREATED="1637279387840" MODIFIED="1637279444613"/>
+</node>
+</node>
+</node>
+<node TEXT="Wyszukiwanie wg tytułu" ID="ID_1873986529" CREATED="1637318652014" MODIFIED="1637353615785">
+<font BOLD="false"/>
+<node TEXT="tytuł dokumentu powinien być wyszukiwany w sposób rozmyty" ID="ID_1023334362" CREATED="1636715455777" MODIFIED="1637353611024">
+<font BOLD="false"/>
+<node TEXT="Do bardziej rozmytego wyszukiwania, można użyć metody ilike() - można użyć wewnątrz filter()" ID="ID_574471903" CREATED="1636713944145" MODIFIED="1637280470287">
+<node TEXT="https://stackoverflow.com/questions/3325467/sqlalchemy-equivalent-to-sql-like-statement" ID="ID_266994422" CREATED="1636713987777" MODIFIED="1636713987777" LINK="https://stackoverflow.com/questions/3325467/sqlalchemy-equivalent-to-sql-like-statement"/>
+<node TEXT="Elasticsearch domyślnie ogranicza rezultaty kwerendy, zatem chyba lepiej skorzystać z operatorów bd." ID="ID_1170298033" CREATED="1637277334377" MODIFIED="1637277377533"/>
+<node TEXT="wyszukiwanie case insensitive" ID="ID_488591334" CREATED="1637280251525" MODIFIED="1637280257450">
+<node TEXT="https://stackoverflow.com/questions/16573095/case-insensitive-flask-sqlalchemy-query" ID="ID_523073096" CREATED="1637280262499" MODIFIED="1637280262499" LINK="https://stackoverflow.com/questions/16573095/case-insensitive-flask-sqlalchemy-query"/>
+</node>
+</node>
+<node TEXT="Przypadek:&#xa;+ mam wpisany tylko tekst w polu tytulatury. - powinno to działać tak, jak z innymi polami, ale tak, jak bym zaznaczył wszystkie zwrócone na zapytanie np. słowa kluczowe. -&gt; dokumenty powinny&#xa;&#xa;Przyciski z kryteriami wyszukiwawczymi mam dodawać też wg. URL." ID="ID_263010225" CREATED="1637316626582" MODIFIED="1637316640867"/>
+</node>
+</node>
+<node TEXT="wyszukiwanie z filtrami" ID="ID_174785008" CREATED="1636719023207" MODIFIED="1636719026844">
+<node TEXT="Wyszukiwanie po stronie serwera" ID="ID_390283878" CREATED="1637328273396" MODIFIED="1637329317921">
+<node TEXT="procedura wyszukiwania po stronie serwera:&#xa;1. zebrać kwerendy dla każdego wypełnionego pola w wyszukiwaniu (np. dokumenty zawierające określone osoby w oznaczeniach odpowiedzialności, dokumenty zawierające określone lokalizacje geograficzne jako miejsca wydania etc.) i dla wszystkich znaleźć część wspólną (dokumenty występujące w każdej z kwerend) przy pomocy metody kwerendy intersect" ID="ID_81542705" CREATED="1637329318606" MODIFIED="1637675558889">
+<font BOLD="true"/>
+<node TEXT="testy:" ID="ID_1729845842" CREATED="1637329343649" MODIFIED="1637329346018">
+<node TEXT="chcę znaleźć wszystkie dokumenty, dla których oryginalnym językiem był chiński a zostały wydane po niemiecku, angielsku, rosyjsku" ID="ID_725685004" CREATED="1637329346026" MODIFIED="1637329396313"/>
+</node>
+</node>
+</node>
+<node TEXT="+ Wybieram pole wyszukiwania (z filtered fields - np. Document language)&#xa;+ wpisuję tekst w polu wyszukiwania&#xa;+ jeżeli nie będę pisał przez określoną ilość czasu, poniżej pola wyszukiwania wyskakuje lista z wyszukanymi elementami&#xa;+ wybór elementu z listy: jeżeli na liście nie ma już takiego samego filtra -&gt; dodanie do listy" ID="ID_1455302003" CREATED="1636719027430" MODIFIED="1636719028415"/>
+<node TEXT="+ każdy typ filtra (z filtered fields) odnosi&#xa;  się do indeksu i pola w dokumencie&#xa;+ jeżeli pole jest puste: nic się nie dzieje&#xa;+ zmieniam zawartość pola:&#xa;  + jeżeli pole zawiera tekst - wywołanie&#xa;    asynchroniczne funkcji na serwerze:&#xa;    search(index, query, page, per_page)&#xa;  funkcja search powinna zwracać dane w&#xa;  formacie JSON zawierające tekst do&#xa;  wyświetleniana stronie i id&#xa;+ wybranie elementu z listy powinno go dodać&#xa;  do zbioru wybranych filtrów (może utworzyć&#xa;  w JS zbiór-typ listy-dodawać do niego&#xa;  elementy, po każdym dodaniu aktualizować&#xa;  listę filtrów?)&#xa;+ kliknięcie ikony usunięcia przy wybranym&#xa;  filtrze powinno go usunąć z listy wybranych&#xa;  filtrów" ID="ID_1823531277" CREATED="1636723572082" MODIFIED="1637694754718">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Wyświetlenie listy drop-down" ID="ID_596700692" CREATED="1636722124997" MODIFIED="1636722126068">
+<node TEXT="+ każdy typ filtra (z filtered fields) odnosi&#xa;  się do indeksu i pola w dokumencie&#xa;+ jeżeli pole jest puste: nic się nie dzieje&#xa;+ zmieniam zawartość pola:&#xa;  + jeżeli pole zawiera tekst - wywołanie&#xa;    asynchroniczne funkcji na serwerze:&#xa;    search(index, query, page, per_page)&#xa;  funkcja search powinna zwracać dane w&#xa;  formacie JSON zawierające tekst do&#xa;  wyświetleniana stronie i id&#xa;+ wybranie elementu z listy powinno go dodać&#xa;  do zbioru wybranych filtrów (może utworzyć&#xa;  w JS zbiór-typ listy-dodawać do niego&#xa;  elementy, po każdym dodaniu aktualizować&#xa;  listę filtrów?)&#xa;+ kliknięcie ikony usunięcia przy wybranym&#xa;  filtrze powinno go usunąć z listy wybranych&#xa;  filtrów" ID="ID_371284654" CREATED="1636722146661" MODIFIED="1636722147929"/>
+</node>
+<node TEXT="kwerendy do przeszukiwania dokumentów" FOLDED="true" ID="ID_931897518" CREATED="1637330951484" MODIFIED="1637675508250">
+<icon BUILTIN="button_ok"/>
+<node TEXT="język" FOLDED="true" ID="ID_200807315" CREATED="1637336847622" MODIFIED="1637675496011">
+<icon BUILTIN="button_ok"/>
+<node TEXT="kwerenda do zaznaczenia dokumentów:" FOLDED="true" ID="ID_1861763179" CREATED="1637337022657" MODIFIED="1637675490344">
+<icon BUILTIN="button_ok"/>
+<node TEXT="opublikowanych w którymkolwiek z zaznaczonego języka" ID="ID_1429676065" CREATED="1637337039026" MODIFIED="1637675303847">
+<icon BUILTIN="button_ok"/>
+<node TEXT="languages = Language.query.filter(Language.language_id.in_([1, 2, 3]))" ID="ID_1026669907" CREATED="1637338198758" MODIFIED="1637339880723"/>
+<node TEXT="documents = languages[0].documents.union(*[publication_language.documents for publication_language in languages[1:]])" ID="ID_474648760" CREATED="1637339067537" MODIFIED="1637339070178"/>
+</node>
+<node TEXT="dla których którykolwiek z zaznaczonego języka jest językiem oryginalnym" ID="ID_1852243960" CREATED="1637337040561" MODIFIED="1637675486326">
+<icon BUILTIN="button_ok"/>
+<node TEXT="languages = Language.query.filter(Language.language_id.in_([1, 2, 3]))" ID="ID_1532242935" CREATED="1637338198758" MODIFIED="1637339880723">
+<node TEXT="powtórka" ID="ID_1063295475" CREATED="1637339888068" MODIFIED="1637339911257" LINK="#ID_1026669907"/>
+</node>
+<node TEXT="documents = languages[0].documents_original_lang.union(*[orig_lang.documents_original_lang for orig_lang in languages[1:]])" ID="ID_237884641" CREATED="1637340671534" MODIFIED="1637340672808"/>
+</node>
+<node TEXT="dla których którykolwiek z zaznaczonych języków jest tematem" ID="ID_421783837" CREATED="1637337229216" MODIFIED="1637672359419">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="languages = Language.query.filter(Language.language_id.in_([1, 2, 3]))" ID="ID_1362170360" CREATED="1637338198758" MODIFIED="1637339880723">
+<node TEXT="powtórka" ID="ID_358720982" CREATED="1637339888068" MODIFIED="1637339911257" LINK="#ID_1026669907"/>
+</node>
+<node TEXT="documents = languages[0].documents_topics.union(*[lang_topic.documents_topics for lang_topic in languages])" ID="ID_1150871973" CREATED="1637341126907" MODIFIED="1637341128516">
+<node TEXT="podobne" ID="ID_85352991" CREATED="1637341145836" MODIFIED="1637341154485" LINK="#ID_237884641"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="słowa kluczowe" FOLDED="true" ID="ID_1933926220" CREATED="1637341179788" MODIFIED="1637672409979">
+<icon BUILTIN="button_ok"/>
+<node TEXT="kwerenda zwracająca dokumenty zawierające którekolwiek z zaznaczonych słów kluczowych" ID="ID_1840404360" CREATED="1637341470084" MODIFIED="1637672064428">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="keywords = Keyword.query.filter(Keyword.id.in_([4,6,21]))" ID="ID_970759683" CREATED="1637342248717" MODIFIED="1637342249489"/>
+<node TEXT="documents = keywords[0].documents.union(*[keyword.documents for keyword in keywords[1:]])" ID="ID_192837425" CREATED="1637342607827" MODIFIED="1637342609032"/>
+</node>
+</node>
+<node TEXT="osoby" FOLDED="true" ID="ID_9435730" CREATED="1637330979228" MODIFIED="1637672422075">
+<icon BUILTIN="button_ok"/>
+<node TEXT="kwerenda do zaznaczenia dokumentów zawierających w polu oznaczenia odpowiedzialności osoby wg. numerów id" ID="ID_658059653" CREATED="1637330955419" MODIFIED="1637668143722">
+<icon BUILTIN="button_ok"/>
+<node TEXT="db.session.query(Document).select_from(&#xa;Document).join(ResponsibilityPerson).filter(&#xa;ResponsibilityPerson.person_id.in_([26, 35])).distinct()" ID="ID_289934465" CREATED="1637330966570" MODIFIED="1637330967630"/>
+</node>
+<node TEXT="Kwerenda do zaznaczenia dokumentów zawierających wskazane osoby w polu tematu." ID="ID_1283911371" CREATED="1637330982396" MODIFIED="1637671737066">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="Person.query.filter(Person.person_id.in_([1, 2, 3]))" ID="ID_24678092" CREATED="1637332039408" MODIFIED="1637332040196"/>
+<node TEXT="people[0].documents_topics.union(people[1].documents_topics)" ID="ID_756797466" CREATED="1637332518654" MODIFIED="1637332520696"/>
+<node TEXT="people[0].documents_topics.union(*[person.documents_topics for person in people[1:]])" ID="ID_1394164148" CREATED="1637333053964" MODIFIED="1637668564166">
+<font BOLD="false"/>
+<node TEXT="lepsza wersja?" ID="ID_1327436755" CREATED="1637333153788" MODIFIED="1637333156466"/>
+</node>
+</node>
+</node>
+<node TEXT="ciała zbiorowe" FOLDED="true" ID="ID_1016490209" CREATED="1637342725729" MODIFIED="1637672434240">
+<icon BUILTIN="button_ok"/>
+<node TEXT="dokumenty w których zaznaczone ciała zbiorowe znajdują się w oznaczeniach odpowiedzialności" ID="ID_1744991557" CREATED="1637346117504" MODIFIED="1637668147101">
+<icon BUILTIN="button_ok"/>
+<node TEXT="collective_bodies = CollectiveBody.query.filter(CollectiveBody.id.in_([1, 11, 2, 22]))" ID="ID_1302082033" CREATED="1637346732159" MODIFIED="1637346732773"/>
+<node TEXT="db.session.query(Document).select_from(Document).join(&#xa;ResponsibilityCollectivity).filter(&#xa;ResponsibilityCollectivity.collectivity_id.in_([1, 2])).distinct()" ID="ID_1354753300" CREATED="1637347896430" MODIFIED="1637347911416"/>
+<node TEXT="podobne do osoby" ID="ID_1759415373" CREATED="1637347918094" MODIFIED="1637347933205" LINK="#ID_9435730"/>
+</node>
+<node TEXT="dokumenty w których zaznaczone ciała zbiorowe są tematami" ID="ID_239166793" CREATED="1637346107039" MODIFIED="1637671743019">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="collective_bodies = CollectiveBody.query.filter(CollectiveBody.id.in_([1, 11, 2, 22]))" ID="ID_1115040081" CREATED="1637346732159" MODIFIED="1637346732773"/>
+<node TEXT="collective_bodies[0].documents_topics.union_all(*[collective_body.documents_topics for collective_body in collective_bodies[1:]])" ID="ID_1298422671" CREATED="1637347083000" MODIFIED="1637347084186"/>
+</node>
+</node>
+<node TEXT="lokalizacje geograficzne" FOLDED="true" ID="ID_862006234" CREATED="1637346329055" MODIFIED="1637674951502">
+<icon BUILTIN="button_ok"/>
+<node TEXT="jako miejsce wydania" ID="ID_1129639077" CREATED="1637348350797" MODIFIED="1637674886943">
+<icon BUILTIN="button_ok"/>
+<node TEXT="geographic_location = GeographicLocation.query.filter(GeographicLocation.location_id.in_([1, 2]))" ID="ID_613635416" CREATED="1637351004983" MODIFIED="1637351004983"/>
+<node TEXT="documents = geographic_location[0].document_publication_place.union(*[location.document_publication_place for location in geographic_location])" ID="ID_1683904842" CREATED="1637351015385" MODIFIED="1637351016887"/>
+</node>
+<node TEXT="jako temat dokumentu" ID="ID_1696344989" CREATED="1637348354716" MODIFIED="1637671909531">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="geographic_location = GeographicLocation.query.filter(GeographicLocation.location_id.in_([1, 2]))" ID="ID_777452653" CREATED="1637351004983" MODIFIED="1637351004983">
+<node TEXT="kopia" ID="ID_691910866" CREATED="1637351599863" MODIFIED="1637351610922" LINK="#ID_613635416"/>
+</node>
+<node TEXT="documents = geographic_location[0].documents_topics.union(*[location.documents_topics for location in geographic_location[1:]])" ID="ID_1064315911" CREATED="1637353177001" MODIFIED="1637353178202"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="Zaplanować, co się stanie, kiedy kwerenda zostanie wysłana na serwer (łącznie ze słowami z pól tekstowych dokumentu)" ID="ID_727137386" CREATED="1637273619065" MODIFIED="1637273642890"/>
+<node TEXT="Zrobić stronę na której będę wybierał parametry wyszukiwania." ID="ID_1360185885" CREATED="1637015091884" MODIFIED="1637269257026">
+<font BOLD="false"/>
+<node TEXT="z wybranych kryteriów ma być generowany poprawny URL" ID="ID_1734019539" CREATED="1637251900230" MODIFIED="1637267342813">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="https://developer.mozilla.org/en-US/docs/Web/API/URL" ID="ID_1061282038" CREATED="1637251915397" MODIFIED="1637251915397" LINK="https://developer.mozilla.org/en-US/docs/Web/API/URL"/>
+<node TEXT="https://www.valentinog.com/blog/url/" ID="ID_1798295522" CREATED="1637251924694" MODIFIED="1637251924694" LINK="https://www.valentinog.com/blog/url/"/>
+</node>
+<node TEXT="zrobić funkcję która: doda element do listy id osób z oznaczeń odpowiedzialności w dokumencie&#xa;+ funkcja zwracana przez add_searched_id:&#xa; - sprawdza czy obiekt jest już w zbiorze: jeżeli nie - dodaje; jeżeli jest - wyświetla powiadomienie (?)&#xa; - dodaje komponent z etykietą i callback (do komponentu) usuwający element z listy" ID="ID_1213621710" CREATED="1637097513268" MODIFIED="1637158602142">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Refactoring: przeglądanie" ID="ID_890702224" CREATED="1637158622568" MODIFIED="1637269277800">
+<node TEXT="+ otwieram stronę wyszukiwania - jeżeli brak jest wyszukanych elementów, pola do selekcji kryteriów wyszukiwania są rozwinięte&#xa;+ wypełniam formularz szukania&#xa;+ kwerenda leci na serwer (przez URL - GET)&#xa;+ serwer zwraca paginowane wyniki&#xa;+ pola do selekcji kryteriów są zwinięte&#xa;+ jeżeli rozwinę komponent z polami do selekcji kryteriów, ładuje do list parametry wyszukiwania z URL (w tym wyświetla przyciski-etykiety wybranych parametrów)" ID="ID_1272033103" CREATED="1637158628773" MODIFIED="1637158629778">
+<node TEXT="można to opisać na diagramie sekwencyjnym" ID="ID_1143210062" CREATED="1637158630644" MODIFIED="1637158640783"/>
+<node TEXT="to, czy komponent wyszukiwania będzie zwinięty będzie decydowane na etapie szablonu - jeżeli szablon dostanie obiekt z wynikami wyszukiwania - komponent będzie zwinięty" ID="ID_348499283" CREATED="1637247206227" MODIFIED="1637247286111"/>
+<node TEXT="a może da się to dodać jako menu (dropdown)?" ID="ID_295710221" CREATED="1637247885444" MODIFIED="1637247917457"/>
+</node>
+</node>
+</node>
+<node TEXT="opracować funkcjonalność zwracania grupy wpisów z bd, które będę mógł umieścić na liście drop-down filter" FOLDED="true" ID="ID_1967694927" CREATED="1636738033858" MODIFIED="1637268888516">
+<icon BUILTIN="button_ok"/>
 <font BOLD="false"/>
 <node TEXT="na podstawie diagramu sekwencyjnego i diagramu-wireframe" ID="ID_1296292548" CREATED="1636743485617" MODIFIED="1636743511386"/>
 <node TEXT="Powinno się to dać użyć też w szybkim wyszukiwaniu." ID="ID_997220162" CREATED="1636973381591" MODIFIED="1636973402556"/>
-<node TEXT="metoda __html__ jest interpretowana przez Jinja2" ID="ID_349836313" CREATED="1636917200041" MODIFIED="1636917215996"/>
+<node TEXT="metoda __html__ jest interpretowana przez Jinja2 i serializowana przez jsonify()" ID="ID_349836313" CREATED="1636917200041" MODIFIED="1637270375432"/>
 <node TEXT="gotowy prototyp dla modelu Person" ID="ID_1047904197" CREATED="1636986239156" MODIFIED="1636986249324">
 <icon BUILTIN="button_ok"/>
-</node>
-</node>
-<node TEXT="zaprojektować parametry dla listy dokumentów - tak, żeby dotychczasowe kwerendy dały się ponownie użyć" ID="ID_284272323" CREATED="1636903252244" MODIFIED="1636973365649">
-<font BOLD="false"/>
-<node TEXT="W dodanych parametrach wyszukiwania na stronie - może dodać sekcje, np. subjects (i tu-wg. kategorii), publication places?" ID="ID_1909128511" CREATED="1636903633104" MODIFIED="1636903734957">
-<node TEXT="Jeżeli w kwerendzie pojawi się więcej np. miejsc wydania, łącznikiem jest OR." ID="ID_58688984" CREATED="1636903918287" MODIFIED="1636903935863"/>
-<node TEXT="Czyli np. miejsca wydania, hasła przedmiotowe określonego typu powinny być grupowane razem." ID="ID_1630041796" CREATED="1636904266369" MODIFIED="1636904284457"/>
 </node>
 </node>
 <node TEXT="wyszukiwanie wg. języka, oryginalnego języka, typu dokumentu, tematów - aktualizacja trasy obsługującej /browse/documents (dodanie kolejnych filtrów opartych na Elasticsearch) - nowa trasa i funkcja" ID="ID_1558963999" CREATED="1636546538933" MODIFIED="1636582748970">
@@ -160,16 +309,13 @@
 </node>
 </node>
 </node>
-<node TEXT="wyszukiwanie z filtrami" ID="ID_174785008" CREATED="1636719023207" MODIFIED="1636719026844">
-<node TEXT="+ Wybieram pole wyszukiwania (z filtered fields - np. Document language)&#xa;+ wpisuję tekst w polu wyszukiwania&#xa;+ jeżeli nie będę pisał przez określoną ilość czasu, poniżej pola wyszukiwania wyskakuje lista z wyszukanymi elementami&#xa;+ wybór elementu z listy: jeżeli na liście nie ma już takiego samego filtra -&gt; dodanie do listy" ID="ID_1455302003" CREATED="1636719027430" MODIFIED="1636719028415"/>
-<node TEXT="+ każdy typ filtra (z filtered fields) odnosi&#xa;  się do indeksu i pola w dokumencie&#xa;+ jeżeli pole jest puste: nic się nie dzieje&#xa;+ zmieniam zawartość pola:&#xa;  + jeżeli pole zawiera tekst - wywołanie&#xa;    asynchroniczne funkcji na serwerze:&#xa;    search(index, query, page, per_page)&#xa;  funkcja search powinna zwracać dane w&#xa;  formacie JSON zawierające tekst do&#xa;  wyświetleniana stronie i id&#xa;+ wybranie elementu z listy powinno go dodać&#xa;  do zbioru wybranych filtrów (może utworzyć&#xa;  w JS zbiór-typ listy-dodawać do niego&#xa;  elementy, po każdym dodaniu aktualizować&#xa;  listę filtrów?)&#xa;+ kliknięcie ikony usunięcia przy wybranym&#xa;  filtrze powinno go usunąć z listy wybranych&#xa;  filtrów" ID="ID_1823531277" CREATED="1636723572082" MODIFIED="1636723573149"/>
-<node TEXT="Wyświetlenie listy drop-down" ID="ID_596700692" CREATED="1636722124997" MODIFIED="1636722126068">
-<node TEXT="+ każdy typ filtra (z filtered fields) odnosi&#xa;  się do indeksu i pola w dokumencie&#xa;+ jeżeli pole jest puste: nic się nie dzieje&#xa;+ zmieniam zawartość pola:&#xa;  + jeżeli pole zawiera tekst - wywołanie&#xa;    asynchroniczne funkcji na serwerze:&#xa;    search(index, query, page, per_page)&#xa;  funkcja search powinna zwracać dane w&#xa;  formacie JSON zawierające tekst do&#xa;  wyświetleniana stronie i id&#xa;+ wybranie elementu z listy powinno go dodać&#xa;  do zbioru wybranych filtrów (może utworzyć&#xa;  w JS zbiór-typ listy-dodawać do niego&#xa;  elementy, po każdym dodaniu aktualizować&#xa;  listę filtrów?)&#xa;+ kliknięcie ikony usunięcia przy wybranym&#xa;  filtrze powinno go usunąć z listy wybranych&#xa;  filtrów" ID="ID_371284654" CREATED="1636722146661" MODIFIED="1636722147929"/>
+<node TEXT="zaprojektować parametry dla listy dokumentów - tak, żeby dotychczasowe kwerendy dały się ponownie użyć" FOLDED="true" ID="ID_284272323" CREATED="1636903252244" MODIFIED="1636973365649">
+<font BOLD="false"/>
+<node TEXT="W dodanych parametrach wyszukiwania na stronie - może dodać sekcje, np. subjects (i tu-wg. kategorii), publication places?" ID="ID_1909128511" CREATED="1636903633104" MODIFIED="1636903734957">
+<node TEXT="Jeżeli w kwerendzie pojawi się więcej np. miejsc wydania, łącznikiem jest OR." ID="ID_58688984" CREATED="1636903918287" MODIFIED="1636903935863"/>
+<node TEXT="Czyli np. miejsca wydania, hasła przedmiotowe określonego typu powinny być grupowane razem." ID="ID_1630041796" CREATED="1636904266369" MODIFIED="1636904284457"/>
 </node>
-</node>
-<node TEXT="tytuł dokumentu powinien być wyszukiwny w sposób rozmyty (z użyciem operatora like i znaków %) - ponadto, mogę wybrać tytuł z listy lub wpisać własny" ID="ID_1023334362" CREATED="1636715455777" MODIFIED="1636717563885"/>
-<node TEXT="Do bardziej rozmytego wyszukiwania, można użyć metody like() - można użyć wewnątrz filter()" ID="ID_574471903" CREATED="1636713944145" MODIFIED="1636713967381">
-<node TEXT="https://stackoverflow.com/questions/3325467/sqlalchemy-equivalent-to-sql-like-statement" ID="ID_266994422" CREATED="1636713987777" MODIFIED="1636713987777" LINK="https://stackoverflow.com/questions/3325467/sqlalchemy-equivalent-to-sql-like-statement"/>
+<node TEXT="zaprojektowałem nowe parametry - najlepiej chyba napisać nową funkcjonalność (pozostawiając starą listę), ewentualnie w kolejnej wersji połączyć je" ID="ID_181208589" CREATED="1637268903310" MODIFIED="1637269671671"/>
 </node>
 <node TEXT="Diagramy interakcji mają zawierać dokładne parametry wejścia (metod, funkcji) i wyjścia/zmiany stanu." ID="ID_1109756388" CREATED="1636621430171" MODIFIED="1636621453487"/>
 <node TEXT="Wyszukiwanie dokumentów razem z relacjami" ID="ID_1755296897" CREATED="1636712915199" MODIFIED="1636712916693">
@@ -550,6 +696,7 @@
 </node>
 </node>
 <node TEXT="Administrator rozpoznawany jest po emailu przechowywanym w zmiennej środowiska; kiedy aktywuje konto, natychmiast przyznane mu zostają odpowiednie uprawnienia." ID="ID_961083289" CREATED="1631640761289" MODIFIED="1636143637789"/>
+<node TEXT="document_search ma zostać też użyte do uproszczonej listy dokumentów (do przeglądania)" ID="ID_219143555" CREATED="1637675593307" MODIFIED="1637675631873"/>
 <node TEXT="modyfikacja rekordów" FOLDED="true" ID="ID_1016743517" CREATED="1629719000594" MODIFIED="1636143695061">
 <node TEXT="Aplikacja uniemożliwia otwarcie rekodu do modyfikacji jeżeli został on już otwarty do modyfikacji (np. w formularzu w innej zakładce, przez innego użytkownika na etc.)." FOLDED="true" ID="ID_1354421201" CREATED="1629718909234" MODIFIED="1629719521565">
 <node TEXT="Wersje:" FOLDED="true" ID="ID_628302854" CREATED="1629719120515" MODIFIED="1629719125360">
@@ -655,6 +802,7 @@
 <node TEXT="Spróbować jeszcze raz przepisać formularz z typami dokumentów na liście dokumentów z przesyłaniem danych z formularza metodą get wg. tych informacji (bez przesyłania tokena cs... - można go zablokować):" ID="ID_1351934235" CREATED="1636554817963" MODIFIED="1636554889506">
 <node TEXT="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xvi-full-text-search" ID="ID_467358217" CREATED="1636554872045" MODIFIED="1636554872045" LINK="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xvi-full-text-search"/>
 </node>
+<node TEXT="Przy refaktoryzacji, przypilnować żeby funkcje które nie są metodami przyjmowały tylko jeden argument (i zwracały kolejne, bardziej wyspecjalizowane funkcje)." ID="ID_315536547" CREATED="1637265329144" MODIFIED="1637265378144"/>
 </node>
 <node TEXT="testy" POSITION="left" ID="ID_1401736301" CREATED="1629383005379" MODIFIED="1636394835927">
 <edge COLOR="#7c007c"/>

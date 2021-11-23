@@ -147,8 +147,8 @@ class Role(db.Model):
 
 class User(UserMixin, db.Model):
     '''User representation in the application.
-Solutions adapted from: M. Grinberg...
-'''
+    Solutions adapted from: M. Grinberg...
+    '''
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer, primary_key=True)
@@ -569,7 +569,6 @@ class Keyword(db.Model, Lock, SearchableMixin):
         return output
 
     def __html__(self):
-        from flask import url_for
         return self.__str__()
 
 
@@ -742,7 +741,6 @@ topic_people = db.Table(
 class RelatedDocuments(db.Model):
     '''Self-referential relationship table for the documents table.
     '''
-
     __tablename__ = 'related_documents'
     __table_args__ = (db.UniqueConstraint(
         'master_doc_id', 'dependent_doc_id'),)
