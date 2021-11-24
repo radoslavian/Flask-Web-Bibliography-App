@@ -96,13 +96,32 @@
 <node TEXT="wyszukiwanie" ID="ID_1674711683" CREATED="1636481261653" MODIFIED="1636486164479">
 <font BOLD="true"/>
 <node TEXT="Zaprojektować wyszukiwanie dokumentów" ID="ID_197155600" CREATED="1636486139486" MODIFIED="1636488437566">
-<node TEXT="poprawić wygląd strony do wybierania kryteriów wyszukiwania" ID="ID_1418135039" CREATED="1637693703150" MODIFIED="1637693717330">
+<node TEXT="Dodać paginowaną listę dokumentów z selekcją typów dokumentów." ID="ID_1510112427" CREATED="1637769586886" MODIFIED="1637769653207">
 <font BOLD="true"/>
-<node TEXT="Kryteria wyszukiwania (&quot;Przyciski&quot;) mają być w jednej grupie z wyszukiwaniem po tytule dokumentu." ID="ID_260610408" CREATED="1637693837987" MODIFIED="1637694096701"/>
-<node TEXT="Przyciski z wybranymi kryteriami mają być pod listą wyskakującą wyszukanych obiektów." ID="ID_1408003474" CREATED="1637695282225" MODIFIED="1637695303475"/>
-<node TEXT="uzupełnić o paginowaną listę dokumentów (ponownie wykorzystać częściową listę z documents_list)" ID="ID_1033260450" CREATED="1637695085585" MODIFIED="1637695125929"/>
-<node TEXT="napisać funkcję, która będzie ładowała przyciski z kryteriami wyszukiwania" ID="ID_605648802" CREATED="1637695234962" MODIFIED="1637695260661"/>
-<node TEXT="Jeżeli lista dokumentów jest pusta, część strony z wyszukiwaniem jest rozwinięta (i na odwrót)." ID="ID_247795139" CREATED="1637694221161" MODIFIED="1637694251162">
+<node TEXT="komponent do zaznaczania typów dokumentów ma działać" ID="ID_589110182" CREATED="1637784715818" MODIFIED="1637785899786">
+<font BOLD="true"/>
+</node>
+<node TEXT="ukrywanie elementów wyszukiwania kiedy wyświetla dokumenty" ID="ID_190298403" CREATED="1637776363137" MODIFIED="1637784380795">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+<node TEXT="poprawić wygląd strony do wybierania kryteriów wyszukiwania" ID="ID_1418135039" CREATED="1637693703150" MODIFIED="1637769337005">
+<icon BUILTIN="xmag"/>
+<font BOLD="false"/>
+<node TEXT="Kryteria wyszukiwania (&quot;Przyciski&quot;) mają być w jednej grupie z wyszukiwaniem po tytule dokumentu." ID="ID_260610408" CREATED="1637693837987" MODIFIED="1637768179296">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Przyciski z wybranymi kryteriami mają być pod listą wyskakującą wyszukanych obiektów." ID="ID_1408003474" CREATED="1637695282225" MODIFIED="1637768179296">
+<icon BUILTIN="button_ok"/>
+<node TEXT="Może do funkcji view zwracających strony z detalami (języka etc.) dodać też zwracanie elementu w json (przez post dla ajax)?" ID="ID_544084105" CREATED="1637702667734" MODIFIED="1637702783929"/>
+</node>
+<node TEXT="uzupełnić o paginowaną listę dokumentów (ponownie wykorzystać częściową listę z documents_list) i wybór typów dokumentów do wyświetlenia" ID="ID_1033260450" CREATED="1637695085585" MODIFIED="1637768179295">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="napisać funkcję, która będzie ładowała przyciski z kryteriami wyszukiwania z URL" ID="ID_605648802" CREATED="1637695234962" MODIFIED="1637768188133">
+<node TEXT="obiekt server_callbacks trzeba będzie zmienić: nie będzie to Array obiektów mapowanych, tylko zagnieżdżona mapa: to co w tej chwili jest tam jako url_query_parameter będzie kluczem - to wymaga też zmiany funkcji set_up_server_callbacks" ID="ID_1822954155" CREATED="1637768636495" MODIFIED="1637768734961"/>
+</node>
+<node TEXT="Jeżeli lista dokumentów jest pusta, część strony z wyszukiwaniem jest rozwinięta (i na odwrót)." ID="ID_247795139" CREATED="1637694221161" MODIFIED="1637785113533">
 <node TEXT="Jeżeli na liście znajdują się dokumenty (bo przeglądam kolejne strony wyników wyszukiwania), kliknięcie na komponent wyszukiwania załaduje (wg. numerów id w URL) wszystkie kryteria w postaci przycisków z nazwami. Na czas ładowania można wyświetlić obracające się kółko-klepsydrę." ID="ID_1191016959" CREATED="1637694400872" MODIFIED="1637694662560"/>
 <node TEXT="Gdy na liście znajdują się wyszukane dokumenty, powinno wyświetlić formularz z wyborem typów dokumentów." ID="ID_1749988204" CREATED="1637694836621" MODIFIED="1637694901319"/>
 </node>
@@ -111,6 +130,7 @@
 <node TEXT="powinny być wskazywane z listy rozwijanej" ID="ID_425010615" CREATED="1637279193763" MODIFIED="1637279241434"/>
 <node TEXT="wybór jednego z tych pól powoduje wyszukiwanie tylko według niego" ID="ID_1639329280" CREATED="1637279241704" MODIFIED="1637279267591">
 <node TEXT="Powinno to być możliwe do zaznaczenia na stronie: wyszukiwanie wg. tych pól lub pozostałych (tytulatura, język etc.), za pomocą np. przycisku radio" ID="ID_1107904013" CREATED="1637279315209" MODIFIED="1637279362174"/>
+<node TEXT="komponent wyboru typu dokumentów powinno wyświetlić tylko jeżeli na liście znajdują się dokumenty" ID="ID_1039968030" CREATED="1637785158912" MODIFIED="1637785176408"/>
 <node TEXT="po stronie serwera" ID="ID_155134154" CREATED="1637279382281" MODIFIED="1637279387834">
 <node TEXT="jeżeli test wykaże któreś te pola, nie powinno szukać w pozostałych - jest to ważne, bo inaczej można by kwerendę zawrzeć w URL" ID="ID_1986555572" CREATED="1637279387840" MODIFIED="1637279444613"/>
 </node>
@@ -120,7 +140,8 @@
 <font BOLD="false"/>
 <node TEXT="tytuł dokumentu powinien być wyszukiwany w sposób rozmyty" ID="ID_1023334362" CREATED="1636715455777" MODIFIED="1637353611024">
 <font BOLD="false"/>
-<node TEXT="Do bardziej rozmytego wyszukiwania, można użyć metody ilike() - można użyć wewnątrz filter()" ID="ID_574471903" CREATED="1636713944145" MODIFIED="1637280470287">
+<node TEXT="Do bardziej rozmytego wyszukiwania, można użyć metody ilike() - można użyć wewnątrz filter()" FOLDED="true" ID="ID_574471903" CREATED="1636713944145" MODIFIED="1637786009980">
+<icon BUILTIN="button_cancel"/>
 <node TEXT="https://stackoverflow.com/questions/3325467/sqlalchemy-equivalent-to-sql-like-statement" ID="ID_266994422" CREATED="1636713987777" MODIFIED="1636713987777" LINK="https://stackoverflow.com/questions/3325467/sqlalchemy-equivalent-to-sql-like-statement"/>
 <node TEXT="Elasticsearch domyślnie ogranicza rezultaty kwerendy, zatem chyba lepiej skorzystać z operatorów bd." ID="ID_1170298033" CREATED="1637277334377" MODIFIED="1637277377533"/>
 <node TEXT="wyszukiwanie case insensitive" ID="ID_488591334" CREATED="1637280251525" MODIFIED="1637280257450">
@@ -129,11 +150,12 @@
 </node>
 <node TEXT="Przypadek:&#xa;+ mam wpisany tylko tekst w polu tytulatury. - powinno to działać tak, jak z innymi polami, ale tak, jak bym zaznaczył wszystkie zwrócone na zapytanie np. słowa kluczowe. -&gt; dokumenty powinny&#xa;&#xa;Przyciski z kryteriami wyszukiwawczymi mam dodawać też wg. URL." ID="ID_263010225" CREATED="1637316626582" MODIFIED="1637316640867"/>
 </node>
+<node TEXT="wyszukanie dokumentów z użyciem Elasticsearch i dodanie do puli, z której zrobię przecięcie zbioru" ID="ID_667083162" CREATED="1637785971931" MODIFIED="1637786000492"/>
 </node>
 <node TEXT="wyszukiwanie z filtrami" ID="ID_174785008" CREATED="1636719023207" MODIFIED="1636719026844">
 <node TEXT="Wyszukiwanie po stronie serwera" ID="ID_390283878" CREATED="1637328273396" MODIFIED="1637329317921">
-<node TEXT="procedura wyszukiwania po stronie serwera:&#xa;1. zebrać kwerendy dla każdego wypełnionego pola w wyszukiwaniu (np. dokumenty zawierające określone osoby w oznaczeniach odpowiedzialności, dokumenty zawierające określone lokalizacje geograficzne jako miejsca wydania etc.) i dla wszystkich znaleźć część wspólną (dokumenty występujące w każdej z kwerend) przy pomocy metody kwerendy intersect" ID="ID_81542705" CREATED="1637329318606" MODIFIED="1637675558889">
-<font BOLD="true"/>
+<node TEXT="procedura wyszukiwania po stronie serwera:&#xa;1. zebrać kwerendy dla każdego wypełnionego pola w wyszukiwaniu (np. dokumenty zawierające określone osoby w oznaczeniach odpowiedzialności, dokumenty zawierające określone lokalizacje geograficzne jako miejsca wydania etc.) i dla wszystkich znaleźć część wspólną (dokumenty występujące w każdej z kwerend) przy pomocy metody kwerendy intersect" ID="ID_81542705" CREATED="1637329318606" MODIFIED="1637769352294">
+<font BOLD="false"/>
 <node TEXT="testy:" ID="ID_1729845842" CREATED="1637329343649" MODIFIED="1637329346018">
 <node TEXT="chcę znaleźć wszystkie dokumenty, dla których oryginalnym językiem był chiński a zostały wydane po niemiecku, angielsku, rosyjsku" ID="ID_725685004" CREATED="1637329346026" MODIFIED="1637329396313"/>
 </node>
@@ -273,7 +295,7 @@
 </node>
 </node>
 </node>
-<node TEXT="Lista elementów" ID="ID_1455860091" CREATED="1636569502963" MODIFIED="1636569508788">
+<node TEXT="Lista elementów" FOLDED="true" ID="ID_1455860091" CREATED="1636569502963" MODIFIED="1636569508788">
 <node TEXT="Search/filter dropdown" ID="ID_1025647883" CREATED="1636568880220" MODIFIED="1636568885614">
 <node TEXT="https://www.w3schools.com/howto/howto_js_filter_dropdown.asp" ID="ID_797848750" CREATED="1636568886240" MODIFIED="1636568886240" LINK="https://www.w3schools.com/howto/howto_js_filter_dropdown.asp"/>
 </node>
@@ -296,8 +318,7 @@
 <node TEXT="+ Mogę zastosować wzorzec rozszerzenia funkcji" ID="ID_1288796409" CREATED="1636625454591" MODIFIED="1636625479462"/>
 </node>
 </node>
-<node TEXT="aktualizacja trasy" ID="ID_804861298" CREATED="1636625142904" MODIFIED="1636744576135">
-<icon BUILTIN="button_ok"/>
+<node TEXT="aktualizacja trasy" ID="ID_804861298" CREATED="1636625142904" MODIFIED="1637769492216">
 <node TEXT="- Różnice między funkcjami były by nieduże." ID="ID_1975628322" CREATED="1636625273210" MODIFIED="1636625577589"/>
 <node TEXT="- Zaawansowane/dodatkowe filtry na stronie wymagałyby dużej zmiany podstawowego szablonu i funkcji oraz użycia jakiegoś przełącznika, który by ukrywał/pokazywał dodatkowe filtry, funkcje szukania." ID="ID_928603582" CREATED="1636625408223" MODIFIED="1636744609351">
 <node TEXT="Przełącznik - może być w szablonie:" ID="ID_1241376095" CREATED="1636744512480" MODIFIED="1636744524891">

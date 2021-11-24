@@ -10,6 +10,7 @@ from app.utils import queries
 from ..models import *
 from app.utils.helpers import *
 from app.utils.queries import *
+from app.utils.app_utils import *
 
 @main.route('/browse/people/')
 def browse_people():
@@ -339,57 +340,76 @@ def get_language_entries():
     return jsonify(get_query_list(Language))
 
 
+search_parameters = {
+    'responsibility_person_id':
+    document_search_responsibility_area(
+        ResponsibilityPerson, 'person_id'),
+    'responsibility_collectivity_id':
+    document_search_responsibility_area(
+        ResponsibilityCollectivity, 'collectivity_id'),
+    'topic_person_id': query_documents(
+        Person, 'documents_topics'),
+    'publication_language_id' : query_documents(
+        Language, 'documents'),
+    'original_language_id' : query_documents(
+        Language, 'documents_original_lang'),
+    'keyword_id': query_documents(
+        Keyword, 'documents'),
+    'publication_place_id' : query_documents(
+        GeographicLocation, 'document_publication_place'),
+    'topic_place_id': query_documents(
+        GeographicLocation, 'documents_topics'),
+    'collectivity_topic_id': query_documents(
+        CollectiveBody, 'documents_topics'),
+    'topic_language_id': query_documents(
+        Language, 'documents_topics')
+}
+
+
 @main.route('/document-search', methods=['GET', 'POST'])
 def document_search():
-    return render_template('document_search.html')
+    start_page = 0
+    document_types_form = select_document_types()(id='myform')
+    selected_doc_types_ids = document_types_form.get_type_ids()
 
+    if session.get(
+            'prev_selected_doc_types_ids') != selected_doc_types_ids:
+        start_page = 1
+        session['prev_selected_doc_types_ids'] = selected_doc_types_ids
 
-@main.route('/search')
-def search():
-    return 'to be made'
-
-
-# For searching documents testing purposes
-@main.route('/search/documents')
-def search_documents():
-    search_parameters = {
-        'responsibility_person_id':
-        document_search_responsibility_area(
-            ResponsibilityPerson, 'person_id'),
-        'responsibility_collectivity_id':
-        document_search_responsibility_area(
-            ResponsibilityCollectivity, 'collectivity_id'),
-        'topic_person_id': query_documents(
-            Person, 'documents_topics'),
-        'publication_language_id' : query_documents(
-            Language, 'documents'),
-        'original_language_id' : query_documents(
-            Language, 'documents_original_lang'),
-        'keyword_id': query_documents(
-            Keyword, 'documents'),
-        'publication_place_id' : query_documents(
-            GeographicLocation, 'document_publication_place'),
-        'topic_place_id': query_documents(
-            GeographicLocation, 'documents_topics'),
-        'collectivity_topic_id': query_documents(
-            CollectiveBody, 'documents_topics'),
-        'topic_language_id': query_documents(
-            Language, 'documents_topics')
-    }
+    if request.method == 'POST':
+        return redirect(url_for('.document_search'))
 
     document_queries = []
+    received_parameters = {}
 
     for parameter in search_parameters.keys():
         ids = request.args.getlist(parameter, type=int)
         if ids:
+            received_parameters[parameter] = ids
             document_queries.append(search_parameters[parameter](ids))
 
     if len(document_queries) == 1:
         query = document_queries[0]
-    elif len(document_queries) > 2:
+    elif len(document_queries) > 1:
         query = document_queries[0].intersect(
             *[document_q for document_q in document_queries[1:]])
     else:
         query = Document.query.filter_by(document_id=0)
 
-    return str(query.count())
+    if len(selected_doc_types_ids) != DocumentType.query.count():
+        query = query.filter(Document.document_type_id.in_(
+            selected_doc_types_ids))
+    query = query.order_by(Document.title_proper)
+
+    return render_template('document_search.html',
+                           pagination=paginate(query, start_page=start_page),
+                           document_types=document_types_form,
+                           search_fields=search_fields,
+                           kargs=received_parameters,
+                           endpoint='.document_search')
+
+
+@main.route('/search')
+def search():
+    return 'to be made'

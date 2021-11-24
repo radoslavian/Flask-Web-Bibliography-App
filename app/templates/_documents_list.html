@@ -8,9 +8,14 @@
 	  {{ render_form(document_types, id="select_doc_type") }}
 	</div>
       </div>
-      <div class="col-md-8 list-group">
+      <!-- 
+	id="document-list" and class="document-item" - 
+	used for the purpose of checking if the list displays
+	any items
+	-->
+      <div id="document-list" class="col-md-8 list-group">
 	{% for document in pagination.items %}
-	  <a class="list-group-item list-group-item-action"
+	  <a class="document-item list-group-item list-group-item-action"
 	     href="{{ url_for('.document_view',
 	     document_id=document.document_id) }}">
 	     {{ document.title_proper }}
@@ -22,7 +27,7 @@
       </div>
     </div>
   </div>
-    <script type="application/javascript">
+  <script type="application/javascript" defer>
     let checkboxes = document.querySelectorAll(
 	'#select_doc_type input[type=checkbox]');
 for(checkbox of checkboxes) {

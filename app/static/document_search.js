@@ -70,7 +70,7 @@ function set_up_server_callbacks(callbacks) {
 function search_criterion_component(parent, title, on_close_cb=() => {}) {
     // on_close_cb - callable invoked on component removal
     let main_btn = $("<div></div>").addClass(
-	"btn btn-outline-info btn-sm");
+	"btn btn-outline-info btn-sm m-1");
     let row = $("<div></div>").addClass("row");
     let label_col = $("<div></div>").addClass("col").html(title);
     let close_bt_col = $("<div></div>").addClass("col-1");
