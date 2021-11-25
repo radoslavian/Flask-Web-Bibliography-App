@@ -4,8 +4,14 @@
     Toggle search options
 </a>
 <div id="accordion-wrapper" class="collapse">
-        <div id="search-fields-accordion">
-          {% for search_field in search_fields %}
+  <div id="search-fields-accordion">
+    <div class="row">
+      <div class="col-sm">
+        {% for search_field in search_fields %}
+	  {% if loop.index == 6 %}
+	    </div>
+      <div class="col-sm">
+	{% endif %}
           <div class="card mb-3">
             <div class="card-header" id="{{ search_field['card_header_id'] }}">
               <h5 class="mb-0">
@@ -20,7 +26,9 @@
             </div>
             <div id="{{ search_field['selected_list_id'] }}"></div>
           </div> <!-- card -->
-          {% endfor %}
+        {% endfor %}
+      </div>
+      </div>
         </div>
         <div class="card card-body">
           <div class="input-group">
@@ -69,20 +77,19 @@
   	  src="{{ url_for('static', filename='document_search.js') }}">
   </script>
   <script type="application/javascript">
-let server_callbacks = [
+    let server_callbacks = {
 {% for search_field in search_fields %}
-    {
+    "{{ search_field['query_parameter'] }}": {
 	"input": "#{{ search_field['input_id'] }}",
 	"url": "{{ url_for( search_field['endpoint'] ) }}",
 	"drop_down": "#{{ search_field['filter_id'] }}",
 
 	{# area to put components with selected entries #}
 	"parent_component_id": "#{{ search_field['selected_list_id'] }}",
-	"url_query_parameter": "{{ search_field['query_parameter'] }}",
 	"ids_list": new Set()
     },
 {% endfor %}
-]
+}
 
     var root_url = "{{ request.root_url }}";
 
@@ -96,6 +103,8 @@ let server_callbacks = [
 
     $(document).ready(function() {
 	set_up_server_callbacks(server_callbacks);
+	search_parameters_from_url(server_callbacks);
+
 	let accordion_wrapper = $('#accordion-wrapper');
 	if($('#document-list > .document-item').length < 1) {
 	    accordion_wrapper.collapse('show');

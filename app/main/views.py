@@ -306,10 +306,15 @@ def documents_list():
         endpoint='.documents_list')
 
 
-@main.route('/search/people', methods=['POST'])
+@main.route('/search/people/', methods=['POST'])
 def get_person_entries():
     '''Returns JSON Array of <number> entries, on a <page_num> page.
     '''
+    person_id = request.form.get('id', None)
+    if person_id:
+        return jsonify(Person.query.filter_by(
+            person_id=person_id).first())
+
     output = get_query_list(Person)
     output.extend(
         {'text': item, 'id': item.person_id}
@@ -319,17 +324,17 @@ def get_person_entries():
 
 @main.route('/search/keywords', methods=['POST'])
 def get_keywords():
-    return jsonify(get_query_list(Keyword))
+    return get_jsonified(Keyword)
 
 
 @main.route('/search/geographic_locations', methods=['POST'])
 def get_geographic_location():
-    return jsonify(get_query_list(GeographicLocation))
+    return get_jsonified(GeographicLocation)
 
 
 @main.route('/search/collective_bodies', methods=['POST'])
 def get_collective_bodies():
-    return jsonify(get_query_list(CollectiveBody))
+    return get_jsonified(CollectiveBody)
 
 
 @main.route('/search/languages', methods=['POST'])
@@ -337,7 +342,7 @@ def get_language_entries():
     '''Returns json array of languages searched in the db using
     searchengine.
     '''
-    return jsonify(get_query_list(Language))
+    return get_jsonified(Language)
 
 
 search_parameters = {
@@ -372,13 +377,12 @@ def document_search():
     document_types_form = select_document_types()(id='myform')
     selected_doc_types_ids = document_types_form.get_type_ids()
 
+    print(session.get(
+            'prev_selected_doc_types_ids'))
     if session.get(
             'prev_selected_doc_types_ids') != selected_doc_types_ids:
         start_page = 1
         session['prev_selected_doc_types_ids'] = selected_doc_types_ids
-
-    if request.method == 'POST':
-        return redirect(url_for('.document_search'))
 
     document_queries = []
     received_parameters = {}
@@ -388,7 +392,21 @@ def document_search():
         if ids:
             received_parameters[parameter] = ids
             document_queries.append(search_parameters[parameter](ids))
+    document_text_search = request.args.get('document_text_search')
+    document_query = ''
 
+    if document_text_search:
+        received_parameters['document_text_search'] = document_text_search
+        document_query = Document.search(document_text_search, 1,
+                                        10000)[0] # ESearch limit
+    kargs = {**received_parameters,
+             'type_id': selected_doc_types_ids}
+
+    if request.method == 'POST':
+        return redirect(url_for('.document_search', **kargs))
+
+    if document_query:
+        document_queries.append(document_query.order_by(None))
     if len(document_queries) == 1:
         query = document_queries[0]
     elif len(document_queries) > 1:
@@ -400,13 +418,12 @@ def document_search():
     if len(selected_doc_types_ids) != DocumentType.query.count():
         query = query.filter(Document.document_type_id.in_(
             selected_doc_types_ids))
-    query = query.order_by(Document.title_proper)
 
     return render_template('document_search.html',
                            pagination=paginate(query, start_page=start_page),
                            document_types=document_types_form,
                            search_fields=search_fields,
-                           kargs=received_parameters,
+                           kargs=kargs,
                            endpoint='.document_search')
 
 

@@ -1,10 +1,36 @@
+function search_parameters_from_url(search_fields) {
+    const urlParams = new URLSearchParams(window.location.search);
+    function add_components(v, key) {
+	if(search_fields.hasOwnProperty(key)) {
+
+	    // podobne do add_searched_id
+	    if(!search_fields[key]["ids_list"].has(v)) {
+		search_fields[key]["ids_list"].add(v);
+		$.post(search_fields[key]["url"], {"id": v},
+		       title => search_criterion_component(
+			   $(search_fields[key]["parent_component_id"]),
+			   title, on_close_cb=() => search_fields[key][
+			       "ids_list"].delete(v)))
+	    }
+	}
+    }
+    urlParams.forEach(add_components);
+}
+
+
 function url_query_for(root) {
     return config_list => {
 	let url = new URL(root);
-	config_list.forEach(
-	item => item["ids_list"].forEach(
-	    id => url.searchParams.append(
-		item["url_query_parameter"], id)));
+	for(config_item in config_list) {
+	    console.log(config_list[config_item]["ids_list"]);
+	    config_list[config_item]["ids_list"].forEach(
+		id => url.searchParams.append(config_item, id));
+	}
+	let document_text_search = $("#document-text-fields-search").val()
+	if(document_text_search) {
+	    url.searchParams.append('document_text_search',
+				    document_text_search);
+	}
 	return url;
     }
 }
@@ -26,7 +52,7 @@ function add_searched_id(set, parent) {
 }
 
 
-function print_list(list, drop_down, parent, ids_list) {
+ function print_list(list, drop_down, parent, ids_list) {
     // niech najpierw sprawdza czy cokolwiek tam jest
     drop_down.empty();
     let list_item;
@@ -59,10 +85,13 @@ function get_filter_cb(input_name, fn_url, drop_down,
 
 
 function set_up_server_callbacks(callbacks) {
-    for(callback of callbacks) {
-	$(callback["input"]).keyup(get_filter_cb(
-	    callback["input"], callback["url"], $(callback["drop_down"]),
-	    $(callback["parent_component_id"]), callback["ids_list"]));
+    for(callback in callbacks) {
+	$(callbacks[callback]["input"]).keyup(get_filter_cb(
+	    callbacks[callback]["input"],
+	    callbacks[callback]["url"],
+	    $(callbacks[callback]["drop_down"]),
+	    $(callbacks[callback]["parent_component_id"]),
+	    callbacks[callback]["ids_list"]));
     }
 }
 

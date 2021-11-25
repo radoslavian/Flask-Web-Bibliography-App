@@ -3,13 +3,13 @@
 
 from app import models
 from app.models import ResponsibilityName, DocumentType
-from flask import request, current_app
+from flask import request, current_app, jsonify
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, SubmitField
 
 def get_responsibility_identifiers(responsibility_id=None):
     '''Returns tuple with responsibility id and name or redirects to 404 page
-    if no responsibility found with a given responsibility_id.
+    if no responsibility with a given responsibility_id was found.
     '''
     if responsibility_id is None: return None, None
     responsibility = ResponsibilityName.query.filter_by(
@@ -83,6 +83,17 @@ def select_document_types():
             return selected_doc_types_ids
 
     return SelectDocumentTypes
+
+
+def get_jsonified(model):
+    '''Helper for get_... view functions called from search pages.
+    Returns jsonified database model(s).
+    '''
+    id_number = request.form.get('id', None)
+    if id_number:
+        return jsonify(model.query.filter(
+            getattr(model, model.__primary_key__) == id_number).first())
+    return jsonify(get_query_list(model))
 
 
 def get_es_search_params(model):
