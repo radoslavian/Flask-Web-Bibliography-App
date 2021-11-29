@@ -63,7 +63,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="126" RULE="ON_BRANCH_CREATION"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="127" RULE="ON_BRANCH_CREATION"/>
 <node TEXT="Aplikacja minimalna (z możliwością rozbudowy)" POSITION="right" ID="ID_394421864" CREATED="1635274763546" MODIFIED="1636035723332">
 <font BOLD="true"/>
 <richcontent TYPE="DETAILS">
@@ -96,34 +96,48 @@
 <node TEXT="wyszukiwanie" ID="ID_1674711683" CREATED="1636481261653" MODIFIED="1636486164479">
 <font BOLD="true"/>
 <node TEXT="Zaprojektować wyszukiwanie dokumentów" ID="ID_197155600" CREATED="1636486139486" MODIFIED="1636488437566">
-<node TEXT="Dodać paginowaną listę dokumentów z selekcją typów dokumentów." ID="ID_1510112427" CREATED="1637769586886" MODIFIED="1637769653207">
-<font BOLD="true"/>
-<node TEXT="komponent do zaznaczania typów dokumentów ma działać" ID="ID_589110182" CREATED="1637784715818" MODIFIED="1637785899786">
-<font BOLD="true"/>
-</node>
-<node TEXT="ukrywanie elementów wyszukiwania kiedy wyświetla dokumenty" ID="ID_190298403" CREATED="1637776363137" MODIFIED="1637784380795">
-<icon BUILTIN="button_ok"/>
-</node>
-</node>
 <node TEXT="poprawić wygląd strony do wybierania kryteriów wyszukiwania" ID="ID_1418135039" CREATED="1637693703150" MODIFIED="1637769337005">
 <icon BUILTIN="xmag"/>
 <font BOLD="false"/>
+<node TEXT="Dodać pole &quot;search by unique fields&quot; i do wyboru ISBN..., ISSN - z informacją, że ten wybór anuluje pozostałe kryteria; format z kreskami." ID="ID_1492093042" CREATED="1637881750577" MODIFIED="1637933647019">
+<font BOLD="false"/>
+<node TEXT="Poprawić funkcję szukania dokumentów" ID="ID_1246518145" CREATED="1637933657683" MODIFIED="1637953122274">
+<font BOLD="true"/>
+<node TEXT="wg. podręcznika" ID="ID_149218592" CREATED="1637933988997" MODIFIED="1637933994891"/>
+<node TEXT="Sprawdzić diagram - porównać z kodem" ID="ID_1205328915" CREATED="1637953065215" MODIFIED="1637953114975">
+<icon BUILTIN="full-1"/>
+<font BOLD="true"/>
+</node>
+<node TEXT="Dodać notatki do diagramu - co poprawić" ID="ID_995458205" CREATED="1637953083496" MODIFIED="1637953102972">
+<icon BUILTIN="full-2"/>
+</node>
+<node TEXT="Przepisać diagram" ID="ID_1527819397" CREATED="1637953092646" MODIFIED="1637953109899">
+<icon BUILTIN="full-3"/>
+</node>
+</node>
+<node TEXT="Poprawić wygląd formularza" ID="ID_1901448550" CREATED="1637933649172" MODIFIED="1637933655376"/>
+<node TEXT="Walidacja danych" ID="ID_1331154179" CREATED="1637933713766" MODIFIED="1637933717101"/>
+</node>
+<node TEXT="napisać funkcję, która będzie ładowała przyciski z kryteriami wyszukiwania z URL" FOLDED="true" ID="ID_605648802" CREATED="1637695234962" MODIFIED="1637867974962">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="obiekt server_callbacks trzeba będzie zmienić: nie będzie to Array obiektów mapowanych, tylko zagnieżdżona mapa: to co w tej chwili jest tam jako url_query_parameter będzie kluczem - to wymaga też zmiany funkcji set_up_server_callbacks" ID="ID_1822954155" CREATED="1637768636495" MODIFIED="1637867964216">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
 <node TEXT="Kryteria wyszukiwania (&quot;Przyciski&quot;) mają być w jednej grupie z wyszukiwaniem po tytule dokumentu." ID="ID_260610408" CREATED="1637693837987" MODIFIED="1637768179296">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="Przyciski z wybranymi kryteriami mają być pod listą wyskakującą wyszukanych obiektów." ID="ID_1408003474" CREATED="1637695282225" MODIFIED="1637768179296">
+<node TEXT="Przyciski z wybranymi kryteriami mają być pod listą wyskakującą wyszukanych obiektów." FOLDED="true" ID="ID_1408003474" CREATED="1637695282225" MODIFIED="1637768179296">
 <icon BUILTIN="button_ok"/>
 <node TEXT="Może do funkcji view zwracających strony z detalami (języka etc.) dodać też zwracanie elementu w json (przez post dla ajax)?" ID="ID_544084105" CREATED="1637702667734" MODIFIED="1637702783929"/>
 </node>
 <node TEXT="uzupełnić o paginowaną listę dokumentów (ponownie wykorzystać częściową listę z documents_list) i wybór typów dokumentów do wyświetlenia" ID="ID_1033260450" CREATED="1637695085585" MODIFIED="1637768179295">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="napisać funkcję, która będzie ładowała przyciski z kryteriami wyszukiwania z URL" ID="ID_605648802" CREATED="1637695234962" MODIFIED="1637768188133">
-<node TEXT="obiekt server_callbacks trzeba będzie zmienić: nie będzie to Array obiektów mapowanych, tylko zagnieżdżona mapa: to co w tej chwili jest tam jako url_query_parameter będzie kluczem - to wymaga też zmiany funkcji set_up_server_callbacks" ID="ID_1822954155" CREATED="1637768636495" MODIFIED="1637768734961"/>
-</node>
-<node TEXT="Jeżeli lista dokumentów jest pusta, część strony z wyszukiwaniem jest rozwinięta (i na odwrót)." ID="ID_247795139" CREATED="1637694221161" MODIFIED="1637785113533">
+<node TEXT="Jeżeli lista dokumentów jest pusta, część strony z wyszukiwaniem jest rozwinięta (i na odwrót)." FOLDED="true" ID="ID_247795139" CREATED="1637694221161" MODIFIED="1637785113533">
 <node TEXT="Jeżeli na liście znajdują się dokumenty (bo przeglądam kolejne strony wyników wyszukiwania), kliknięcie na komponent wyszukiwania załaduje (wg. numerów id w URL) wszystkie kryteria w postaci przycisków z nazwami. Na czas ładowania można wyświetlić obracające się kółko-klepsydrę." ID="ID_1191016959" CREATED="1637694400872" MODIFIED="1637694662560"/>
-<node TEXT="Gdy na liście znajdują się wyszukane dokumenty, powinno wyświetlić formularz z wyborem typów dokumentów." ID="ID_1749988204" CREATED="1637694836621" MODIFIED="1637694901319"/>
+<node TEXT="Gdy na liście znajdują się wyszukane dokumenty, powinno wyświetlić formularz z wyborem typów dokumentów (w innym wypadku powinien być ukryty)." ID="ID_1749988204" CREATED="1637694836621" MODIFIED="1637836137435"/>
 </node>
 </node>
 <node TEXT="Pola isbn-10/13 i issn" ID="ID_405174378" CREATED="1637279177961" MODIFIED="1637279193752">
@@ -167,94 +181,6 @@
 </node>
 <node TEXT="Wyświetlenie listy drop-down" ID="ID_596700692" CREATED="1636722124997" MODIFIED="1636722126068">
 <node TEXT="+ każdy typ filtra (z filtered fields) odnosi&#xa;  się do indeksu i pola w dokumencie&#xa;+ jeżeli pole jest puste: nic się nie dzieje&#xa;+ zmieniam zawartość pola:&#xa;  + jeżeli pole zawiera tekst - wywołanie&#xa;    asynchroniczne funkcji na serwerze:&#xa;    search(index, query, page, per_page)&#xa;  funkcja search powinna zwracać dane w&#xa;  formacie JSON zawierające tekst do&#xa;  wyświetleniana stronie i id&#xa;+ wybranie elementu z listy powinno go dodać&#xa;  do zbioru wybranych filtrów (może utworzyć&#xa;  w JS zbiór-typ listy-dodawać do niego&#xa;  elementy, po każdym dodaniu aktualizować&#xa;  listę filtrów?)&#xa;+ kliknięcie ikony usunięcia przy wybranym&#xa;  filtrze powinno go usunąć z listy wybranych&#xa;  filtrów" ID="ID_371284654" CREATED="1636722146661" MODIFIED="1636722147929"/>
-</node>
-<node TEXT="kwerendy do przeszukiwania dokumentów" FOLDED="true" ID="ID_931897518" CREATED="1637330951484" MODIFIED="1637675508250">
-<icon BUILTIN="button_ok"/>
-<node TEXT="język" FOLDED="true" ID="ID_200807315" CREATED="1637336847622" MODIFIED="1637675496011">
-<icon BUILTIN="button_ok"/>
-<node TEXT="kwerenda do zaznaczenia dokumentów:" FOLDED="true" ID="ID_1861763179" CREATED="1637337022657" MODIFIED="1637675490344">
-<icon BUILTIN="button_ok"/>
-<node TEXT="opublikowanych w którymkolwiek z zaznaczonego języka" ID="ID_1429676065" CREATED="1637337039026" MODIFIED="1637675303847">
-<icon BUILTIN="button_ok"/>
-<node TEXT="languages = Language.query.filter(Language.language_id.in_([1, 2, 3]))" ID="ID_1026669907" CREATED="1637338198758" MODIFIED="1637339880723"/>
-<node TEXT="documents = languages[0].documents.union(*[publication_language.documents for publication_language in languages[1:]])" ID="ID_474648760" CREATED="1637339067537" MODIFIED="1637339070178"/>
-</node>
-<node TEXT="dla których którykolwiek z zaznaczonego języka jest językiem oryginalnym" ID="ID_1852243960" CREATED="1637337040561" MODIFIED="1637675486326">
-<icon BUILTIN="button_ok"/>
-<node TEXT="languages = Language.query.filter(Language.language_id.in_([1, 2, 3]))" ID="ID_1532242935" CREATED="1637338198758" MODIFIED="1637339880723">
-<node TEXT="powtórka" ID="ID_1063295475" CREATED="1637339888068" MODIFIED="1637339911257" LINK="#ID_1026669907"/>
-</node>
-<node TEXT="documents = languages[0].documents_original_lang.union(*[orig_lang.documents_original_lang for orig_lang in languages[1:]])" ID="ID_237884641" CREATED="1637340671534" MODIFIED="1637340672808"/>
-</node>
-<node TEXT="dla których którykolwiek z zaznaczonych języków jest tematem" ID="ID_421783837" CREATED="1637337229216" MODIFIED="1637672359419">
-<icon BUILTIN="button_ok"/>
-<font BOLD="false"/>
-<node TEXT="languages = Language.query.filter(Language.language_id.in_([1, 2, 3]))" ID="ID_1362170360" CREATED="1637338198758" MODIFIED="1637339880723">
-<node TEXT="powtórka" ID="ID_358720982" CREATED="1637339888068" MODIFIED="1637339911257" LINK="#ID_1026669907"/>
-</node>
-<node TEXT="documents = languages[0].documents_topics.union(*[lang_topic.documents_topics for lang_topic in languages])" ID="ID_1150871973" CREATED="1637341126907" MODIFIED="1637341128516">
-<node TEXT="podobne" ID="ID_85352991" CREATED="1637341145836" MODIFIED="1637341154485" LINK="#ID_237884641"/>
-</node>
-</node>
-</node>
-</node>
-<node TEXT="słowa kluczowe" FOLDED="true" ID="ID_1933926220" CREATED="1637341179788" MODIFIED="1637672409979">
-<icon BUILTIN="button_ok"/>
-<node TEXT="kwerenda zwracająca dokumenty zawierające którekolwiek z zaznaczonych słów kluczowych" ID="ID_1840404360" CREATED="1637341470084" MODIFIED="1637672064428">
-<icon BUILTIN="button_ok"/>
-<font BOLD="false"/>
-<node TEXT="keywords = Keyword.query.filter(Keyword.id.in_([4,6,21]))" ID="ID_970759683" CREATED="1637342248717" MODIFIED="1637342249489"/>
-<node TEXT="documents = keywords[0].documents.union(*[keyword.documents for keyword in keywords[1:]])" ID="ID_192837425" CREATED="1637342607827" MODIFIED="1637342609032"/>
-</node>
-</node>
-<node TEXT="osoby" FOLDED="true" ID="ID_9435730" CREATED="1637330979228" MODIFIED="1637672422075">
-<icon BUILTIN="button_ok"/>
-<node TEXT="kwerenda do zaznaczenia dokumentów zawierających w polu oznaczenia odpowiedzialności osoby wg. numerów id" ID="ID_658059653" CREATED="1637330955419" MODIFIED="1637668143722">
-<icon BUILTIN="button_ok"/>
-<node TEXT="db.session.query(Document).select_from(&#xa;Document).join(ResponsibilityPerson).filter(&#xa;ResponsibilityPerson.person_id.in_([26, 35])).distinct()" ID="ID_289934465" CREATED="1637330966570" MODIFIED="1637330967630"/>
-</node>
-<node TEXT="Kwerenda do zaznaczenia dokumentów zawierających wskazane osoby w polu tematu." ID="ID_1283911371" CREATED="1637330982396" MODIFIED="1637671737066">
-<icon BUILTIN="button_ok"/>
-<font BOLD="false"/>
-<node TEXT="Person.query.filter(Person.person_id.in_([1, 2, 3]))" ID="ID_24678092" CREATED="1637332039408" MODIFIED="1637332040196"/>
-<node TEXT="people[0].documents_topics.union(people[1].documents_topics)" ID="ID_756797466" CREATED="1637332518654" MODIFIED="1637332520696"/>
-<node TEXT="people[0].documents_topics.union(*[person.documents_topics for person in people[1:]])" ID="ID_1394164148" CREATED="1637333053964" MODIFIED="1637668564166">
-<font BOLD="false"/>
-<node TEXT="lepsza wersja?" ID="ID_1327436755" CREATED="1637333153788" MODIFIED="1637333156466"/>
-</node>
-</node>
-</node>
-<node TEXT="ciała zbiorowe" FOLDED="true" ID="ID_1016490209" CREATED="1637342725729" MODIFIED="1637672434240">
-<icon BUILTIN="button_ok"/>
-<node TEXT="dokumenty w których zaznaczone ciała zbiorowe znajdują się w oznaczeniach odpowiedzialności" ID="ID_1744991557" CREATED="1637346117504" MODIFIED="1637668147101">
-<icon BUILTIN="button_ok"/>
-<node TEXT="collective_bodies = CollectiveBody.query.filter(CollectiveBody.id.in_([1, 11, 2, 22]))" ID="ID_1302082033" CREATED="1637346732159" MODIFIED="1637346732773"/>
-<node TEXT="db.session.query(Document).select_from(Document).join(&#xa;ResponsibilityCollectivity).filter(&#xa;ResponsibilityCollectivity.collectivity_id.in_([1, 2])).distinct()" ID="ID_1354753300" CREATED="1637347896430" MODIFIED="1637347911416"/>
-<node TEXT="podobne do osoby" ID="ID_1759415373" CREATED="1637347918094" MODIFIED="1637347933205" LINK="#ID_9435730"/>
-</node>
-<node TEXT="dokumenty w których zaznaczone ciała zbiorowe są tematami" ID="ID_239166793" CREATED="1637346107039" MODIFIED="1637671743019">
-<icon BUILTIN="button_ok"/>
-<font BOLD="false"/>
-<node TEXT="collective_bodies = CollectiveBody.query.filter(CollectiveBody.id.in_([1, 11, 2, 22]))" ID="ID_1115040081" CREATED="1637346732159" MODIFIED="1637346732773"/>
-<node TEXT="collective_bodies[0].documents_topics.union_all(*[collective_body.documents_topics for collective_body in collective_bodies[1:]])" ID="ID_1298422671" CREATED="1637347083000" MODIFIED="1637347084186"/>
-</node>
-</node>
-<node TEXT="lokalizacje geograficzne" FOLDED="true" ID="ID_862006234" CREATED="1637346329055" MODIFIED="1637674951502">
-<icon BUILTIN="button_ok"/>
-<node TEXT="jako miejsce wydania" ID="ID_1129639077" CREATED="1637348350797" MODIFIED="1637674886943">
-<icon BUILTIN="button_ok"/>
-<node TEXT="geographic_location = GeographicLocation.query.filter(GeographicLocation.location_id.in_([1, 2]))" ID="ID_613635416" CREATED="1637351004983" MODIFIED="1637351004983"/>
-<node TEXT="documents = geographic_location[0].document_publication_place.union(*[location.document_publication_place for location in geographic_location])" ID="ID_1683904842" CREATED="1637351015385" MODIFIED="1637351016887"/>
-</node>
-<node TEXT="jako temat dokumentu" ID="ID_1696344989" CREATED="1637348354716" MODIFIED="1637671909531">
-<icon BUILTIN="button_ok"/>
-<font BOLD="false"/>
-<node TEXT="geographic_location = GeographicLocation.query.filter(GeographicLocation.location_id.in_([1, 2]))" ID="ID_777452653" CREATED="1637351004983" MODIFIED="1637351004983">
-<node TEXT="kopia" ID="ID_691910866" CREATED="1637351599863" MODIFIED="1637351610922" LINK="#ID_613635416"/>
-</node>
-<node TEXT="documents = geographic_location[0].documents_topics.union(*[location.documents_topics for location in geographic_location[1:]])" ID="ID_1064315911" CREATED="1637353177001" MODIFIED="1637353178202"/>
-</node>
-</node>
 </node>
 </node>
 <node TEXT="Zaplanować, co się stanie, kiedy kwerenda zostanie wysłana na serwer (łącznie ze słowami z pól tekstowych dokumentu)" ID="ID_727137386" CREATED="1637273619065" MODIFIED="1637273642890"/>
@@ -351,7 +277,7 @@
 <font BOLD="false"/>
 </node>
 </node>
-<node TEXT="zrobić prototyp listy rozwijanej dla filtra" ID="ID_1353297073" CREATED="1636986324692" MODIFIED="1637014572162">
+<node TEXT="zrobić prototyp listy rozwijanej dla filtra" FOLDED="true" ID="ID_1353297073" CREATED="1636986324692" MODIFIED="1637014572162">
 <icon BUILTIN="button_ok"/>
 <node TEXT="ma wyświetlać wpisy wyszukane w bd" ID="ID_434690862" CREATED="1636986354197" MODIFIED="1636986360577"/>
 </node>
@@ -2152,6 +2078,105 @@
 <node TEXT="wyrazić instrukcje warunkowe w funkcji documents_list na diagramie - tak, żeby kod się nie powtarzał i żeby sprawdzić jak dobrze mi idzie robienie instrukcji warunkowych" ID="ID_72117529" CREATED="1635423848683" MODIFIED="1636481378638">
 <icon BUILTIN="button_ok"/>
 <font BOLD="false"/>
+</node>
+<node TEXT="Wyszukiwanie zaawansowane: dodać paginowaną listę dokumentów z selekcją typów dokumentów." FOLDED="true" ID="ID_1510112427" CREATED="1637769586886" MODIFIED="1637835430375">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="komponent do zaznaczania typów dokumentów ma działać" ID="ID_589110182" CREATED="1637784715818" MODIFIED="1637835282328">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+<node TEXT="ukrywanie elementów wyszukiwania kiedy wyświetla dokumenty" ID="ID_190298403" CREATED="1637776363137" MODIFIED="1637784380795">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+<node TEXT="wyszukiwanie zaawansowane dokumentów: kwerendy do przeszukiwania dokumentów" ID="ID_931897518" CREATED="1637330951484" MODIFIED="1637835468762">
+<icon BUILTIN="button_ok"/>
+<node TEXT="język" FOLDED="true" ID="ID_200807315" CREATED="1637336847622" MODIFIED="1637675496011">
+<icon BUILTIN="button_ok"/>
+<node TEXT="kwerenda do zaznaczenia dokumentów:" FOLDED="true" ID="ID_1861763179" CREATED="1637337022657" MODIFIED="1637675490344">
+<icon BUILTIN="button_ok"/>
+<node TEXT="opublikowanych w którymkolwiek z zaznaczonego języka" ID="ID_1429676065" CREATED="1637337039026" MODIFIED="1637675303847">
+<icon BUILTIN="button_ok"/>
+<node TEXT="languages = Language.query.filter(Language.language_id.in_([1, 2, 3]))" ID="ID_1026669907" CREATED="1637338198758" MODIFIED="1637339880723"/>
+<node TEXT="documents = languages[0].documents.union(*[publication_language.documents for publication_language in languages[1:]])" ID="ID_474648760" CREATED="1637339067537" MODIFIED="1637339070178"/>
+</node>
+<node TEXT="dla których którykolwiek z zaznaczonego języka jest językiem oryginalnym" ID="ID_1852243960" CREATED="1637337040561" MODIFIED="1637675486326">
+<icon BUILTIN="button_ok"/>
+<node TEXT="languages = Language.query.filter(Language.language_id.in_([1, 2, 3]))" ID="ID_1532242935" CREATED="1637338198758" MODIFIED="1637339880723">
+<node TEXT="powtórka" ID="ID_1063295475" CREATED="1637339888068" MODIFIED="1637339911257" LINK="#ID_1026669907"/>
+</node>
+<node TEXT="documents = languages[0].documents_original_lang.union(*[orig_lang.documents_original_lang for orig_lang in languages[1:]])" ID="ID_237884641" CREATED="1637340671534" MODIFIED="1637340672808"/>
+</node>
+<node TEXT="dla których którykolwiek z zaznaczonych języków jest tematem" ID="ID_421783837" CREATED="1637337229216" MODIFIED="1637672359419">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="languages = Language.query.filter(Language.language_id.in_([1, 2, 3]))" ID="ID_1362170360" CREATED="1637338198758" MODIFIED="1637339880723">
+<node TEXT="powtórka" ID="ID_358720982" CREATED="1637339888068" MODIFIED="1637339911257" LINK="#ID_1026669907"/>
+</node>
+<node TEXT="documents = languages[0].documents_topics.union(*[lang_topic.documents_topics for lang_topic in languages])" ID="ID_1150871973" CREATED="1637341126907" MODIFIED="1637341128516">
+<node TEXT="podobne" ID="ID_85352991" CREATED="1637341145836" MODIFIED="1637341154485" LINK="#ID_237884641"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="słowa kluczowe" FOLDED="true" ID="ID_1933926220" CREATED="1637341179788" MODIFIED="1637672409979">
+<icon BUILTIN="button_ok"/>
+<node TEXT="kwerenda zwracająca dokumenty zawierające którekolwiek z zaznaczonych słów kluczowych" ID="ID_1840404360" CREATED="1637341470084" MODIFIED="1637672064428">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="keywords = Keyword.query.filter(Keyword.id.in_([4,6,21]))" ID="ID_970759683" CREATED="1637342248717" MODIFIED="1637342249489"/>
+<node TEXT="documents = keywords[0].documents.union(*[keyword.documents for keyword in keywords[1:]])" ID="ID_192837425" CREATED="1637342607827" MODIFIED="1637342609032"/>
+</node>
+</node>
+<node TEXT="osoby" FOLDED="true" ID="ID_9435730" CREATED="1637330979228" MODIFIED="1637672422075">
+<icon BUILTIN="button_ok"/>
+<node TEXT="kwerenda do zaznaczenia dokumentów zawierających w polu oznaczenia odpowiedzialności osoby wg. numerów id" ID="ID_658059653" CREATED="1637330955419" MODIFIED="1637668143722">
+<icon BUILTIN="button_ok"/>
+<node TEXT="db.session.query(Document).select_from(&#xa;Document).join(ResponsibilityPerson).filter(&#xa;ResponsibilityPerson.person_id.in_([26, 35])).distinct()" ID="ID_289934465" CREATED="1637330966570" MODIFIED="1637330967630"/>
+</node>
+<node TEXT="Kwerenda do zaznaczenia dokumentów zawierających wskazane osoby w polu tematu." ID="ID_1283911371" CREATED="1637330982396" MODIFIED="1637671737066">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="Person.query.filter(Person.person_id.in_([1, 2, 3]))" ID="ID_24678092" CREATED="1637332039408" MODIFIED="1637332040196"/>
+<node TEXT="people[0].documents_topics.union(people[1].documents_topics)" ID="ID_756797466" CREATED="1637332518654" MODIFIED="1637332520696"/>
+<node TEXT="people[0].documents_topics.union(*[person.documents_topics for person in people[1:]])" ID="ID_1394164148" CREATED="1637333053964" MODIFIED="1637668564166">
+<font BOLD="false"/>
+<node TEXT="lepsza wersja?" ID="ID_1327436755" CREATED="1637333153788" MODIFIED="1637333156466"/>
+</node>
+</node>
+</node>
+<node TEXT="ciała zbiorowe" FOLDED="true" ID="ID_1016490209" CREATED="1637342725729" MODIFIED="1637672434240">
+<icon BUILTIN="button_ok"/>
+<node TEXT="dokumenty w których zaznaczone ciała zbiorowe znajdują się w oznaczeniach odpowiedzialności" ID="ID_1744991557" CREATED="1637346117504" MODIFIED="1637668147101">
+<icon BUILTIN="button_ok"/>
+<node TEXT="collective_bodies = CollectiveBody.query.filter(CollectiveBody.id.in_([1, 11, 2, 22]))" ID="ID_1302082033" CREATED="1637346732159" MODIFIED="1637346732773"/>
+<node TEXT="db.session.query(Document).select_from(Document).join(&#xa;ResponsibilityCollectivity).filter(&#xa;ResponsibilityCollectivity.collectivity_id.in_([1, 2])).distinct()" ID="ID_1354753300" CREATED="1637347896430" MODIFIED="1637347911416"/>
+<node TEXT="podobne do osoby" ID="ID_1759415373" CREATED="1637347918094" MODIFIED="1637347933205" LINK="#ID_9435730"/>
+</node>
+<node TEXT="dokumenty w których zaznaczone ciała zbiorowe są tematami" ID="ID_239166793" CREATED="1637346107039" MODIFIED="1637671743019">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="collective_bodies = CollectiveBody.query.filter(CollectiveBody.id.in_([1, 11, 2, 22]))" ID="ID_1115040081" CREATED="1637346732159" MODIFIED="1637346732773"/>
+<node TEXT="collective_bodies[0].documents_topics.union_all(*[collective_body.documents_topics for collective_body in collective_bodies[1:]])" ID="ID_1298422671" CREATED="1637347083000" MODIFIED="1637347084186"/>
+</node>
+</node>
+<node TEXT="lokalizacje geograficzne" FOLDED="true" ID="ID_862006234" CREATED="1637346329055" MODIFIED="1637674951502">
+<icon BUILTIN="button_ok"/>
+<node TEXT="jako miejsce wydania" ID="ID_1129639077" CREATED="1637348350797" MODIFIED="1637674886943">
+<icon BUILTIN="button_ok"/>
+<node TEXT="geographic_location = GeographicLocation.query.filter(GeographicLocation.location_id.in_([1, 2]))" ID="ID_613635416" CREATED="1637351004983" MODIFIED="1637351004983"/>
+<node TEXT="documents = geographic_location[0].document_publication_place.union(*[location.document_publication_place for location in geographic_location])" ID="ID_1683904842" CREATED="1637351015385" MODIFIED="1637351016887"/>
+</node>
+<node TEXT="jako temat dokumentu" ID="ID_1696344989" CREATED="1637348354716" MODIFIED="1637671909531">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="geographic_location = GeographicLocation.query.filter(GeographicLocation.location_id.in_([1, 2]))" ID="ID_777452653" CREATED="1637351004983" MODIFIED="1637351004983">
+<node TEXT="kopia" ID="ID_691910866" CREATED="1637351599863" MODIFIED="1637351610922" LINK="#ID_613635416"/>
+</node>
+<node TEXT="documents = geographic_location[0].documents_topics.union(*[location.documents_topics for location in geographic_location[1:]])" ID="ID_1064315911" CREATED="1637353177001" MODIFIED="1637353178202"/>
+</node>
+</node>
 </node>
 </node>
 <node TEXT="do zrobienia w kolejnej wersji" FOLDED="true" POSITION="right" ID="ID_566144622" CREATED="1636143329422" MODIFIED="1636395367347">

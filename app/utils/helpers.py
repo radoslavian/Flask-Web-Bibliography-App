@@ -5,7 +5,8 @@ from app import models
 from app.models import ResponsibilityName, DocumentType
 from flask import request, current_app, jsonify
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, SubmitField
+from wtforms import (BooleanField, SubmitField, SelectField, StringField,
+                     validators)
 
 def get_responsibility_identifiers(responsibility_id=None):
     '''Returns tuple with responsibility id and name or redirects to 404 page
@@ -48,6 +49,24 @@ def get_search_parameters():
         return search_parameters
     else:
         return {}
+
+
+class UnambiguousSearchFields(FlaskForm):
+    select_field = SelectField('Select field',
+                               choices=['ISBN-10', 'ISBN-13', 'ISSN'],
+                               render_kw={'class': 'form-control'})
+    search_field = StringField(
+        'Enter number', validators=[
+            validators.DataRequired('Enter number (with hyphens)'),
+            validators.Regexp('^[\d-]+$'),
+            validators.Length(max=17)],
+        render_kw={'class': 'form-control',
+                   'type': 'text',
+                   'data-toggle': 'tooltip',
+                   'title': 'Enter searched number with hyphens.'})
+    submit = SubmitField(
+        'Search',
+        render_kw={'class': 'btn btn-primary'})
 
 
 def select_document_types():

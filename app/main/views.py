@@ -4,7 +4,7 @@
 __name__ = 'views'
 
 from . import main
-from flask import render_template, session, redirect, url_for, jsonify
+from flask import render_template, session, redirect, url_for, jsonify, flash
 from app import db
 from app.utils import queries
 from ..models import *
@@ -376,55 +376,76 @@ def document_search():
     start_page = 0
     document_types_form = select_document_types()(id='myform')
     selected_doc_types_ids = document_types_form.get_type_ids()
+    unambiguous_fields = UnambiguousSearchFields()
 
-    print(session.get(
-            'prev_selected_doc_types_ids'))
     if session.get(
             'prev_selected_doc_types_ids') != selected_doc_types_ids:
         start_page = 1
         session['prev_selected_doc_types_ids'] = selected_doc_types_ids
 
-    document_queries = []
-    received_parameters = {}
+    if unambiguous_fields.validate_on_submit():
+        def query_fn(field):
+            return Document.query.filter(
+                field == unambiguous_fields.search_field.data)
 
-    for parameter in search_parameters.keys():
-        ids = request.args.getlist(parameter, type=int)
-        if ids:
-            received_parameters[parameter] = ids
-            document_queries.append(search_parameters[parameter](ids))
-    document_text_search = request.args.get('document_text_search')
-    document_query = ''
+        if unambiguous_fields.select_field.data == 'ISBN-10':
+            query = query_fn(Document.isbn_10)
+        elif unambiguous_fields.select_field.data == 'ISBN-13':
+            query = query_fn(Document.isbn_13)
+        elif unambiguous_fields.select_field.data == 'ISSN':
+            query = query_fn(Document.issn)
+        return render_template(
+            'document_search.html',
+            pagination=paginate(query, start_page=start_page),
+            document_types=document_types_form,
+            search_fields=search_fields,
+            #kargs=kargs,
+            endpoint='.document_search',
+            unambiguous_fields=unambiguous_fields)
 
-    if document_text_search:
-        received_parameters['document_text_search'] = document_text_search
-        document_query = Document.search(document_text_search, 1,
-                                        10000)[0] # ESearch limit
-    kargs = {**received_parameters,
-             'type_id': selected_doc_types_ids}
-
-    if request.method == 'POST':
-        return redirect(url_for('.document_search', **kargs))
-
-    if document_query:
-        document_queries.append(document_query.order_by(None))
-    if len(document_queries) == 1:
-        query = document_queries[0]
-    elif len(document_queries) > 1:
-        query = document_queries[0].intersect(
-            *[document_q for document_q in document_queries[1:]])
     else:
-        query = Document.query.filter_by(document_id=0)
+        document_queries = []
+        received_parameters = {}
 
-    if len(selected_doc_types_ids) != DocumentType.query.count():
-        query = query.filter(Document.document_type_id.in_(
-            selected_doc_types_ids))
+        for parameter in search_parameters.keys():
+            ids = request.args.getlist(parameter, type=int)
+            if ids:
+                received_parameters[parameter] = ids
+                document_queries.append(search_parameters[parameter](ids))
+        document_text_search = request.args.get('document_text_search')
+        document_query = ''
+
+        if document_text_search:
+            received_parameters['document_text_search'] = document_text_search
+            document_query = Document.search(document_text_search, 1,
+                                             10000)[0] # ESearch limit
+        kargs = {**received_parameters,
+                 'type_id': selected_doc_types_ids}
+
+        if request.method == 'POST':
+            return redirect(url_for('.document_search', **kargs))
+
+        if document_query:
+            document_queries.append(document_query.order_by(None))
+        if len(document_queries) == 1:
+            query = document_queries[0]
+        elif len(document_queries) > 1:
+            query = document_queries[0].intersect(
+                *[document_q for document_q in document_queries[1:]])
+        else:
+            query = Document.query.filter_by(document_id=0)
+
+        if len(selected_doc_types_ids) != DocumentType.query.count():
+            query = query.filter(Document.document_type_id.in_(
+                selected_doc_types_ids))
 
     return render_template('document_search.html',
                            pagination=paginate(query, start_page=start_page),
                            document_types=document_types_form,
                            search_fields=search_fields,
                            kargs=kargs,
-                           endpoint='.document_search')
+                           endpoint='.document_search',
+                           unambiguous_fields=unambiguous_fields)
 
 
 @main.route('/search')
