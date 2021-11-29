@@ -52,6 +52,11 @@ def get_search_parameters():
 
 
 class UnambiguousSearchFields(FlaskForm):
+    def __init__(self, *args, **kwargs):
+        if 'csrf_enabled' not in kwargs:
+            kwargs['csrf_enabled'] = False
+        super(UnambiguousSearchFields, self).__init__(*args, **kwargs)
+
     select_field = SelectField('Select field',
                                choices=['ISBN-10', 'ISBN-13', 'ISSN'],
                                render_kw={'class': 'form-control'})
@@ -59,14 +64,34 @@ class UnambiguousSearchFields(FlaskForm):
         'Enter number', validators=[
             validators.DataRequired('Enter number (with hyphens)'),
             validators.Regexp('^[\d-]+$'),
-            validators.Length(max=17)],
+            validators.Length(min=17, max=17),
+            validators.Length(min=13, max=13)],
         render_kw={'class': 'form-control',
                    'type': 'text',
                    'data-toggle': 'tooltip',
                    'title': 'Enter searched number with hyphens.'})
-    submit = SubmitField(
-        'Search',
-        render_kw={'class': 'btn btn-primary'})
+    submit = SubmitField('Search',
+                         render_kw={'class': 'btn btn-primary'})
+
+
+class QuickSearchForm(FlaskForm):
+    def __init__(self, *args, **kwargs):
+        if 'formdata' not in kwargs:
+            kwargs['formdata'] = request.args
+        if 'csrf_enabled' not in kwargs:
+            kwargs['csrf_enabled'] = False
+        super(QuickSearchForm, self).__init__(*args, **kwargs)
+
+    q = StringField(validators=[validators.DataRequired()],
+                    render_kw={'class': 'form-control w-100',
+                               'placeholder': 'Full text quick-search',
+                               'data-toggle': 'tooltip',
+                               'size': 40,
+                               'title': '''Search for documents,
+			       personal/geographic/
+			       collective names and subject keywords.'''})
+    search = SubmitField('Search',
+                         render_kw={'class': 'btn btn-success mr-3'})
 
 
 def select_document_types():

@@ -38,27 +38,22 @@
             </button>
           </div>
 	</div>
-	<div class="collapse navbar-collapse flex-grow-1 text-right" id="navbar">
-	  <ul class="navbar-nav ml-auto flex-nowrap">
+	<div class="collapse navbar-expand-md navbar-collapse flex-grow-1 justify-content-end text-right" id="navbar">
+	  <ul class="navbar-nav ml-auto">
+	    {% if g.search_form %}
 	    <div class="container">
-	      <form class="form-inline row text-right"
-		    action="{{ url_for('main.search') }}"
+	      <form class="navbar-form row navbar-right"
+		    action="{{ url_for('main.quick_search') }}"
 		    method="get">
 	    	<div class="col pr-1"> 
-	    	  <input class="form-control w-100"
-			 name="q"
-	    		 type="text"
-			 placeholder="Full text search"
-			 data-toggle="tooltip"
-			 title="Search for documents,
-			 personal/geographic/
-			 collective names and subject keywords." />
+	    	  {{ g.search_form.q() }}
 	    	</div>
 	    	<div class="col-auto p-0"> 
-	    	  <button class="btn btn-success mr-3">Search</button> 
+	    	  {{ g.search_form.search() }}
 	    	</div> 
 	      </form> 
-	    </div>
+	    </div> <!-- container -->
+	  {% endif %}
 
 	    <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle"
@@ -132,35 +127,11 @@
 		</a>
 	      </div>
 	    </li>
-	    <li class="nav-item dropdown"> 
-	      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> 
-	    	Search documents 
+	   <li class="nav">
+	      <a class="nav-link" href="{{ url_for('.document_search') }}">
+	    	Search&nbsp;documents
 	      </a> 
-	      <div class="dropdown-menu"> 
-	    	<a class="dropdown-item"
-		   href="#"
-		   data-toggle="tooltip"
-		   title="Search using one criterion and one search-expression
-		   at a time." data-placement="left">
-		   Basic search
-		</a>
-	    	<a class="dropdown-item"
-		   href="#"
-		   data-toggle="tooltip"
-		   title="Select multiple fields to be searched."
-		   data-placement="left">
-		   Search multiple fields
-		</a>
-	    	<a class="dropdown-item"
-		   data-toggle="tooltip"
-		   title="Search using multiple fields and multiple
-		   search-criteria."
-		   data-placement="left"
-		   href="#">
-		   Advanced search
-		</a> 
-	      </div> 
-	    </li> 
+	    </li>
 	  </ul>
 	  <ul class="navbar-nav mr-auto flex-nowrap">
 	    <li class="nav-item dropdown">
