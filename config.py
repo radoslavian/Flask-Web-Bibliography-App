@@ -20,7 +20,7 @@ class Config:
     MAIL_SUBJECT_PREFIX = '[Bibliography App]'
     MAIL_SENDER = 'Admin <bibapp@example.com>'
     LIST_ENTRIES_PER_PAGE = 20
-    SHORT_LIST_ENTRIES_PER_PAGE = 5
+    SHORT_LIST_ENTRIES_PER_PAGE = 3
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
@@ -30,7 +30,8 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL') or 'http://localhost:9200/'
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL') or \
+        'http://localhost:9200/'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 

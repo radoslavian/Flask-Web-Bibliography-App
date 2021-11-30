@@ -63,9 +63,7 @@ class UnambiguousSearchFields(FlaskForm):
     search_field = StringField(
         'Enter number', validators=[
             validators.DataRequired('Enter number (with hyphens)'),
-            validators.Regexp('^[\d-]+$'),
-            validators.Length(min=17, max=17),
-            validators.Length(min=13, max=13)],
+            validators.Regexp('^[\d-]+$')],
         render_kw={'class': 'form-control',
                    'type': 'text',
                    'data-toggle': 'tooltip',
@@ -140,16 +138,16 @@ def get_jsonified(model):
     return jsonify(get_query_list(model))
 
 
-def get_es_search_params(model):
+def get_es_search_params(model, page=1):
     '''Fetches parameters for Elasticsearch query from the POST request.
     '''
     return model.search(
         request.json.get('query', None),
-        request.json.get('page', 1),
+        request.json.get('page', page),
         current_app.config['SHORT_LIST_ENTRIES_PER_PAGE'])
 
 
-def get_query_list(model):
+def get_query_list(model, page=1):
     '''Returns list of items from the SQLAlchemy model
     searched using Elasticsearch.
 
@@ -157,9 +155,14 @@ def get_query_list(model):
     in search templates.
     model - SQLAlchemy, Elasticsearch searchable model from models.py
     '''
-    query, _ = get_es_search_params(model)
+    query, total = get_es_search_params(model, page)
+    print(page * current_app.config[
+        'SHORT_LIST_ENTRIES_PER_PAGE'])
+    next_page =  total > (page * current_app.config[
+        'SHORT_LIST_ENTRIES_PER_PAGE'])
+
     return [{'text': item,
-             'id': item.id} for item in query]
+             'id': item.id} for item in query], next_page
 
 
 def search_multiple_models(models):

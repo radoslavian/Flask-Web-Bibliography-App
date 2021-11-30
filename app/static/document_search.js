@@ -67,22 +67,61 @@ function add_searched_id(set, parent) {
 	list_item.click(add_searched_id(ids_list, parent));
 	drop_down.append(list_item);
     }
+ }
+
+
+// podobne do print_list - zgeneralizować
+function print_search_results(results, list, root) {
+    // quicksearch results in a selected section/list
+    let list_item;
+    for(result of results) {
+	list_item = $("<a></a>").addClass("list-group-item");
+	list_item.attr("href", root + 'id=' + result["id"]).attr(
+	    "target", "_blank");
+	list_item.html(result["text"]);
+	list.append(list_item);
+    }
 }
 
+var get_filter_cb = (
+    input_name, fn_url, drop_down,
+    parent, ids_list) => get_ajax_fn(
+	fn_url,
+	{"query": $(input_name).val()},
+	list => print_list(
+	    list[0], drop_down, parent, ids_list)
+    );
 
-function get_filter_cb(input_name, fn_url, drop_down,
-		       parent, ids_list) {
+function get_ajax_fn(endpoint, data, success_fn,
+		     fail_fn=(jqXHR, status) => alert(
+			 `Error while processing the request: ${status}.`)) {
     return () => $.ajax({
-	url: fn_url,
+	url: endpoint,
 	type: "POST",
-	data: JSON.stringify({"query": $(input_name).val()}),
+	data: JSON.stringify(data),
 	datatype: "json",
 	contentType: "application/json; charset=utf-8",
-	success: list => print_list(list, drop_down, parent, ids_list)
-    }).fail((jqXHR, status) => alert(
-	`Error while processing the request: ${status}.`));
+	success: success_fn,
+    }).fail(fail_fn);
 }
 
+var get_search_results = (
+    endpoint, query, field, root, page=1) => get_ajax_fn(
+	endpoint=endpoint,
+	data={"query": query, "page": page},
+	success_fn=results => {
+	    print_search_results(results[0], $(field), root);
+	    $(field + " + div a").off("click");
+	    if(results[1]) {
+		$(field + " + div a").click(
+		    get_search_results(endpoint,
+				       query, field, root, page=page+1));
+	    }
+	    else {
+		$(field + " + div a").removeAttr("href");
+	    }
+	}
+    );
 
 function set_up_server_callbacks(callbacks) {
     for(callback in callbacks) {
@@ -94,7 +133,6 @@ function set_up_server_callbacks(callbacks) {
 	    callbacks[callback]["ids_list"]));
     }
 }
-
 
 function search_criterion_component(parent, title, on_close_cb=() => {}) {
     // on_close_cb - callable invoked on component removal

@@ -316,16 +316,22 @@ def documents_list():
 def get_person_entries():
     '''Returns JSON Array of <number> entries, on a <page_num> page.
     '''
+    page = request.json.get('page', 1)
     person_id = request.form.get('id', None)
     if person_id:
         return jsonify(Person.query.filter_by(
             person_id=person_id).first())
 
-    output = get_query_list(Person)
-    output.extend(
-        {'text': item, 'id': item.person_id}
-        for item in get_es_search_params(PersonNameVariant)[0])
-    return jsonify(output)
+    output_people, next_page_people = get_query_list(Person, page)
+    variants, total_variants = get_es_search_params(PersonNameVariant)
+    next_page_variants = total_variants > (page * current_app.config[
+        'SHORT_LIST_ENTRIES_PER_PAGE'])
+    output_variants = ({'text': item,
+                        'id': item.person_id} for item in variants)
+    output_people.extend(output_variants)
+
+    return jsonify(output_people,
+                   (next_page_people or next_page_variants))
 
 
 @main.route('/search/keywords', methods=['POST'])
@@ -341,6 +347,11 @@ def get_geographic_location():
 @main.route('/search/collective_bodies', methods=['POST'])
 def get_collective_bodies():
     return get_jsonified(CollectiveBody)
+
+
+@main.route('/search/documents', methods=['POST'])
+def get_documents():
+    return get_jsonified(Document)
 
 
 @main.route('/search/languages', methods=['POST'])
@@ -452,7 +463,49 @@ def document_search():
 
 @main.route('/quick-search')
 def quick_search():
+    result_fields = [
+        {
+	    'title': 'Found documents (only title fields '+
+            'are being searched):',
+	    'results_id': 'documents',
+	    'endpoint': '.get_documents',
+            'path': '/browse/documents/'
+        },
+        {
+	    'title': 'Found person entries:',
+	    'results_id': 'people', # div with search results
+	    'endpoint': '.get_person_entries', # ajax endpoint
+            'path': '/browse/people/'
+        },
+        {
+	    'title': 'Found collective names:',
+	    'results_id': 'collective_bodies',
+	    'endpoint': '.get_collective_bodies',
+            'path': '/browse/collective-bodies/'
+        },
+        {
+	    'title': 'Found geographic locations:',
+	    'results_id': 'geographic_locations',
+	    'endpoint': '.get_geographic_location',
+            'path': '/browse/geographic-locations/'
+        },
+        {
+	    'title': 'Found subject headers (keywords):',
+	    'results_id': 'subject_keywords',
+	    'endpoint': '.get_keywords',
+            'path': '/browse/keywords/'
+        },
+        {
+	    'title': 'Found languages:',
+	    'results_id': 'languages',
+	    'endpoint': '.get_language_entries',
+            'path': '/browse/languages/'
+        }
+    ]
+
     if not g.search_form.validate():
         return redirect(url_for('main.index'))
 
-    return render_template('quick_search_results.html')
+    return render_template('quick_search_results.html',
+                           search_term=g.search_form.q.data,
+                           result_fields=result_fields)

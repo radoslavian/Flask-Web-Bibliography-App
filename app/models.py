@@ -418,7 +418,17 @@ class Document(db.Model, Lock, SearchableMixin):
         return '<' + output + '>'
 
     def __str__(self):
-        pass
+        output = self.title_proper
+        if self.parallel_title:
+            output += ' : ' + self.parallel_title
+        if self.other_title_inf:
+            output += ' : ' + self.other_title_inf
+        if self.publication_date:
+            output += ' . - ' + self.publication_date
+        return output
+
+    def __html__(self):
+        return self.__str__()
 
 
 class DocumentType(db.Model, Lock):

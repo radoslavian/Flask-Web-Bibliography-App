@@ -1,14 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="card">
-    <h4 class="card-header">Found person entries:</h4>
-    <div class="list-group list-group-flush" id="people">
-      <a class="list-group-item" href="#">Cras justo odio</a>
-      <a class="list-group-item">Dapibus ac facilisis in</a>
-      <a class="list-group-item">Vestibulum at eros</a>
-    </div>
+  {% for result_field in result_fields %}
+  <div class="card mt-4">
+    <h4 class="card-header">{{ result_field["title"] }}</h4>
+    <div class="list-group list-group-flush" id="{{ result_field['results_id'] }}"></div>
     <div class="card-footer text-right">
-      <p class="card-text"><a href="#">Load next</a></p>
+      <p class="card-text">
+	<a href="#">Load next</a>
+      </p>
     </div>
   </div>
-{% endblock %}  
+  {% endfor %}
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script type="application/javascript" 
+  	src="{{ url_for('static', filename='document_search.js') }}">
+</script>
+<script>
+{% for result_field in result_fields %}
+  $(document).ready(get_search_results(
+  "{{ url_for(result_field['endpoint']) }}",
+  "{{ search_term }}",
+  "#{{ result_field['results_id'] }}",
+  root="{{ result_field['path'] }}"));
+{% endfor %}
+</script>
+{% endblock %}
