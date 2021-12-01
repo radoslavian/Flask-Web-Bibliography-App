@@ -131,7 +131,7 @@ def get_jsonified(model):
     '''Helper for get_... view functions called from search pages.
     Returns jsonified database model(s).
     '''
-    id_number = request.form.get('id', None)
+    id_number = request.json.get('id', None)
     if id_number:
         return jsonify(model.query.filter(
             getattr(model, model.__primary_key__) == id_number).first())
@@ -156,8 +156,6 @@ def get_query_list(model, page=1):
     model - SQLAlchemy, Elasticsearch searchable model from models.py
     '''
     query, total = get_es_search_params(model, page)
-    print(page * current_app.config[
-        'SHORT_LIST_ENTRIES_PER_PAGE'])
     next_page =  total > (page * current_app.config[
         'SHORT_LIST_ENTRIES_PER_PAGE'])
 

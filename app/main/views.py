@@ -317,7 +317,7 @@ def get_person_entries():
     '''Returns JSON Array of <number> entries, on a <page_num> page.
     '''
     page = request.json.get('page', 1)
-    person_id = request.form.get('id', None)
+    person_id = request.json.get('id', None)
     if person_id:
         return jsonify(Person.query.filter_by(
             person_id=person_id).first())

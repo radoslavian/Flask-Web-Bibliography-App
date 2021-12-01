@@ -6,11 +6,13 @@ function search_parameters_from_url(search_fields) {
 	    // podobne do add_searched_id
 	    if(!search_fields[key]["ids_list"].has(v)) {
 		search_fields[key]["ids_list"].add(v);
-		$.post(search_fields[key]["url"], {"id": v},
-		       title => search_criterion_component(
-			   $(search_fields[key]["parent_component_id"]),
-			   title, on_close_cb=() => search_fields[key][
-			       "ids_list"].delete(v)))
+		
+		get_ajax_fn(endpoint=search_fields[key]["url"],
+			    data={"id": v},
+			    success_fn=title => search_criterion_component(
+				$(search_fields[key]["parent_component_id"]),
+				title, on_close_cb=() => search_fields[key][
+				    "ids_list"].delete(v)))()
 	    }
 	}
     }
@@ -53,8 +55,8 @@ function add_searched_id(set, parent) {
 
 
  function print_list(list, drop_down, parent, ids_list) {
-    // niech najpierw sprawdza czy cokolwiek tam jest
-    drop_down.empty();
+     // niech najpierw sprawdza czy cokolwiek tam jest
+     drop_down.empty();
     let list_item;
     for(item of list) {
 	list_item = $("<div></div>").addClass(
@@ -83,14 +85,17 @@ function print_search_results(results, list, root) {
     }
 }
 
-var get_filter_cb = (
-    input_name, fn_url, drop_down,
-    parent, ids_list) => get_ajax_fn(
-	fn_url,
-	{"query": $(input_name).val()},
-	list => print_list(
-	    list[0], drop_down, parent, ids_list)
-    );
+function get_filter_cb(
+    input_name, fn_url, drop_down, parent, ids_list) {
+    return () => {
+	let query = {"query": $(input_name).val()};
+	get_ajax_fn(fn_url, query,
+	list => {
+	    print_list(
+		list[0], drop_down, parent, ids_list);}
+	)()
+    };
+}
 
 function get_ajax_fn(endpoint, data, success_fn,
 		     fail_fn=(jqXHR, status) => alert(
@@ -105,23 +110,34 @@ function get_ajax_fn(endpoint, data, success_fn,
     }).fail(fail_fn);
 }
 
-var get_search_results = (
-    endpoint, query, field, root, page=1) => get_ajax_fn(
-	endpoint=endpoint,
-	data={"query": query, "page": page},
-	success_fn=results => {
-	    print_search_results(results[0], $(field), root);
-	    $(field + " + div a").off("click");
-	    if(results[1]) {
-		$(field + " + div a").click(
-		    get_search_results(endpoint,
-				       query, field, root, page=page+1));
-	    }
-	    else {
-		$(field + " + div a").removeAttr("href");
-	    }
+function get_search_results(endpoint, query, field, root, page=1) {
+    let load_next = field + " + div button";
+    let spinner = $('<span class="spinner-grow spinner-grow-sm"'
+		    + 'role="status"></span>');
+
+    function success_fn(results) {
+	spinner.remove();
+	print_search_results(results[0], $(field), root);
+	$(load_next).off("click");
+	if(results[1]) {
+	    $(load_next).click(
+		get_search_results(endpoint,
+				   query, field, root, page=page+1));
 	}
-    );
+	else {
+	    $(load_next).attr("disabled", "disabled");
+	}
+    }
+    return () => {
+	$(load_next).prepend(spinner);
+	let timeout = 400;
+
+	return setTimeout(get_ajax_fn(
+	    endpoint=endpoint,
+	    data={"query": query, "page": page},
+	    success_fn=success_fn), timeout);
+    }
+}
 
 function set_up_server_callbacks(callbacks) {
     for(callback in callbacks) {

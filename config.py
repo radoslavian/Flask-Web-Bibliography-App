@@ -20,7 +20,7 @@ class Config:
     MAIL_SUBJECT_PREFIX = '[Bibliography App]'
     MAIL_SENDER = 'Admin <bibapp@example.com>'
     LIST_ENTRIES_PER_PAGE = 20
-    SHORT_LIST_ENTRIES_PER_PAGE = 3
+    SHORT_LIST_ENTRIES_PER_PAGE = 5
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod

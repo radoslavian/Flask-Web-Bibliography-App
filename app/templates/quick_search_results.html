@@ -2,11 +2,13 @@
 {% block content %}
   {% for result_field in result_fields %}
   <div class="card mt-4">
-    <h4 class="card-header">{{ result_field["title"] }}</h4>
-    <div class="list-group list-group-flush" id="{{ result_field['results_id'] }}"></div>
+    <h5 class="card-header">{{ result_field["title"] }}</h5>
+    <div class="card-text list-group list-group-flush" id="{{ result_field['results_id'] }}"></div>
     <div class="card-footer text-right">
       <p class="card-text">
-	<a href="#">Load next</a>
+	<button type="button" class="btn btn-info">
+	  Load next
+	</button>
       </p>
     </div>
   </div>
