@@ -12,7 +12,7 @@ __all__ = ['Permissions', 'Role', 'User', 'AnonymousUser', 'Language',
            'Person', 'ResponsibilityPerson', 'PersonNameVariant',
            'RelatedDocuments']
 
-from app import db#, login_manager
+from app import db, login_manager
 from datetime import datetime
 from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
@@ -169,6 +169,9 @@ class User(UserMixin, db.Model):
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
+    def get_id(self):
+        return self.user_id
+
     @property
     def password(self):
         raise AttributeError('Password is not a readable attribute.')
@@ -196,6 +199,13 @@ class AnonymousUser(AnonymousUserMixin):
 
 
 #login_manager.anonymous_user = AnonymousUser
+
+# from . import login_manager
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+    # return User.query.filter_by(user_id=user_id).first()
 
 
 class Lock:

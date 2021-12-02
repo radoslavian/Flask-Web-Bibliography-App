@@ -1,5 +1,4 @@
-'''
-Configurations options for different deployments.
+'''Configurations options for different deployments.
 Based on solutions from:
 Grinberg, Miguel. Flask Web Development. Beijing [etc.], 2018.
 '''

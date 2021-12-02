@@ -149,11 +149,10 @@ def get_es_search_params(model, page=1):
 
 def get_query_list(model, page=1):
     '''Returns list of items from the SQLAlchemy model
-    searched using Elasticsearch.
+    searched using Elasticsearch. Returned items can be
+    serialized into JSON for use in search templates.
 
-    Returned items can be serialized into JSON for use
-    in search templates.
-    model - SQLAlchemy, Elasticsearch searchable model from models.py
+    model - SQLAlchemy (Elasticsearch searchable) model from models.py
     '''
     query, total = get_es_search_params(model, page)
     next_page =  total > (page * current_app.config[

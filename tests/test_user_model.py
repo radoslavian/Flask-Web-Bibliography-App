@@ -32,6 +32,11 @@ class UserModelTestCase(unittest.TestCase):
         self.assertTrue(u.verify_password('Cici'))
         self.assertFalse(u.verify_password('Bakufu'))
 
+    def test_password_salts_are_random(self):
+        u = User(password='kot')
+        u2 = User(password='kot')
+        self.assertTrue(u.password_hash != u2.password_hash)
+
     def test_admin_role(self):
         admin = Role(name='admin')
         db.session.add(admin)

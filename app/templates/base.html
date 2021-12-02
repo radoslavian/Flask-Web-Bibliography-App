@@ -54,7 +54,11 @@
 	      </form> 
 	    </div> <!-- container -->
 	  {% endif %}
-
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ url_for('main.document_search') }}">
+	      Search&nbsp;documents
+	    </a> 
+	  </li>
 	    <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle"
 		 href="#"
@@ -69,11 +73,11 @@
 		   companies, foundation etc.) attached to documents as
 		   responsibility statements or subjects."
 		   data-placement="left"
-		   href="{{ url_for('.collective_bodies_list') }}">
+		   href="{{ url_for('main.collective_bodies_list') }}">
 		   Collective names
 		</a>
 		<a class="dropdown-item"
-		   href="{{ url_for('.document_types_list') }}"
+		   href="{{ url_for('main.document_types_list') }}"
 		   data-toggle="tooltip"
 		   title="Document types, number of documents for each
 		   type and links to list of documents for each set."
@@ -84,21 +88,21 @@
 		   data-toggle="tooltip"
 		   title="Ordered list of documents with title filter."
 		   data-placement="left"
-		   href="{{ url_for('.documents_list') }}">
+		   href="{{ url_for('main.documents_list') }}">
 		   Documents
 		</a>
 		<a class="dropdown-item" data-toggle="tooltip"
 		   title="Ordered list of geographic locations
 		   (publication places and subjects)."
 		   data-placement="left"
-		   href="{{ url_for('.geographic_locations_list') }}">
+		   href="{{ url_for('main.geographic_locations_list') }}">
 		  Geographic locations
 		</a>
 		<a class="dropdown-item" data-toggle="tooltip"
 		   title="Ordered list of subject headers (topics)
 			  of documents."
 		   data-placement="left"
-		   href="{{ url_for('.keywords_list') }}">
+		   href="{{ url_for('main.keywords_list') }}">
 		  Subject keywords
 		</a>
 		<a class="dropdown-item" data-toggle="tooltip"
@@ -106,7 +110,7 @@
 		   documents were written/published or as topics
 		   for the documents)."
 		   data-placement="left"
-		   href="{{ url_for('.language_list') }}">
+		   href="{{ url_for('main.language_list') }}">
 		  Languages
 		</a>
 		<a class="dropdown-item"
@@ -114,7 +118,7 @@
 		   title="Ordered list of authors, editors etc., but also
 		   individuals being subjects of the documents."
 		   data-placement="left"
-		   href="{{ url_for('.browse_people') }}">
+		   href="{{ url_for('main.browse_people') }}">
 		  Personal names
 		</a>
 		<a class="dropdown-item"
@@ -122,27 +126,36 @@
 		   title="Ordered list of collective body / individual
 			  responsibilities in documents."
 		   data-placement="left"
-		   href="{{ url_for('.responsibilities_list') }}">
+		   href="{{ url_for('main.responsibilities_list') }}">
 		  Responsibilities
 		</a>
 	      </div>
-	    </li>
-	   <li class="nav">
-	      <a class="nav-link" href="{{ url_for('.document_search') }}">
-	    	Search&nbsp;documents
-	      </a> 
 	    </li>
 	  </ul>
 	  <ul class="navbar-nav mr-auto flex-nowrap">
 	    <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle"
 		 href="#" data-toggle="dropdown">
-		Username <!-- Username - shall be uploaded from the db or set to Anonymous -->
+		 {% if current_user.is_authenticated %}
+		   {{ current_user.username }}
+		 {% else %}
+		   Anonymous
+		 {% endif %}
 	      </a>
 	      <!-- More detailed description in views.graphml -->
 	      <div class="dropdown-menu">
-		<a class="dropdown-item">Account details</a> <!-- displayed for logged-in users -->
-		<a class="dropdown-item">Log in</a> <!-- or Log out -->
+		{% if current_user.is_authenticated %}
+		<a class="dropdown-item">
+		  Account details
+		</a>
+		  <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+		    Log out
+		  </a>
+		{% else %}
+		  <a class="dropdown-item" href="{{ url_for('auth.login') }}">
+		    Log in
+		  </a>
+		{% endif %}
 	      </div>
 	    </li>
 	  </ul>
