@@ -1,6 +1,4 @@
 '''Custom decorators for the application's view functions.
-
-Based on: M. Grinberg, Flask...
 '''
 
 # not yet tested with view functions
@@ -8,10 +6,13 @@ Based on: M. Grinberg, Flask...
 from functools import wraps
 from flask import abort
 from flask_login import current_user
-from .models import Permissions
+from app.models import Permissions
 
 
 def permission_required(permission):
+    '''Checks whether the user has permission to run a view function.
+    Based on: M. Grinberg...
+    '''
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):

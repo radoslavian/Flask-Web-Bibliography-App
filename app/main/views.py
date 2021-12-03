@@ -6,9 +6,11 @@ __name__ = 'views'
 from . import main
 from flask import (render_template, session,
                    redirect, url_for, jsonify, flash, g)
+from flask_login import login_required
 from app import db
 from app.utils import queries
 from ..models import *
+from app.utils.decorators import *
 from app.utils.helpers import *
 from app.utils.queries import *
 from app.utils.app_utils import *
@@ -16,6 +18,48 @@ from app.utils.app_utils import *
 @main.before_app_request
 def before_request():
     g.search_form = QuickSearchForm()
+
+
+@main.route('/edit/<model_name>/', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permissions.EDIT_BIBLIOGRAPHY)
+def edit_database_entry(model_name):
+    id_number = request.args.get('id', None)
+
+    from app.main.forms import LanguageEditForm
+    models = {
+        # [model, form, edit_function,
+        # validated_data_fn - funkcja wyw. gdy formularz dla okr.
+        # modelu zostanie poprawnie zwalidowany (zapis/aktualizacja)]
+        'language': [Language, LanguageEditForm]#, edit_fn]
+    }
+    if model_name in models:
+        model = models[model_name][0]
+        entity_form = models[model_name][1]
+        # wypełnianie formularza wydelegować do
+        # odpowiedniej funkcji w osobnym module (np. edit_entities.py)
+
+        # wypełnienie formularza:
+        # entity_form.language_name.data = 
+        # entity_form.native_name.data
+    else:
+        abort(404)
+
+    if entity_form.validate_on_submit():
+        pass
+
+    if id_number:
+        row = model.query.filter(
+            getattr(model, model.__primary_key__) == id_number).first()
+        if not row:
+            abort(404)
+    elif request.args.get('new') == 'True':
+        row = None
+    else:
+        abort(404)
+
+    return render_template('edit_entity.html',
+                           entity_form=entity_form)
 
 
 @main.route('/browse/people/')
@@ -334,6 +378,8 @@ def get_person_entries():
                    (next_page_people or next_page_variants))
 
 
+# można zrobić jedną trasę dla wszystkich z elementem dynamicznym
+# np. /search/<entries>/
 @main.route('/search/keywords', methods=['POST'])
 def get_keywords():
     return get_jsonified(Keyword)

@@ -59,7 +59,28 @@
 	      Search&nbsp;documents
 	    </a> 
 	  </li>
+
+	  {# Docelowo w tej samej kolejności co w Browse #}
+	  {% if current_user.can(Permissions.EDIT_BIBLIOGRAPHY) %}
 	    <li class="nav-item dropdown">
+	      <a class="nav-link dropdown-toggle"
+		 href="#"
+		 data-toggle="dropdown"
+		 title="Add new document/person/collective body&hellip; record.">
+		Add new record
+	      </a>
+	      <div class="dropdown-menu">
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   title="Add new language entry"
+		   href="{{ url_for('main.edit_database_entry', model_name='language', new='True', id=3) }}">
+		   Language
+		</a>
+	      </div>
+	    </li>
+	  {% endif %}
+
+	  <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle"
 		 href="#"
 		 data-toggle="dropdown"

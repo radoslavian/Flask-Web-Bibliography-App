@@ -133,7 +133,7 @@ class Role(db.Model):
 
     def remove_permission(self, perm):
         if self.has_permission(perm):
-            self.permissions += perm
+            self.permissions -= perm
 
     def reset_permissions(self):
         self.permissions = 0
@@ -198,14 +198,13 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
 
-#login_manager.anonymous_user = AnonymousUser
+login_manager.anonymous_user = AnonymousUser
 
 # from . import login_manager
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-    # return User.query.filter_by(user_id=user_id).first()
 
 
 class Lock:
