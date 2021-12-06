@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  {% import "macros.html" as macros %}
+  {% import "macros.html" as macros with context %}
   <head>
     <!--
 	 Base templated based on:
@@ -72,8 +72,32 @@
 	      <div class="dropdown-menu">
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
+		   title="Add new entry for a collective body"
+		   href="{{ url_for('main.edit_database_entry', model_name='collective-body', new='True') }}">
+		   Collective name
+		</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   title="Add new document-type entry"
+		   href="{{ url_for('main.edit_database_entry', model_name='document-types', new='True') }}">
+		   Document type
+		</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   title="Add new geographic location entry"
+		   href="{{ url_for('main.edit_database_entry', model_name='geographic-location', new='True') }}">
+		   Geographic location
+		</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   title="Add new keyword (subject header) entry"
+		   href="{{ url_for('main.edit_database_entry', model_name='keyword', new='True') }}">
+		   Keyword
+		</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
 		   title="Add new language entry"
-		   href="{{ url_for('main.edit_database_entry', model_name='language', new='True', id=3) }}">
+		   href="{{ url_for('main.edit_database_entry', model_name='language', new='True') }}">
 		   Language
 		</a>
 	      </div>

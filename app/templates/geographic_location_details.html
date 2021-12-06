@@ -1,7 +1,4 @@
 {% extends "base.html" %}
-
-{# add hyperlink to the referenced documents #}
-
 {% block content %}
   <h1>{{ location.name }}</h1>
   <h6>Details for geographic location id: {{ location.location_id }}</h6>
@@ -61,4 +58,5 @@
       </tr>
     {% endif %}
   </table>
+  {{ macros.edit_entry_bt('geographic-location', location.location_id) }}
 {% endblock %}

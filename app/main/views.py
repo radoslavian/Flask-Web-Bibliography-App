@@ -14,6 +14,7 @@ from app.utils.decorators import *
 from app.utils.helpers import *
 from app.utils.queries import *
 from app.utils.app_utils import *
+from app.main.forms import *
 
 @main.before_app_request
 def before_request():
@@ -24,37 +25,29 @@ def before_request():
 @login_required
 @permission_required(Permissions.EDIT_BIBLIOGRAPHY)
 def edit_database_entry(model_name):
-    id_number = request.args.get('id', None)
-
-    from app.main.forms import LanguageEditForm
     models = {
-        # [model, form, edit_function,
-        # validated_data_fn - funkcja wyw. gdy formularz dla okr.
-        # modelu zostanie poprawnie zwalidowany (zapis/aktualizacja)]
-        'language': [Language, LanguageEditForm]#, edit_fn]
+        'language': LanguageEditForm,
+        'document-types': DocumentTypeEditForm,
+        'collective-body': CollectiveBodyEditForm,
+        'geographic-location': GeographicLocationEditForm,
+        'keyword': KeywordEditForm
     }
     if model_name in models:
-        model = models[model_name][0]
-        entity_form = models[model_name][1]
-        # wypełnianie formularza wydelegować do
-        # odpowiedniej funkcji w osobnym module (np. edit_entities.py)
+        id_number = request.args.get('id', None)
+        entity_form = models[model_name]()
 
-        # wypełnienie formularza:
-        # entity_form.language_name.data = 
-        # entity_form.native_name.data
-    else:
-        abort(404)
-
-    if entity_form.validate_on_submit():
-        pass
-
-    if id_number:
-        row = model.query.filter(
-            getattr(model, model.__primary_key__) == id_number).first()
-        if not row:
+        if entity_form.validate_on_submit():
+            if id_number:
+                entity_form.load_row(id_number)
+            if entity_form.commit_row():
+                return redirect(url_for(**entity_form.redirect_to()))
+        elif id_number:
+            entity_form.load_row(id_number)
+            entity_form.fill_form()
+        elif request.args.get('new') == 'True':
+            pass
+        else:
             abort(404)
-    elif request.args.get('new') == 'True':
-        row = None
     else:
         abort(404)
 

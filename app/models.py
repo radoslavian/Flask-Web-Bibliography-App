@@ -442,9 +442,7 @@ class Document(db.Model, Lock, SearchableMixin):
 
 class DocumentType(db.Model, Lock):
     __tablename__ = 'document_types'
-
-    # default types shall be:
-    # Book, Article, Periodical, Series
+    __primary_key__ = 'type_id'
 
     type_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(45), nullable=False) # + unique
@@ -472,8 +470,8 @@ class CollectiveBody(db.Model, Lock, SearchableMixin):
     These include (among others): organisations, companies,
     events, publishers.
     '''
-    __primary_key__ = 'id'
     __tablename__ = 'collectivities'
+    __primary_key__ = 'id'
     __searchable__ = ['name', 'address']
 
     id = db.Column(db.Integer, primary_key=True)

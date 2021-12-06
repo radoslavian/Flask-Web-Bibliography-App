@@ -233,3 +233,14 @@
   id_number=kwargs['id_number'],
   endpoint='.documents_list') }}
 {% endmacro %}
+
+
+{% macro edit_entry_bt(entry_name, id) %}
+  {% if current_user.can(Permissions.EDIT_BIBLIOGRAPHY) %}
+    <a class="btn btn-warning" href="{{ url_for('main.edit_database_entry',
+				     model_name=entry_name,
+				     id=id) }}">
+      Edit entry
+    </a>
+  {% endif %}
+{% endmacro %}
