@@ -449,6 +449,10 @@ class DocumentType(db.Model, Lock):
     description = db.Column(db.String(200))
     modifiable = db.Column(db.Boolean, default=True)
 
+    @property
+    def id(self):
+        return getattr(self, self.__primary_key__)
+
     @staticmethod
     def add_basic_document_types():
         document_types = ['book', 'article', 'periodical', 'series']
@@ -500,12 +504,13 @@ class ResponsibilityName(db.Model, Lock, SearchableMixin):
     the document (author, editor, publisher etc.)
     '''
     __tablename__ = 'responsibility_names'
+    __primary_key__ = 'id'
 
     id = db.Column(db.Integer, primary_key=True)
     responsibility_name = db.Column(
-        db.String(45), nullable=False, index=True) # + unique, nullable=False
+        db.String(45), nullable=False, index=True) # + unique
     responsibility_abbr = db.Column(db.String(6))
-    modifiable = db.Column(db.Boolean, default=True)
+    modifiable = db.Column(db.Boolean, default=True) # do usunięcia
 
     responsibility_collectivities = db.relationship(
         'ResponsibilityCollectivity',
@@ -532,6 +537,7 @@ class ResponsibilityName(db.Model, Lock, SearchableMixin):
                 responsibility_name=responsibility).first()
             if not responsibility_name:
                 db.session.add(ResponsibilityName(
+                    # modifiable usunąć
                     responsibility_name=responsibility, modifiable=False))
                 db.session.commit()
 

@@ -14,4 +14,6 @@
     <dd>{{ name_variant.variant_notes }}</dd>
   </dl>
 {% endif %}
+{{ macros.edit_entry_bt('person-name-variant', name_variant.id) }}
+{{ macros.modal_delete_button_modal('person-name-variant', name_variant.id) }}
 {% endblock %}

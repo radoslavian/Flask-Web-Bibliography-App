@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>{{ language.language_name }}</h1>
-  <h6>Details for language entry, id: {{ language.language_id }}</h6>
+  <h6>Details for the language entry, id: {{ language.language_id }}</h6>
   <table class="table table-hover col-md-6">
     {% if language.native_name %}
       <tr>
@@ -54,6 +54,9 @@
 	id_number=language.language_id) }}
       </td>
     </tr>
+    <tr>
+      <td>{{ macros.edit_entry_bt('language', id=language.language_id) }}</td>
+      <td>{{ macros.modal_delete_button_modal('language', language.language_id) }}</td>
+    </tr>
   </table>
-  {{ macros.edit_entry_bt('language', id=language.language_id) }}
 {% endblock %}

@@ -46,6 +46,10 @@
 	endpoint='.browse_people') }}
       </td>
     </tr>
-    {% endif %}
+  {% endif %}
+  <tr>
+    <td>{{ macros.edit_entry_bt('responsibility-name', responsibility.id) }}</td>
+    <td>{{ macros.modal_delete_button_modal('responsibility-name', responsibility.id) }}</td>
+  </tr>
   </table>
 {% endblock %}

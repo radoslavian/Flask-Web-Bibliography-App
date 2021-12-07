@@ -42,7 +42,6 @@
     <tr> 
       <td colspan="2">
 	Documents for which this collective body is a topic:
-	
 	{{ macros.see_list_badge(
 	collective_body.documents_topics,
 	id_number=collective_body.id,
@@ -51,6 +50,9 @@
 	by_entry_type='collective_body') }}
       </td>
     </tr>
+    <tr>
+      <td>{{ macros.edit_entry_bt('collective-body', collective_body.id) }}</td>
+      <td>{{ macros.modal_delete_button_modal('collective-body', collective_body.id) }}</td>
+    </tr>
   </table>
-  {{ macros.edit_entry_bt('collective-body', collective_body.id) }}
 {% endblock %}

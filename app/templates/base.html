@@ -73,11 +73,13 @@
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
 		   title="Add new entry for a collective body"
+		   data-placement="left"
 		   href="{{ url_for('main.edit_database_entry', model_name='collective-body', new='True') }}">
 		   Collective name
 		</a>
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
+		   data-placement="left"
 		   title="Add new document-type entry"
 		   href="{{ url_for('main.edit_database_entry', model_name='document-types', new='True') }}">
 		   Document type
@@ -85,20 +87,30 @@
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
 		   title="Add new geographic location entry"
+		   data-placement="left"
 		   href="{{ url_for('main.edit_database_entry', model_name='geographic-location', new='True') }}">
 		   Geographic location
 		</a>
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
+		   data-placement="left"
 		   title="Add new keyword (subject header) entry"
 		   href="{{ url_for('main.edit_database_entry', model_name='keyword', new='True') }}">
 		   Keyword
 		</a>
 		<a class="dropdown-item"
 		   data-toggle="tooltip"
+		   data-placement="left"
 		   title="Add new language entry"
 		   href="{{ url_for('main.edit_database_entry', model_name='language', new='True') }}">
 		   Language
+		</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   data-placement="left"
+		   title="Add new responsibility name entry"
+		   href="{{ url_for('main.edit_database_entry', model_name='responsibility-name', new='True') }}">
+		   Responsibility name
 		</a>
 	      </div>
 	    </li>
@@ -108,6 +120,7 @@
 	      <a class="nav-link dropdown-toggle"
 		 href="#"
 		 data-toggle="dropdown"
+		 data-placement="left"
 		 title="Paginated, ordered lists of items.">
 		Browse
 	      </a>
@@ -210,7 +223,22 @@
 
     <!-- Your page content -->
 
-    <div class="cointainer ml-3 mr-3 mt-3 mb-1">
+      <div class="cointainer ml-3 mr-3 mt-3 mb-1">
+
+	<!-- Flask flashed messages -->
+
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	    {% for message in messages %}
+	      <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+		{{ message }}
+		<button type="button" class="close" data-dismiss="alert" aria-label="close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	      </div>
+	    {% endfor %}
+	  {% endif %}
+	{% endwith %}
 	{% block content %}
 	  
 	{% endblock %}

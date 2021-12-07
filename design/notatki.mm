@@ -63,7 +63,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="133" RULE="ON_BRANCH_CREATION"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="136" RULE="ON_BRANCH_CREATION"/>
 <node TEXT="Aplikacja minimalna (z możliwością rozbudowy)" POSITION="right" ID="ID_394421864" CREATED="1635274763546" MODIFIED="1636035723332">
 <font BOLD="true"/>
 <richcontent TYPE="DETAILS">
@@ -106,64 +106,23 @@
 <edge COLOR="#ff0000"/>
 <node TEXT="zaprojektować: dodawanie/usuwanie/edycja rekordów" ID="ID_979591466" CREATED="1638534205279" MODIFIED="1638534879270">
 <font BOLD="true"/>
-<node TEXT="Prototyp edycji rekordu" ID="ID_751037047" CREATED="1638542467763" MODIFIED="1638542482227">
+<node TEXT="Możliwość porzucenia zmian na formularzu edycji i powrotu do poprzedniego widoku." ID="ID_40603927" CREATED="1638910031323" MODIFIED="1638910049548">
 <font BOLD="true"/>
-<node TEXT="Mogę zrobić najbardziej prostacką wersję, potem zastanowić się, jak to poprawić." ID="ID_887841785" CREATED="1638572191716" MODIFIED="1638572207642"/>
 </node>
-<node TEXT="Czy mam mieć osobne trasy dla edycji i dodawania rekordów?" ID="ID_1382646027" CREATED="1638537716299" MODIFIED="1638537770239">
-<node TEXT="Jedna trasa" ID="ID_1659651542" CREATED="1638538134063" MODIFIED="1638538137061">
-<node TEXT="Jeżeli jest argument id - pobieram rekord i przekazuję go do szablonu." ID="ID_485926949" CREATED="1638538338609" MODIFIED="1638538379635">
-<node TEXT="W szablonie sprawdzam przekazany obiekt rekordu, jeżeli jest None - wyświetlam pusty formularz, zamiast przycisku &quot;Update&quot; jest &quot;Save&quot; oraz &quot;Discard&quot; z pytaniem o porzucenie modyfikacji (ten pokazuje się w obu przypadkach)." ID="ID_1778784256" CREATED="1638538414850" MODIFIED="1638542356172">
-<node TEXT="Tworzę nowy obiekt danego typu." ID="ID_808688331" CREATED="1638539117046" MODIFIED="1638539130539"/>
-<node TEXT="Zamiast zmieniać przycisk, mogę zmienić tekst jego etykiety na formularzu." ID="ID_286461024" CREATED="1638570574712" MODIFIED="1638570590672"/>
-<node TEXT="Dodaję pola" ID="ID_280098153" CREATED="1638539131721" MODIFIED="1638539134153"/>
-<node TEXT="Dodaję do bd" ID="ID_868012215" CREATED="1638539134487" MODIFIED="1638539138537"/>
-</node>
-<node TEXT="zapis" ID="ID_108539986" CREATED="1638538849943" MODIFIED="1638538851944"/>
-</node>
-<node TEXT="Jaka trasa" ID="ID_1086807958" CREATED="1638538720023" MODIFIED="1638538724267">
-<node TEXT="/edit/language/?id=&lt;&gt;" ID="ID_1566467069" CREATED="1638538725238" MODIFIED="1638538762251"/>
-<node TEXT="/edit/language/?new=True" ID="ID_22928507" CREATED="1638538762615" MODIFIED="1638539239728"/>
-</node>
-</node>
-</node>
-<node TEXT="Funkcje odpowiedzialne za edycję rekordów do osobnego modułu." ID="ID_1853399916" CREATED="1638571487760" MODIFIED="1638571567934"/>
-<node TEXT="Formularze do edycji rekordów w osobnym module, mogę użyć klas nadrzędnych do takich formularzy (w celu np. zapewnienia jednakowych przycisków zapisu, odrzucenia etc.)" ID="ID_1744444111" CREATED="1638571568454" MODIFIED="1638571709696">
-<node TEXT="może formularze do edycji powinny mieć jakiś wspólny interfejs?" ID="ID_370908993" CREATED="1638573210514" MODIFIED="1638573229463"/>
-</node>
-<node TEXT="Wariant nazwy osoby nie ma osobnego formularza do edycji - dodaje się to na formularzu edycji osoby." ID="ID_957588098" CREATED="1638542494853" MODIFIED="1638542519496"/>
-<node TEXT="Zalogowany użytkownik z uprawnieniami edycji ma dodatkowe menu dodania rekordu" ID="ID_1147693951" CREATED="1638535258121" MODIFIED="1638542465355">
-<icon BUILTIN="button_ok"/>
-<font BOLD="false"/>
-<node TEXT="Dodać do szablonu" ID="ID_1640919493" CREATED="1638536562946" MODIFIED="1638536568100"/>
-</node>
-<node TEXT="zapisywanie modyfikacji rekordu" ID="ID_1277321310" CREATED="1635109528069" MODIFIED="1636394316433">
-<node TEXT="informacja o aktualizacji rekordu i użytkowniku, który dokonał modyfikacji" ID="ID_1371440234" CREATED="1635109534194" MODIFIED="1638534697484"/>
+<node TEXT="zapisywanie informacji o modyfikacji rekordu" ID="ID_1277321310" CREATED="1635109528069" MODIFIED="1638910377473">
+<node TEXT="informacja o utworzeniu rekordu, aktualizacji rekordu, użytkowniku który dokonał modyfikacji i czas dokonania modyfikacji" ID="ID_1371440234" CREATED="1635109534194" MODIFIED="1638911321488"/>
 <node TEXT="razem przed commit, powinno zostawać zaktualizowane pole modyfikacji" ID="ID_1525736330" CREATED="1638534726979" MODIFIED="1638534747977"/>
 <node TEXT="utworzenie rekordu" ID="ID_326683102" CREATED="1635109655361" MODIFIED="1635109659614">
 <node TEXT="data i czas; informacje o użytkowniku - w polach &quot;aktualizowano&quot; (updated)" ID="ID_1376743720" CREATED="1635109659642" MODIFIED="1635109710170"/>
 </node>
 </node>
-<node TEXT="modyfikacja rekordów" ID="ID_1016743517" CREATED="1629719000594" MODIFIED="1636143695061">
-<node TEXT="Aplikacja uniemożliwia otwarcie rekodu do modyfikacji jeżeli został on już otwarty do modyfikacji (np. w formularzu w innej zakładce, przez innego użytkownika na etc.)." ID="ID_1354421201" CREATED="1629718909234" MODIFIED="1629719521565">
-<node TEXT="Wersje:" ID="ID_628302854" CREATED="1629719120515" MODIFIED="1629719125360">
-<node TEXT="Otwarcie rekordu powoduje jego zablokowanie, np. przed otwarciem sprawdzana jest inna tabela - zawierająca listę zablokowanych rekordów." ID="ID_1784190644" CREATED="1629719125620" MODIFIED="1638534558427">
-<icon BUILTIN="button_cancel"/>
-<node TEXT="Rozpisać dokładnie procedurę, np. w formie diagramu." LOCALIZED_STYLE_REF="defaultstyle.details" ID="ID_1818761668" CREATED="1629719444696" MODIFIED="1629719465659"/>
+<node TEXT="pozostałe formularze edycji:" ID="ID_892604594" CREATED="1638910215693" MODIFIED="1638910221969">
+<node TEXT="formularz edycji osoby" ID="ID_545076402" CREATED="1638910207530" MODIFIED="1638910214960">
+<node TEXT="Wariant nazwy osoby można też dodawać na formularzu edycji osoby (tylko imię i nazwisko)" ID="ID_957588098" CREATED="1638542494853" MODIFIED="1638910102027"/>
 </node>
-<node TEXT="Można otworzyć rekord, ale przy próbie zapisu porównywane są pola ze stemplem czasowym i użytkownikiem który wprowadził ostatnie zmiany - jeżeli się różnią, wyświetlany jest komunikat o modyfikacji rekordu." ID="ID_309335567" CREATED="1629719193029" MODIFIED="1629719387221"/>
-<node TEXT="Może istnieją jakieś wzorce postępowania w takich okolicznościach? Sprawdzić czy istnieją gotowe rozwiązania." ID="ID_590884942" CREATED="1629719389096" MODIFIED="1638534575299">
-<icon BUILTIN="button_ok"/>
-<node TEXT="Gotowe rozwiązanie istnieje w SQLAlchemy" ID="ID_1738917424" CREATED="1638390021428" MODIFIED="1638390032684"/>
+<node TEXT="formularz edycji dokumentu" ID="ID_31877488" CREATED="1638910236703" MODIFIED="1638910241600"/>
 </node>
-</node>
-</node>
-</node>
-<node TEXT="uwagi" ID="ID_1904346549" CREATED="1638385291579" MODIFIED="1638385294653">
-<node TEXT="do blokowania rekordu służy chyba metoda kwerendy with_for_update" ID="ID_1567835255" CREATED="1638385295292" MODIFIED="1638385309458">
-<node TEXT="https://dev.to/ivankwongtszfung/safe-update-operation-in-postgresql-using-sqlalchemy-3ela" ID="ID_1332407383" CREATED="1638385559379" MODIFIED="1638385559379" LINK="https://dev.to/ivankwongtszfung/safe-update-operation-in-postgresql-using-sqlalchemy-3ela"/>
-</node>
-</node>
+<node TEXT="uwagi" ID="ID_1904346549" CREATED="1638385291579" MODIFIED="1638385294653"/>
 </node>
 </node>
 <node TEXT="napisać testy" FOLDED="true" POSITION="left" ID="ID_1252667547" CREATED="1634676737843" MODIFIED="1636385800021" LINK="#ID_1401736301">
@@ -478,7 +437,6 @@
     </p>
   </body>
 </html>
-
 </richcontent>
 <node TEXT="można to opisać na diagramie sekwencyjnym" ID="ID_1143210062" CREATED="1637158630644" MODIFIED="1637158640783"/>
 </node>
@@ -628,6 +586,33 @@
 </node>
 </node>
 </node>
+<node TEXT="Powinienem dostawać ostrzeżenia przed opuszczeniem strony edycji rekordu jeżeli są tam niezapisane zmiany." ID="ID_1302760052" CREATED="1638891700701" MODIFIED="1638891724711">
+<node TEXT="W JS, prawdopodobnie zdarzenie opuszczania strony." ID="ID_974223301" CREATED="1638891728821" MODIFIED="1638891743213"/>
+</node>
+<node TEXT="UnambiguousSearchFields i QuickSearchForm przenieść do forms.py" ID="ID_96272133" CREATED="1638892430452" MODIFIED="1638892430452"/>
+<node TEXT="blokowanie modyfikowanych rekordów" ID="ID_1016743517" CREATED="1629719000594" MODIFIED="1638910443965">
+<node TEXT="Aplikacja uniemożliwia otwarcie rekodu do modyfikacji jeżeli został on już otwarty do modyfikacji (np. w formularzu w innej zakładce, przez innego użytkownika na etc.)." ID="ID_1354421201" CREATED="1629718909234" MODIFIED="1629719521565">
+<node TEXT="Wersje:" ID="ID_628302854" CREATED="1629719120515" MODIFIED="1629719125360">
+<node TEXT="Otwarcie rekordu powoduje jego zablokowanie, np. przed otwarciem sprawdzana jest inna tabela - zawierająca listę zablokowanych rekordów." ID="ID_1784190644" CREATED="1629719125620" MODIFIED="1638534558427">
+<icon BUILTIN="button_cancel"/>
+<node TEXT="Rozpisać dokładnie procedurę, np. w formie diagramu." LOCALIZED_STYLE_REF="defaultstyle.details" ID="ID_1818761668" CREATED="1629719444696" MODIFIED="1629719465659"/>
+</node>
+<node TEXT="Można otworzyć rekord, ale przy próbie zapisu porównywane są pola ze stemplem czasowym i użytkownikiem który wprowadził ostatnie zmiany - jeżeli się różnią, wyświetlany jest komunikat o modyfikacji rekordu." ID="ID_309335567" CREATED="1629719193029" MODIFIED="1629719387221"/>
+<node TEXT="Może istnieją jakieś wzorce postępowania w takich okolicznościach? Sprawdzić czy istnieją gotowe rozwiązania." ID="ID_590884942" CREATED="1629719389096" MODIFIED="1638534575299">
+<icon BUILTIN="button_ok"/>
+<node TEXT="Gotowe rozwiązanie istnieje w SQLAlchemy" ID="ID_1738917424" CREATED="1638390021428" MODIFIED="1638390032684"/>
+</node>
+</node>
+</node>
+<node TEXT="do blokowania rekordu służy chyba metoda kwerendy with_for_update" ID="ID_1567835255" CREATED="1638385295292" MODIFIED="1638385309458">
+<node TEXT="https://dev.to/ivankwongtszfung/safe-update-operation-in-postgresql-using-sqlalchemy-3ela" ID="ID_1332407383" CREATED="1638385559379" MODIFIED="1638385559379" LINK="https://dev.to/ivankwongtszfung/safe-update-operation-in-postgresql-using-sqlalchemy-3ela"/>
+<node TEXT="nie działa w SQLite - popracować nad tym w MySQL" ID="ID_1816258048" CREATED="1638819485925" MODIFIED="1638819500742"/>
+</node>
+<node TEXT="Blokowanie rekordu - dyskusja" ID="ID_54176688" CREATED="1638828978112" MODIFIED="1638828983395">
+<node TEXT="https://hardware.slashdot.org/story/09/09/24/231229/data-locking-in-a-web-application" ID="ID_1105586492" CREATED="1638828984402" MODIFIED="1638828984402" LINK="https://hardware.slashdot.org/story/09/09/24/231229/data-locking-in-a-web-application"/>
+</node>
+<node TEXT="do zrobienia w MySQL" ID="ID_363441782" CREATED="1638910398159" MODIFIED="1638910403808"/>
+</node>
 </node>
 <node TEXT="testy" POSITION="left" ID="ID_1401736301" CREATED="1629383005379" MODIFIED="1636394835927">
 <edge COLOR="#7c007c"/>
@@ -706,9 +691,12 @@
 </node>
 </node>
 </node>
-<node TEXT="bugtracker" FOLDED="true" POSITION="right" ID="ID_524977360" CREATED="1634300796153" MODIFIED="1636035723372">
+<node TEXT="bugtracker" POSITION="right" ID="ID_524977360" CREATED="1634300796153" MODIFIED="1636035723372">
 <edge COLOR="#00ff00"/>
-<node TEXT="Login manager nie działa" ID="ID_1314422306" CREATED="1633631167236" MODIFIED="1633631171445"/>
+<node TEXT="Login manager nie działa" FOLDED="true" ID="ID_1314422306" CREATED="1633631167236" MODIFIED="1638909852897">
+<icon BUILTIN="button_ok"/>
+<node TEXT="naprawione" ID="ID_1958164346" CREATED="1638909853750" MODIFIED="1638909855688"/>
+</node>
 <node TEXT="formularz z typami dokumentów przy liście dokumentów:" FOLDED="true" ID="ID_127327879" CREATED="1636376082743" MODIFIED="1638390346967">
 <icon BUILTIN="button_ok"/>
 <node TEXT="Na liście lokalizacji geograficznych klikam na &quot;documents published&quot;, odznaczam jedną kategorię typów dokumentów, klikam &quot;Apply filter&quot;, w przeglądarce klikam 2x &quot;wstecz&quot;: wyświetla mi się pełna lista dokumentów, ale wcześniej odznaczone pole &quot;Document type&quot; jest w dalszym ciągu odznaczone (z dużym prawdopodobieństwem dotyczy to pozostałych tras). Poprawnie są zaznaczone typy po odświeżeniu strony.&#xa;&#xa;Czemu tak się dzieje?&#xa;&#xa;1. Collective bodies-&gt; klikam ...topic/see list&#xa;2. odznaczam &apos;book&apos;-&gt; apply filter&#xa;3. klikam wpis&#xa;4. 2x w przeglądarce klikam wstecz -&gt; na liście pojawiają się wszystkie wpisy włącznie z tymi z odznaczonej kategorii, ale na formularzu kategoria jest dalej odznaczona.&#xa;&#xa;ad 4.: po dwukrotnym kliknięciu wstecz w URL brak jest id zaznaczonych typów&#xa;&#xa;Przeglądarka przy przejściach przyciskiem &quot;wstecz&quot; zapamiętuje jakie pola formularza miałem zaznaczone, zatem stan formularza, aż do wysłania nowego żądania do serwera, będzie reprezentował co innego niż jest na liście (lista będzie np. wyświetlała dokumenty wszystkich typów - przed ich odznaczeniem; formularz może mieć pewne typy dokumentów odznaczone). Rozwiązanie: zaznaczanie właściwych pól formularza powinno następować po stronie przeglądarki." FOLDED="true" ID="ID_1279260684" CREATED="1636111088697" MODIFIED="1636382467385">
@@ -2320,6 +2308,63 @@
 <node TEXT="interfejs zaprojektować diagramem stanów" ID="ID_602873862" CREATED="1635270436092" MODIFIED="1635270442853"/>
 </node>
 </node>
+</node>
+<node TEXT="Prototyp edycji rekordu" ID="ID_751037047" CREATED="1638542467763" MODIFIED="1638833319850">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="poprawić funkcję, metody" ID="ID_313813531" CREATED="1638799933462" MODIFIED="1638818505226">
+<font BOLD="false"/>
+<node TEXT="zrobić klasę abstrakcyjną" ID="ID_806921671" CREATED="1638808913465" MODIFIED="1638818388202">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+</node>
+<node TEXT="czynności:" FOLDED="true" ID="ID_422138171" CREATED="1638799947334" MODIFIED="1638799950169">
+<node TEXT="Pobranie danych z bd" ID="ID_1792790567" CREATED="1638791218050" MODIFIED="1638791222150"/>
+<node TEXT="Zbieranie danych na formularzu." ID="ID_887931162" CREATED="1638791134387" MODIFIED="1638791199084"/>
+<node TEXT="Walidacja danych." ID="ID_779351306" CREATED="1638791141571" MODIFIED="1638791203706"/>
+<node TEXT="Wprowadzanie danych do bd." ID="ID_321777933" CREATED="1638791147796" MODIFIED="1638791207609">
+<node TEXT="Metoda formularza z abstrakcyjnej klasy nadrzędnej" ID="ID_809674400" CREATED="1638791267443" MODIFIED="1638791330360"/>
+</node>
+</node>
+</node>
+<node TEXT="zrobić wyświetlanie komunikatów (flash)" ID="ID_1406533317" CREATED="1638891291796" MODIFIED="1638904216094">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+<node TEXT="Dodać przycisk usuwania rekordu (w widoku szczegółów)" ID="ID_140564602" CREATED="1638833210302" MODIFIED="1638909827987">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="napisać trasę do kasowania" ID="ID_1936494280" CREATED="1638891678277" MODIFIED="1638902539164">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+<node TEXT="zrobić makro wyświetlające przycisk, modal z pytaniem i odpowiednią trasą" ID="ID_1485975530" CREATED="1638880734529" MODIFIED="1638891672592">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+<node TEXT="Czy mam mieć osobne trasy dla edycji i dodawania rekordów?" FOLDED="true" ID="ID_1382646027" CREATED="1638537716299" MODIFIED="1638910484052">
+<icon BUILTIN="button_ok"/>
+<node TEXT="Jedna trasa" ID="ID_1659651542" CREATED="1638538134063" MODIFIED="1638538137061">
+<node TEXT="Jeżeli jest argument id - pobieram rekord i przekazuję go do szablonu." ID="ID_485926949" CREATED="1638538338609" MODIFIED="1638538379635">
+<node TEXT="W szablonie sprawdzam przekazany obiekt rekordu, jeżeli jest None - wyświetlam pusty formularz, zamiast przycisku &quot;Update&quot; jest &quot;Save&quot; oraz &quot;Discard&quot; z pytaniem o porzucenie modyfikacji (ten pokazuje się w obu przypadkach)." ID="ID_1778784256" CREATED="1638538414850" MODIFIED="1638542356172">
+<node TEXT="Tworzę nowy obiekt danego typu." ID="ID_808688331" CREATED="1638539117046" MODIFIED="1638539130539"/>
+<node TEXT="Zamiast zmieniać przycisk, mogę zmienić tekst jego etykiety na formularzu." ID="ID_286461024" CREATED="1638570574712" MODIFIED="1638570590672"/>
+<node TEXT="Dodaję pola" ID="ID_280098153" CREATED="1638539131721" MODIFIED="1638539134153"/>
+<node TEXT="Dodaję do bd" ID="ID_868012215" CREATED="1638539134487" MODIFIED="1638539138537"/>
+</node>
+<node TEXT="zapis" ID="ID_108539986" CREATED="1638538849943" MODIFIED="1638538851944"/>
+</node>
+<node TEXT="Jaka trasa" ID="ID_1086807958" CREATED="1638538720023" MODIFIED="1638538724267">
+<node TEXT="/edit/language/?id=&lt;&gt;" ID="ID_1566467069" CREATED="1638538725238" MODIFIED="1638538762251"/>
+<node TEXT="/edit/language/?new=True" ID="ID_22928507" CREATED="1638538762615" MODIFIED="1638539239728"/>
+</node>
+</node>
+</node>
+<node TEXT="Zalogowany użytkownik z uprawnieniami edycji ma dodatkowe menu dodania rekordu" ID="ID_1147693951" CREATED="1638535258121" MODIFIED="1638542465355">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="Dodać do szablonu" ID="ID_1640919493" CREATED="1638536562946" MODIFIED="1638536568100"/>
 </node>
 </node>
 <node TEXT="do zrobienia w kolejnej wersji" FOLDED="true" POSITION="right" ID="ID_566144622" CREATED="1636143329422" MODIFIED="1636395367347">

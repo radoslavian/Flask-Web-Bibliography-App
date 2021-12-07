@@ -19,6 +19,9 @@
 		 endpoint='.documents_list') }}
     </td>
   </tr>
+  <tr>
+    <td>{{ macros.edit_entry_bt('keyword', keyword.id) }}</td>
+    <td>{{ macros.modal_delete_button_modal('subject-keyword', keyword.id) }}</td>
+  </tr>
 </table>
-{{ macros.edit_entry_bt('keyword', keyword.id) }}
 {% endblock %}

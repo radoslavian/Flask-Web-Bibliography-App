@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "bootstrap/form.html" import render_form %}
 {% block content %}
+  <h2>{{ entity_form.header }}</h2>
   {{ render_form(entity_form) }}
 {% endblock %}

@@ -64,5 +64,9 @@
 	by_entry_type='person') }}
       </td>
     </tr>
+    <tr>
+      <td><!-- edit entry --></td>
+      <td>{{ macros.modal_delete_button_modal('person-name', person_record.person_id) }}</td>
+    </tr>
   </table>
 {% endblock %}

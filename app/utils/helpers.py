@@ -7,6 +7,14 @@ from flask import request, current_app, jsonify
 from flask_wtf import FlaskForm
 from wtforms import (BooleanField, SubmitField, SelectField, StringField,
                      validators)
+from sqlalchemy.exc import IntegrityError
+from app import db
+
+def length(model_col):
+    '''Returns length of the database column string field.
+    '''
+    return model_col.property.columns[0].type.length
+
 
 def get_responsibility_identifiers(responsibility_id=None):
     '''Returns tuple with responsibility id and name or redirects to 404 page
@@ -175,3 +183,17 @@ def search_multiple_models(models):
               'source': model.__tablename__}
              for item in get_query_list(model)])
     return combined_lists
+
+
+def delete_entry_from_db(model, id_number):
+    '''Shortcut for deleting rows from database models.
+    '''
+    model.query.filter(
+        getattr(model, model.__primary_key__) == id_number).delete()
+
+    try:
+        db.session.commit()
+    except IntegrityError as err:
+        db.session.rollback()
+        return str(err)
+    return None

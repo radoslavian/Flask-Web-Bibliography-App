@@ -30,7 +30,9 @@ def edit_database_entry(model_name):
         'document-types': DocumentTypeEditForm,
         'collective-body': CollectiveBodyEditForm,
         'geographic-location': GeographicLocationEditForm,
-        'keyword': KeywordEditForm
+        'keyword': KeywordEditForm,
+        'responsibility-name': ResponsibilityNameEditForm,
+        'person-name-variant': PersonNameVariantEditForm
     }
     if model_name in models:
         id_number = request.args.get('id', None)
@@ -40,6 +42,7 @@ def edit_database_entry(model_name):
             if id_number:
                 entity_form.load_row(id_number)
             if entity_form.commit_row():
+                flash('Entry successfully updated.')
                 return redirect(url_for(**entity_form.redirect_to()))
         elif id_number:
             entity_form.load_row(id_number)
@@ -82,7 +85,7 @@ def browse_people():
         pagination=paginate(query))
 
 
-@main.route('/browse/documents/id=<document_id>', methods=['GET', 'POST'])
+@main.route('/browse/documents/id=<document_id>')
 def document_view(document_id):
     document = Document.query.filter_by(
         document_id=document_id).first_or_404()
@@ -111,7 +114,7 @@ def geographic_locations_list():
         endpoint='.geographic_locations_list')
 
 
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/')
 def index():
     # url_for('main.index') # main - przestrzeń nazw
     # url_for('.index') # przestrzeń n. akt. żądania
@@ -175,6 +178,7 @@ def get_unique_responsibilities(item_responsibilities):
     '''Returns unique list (set) of responsibilities
     from a responsibility relationship in a model.
     '''
+    # to idzie do helpers
     return {responsibility_person.responsibility
             for responsibility_person in item_responsibilities}
 
@@ -504,38 +508,38 @@ def document_search():
 def quick_search():
     result_fields = [
         {
-	    'title': 'Found documents (only title fields '+
+	    'title': 'Documents found (only title fields ' +
             'are being searched):',
 	    'results_id': 'documents',
 	    'endpoint': '.get_documents',
             'path': '/browse/documents/'
         },
         {
-	    'title': 'Found person entries:',
+	    'title': 'Person entries found:',
 	    'results_id': 'people', # div with search results
 	    'endpoint': '.get_person_entries', # ajax endpoint
             'path': '/browse/people/'
         },
         {
-	    'title': 'Found collective names:',
+	    'title': 'Collective names found:',
 	    'results_id': 'collective_bodies',
 	    'endpoint': '.get_collective_bodies',
             'path': '/browse/collective-bodies/'
         },
         {
-	    'title': 'Found geographic locations:',
+	    'title': 'Geographic locations found:',
 	    'results_id': 'geographic_locations',
 	    'endpoint': '.get_geographic_location',
             'path': '/browse/geographic-locations/'
         },
         {
-	    'title': 'Found subject headers (keywords):',
+	    'title': 'Subject headers (keywords) found:',
 	    'results_id': 'subject_keywords',
 	    'endpoint': '.get_keywords',
             'path': '/browse/keywords/'
         },
         {
-	    'title': 'Found languages:',
+	    'title': 'Language entries found:',
 	    'results_id': 'languages',
 	    'endpoint': '.get_language_entries',
             'path': '/browse/languages/'
@@ -548,3 +552,82 @@ def quick_search():
     return render_template('quick_search_results.html',
                            search_term=g.search_form.q.data,
                            result_fields=result_fields)
+
+
+@main.route('/delete/<entry_model>/')
+@login_required
+@permission_required(Permissions.EDIT_BIBLIOGRAPHY)
+def delete_entry(entry_model):
+    id_number = request.args.get('id', None)
+    if not id_number:
+        abort(404)
+    choice_list = {
+        'collective-body': {
+            'model': CollectiveBody,
+            'endpoint': 'main.document_type',
+            'arg': 'document_type',
+            'list_endpoint': 'main.collective_bodies_list'
+        },
+        'document-type': {
+            'model': DocumentType,
+            'endpoint': 'main.collective_body_details',
+            'arg': 'type_id',
+            'list_endpoint': 'main.document_types_list'
+        },
+        'document': {
+            'model': Document,
+            'endpoint': 'main.document_view',
+            'arg': 'document_id',
+            'list_endpoint': 'main.documents_list'
+        },
+        'geographic-location': {
+            'model': GeographicLocation,
+            'endpoint': 'main.geographic_location_details',
+            'arg': 'location_id',
+            'list_endpoint': 'main.geographic_locations_list'
+        },
+        'subject-keyword': {
+            'model': Keyword,
+            'endpoint': 'main.keyword_details',
+            'arg': 'keyword_id',
+            'list_endpoint': 'main.keywords_list'
+        },
+        'language': {
+            'model': Language,
+            'endpoint': 'main.language_details',
+            'arg': 'language_id',
+            'list_endpoint': 'main.language_list'
+        },
+        'person-name': {
+            'model': Person,
+            'endpoint': 'main.person_details',
+            'arg': 'person_id',
+            'list_endpoint': 'main.browse_people'
+        },
+        'person-name-variant': {
+            'model': PersonNameVariant,
+            'endpoint': 'main.name_variant',
+            'arg': 'person_id',
+            'list_endpoint': 'main.browse_people'
+        },
+        'responsibility-name': {
+            'model': ResponsibilityName,
+            'endpoint': 'main.responsibility_details',
+            'arg': 'responsibility_id',
+            'list_endpoint': 'main.responsibilities_list'
+        }
+    }
+    if entry_model in choice_list:
+        selection = choice_list[entry_model]
+        error_message = delete_entry_from_db(selection['model'], id_number)
+        if error_message:
+            flash("Failed to delete entry: ", error_message)
+
+            # do przetestowania !
+            return redirect(url_for(selection['endpoint'],
+                                    {selection['arg']:id_number}))
+    else:
+        abort(404)
+
+    flash('Entry successfully removed.')
+    return redirect(url_for(selection['list_endpoint']))
