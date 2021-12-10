@@ -109,8 +109,22 @@
 		   data-toggle="tooltip"
 		   data-placement="left"
 		   title="Add new responsibility name entry"
+		   href="{{ url_for('main.edit_database_entry', model_name='person', new='True') }}">
+		   Person
+		</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   data-placement="left"
+		   title="Add new language entry"
+		   href="{{ url_for('main.edit_database_entry', model_name='person-name-variant', new='True') }}">
+		   Person Name Variant
+		</a>
+		<a class="dropdown-item"
+		   data-toggle="tooltip"
+		   title="Add new document responsibility entry"
+		   data-placement="left"
 		   href="{{ url_for('main.edit_database_entry', model_name='responsibility-name', new='True') }}">
-		   Responsibility name
+		   Responsibility
 		</a>
 	      </div>
 	    </li>

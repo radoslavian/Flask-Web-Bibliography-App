@@ -21,15 +21,19 @@ from sqlalchemy.ext.declarative import declared_attr
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.search import add_to_index, remove_from_index, query_index
 
-# COLLATION = 'utf8_general_ci'
+# COLLATION = 'utf8_general_ci' # potrzebne w MySQL
 
 class SearchableMixin(object):
     '''Reused from: M. Grinberg, Flask Mega Tutorial.
     https://blog.miguelgrinberg.com/
     '''
-    @property
-    def id(self):
+    def get_id(self):
         return getattr(self, self.__primary_key__)
+
+    def set_id(self, val):
+        setattr(self, self.__primary_key__, val)
+
+    id = property(get_id, set_id)
 
     @classmethod
     def search(cls, expression, page, per_page):
@@ -440,18 +444,15 @@ class Document(db.Model, Lock, SearchableMixin):
         return self.__str__()
 
 
-class DocumentType(db.Model, Lock):
+class DocumentType(db.Model, Lock, SearchableMixin):
     __tablename__ = 'document_types'
     __primary_key__ = 'type_id'
+    __searchable__ = ['name', 'description']
 
     type_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(45), nullable=False) # + unique
     description = db.Column(db.String(200))
     modifiable = db.Column(db.Boolean, default=True)
-
-    @property
-    def id(self):
-        return getattr(self, self.__primary_key__)
 
     @staticmethod
     def add_basic_document_types():
@@ -740,14 +741,23 @@ class PersonNameVariant(db.Model, Lock, SearchableMixin):
         return f'<Person name variant: \
 {self.first_name_variant} {self.last_name_variant}>'
 
+    def __str__(self):
+        output = ''
+        if self.last_name_variant:
+            output += f'{self.last_name_variant}'
+        if self.first_name_variant:
+            output += f', {self.first_name_variant}'
+        return output
+
     def __html__(self):
         output = ''
         if self.last_name_variant:
             output += f'<em>{self.last_name_variant}</em>'
         if self.first_name_variant:
             output += f', {self.first_name_variant}'
-        return f'''<span class="name-variant">{output} &#8594;
-        {str(self.person)}</span>'''
+        if self.person:
+            output += f' &#8594; {str(self.person)}'
+        return f'<span class="name-variant">{output}</span>'
 
 
 topic_people = db.Table(

@@ -1,0 +1,66 @@
+{% extends "edit_entity.html" %}
+{% from "bootstrap/form.html" import  render_form_row %}
+{% block content %}
+    <h2>{{ entity_form.header }} (id {{ entity_form.id.data }} )</h2> 
+  <form method="post"> 
+    {{ render_form_row([entity_form.forenames, entity_form.last_name]) }} 
+    {{ render_form_row([entity_form.life_years, entity_form.birth_date, entity_form.death_date]) }} 
+    {{ render_form_row([entity_form.note]) }} 
+    {{ render_form_row([entity_form.name_variants]) }} 
+    <input id="name-variant"></input> 
+    <button id="add-variant-bt" class="btn btn-primary">Add</button> 
+    <button id="remove-variant-bt" class="btn btn-warning"> 
+      Remove&nbsp;selected 
+    </button>
+    {{ render_form_row([entity_form.submit]) }}
+  </form> 
+{% endblock %}
+{% block scripts %}
+  {{ super() }}
+  <!-- <script type="application/javascript"  
+  	  src="{{ url_for('static', filename='document_search.js') }}"> 
+  </script> --> 
+
+  <script type="application/javascript"> 
+//     $(document).ready(function() { 
+//     	$("#search-name-variant").keyup(() => { 
+//     	    let query = {"query": $("#search-name-variant").val()}; 
+//     	    get_ajax_fn({{ url_for('main.get_name_variant') }}, query, 
+//     			list => { 
+//     			    print_list() // inna f. 
+//     			})(); 
+//     	}); 
+// }); 
+
+function select_all_from_multiselect(id) { 
+    let values = []; 
+    $(id).children().each((id, item) => { 
+	values.push(item.value); 
+    }); 
+    $(id).val(values); 
+}
+
+function remove_sel_from_multiselect(id) {
+    // remove selected items from a multiple select list
+    $(`${id}` + " option:selected").each(
+    	(index, option) => $(option).remove()); 
+}
+
+$(document).ready(function() { 
+    $("#add-variant-bt").click(target => { 
+    target.preventDefault(); 
+	$("#name_variants") 
+	    .append($("<option></option>") 
+		    .attr("value", $("#name-variant").val()) 
+		    .text("text")); 
+    }); 
+    $('#submit_form').click( 
+	() => select_all_from_multiselect('#name_variants'));
+
+    $("#remove-variant-bt").click(target => { 
+    	target.preventDefault(); 
+    	remove_sel_from_multiselect('#name_variants')
+    });
+}); 
+  </script> 
+{% endblock %}

@@ -61,6 +61,8 @@ def get_search_parameters():
 
 class UnambiguousSearchFields(FlaskForm):
     def __init__(self, *args, **kwargs):
+
+        # deprecation warning: Pass meta={'csrf': False} instead.
         if 'csrf_enabled' not in kwargs:
             kwargs['csrf_enabled'] = False
         super(UnambiguousSearchFields, self).__init__(*args, **kwargs)
@@ -84,6 +86,8 @@ class QuickSearchForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         if 'formdata' not in kwargs:
             kwargs['formdata'] = request.args
+
+        # deprecation warning: Pass meta={'csrf': False} instead.
         if 'csrf_enabled' not in kwargs:
             kwargs['csrf_enabled'] = False
         super(QuickSearchForm, self).__init__(*args, **kwargs)

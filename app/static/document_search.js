@@ -53,10 +53,9 @@ function add_searched_id(set, parent) {
     }
 }
 
-
- function print_list(list, drop_down, parent, ids_list) {
-     // niech najpierw sprawdza czy cokolwiek tam jest
-     drop_down.empty();
+function print_list(list, drop_down, parent, ids_list) {
+    // niech najpierw sprawdza czy cokolwiek tam jest
+    drop_down.empty();
     let list_item;
     for(item of list) {
 	list_item = $("<div></div>").addClass(
@@ -69,7 +68,7 @@ function add_searched_id(set, parent) {
 	list_item.click(add_searched_id(ids_list, parent));
 	drop_down.append(list_item);
     }
- }
+}
 
 
 // podobne do print_list - zgeneralizować

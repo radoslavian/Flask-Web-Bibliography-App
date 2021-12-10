@@ -21,41 +21,83 @@ def before_request():
     g.search_form = QuickSearchForm()
 
 
+# @main.route('/edit/person/<userid>', methods=['GET'])
+# @login_required
+# @permission_required(Permissions.EDIT_BIBLIOGRAPHY)
+# def edit_person_entry(userid):
+#     if userid.isdigit():
+#         person = Person.query.get_or_404(userid)
+#         entity_form = PersonEditForm(obj=person)
+#     elif userid == 'New':
+#         entity_form = PersonEditForm()
+#     # warianty lepiej przechowywać jako set()
+#     # {id, label}
+
+#     return render_template('edit_person_details.html',
+#                            entity_form=entity_form)
+
+
+# @main.route('/edit/person/<userid>', methods=['POST'])
+# @login_required
+# @permission_required(Permissions.EDIT_BIBLIOGRAPHY)
+# def edit_person_post(userid):
+#     entity_form = PersonEditForm(request.form)
+#     print(type(entity_form.id.data), entity_form.id.data)
+
+#     if entity_form.validate_on_submit:
+#         if entity_form.commit_row():
+#             return redirect(url_for(**entity_form.redirect_to()))
+
+#     return render_template('edit_person_details.html',
+#                            entity_form=entity_form)
+
+
 @main.route('/edit/<model_name>/', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permissions.EDIT_BIBLIOGRAPHY)
 def edit_database_entry(model_name):
     models = {
-        'language': LanguageEditForm,
-        'document-types': DocumentTypeEditForm,
-        'collective-body': CollectiveBodyEditForm,
-        'geographic-location': GeographicLocationEditForm,
-        'keyword': KeywordEditForm,
-        'responsibility-name': ResponsibilityNameEditForm,
-        'person-name-variant': PersonNameVariantEditForm
+        # model bd może iść do konstruktora ModelEditForm
+        # + zmiany w tej funkcji (łatwiej będzie to zrobić
+        # jak będę miał test automatyczny)
+        'language': [LanguageEditForm, Language],
+        'document-types': [DocumentTypeEditForm, DocumentType],
+        'collective-body': [CollectiveBodyEditForm, CollectiveBody],
+        'geographic-location': [GeographicLocationEditForm,
+                                GeographicLocation],
+        'keyword': [KeywordEditForm, Keyword],
+        'responsibility-name': [ResponsibilityNameEditForm,
+                                ResponsibilityName],
+        'person': [PersonEditForm, Person],
+        'person-name-variant': [PersonNameVariantEditForm,
+                                PersonNameVariant]
     }
-    if model_name in models:
-        id_number = request.args.get('id', None)
-        entity_form = models[model_name]()
+    if model_name not in models:
+        abort(404)
+    else:
+        model_form = models[model_name][0]
+        model = models[model_name][1]
 
-        if entity_form.validate_on_submit():
-            if id_number:
-                entity_form.load_row(id_number)
-            if entity_form.commit_row():
-                flash('Entry successfully updated.')
-                return redirect(url_for(**entity_form.redirect_to()))
-        elif id_number:
-            entity_form.load_row(id_number)
-            entity_form.fill_form()
-        elif request.args.get('new') == 'True':
-            pass
-        else:
-            abort(404)
+    if model_name == 'person':
+        template = 'edit_person_details.html'
+    else:
+        template = 'edit_entity.html'
+
+    id_number = request.args.get('id', None)
+    if id_number:
+        entity_form = model_form(obj=model.query.get_or_404(id_number))
+    elif request.args.get('new') == 'True':
+        entity_form = model_form()
     else:
         abort(404)
 
-    return render_template('edit_entity.html',
-                           entity_form=entity_form)
+    #if request.method == 'POST':
+    if entity_form.validate_on_submit():
+        print('validating')
+        if entity_form.commit_row():
+            return redirect(url_for(**entity_form.redirect_to()))
+
+    return render_template(template, entity_form=entity_form)
 
 
 @main.route('/browse/people/')
@@ -189,6 +231,7 @@ def responsibility_list(responsibilities, query_fn):
     in which a given entity appears with a particular responsibility.
     '''
 
+    # idzie do helpers
     responsibilities_list = []
     for responsibility in responsibilities:
         resp_count = query_fn(responsibility).count()
@@ -220,7 +263,7 @@ def person_details(person_id):
 @main.route('/browse/responsibilities/')
 def responsibilities_list():
     responsibilities = ResponsibilityName.query.order_by(
-        ResponsibilityName.responsibility_name).all()
+        ResponsibilityName.responsibility_name)
 
     return render_template(
         'list_of_items.html',
@@ -390,6 +433,11 @@ def get_geographic_location():
 @main.route('/search/collective_bodies', methods=['POST'])
 def get_collective_bodies():
     return get_jsonified(CollectiveBody)
+
+
+@main.route('/search/name-variant', methods=['POST'])
+def get_name_variant():
+    return get_jsonified(PersonNameVariant)
 
 
 @main.route('/search/documents', methods=['POST'])
