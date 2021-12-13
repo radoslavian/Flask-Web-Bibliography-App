@@ -153,6 +153,8 @@ def get_jsonified(model):
 def get_es_search_params(model, page=1):
     '''Fetches parameters for Elasticsearch query from the POST request.
     '''
+    # nazwa tej funkcji powinna zostać zmieniona, opis też
+
     return model.search(
         request.json.get('query', None),
         request.json.get('page', page),

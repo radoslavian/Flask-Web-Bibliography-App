@@ -21,37 +21,6 @@ def before_request():
     g.search_form = QuickSearchForm()
 
 
-# @main.route('/edit/person/<userid>', methods=['GET'])
-# @login_required
-# @permission_required(Permissions.EDIT_BIBLIOGRAPHY)
-# def edit_person_entry(userid):
-#     if userid.isdigit():
-#         person = Person.query.get_or_404(userid)
-#         entity_form = PersonEditForm(obj=person)
-#     elif userid == 'New':
-#         entity_form = PersonEditForm()
-#     # warianty lepiej przechowywać jako set()
-#     # {id, label}
-
-#     return render_template('edit_person_details.html',
-#                            entity_form=entity_form)
-
-
-# @main.route('/edit/person/<userid>', methods=['POST'])
-# @login_required
-# @permission_required(Permissions.EDIT_BIBLIOGRAPHY)
-# def edit_person_post(userid):
-#     entity_form = PersonEditForm(request.form)
-#     print(type(entity_form.id.data), entity_form.id.data)
-
-#     if entity_form.validate_on_submit:
-#         if entity_form.commit_row():
-#             return redirect(url_for(**entity_form.redirect_to()))
-
-#     return render_template('edit_person_details.html',
-#                            entity_form=entity_form)
-
-
 @main.route('/edit/<model_name>/', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permissions.EDIT_BIBLIOGRAPHY)
@@ -70,7 +39,8 @@ def edit_database_entry(model_name):
                                 ResponsibilityName],
         'person': [PersonEditForm, Person],
         'person-name-variant': [PersonNameVariantEditForm,
-                                PersonNameVariant]
+                                PersonNameVariant],
+        'document': [DocumentEditForm, Document]
     }
     if model_name not in models:
         abort(404)
@@ -437,7 +407,9 @@ def get_collective_bodies():
 
 @main.route('/search/name-variant', methods=['POST'])
 def get_name_variant():
-    return get_jsonified(PersonNameVariant)
+    query = get_es_search_params(PersonNameVariant)
+    return jsonify([{'text': str(query_item) + f' (id {query_item.id})',
+                     'id': query_item.id} for query_item in query[0]])
 
 
 @main.route('/search/documents', methods=['POST'])

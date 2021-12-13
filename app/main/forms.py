@@ -4,6 +4,7 @@ from ..models import *
 from flask import g, flash, request
 from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
+from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms import (StringField, SubmitField, TextAreaField, HiddenField,
                      SelectMultipleField)
 from wtforms.fields.html5 import DateField
@@ -20,6 +21,7 @@ class ModelEditForm(FlaskForm):
     def __init__(self, *pargs, **kwargs):
         FlaskForm.__init__(self, *pargs, **kwargs)
         if 'obj' in kwargs:
+            self.obj = kwargs.get('obj', None)
             self.submit.label.text = 'Update entity'
         else:
             self.submit.label.text = 'Create new'
@@ -55,6 +57,119 @@ class ModelEditForm(FlaskForm):
         else:
             flash(success_message)
             return True
+
+
+class PersonEditForm(ModelEditForm):
+    # klasa do poprawienia (czyli refactoringu)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.model = Person
+        if self.id.data:
+            self.header = 'Update Person entry:'
+        else:
+            self.header = 'Create new Person entry:'
+        self.get_variants()
+
+    def validate_on_submit(self):
+        # dokument też tak muszę ...
+        if request.method == 'POST':
+            return True
+        else:
+            return False
+
+    def get_variants(self):
+        if getattr(self, 'obj'):
+            name_variants = [(variant.id, str(variant) +
+                              f' (id {variant.id})')
+                             for variant in self.obj.name_variants]
+            self.name_variants.choices = name_variants
+
+        elif self.name_variants.raw_data:
+            for variant_id in self.name_variants.raw_data:
+                if variant_id.isdigit():
+                    variant = PersonNameVariant.query.get(int(variant_id))
+                    if variant:
+                        self.name_variants.choices.append(tuple(
+                            [variant.variant_id, str(variant)]))
+        self.name_variants.choices.sort()
+
+    def add_variants(self):
+        if self.name_variants.raw_data:
+            variants = []
+            # takie samo jak w get_variants
+            # może użyć tu yield?
+            for variant_id in self.name_variants.raw_data:
+                if variant_id.isdigit():
+                    variant = PersonNameVariant.query.get(int(variant_id))
+                    if variant:
+                        variants.append(variant)
+            self.row.name_variants = variants
+        else:
+            self.row.name_variants = []
+
+    def commit_row(self):
+        # jak to połączyć z commit_row z nadrzędnej klasy?
+        # można zmieniać obie metody (z tej i tamtej klasy)
+        id_number = self.id.data
+        if self.id.data:
+            self.row = self.model.query.get(id_number)
+            success_message = 'Entry successfully updated.'
+        else:
+            self.id.data = None
+            self.row = self.model()
+            success_message = 'Successfully created new entry.'
+
+        # poniższe el. do add_variants() mogą być w metodzie abs.
+        # pobranie wartości do pól
+        for field in ['forenames', 'last_name', 'note', 'life_years',
+                      'birth_date', 'death_date']:
+            value = getattr(self, field).data
+            setattr(self.row, field, value)
+
+        self.add_variants()
+        db.session.add(self.row)
+
+        try:
+            db.session.commit()
+        except IntegrityError as err:
+            db.session.rollback()
+            flash('Failed to perform operation due to '
+                  'the data integrity error.')
+            # to powinno iść do loga
+            print(f'Failed to perform operation: {err}', file=stderr)
+            return False
+        else:
+            flash(success_message)
+            return True
+
+    id = HiddenField()
+    forenames = StringField(
+        'Forenames (first/second name):',
+        render_kw={'required': 'required',
+                   'maxlength': f'{length(Person.forenames)}'})
+    last_name = StringField(
+        'Last name:',
+        render_kw={'maxlength': f'{length(Person.last_name)}'})
+    note = TextAreaField(
+        'Note:',
+        render_kw={'maxlength': f'{length(Person.note)}'})
+    life_years = StringField(
+        'Life years (text format):',
+        render_kw={'data-toggle': 'tooltip',
+                   # Tooltip powinien być nad ikonką 'i' w kodzie szablonu
+                   'title': '''Examples: 1923-2013; 1992-; [1992-]; 
+                   any additional information should be put into notes.''',
+                   'maxlength': f'{length(Person.life_years)}',
+                   'pattern': '^[\d\-\[\]]+$'})
+    birth_date = DateField('Exact birth date:')
+    death_date = DateField('Exact expiration date:')
+    name_variants = SelectMultipleField('Name Variants:', choices=[])
+    submit = SubmitField(id='submit_form',
+                         render_kw={'class': 'btn-block mt-1'})
+
+    def redirect_to(self):
+        return {'endpoint': 'main.person_details',
+                'person_id': self.row.id}
 
 
 class LanguageEditForm(ModelEditForm):
@@ -237,16 +352,14 @@ class PersonNameVariantEditForm(ModelEditForm):
                 'variant_id': self.row.id}
 
 
-class PersonEditForm(ModelEditForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.obj = kwargs.get('obj', None)
-        self.model = Person
-        if self.id.data:
-            self.header = 'Update Person entry:'
+class DocumentEditForm(ModelEditForm):
+    def __init__(self, *pargs, **kwargs):
+        super().__init__(*pargs, **kwargs)
+        self.model = PersonNameVariant
+        if 'obj' in kwargs:
+            self.header = 'Update Document entry:'
         else:
-            self.header = 'Create new Person entry:'
-        self.get_variants()
+            self.header = 'Create new Document entry:'
 
     def validate_on_submit(self):
         if request.method == 'POST':
@@ -254,80 +367,79 @@ class PersonEditForm(ModelEditForm):
         else:
             return False
 
-    def get_variants(self):
-        if getattr(self, 'obj'):
-            name_variants = [(variant.id, str(variant) +
-                f' (id {variant.id})')
-                             for variant in self.obj.name_variants]
-            self.name_variants.choices = name_variants
-
-        elif self.name_variants.raw_data:
-            for variant_id in self.name_variants.raw_data:
-                if variant_id.isdigit():
-                    variant = PersonNameVariant.query.get(int(variant_id))
-                    if variant:
-                        self.name_variants.choices.append(tuple(
-                            [variant.variant_id, str(variant)]))
-        self.name_variants.choices.sort()
-
-    def add_variants(self):
-        if not self.name_variants.raw_data:
-            return
-        variants = []
-        # takie samo jak w get_variants
-        # może użyć tu yield?
-        for variant_id in self.name_variants.raw_data:
-            if variant_id.isdigit():
-                variant = PersonNameVariant.query.get(int(variant_id))
-                if variant:
-                    variants.append(variant)
-        self.row.name_variants = variants
-
-    def commit_row(self):
-        # jak to połączyć z commit_row z nadrzędnej klasy?
-        # można zmieniać obie metody (z tej i tamtej klasy)
-        id_number = self.id.data
-        if self.id.data:
-            self.row = self.model.query.get(id_number)
-            success_message = 'Entry successfully updated.'
-        else:
-            self.id.data = None
-            self.row = self.model()
-            success_message = 'Successfully created new entry.'
-
-        # poniższe el. do add_variants() mogą być w metodzie abs.
-        # pobranie wartości do pól
-        for field in ['forenames', 'last_name', 'note', 'life_years',
-                      'birth_date', 'death_date']:
-            value = getattr(self, field).data
-            setattr(self.row, field, value)
-
-        self.add_variants()
-        db.session.add(self.row)
-
-        try:
-            db.session.commit()
-        except IntegrityError as err:
-            db.session.rollback()
-            flash('Failed to perform operation due to '
-                  'the data integrity error.')
-            # to powinno iść do loga
-            print(f'Failed to perform operation: {err}', file=stderr)
-            return False
-        else:
-            flash(success_message)
-            return True
+    def redirect_to(self):
+        return {'endpoint': 'main.document_view',
+                'document_id': self.row.id}
 
     id = HiddenField()
-    forenames = StringField('Forenames (first/second name):')
-    last_name = StringField('Last name:')
-    note = TextAreaField('Note:')
-    life_years = StringField('Life years (text format):')
-    birth_date = DateField('Exact birth date:')
-    death_date = DateField('Exact expiration date:')
-    name_variants = SelectMultipleField('Name Variants:', choices=[])
-    submit = SubmitField(id='submit_form')
-
-    def redirect_to(self):
-        return {'endpoint': 'main.person_details',
-                'person_id': self.row.id}
+    title_proper = StringField(
+        'Title proper:',
+        render_kw={'required': 'required',
+                   'maxlength': f'{length(Document.title_proper)}'})
+    parallel_title = StringField(
+        'Parallel title:',
+        render_kw={'maxlength': f'{length(Document.parallel_title)}'})
+    other_title_inf = StringField(
+        'Other title information:',
+        render_kw={'maxlength': f'{length(Document.other_title_inf)}'})
+    edition_statement = StringField(
+        'Edition statement:',
+        render_kw={'maxlength': f'{length(Document.edition_statement)}'})
+    parallel_edition_stmt = StringField(
+        'Parallel edition statement',
+        render_kw={'maxlength': f'{length(Document.parallel_edition_stmt)}'})
+    additional_edition_stmt = StringField(
+        'Additional edition statement:',
+        render_kw={'maxlength':
+                   f'{length(Document.additional_edition_stmt)}'})
+    numbering = StringField(
+        'Numbering:',
+        render_kw={'maxlength': f'{length(Document.numbering)}'})
+    numbering = StringField(
+        'Numbering:',
+        render_kw={'maxlength': f'{length(Document.numbering)}'})
+    publication_date = StringField(
+        'Publication date:',
+        render_kw={'maxlength': f'{length(Document.publication_date)}'})
+    pagination = StringField(
+        'Pagination:',
+        render_kw={'maxlength': f'{length(Document.pagination)}'})
+    physical_details = StringField(
+        'Physical details:',
+        render_kw={'maxlength': f'{length(Document.physical_details)}'})
+    dimensions = StringField(
+        'Dimensions:',
+        render_kw={'maxlength': f'{length(Document.dimensions)}'})
+    accompanying_material = StringField(
+        'Accompanying material:',
+        render_kw={'maxlength': f'{length(Document.accompanying_material)}'})
+    series = StringField(
+        'Series:',
+        render_kw={'maxlength': f'{length(Document.series)}',
+                   'data-toggle': 'tooltip',
+                   'title': 'Basic series field'}),
+    note = TextAreaField(
+        'Note:',
+        render_kw={'maxlength': f'{length(Document.note)}'})
+    issn = StringField(
+        'ISSN:',
+        render_kw={'maxlength': f'{length(Document.issn)}',
+                   'data-toggle': 'tooltip',
+                   'title': 'example: 2049-3630',
+                   'pattern': '\d{4}-\d{4}'})
+    isbn_10 = StringField(
+        'ISBN-10:',
+        render_kw={'maxlength': f'{length(Document.isbn_10)}',
+                   'data-toggle': 'tooltip',
+                   'title': 'example: 0-545-01022-5',
+                   'pattern': '\d-\d{4}-\d{4}-\d'})
+    isbn_13 = StringField(
+        'ISBN-13:',
+        render_kw={'maxlength': f'{length(Document.isbn_13)}',
+                   'data-toggle': 'tooltip',
+                   'title': 'example: 978-3-16-148410-0',
+                   'pattern': '\d{3}-\d-\d{2}-\d{6}-\d'})
+    document_type = QuerySelectField(
+        'Document type:', query_factory=lambda: DocumentType.query.all(),
+        get_label=lambda model: model.name.capitalize())
+    submit = SubmitField()

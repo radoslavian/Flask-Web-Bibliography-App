@@ -6,58 +6,38 @@
     {{ render_form_row([entity_form.forenames, entity_form.last_name]) }} 
     {{ render_form_row([entity_form.life_years, entity_form.birth_date, entity_form.death_date]) }} 
     {{ render_form_row([entity_form.note]) }} 
-    {{ render_form_row([entity_form.name_variants]) }} 
-    <input id="name-variant"></input> 
-    <button id="add-variant-bt" class="btn btn-primary">Add</button> 
-    <button id="remove-variant-bt" class="btn btn-warning"> 
-      Remove&nbsp;selected 
-    </button>
-    {{ render_form_row([entity_form.submit]) }}
-  </form> 
+    {{ render_form_row([entity_form.name_variants]) }}
+    <div id="variant-names-dropdown" class="row">
+      <div class="col-2 m-1">
+	<button id="remove-variant-bt" class="btn btn-warning"> 
+	  Remove&nbsp;selected 
+	</button>
+      </div>
+      <div class="col-sm">
+	<h6>Variant lookup:</h6>
+	<input id="name-variant" class="w-100" placeholder="Type to search"></input>
+	<div class="list-group" id="results-list"></div>
+      </div>
+    </div>
+      {{ render_form_row([entity_form.submit]) }}
+  </form>
 {% endblock %}
 {% block scripts %}
   {{ super() }}
-  <!-- <script type="application/javascript"  
+  <script type="application/javascript"  
   	  src="{{ url_for('static', filename='document_search.js') }}"> 
-  </script> --> 
+  </script>
+  <script type="application/javascript">
+    var search_name_variant = get_search_name_variant(
+	"{{ url_for('main.get_name_variant') }}");
 
-  <script type="application/javascript"> 
-//     $(document).ready(function() { 
-//     	$("#search-name-variant").keyup(() => { 
-//     	    let query = {"query": $("#search-name-variant").val()}; 
-//     	    get_ajax_fn({{ url_for('main.get_name_variant') }}, query, 
-//     			list => { 
-//     			    print_list() // inna f. 
-//     			})(); 
-//     	}); 
-// }); 
-
-function select_all_from_multiselect(id) { 
-    let values = []; 
-    $(id).children().each((id, item) => { 
-	values.push(item.value); 
-    }); 
-    $(id).val(values); 
-}
-
-function remove_sel_from_multiselect(id) {
-    // remove selected items from a multiple select list
-    $(`${id}` + " option:selected").each(
-    	(index, option) => $(option).remove()); 
-}
-
-$(document).ready(function() { 
-    $("#add-variant-bt").click(target => { 
-    target.preventDefault(); 
-	$("#name_variants") 
-	    .append($("<option></option>") 
-		    .attr("value", $("#name-variant").val()) 
-		    .text("text")); 
-    }); 
+$(document).ready(function() {
+    unselect_all("name_variants");
+    search_name_variant("name-variant");
     $('#submit_form').click( 
 	() => select_all_from_multiselect('#name_variants'));
 
-    $("#remove-variant-bt").click(target => { 
+    $("#remove-variant-bt").click(target => {
     	target.preventDefault(); 
     	remove_sel_from_multiselect('#name_variants')
     });

@@ -20,6 +20,9 @@ def remove_from_index(index, model):
 
 def query_index(index, query, page, per_page):
     if not current_app.elasticsearch:
+        print('===============================')
+        print(' Elasticsearch is turned off')
+        print('===============================')
         return
     search = current_app.elasticsearch.search(
         index=index,

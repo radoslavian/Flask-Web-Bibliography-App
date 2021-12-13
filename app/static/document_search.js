@@ -19,6 +19,20 @@ function search_parameters_from_url(search_fields) {
     urlParams.forEach(add_components);
 }
 
+function add_searched_id(set, parent) {
+    return event => {
+	if(!set.has(event.currentTarget["id"])) {
+	    set.add(event.currentTarget["id"]);
+	    search_criterion_component(
+		parent=parent, event.currentTarget.textContent,
+		() => set.delete(event.currentTarget["id"]));
+	}
+	else {
+	    // powiadomienie powinno mieć inną formę
+	    alert("Element with a given id is already in the list.");
+	}
+    }
+}
 
 function url_query_for(root) {
     return config_list => {
@@ -34,22 +48,6 @@ function url_query_for(root) {
 				    document_text_search);
 	}
 	return url;
-    }
-}
-
-
-function add_searched_id(set, parent) {
-    return event => {
-	if(!set.has(event.currentTarget["id"])) {
-	    set.add(event.currentTarget["id"]);
-	    search_criterion_component(
-		parent=parent, event.currentTarget.textContent,
-		() => set.delete(event.currentTarget["id"]));
-	}
-	else {
-	    // powiadomienie powinno mieć inną formę
-	    alert("Element with a given id is already in the list.");
-	}
     }
 }
 
@@ -70,17 +68,26 @@ function print_list(list, drop_down, parent, ids_list) {
     }
 }
 
-
 // podobne do print_list - zgeneralizować
-function print_search_results(results, list, root) {
+function print_search_results(results, dropdown_list, select_multiple_id) {
     // quicksearch results in a selected section/list
+    dropdown_list.empty();
     let list_item;
     for(result of results) {
-	list_item = $("<a></a>").addClass("list-group-item");
-	list_item.attr("href", root + 'id=' + result["id"]).attr(
-	    "target", "_blank");
+	list_item = $("<div></div>").addClass(
+	    "list-group-item list-group-item-action");
 	list_item.html(result["text"]);
-	list.append(list_item);
+	list_item.attr("id", result["id"]);
+	list_item.click(event => {
+	    if(!check_if_in_option_list(
+		event.currentTarget.id, select_multiple_id)) {
+		let option = $("<option></option>");
+		option.attr("value", event.currentTarget.id)
+	    	    .text(event.currentTarget.textContent);
+		$(`${select_multiple_id}`).append(option);
+	    }
+	});
+	dropdown_list.append(list_item);
     }
 }
 
@@ -89,9 +96,7 @@ function get_filter_cb(
     return () => {
 	let query = {"query": $(input_name).val()};
 	get_ajax_fn(fn_url, query,
-	list => {
-	    print_list(
-		list[0], drop_down, parent, ids_list);}
+	list => print_list(list[0], drop_down, parent, ids_list)
 	)()
     };
 }
@@ -149,6 +154,16 @@ function set_up_server_callbacks(callbacks) {
     }
 }
 
+function check_if_in_option_list(item_id, list_id) {
+    // check if a given id is already in a multiple selection list
+    for (item of $(list_id).children()) {
+	if(item.value == item_id) {
+	    return true;
+	}
+    }
+    return false;
+}
+
 function search_criterion_component(parent, title, on_close_cb=() => {}) {
     // on_close_cb - callable invoked on component removal
     let main_btn = $("<div></div>").addClass(
@@ -168,4 +183,36 @@ function search_criterion_component(parent, title, on_close_cb=() => {}) {
     row.append(close_bt_col);
 
     parent.append(main_btn);
+}
+
+function unselect_all(multisel_id) {
+    // unselect all items from multiple selection field
+    $(`#${multisel_id}`).val([]);
+}
+
+function select_all_from_multiselect(id) { 
+    let values = []; 
+    $(id).children().each((id, item) => { 
+	values.push(item.value); 
+    }); 
+    $(id).val(values); 
+}
+
+function remove_sel_from_multiselect(id) {
+    // remove selected items from a multiple selection list
+    $(`${id}` + " option:selected").each(
+    	(index, option) => $(option).remove()); 
+}
+
+function get_search_name_variant(endpoint) {
+    return search_field_id => $(`#${search_field_id}`).keyup(() => {
+    	let query = {"query": $(`#${search_field_id}`).val()};
+    	get_ajax_fn(endpoint, query, 
+    		    results => {
+    			print_search_results(
+			    results,
+			    $("#results-list"),
+			    "#name_variants")
+    		    })();
+    });
 }
