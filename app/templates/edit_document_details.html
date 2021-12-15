@@ -1,0 +1,82 @@
+{% extends "edit_entity.html" %}
+{% block edit_form %}
+  {{ render_field(entity_form.title_proper) }}
+  {{ render_field(entity_form.parallel_title) }}
+  {{ render_field(entity_form.other_title_inf) }}
+  {{ render_form_row([entity_form.edition_statement,
+  entity_form.parallel_edition_stmt, entity_form.additional_edition_stmt]) }}
+  {{ render_form_row([entity_form.numbering, entity_form.publication_date,
+  entity_form.pagination]) }}
+  {{ render_form_row([entity_form.physical_details, entity_form.dimensions,
+  entity_form.accompanying_material]) }}
+  {{ render_field(entity_form.series) }}
+  {{ render_field(entity_form.note) }}
+  {{ render_form_row([entity_form.issn, entity_form.isbn_10,
+  entity_form.isbn_13]) }}
+  {{ render_field(entity_form.document_type) }}
+  {{ render_field(entity_form.responsibility_collectivities) }}
+  <button id="remove-sel-collective-body-bt" class="btn btn-warning"> 
+    Remove&nbsp;selected
+  </button>
+  <div class="row align-items-center">
+
+    <!-- tu dodawać wybrane col body -->
+    <div class="col">
+      <p id="selected_collective_body"></p>
+    </div>
+
+    <div class="col">
+      {{ render_field(entity_form.responsibility_names) }}
+    </div>
+    <div class="col">
+      <button id="add-responsibility-coll-body" class="btn btn-secondary">Add</button>
+    </div>
+  </div><!-- row -->
+      <!--<label class="form-control-label" for="collective-body-responsibility-stmt">Search for a collective body:</label>-->
+  <input id="collective-body-responsibility-stmt" class="w-100 mb-3" placeholder="Type to search and add"></input>
+  <div id="resp-collectivities-list"></div>
+  {{ render_field(entity_form.submit) }}
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+    <script type="application/javascript">
+    var selected_coll_body_id = undefined;
+    var search_coll_body = get_search_function(
+	"{{ url_for('main.get_collective_bodies') }}",
+	success_fn=results => {
+	    print_items(
+	     	results[0],
+		$("#resp-collectivities-list"),
+	     	"#selected_collective_body",
+		click_fn=event => {
+		    selected_coll_body_id = event.target.id;
+		    $("#selected_collective_body")
+			.html(event.target.textContent);
+		}
+	    )
+	}
+    );
+
+$(document).ready(function() {
+    unselect_all("responsibility_collectivities");
+    search_coll_body("collective-body-responsibility-stmt");
+    $("#remove-sel-collective-body-bt").click(target => {
+	target.preventDefault();
+	remove_sel_from_multiselect('#responsibility_collectivities');
+    });
+    $("#add-responsibility-coll-body").click(()=> {
+
+	// przekształcić to na funkcję, dorobić dekorator
+	// sprawdzający czy pole z nazwą c.zb. zostało zaznaczone
+	let option = $("<option></option>").text(
+	    $("#responsibility_names option:selected").text())
+	    .attr("value",
+		  JSON.stringify(
+		      {"entity_id": selected_coll_body_id,
+		       "responsibility_id":
+		       $("#responsibility_names option:selected").val()}));
+	console.log(option);
+    });
+});
+</script>
+{% endblock %}
