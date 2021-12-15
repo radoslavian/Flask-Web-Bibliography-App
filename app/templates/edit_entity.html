@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% from "bootstrap/form.html" import render_form %}
+{% from "bootstrap/form.html" import  render_form_row %}
+{% from "bootstrap/form.html" import  render_field %}
 {% block content %}
   <h2>{{ entity_form.header }}</h2>
-  {{ render_form(entity_form) }}
+  {% block edit_form %}
+    {{ render_form(entity_form) }}
+  {% endblock %}
+{% endblock %}
+{% block scripts %}
+  {{ super() }}
+  <script type="application/javascript"  
+  	  src="{{ url_for('static', filename='document_search.js') }}"> 
+  </script>
 {% endblock %}

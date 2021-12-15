@@ -1,3 +1,5 @@
+// scalić niektóre funkcje (przede wszystkich print...)
+
 function search_parameters_from_url(search_fields) {
     const urlParams = new URLSearchParams(window.location.search);
     function add_components(v, key) {
@@ -78,6 +80,7 @@ function print_search_results(results, dropdown_list, select_multiple_id) {
 	    "list-group-item list-group-item-action");
 	list_item.html(result["text"]);
 	list_item.attr("id", result["id"]);
+
 	list_item.click(event => {
 	    if(!check_if_in_option_list(
 		event.currentTarget.id, select_multiple_id)) {
@@ -87,6 +90,22 @@ function print_search_results(results, dropdown_list, select_multiple_id) {
 		$(`${select_multiple_id}`).append(option);
 	    }
 	});
+	dropdown_list.append(list_item);
+    }
+}
+
+function add_option_to_multiselect(multisel, option_value, text) {
+}
+
+function print_items(results, dropdown_list, select_multiple_id, click_fn) {
+    dropdown_list.empty();
+    let list_item;
+    for(result of results) {
+	list_item = $("<div></div>").addClass(
+	    "list-group-item list-group-item-action");
+	list_item.html(result["text"]);
+	list_item.attr("id", result["id"]);
+	list_item.click(click_fn);
 	dropdown_list.append(list_item);
     }
 }
@@ -204,15 +223,9 @@ function remove_sel_from_multiselect(id) {
     	(index, option) => $(option).remove()); 
 }
 
-function get_search_name_variant(endpoint) {
+function get_search_function(endpoint, success_fn) {
     return search_field_id => $(`#${search_field_id}`).keyup(() => {
     	let query = {"query": $(`#${search_field_id}`).val()};
-    	get_ajax_fn(endpoint, query, 
-    		    results => {
-    			print_search_results(
-			    results,
-			    $("#results-list"),
-			    "#name_variants")
-    		    })();
+    	get_ajax_fn(endpoint, query, success_fn)();
     });
 }

@@ -545,6 +545,9 @@ class ResponsibilityName(db.Model, Lock, SearchableMixin):
     def __repr__(self):
         return f'<Document responsibility: {self.responsibility_name}>'
 
+    def __str__(self):
+        return self.responsibility_name.capitalize()
+
 class ResponsibilityCollectivity(db.Model):
     '''Three entity association table for collective bodies
     holding responsibilities (authorship etc.) in a document.

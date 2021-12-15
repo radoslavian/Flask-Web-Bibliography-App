@@ -50,6 +50,8 @@ def edit_database_entry(model_name):
 
     if model_name == 'person':
         template = 'edit_person_details.html'
+    elif model_name == 'document':
+        template = 'edit_document_details.html'
     else:
         template = 'edit_entity.html'
 
@@ -61,9 +63,7 @@ def edit_database_entry(model_name):
     else:
         abort(404)
 
-    #if request.method == 'POST':
     if entity_form.validate_on_submit():
-        print('validating')
         if entity_form.commit_row():
             return redirect(url_for(**entity_form.redirect_to()))
 

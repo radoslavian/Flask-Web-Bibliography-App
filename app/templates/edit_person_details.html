@@ -1,7 +1,5 @@
 {% extends "edit_entity.html" %}
-{% from "bootstrap/form.html" import  render_form_row %}
-{% block content %}
-    <h2>{{ entity_form.header }} (id {{ entity_form.id.data }} )</h2> 
+{% block edit_form %}
   <form method="post"> 
     {{ render_form_row([entity_form.forenames, entity_form.last_name]) }} 
     {{ render_form_row([entity_form.life_years, entity_form.birth_date, entity_form.death_date]) }} 
@@ -24,12 +22,15 @@
 {% endblock %}
 {% block scripts %}
   {{ super() }}
-  <script type="application/javascript"  
-  	  src="{{ url_for('static', filename='document_search.js') }}"> 
-  </script>
   <script type="application/javascript">
-    var search_name_variant = get_search_name_variant(
-	"{{ url_for('main.get_name_variant') }}");
+    var search_name_variant = get_search_function(
+	"{{ url_for('main.get_name_variant') }}",
+	success_fn=results => {
+	    print_search_results(
+		results,
+		$("#results-list"),
+		"#name_variants")
+	});
 
 $(document).ready(function() {
     unselect_all("name_variants");
@@ -39,8 +40,8 @@ $(document).ready(function() {
 
     $("#remove-variant-bt").click(target => {
     	target.preventDefault(); 
-    	remove_sel_from_multiselect('#name_variants')
+    	remove_sel_from_multiselect('#name_variants');
     });
 }); 
-  </script> 
+  </script>
 {% endblock %}

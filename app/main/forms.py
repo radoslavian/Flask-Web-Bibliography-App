@@ -1,7 +1,7 @@
 from app import db
 from sys import stderr
 from ..models import *
-from flask import g, flash, request
+from flask import flash, request, jsonify
 from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
 from wtforms_sqlalchemy.fields import QuerySelectField
@@ -78,7 +78,10 @@ class PersonEditForm(ModelEditForm):
             return False
 
     def get_variants(self):
+        '''Loads variants from object or query into form.
+        '''
         if getattr(self, 'obj'):
+            # id and variant text
             name_variants = [(variant.id, str(variant) +
                               f' (id {variant.id})')
                              for variant in self.obj.name_variants]
@@ -352,6 +355,49 @@ class PersonNameVariantEditForm(ModelEditForm):
                 'variant_id': self.row.id}
 
 
+from wtforms.compat import iteritems, text_type
+
+def my_html_params(**kwargs):
+    '''WTForms html_params without characters escaping
+    (needed for a multiple select field list where value is
+    a JSON object).
+    '''
+    params = []
+    for k, v in sorted(iteritems(kwargs)):
+        if k in ('class_', 'class__', 'for_'):
+            k = k[:-1]
+        elif k.startswith('data_') or k.startswith('aria_'):
+            k = k.replace('_', '-')
+        if v is True:
+            params.append(k)
+        elif v is False:
+            pass
+        else:
+            params.append('%s="%s"' % (text_type(k), v))
+    return ' '.join(params)
+
+
+def select_multiple_fields(field, **kwargs):
+    '''Custom widget for SelectMultipleField - without character escaping.
+    '''
+    # https://wtforms.readthedocs.io/en/2.3.x/_modules/wtforms/widgets/core/#Select
+    # html = [u'<ul %s>' % html_params(id=field_id, class_=ul_class)]
+    html = ['<select multiple {}>'.format(
+        my_html_params(name=field.name, id=field.name, **kwargs))]
+
+    id_iter = 0
+    for value, label, selected in field.iter_choices():
+        options = dict(kwargs, name=field.name, value=value,
+                       id=f'{field.name}-{id_iter}')
+        id_iter += 1
+        if selected:
+            options['selected'] = 'selected'
+        html.append('<option {}> '.format(my_html_params(**options)))
+        html.append(f'{label}</option>')
+    html.append('</select>')
+    return u''.join(html)
+
+
 class DocumentEditForm(ModelEditForm):
     def __init__(self, *pargs, **kwargs):
         super().__init__(*pargs, **kwargs)
@@ -360,12 +406,29 @@ class DocumentEditForm(ModelEditForm):
             self.header = 'Update Document entry:'
         else:
             self.header = 'Create new Document entry:'
+        self.load_statements_of_responsibility()
 
     def validate_on_submit(self):
         if request.method == 'POST':
             return True
         else:
             return False
+
+    def load_statements_of_responsibility(self):
+        # początkowo tylko coll.bodies
+        if getattr(self, 'obj'):
+            responsibility_statements = [
+                ({
+                    # person or collectivie body
+                    'entity_id': entity.collectivity.id,
+                    'responsibility_id': entity.responsibility.id
+                },
+                 f'{str(entity.responsibility)}: {str(entity.collectivity)}'
+                )
+                for entity in self.obj.responsibility_collectivities
+            ]
+        self.responsibility_collectivities.choices = \
+            responsibility_statements
 
     def redirect_to(self):
         return {'endpoint': 'main.document_view',
@@ -395,9 +458,6 @@ class DocumentEditForm(ModelEditForm):
     numbering = StringField(
         'Numbering:',
         render_kw={'maxlength': f'{length(Document.numbering)}'})
-    numbering = StringField(
-        'Numbering:',
-        render_kw={'maxlength': f'{length(Document.numbering)}'})
     publication_date = StringField(
         'Publication date:',
         render_kw={'maxlength': f'{length(Document.publication_date)}'})
@@ -417,7 +477,7 @@ class DocumentEditForm(ModelEditForm):
         'Series:',
         render_kw={'maxlength': f'{length(Document.series)}',
                    'data-toggle': 'tooltip',
-                   'title': 'Basic series field'}),
+                   'title': 'Basic series field'})
     note = TextAreaField(
         'Note:',
         render_kw={'maxlength': f'{length(Document.note)}'})
@@ -442,4 +502,11 @@ class DocumentEditForm(ModelEditForm):
     document_type = QuerySelectField(
         'Document type:', query_factory=lambda: DocumentType.query.all(),
         get_label=lambda model: model.name.capitalize())
+    responsibility_names = QuerySelectField(
+        'Select responsibility name:',
+        query_factory=lambda: ResponsibilityName.query.all())
     submit = SubmitField()
+    responsibility_collectivities = SelectMultipleField(
+        'Statements of responsibility (collective bodies):',
+        widget=select_multiple_fields,
+        choices=[])
