@@ -70,35 +70,7 @@ function print_list(list, drop_down, parent, ids_list) {
     }
 }
 
-// podobne do print_list - zgeneralizować
-function print_search_results(results, dropdown_list, select_multiple_id) {
-    // quicksearch results in a selected section/list
-    dropdown_list.empty();
-    let list_item;
-    for(result of results) {
-	list_item = $("<div></div>").addClass(
-	    "list-group-item list-group-item-action");
-	list_item.html(result["text"]);
-	list_item.attr("id", result["id"]);
-
-	list_item.click(event => {
-	    if(!check_if_in_option_list(
-		event.currentTarget.id, select_multiple_id)) {
-		let option = $("<option></option>");
-		option.attr("value", event.currentTarget.id)
-	    	    .text(event.currentTarget.textContent);
-		$(`${select_multiple_id}`).append(option);
-	    }
-	});
-	dropdown_list.append(list_item);
-    }
-}
-
-function add_option_to_multiselect(multisel, option_value, text) {
-}
-
 function print_items(results, dropdown_list, select_multiple_id, click_fn) {
-    dropdown_list.empty();
     let list_item;
     for(result of results) {
 	list_item = $("<div></div>").addClass(
@@ -110,15 +82,37 @@ function print_items(results, dropdown_list, select_multiple_id, click_fn) {
     }
 }
 
-function get_filter_cb(
-    input_name, fn_url, drop_down, parent, ids_list) {
-    return () => {
-	let query = {"query": $(input_name).val()};
-	get_ajax_fn(fn_url, query,
-	list => print_list(list[0], drop_down, parent, ids_list)
-	)()
-    };
+function print_quicksearch_results(results, list, root) {
+    let list_item;
+    for(result of results) {
+	list_item = $("<a></a>").addClass("list-group-item");
+	list_item.attr("href", root + 'id=' + result["id"]).attr(
+	    "target", "_blank");
+	list_item.html(result["text"]);
+	list.append(list_item);
+    }
 }
+
+function print_items_clear(results, dropdown_list,
+			   select_multiple_id, click_fn) {
+    // clears <div></div> with drop-down list and prints items
+    dropdown_list.empty();
+    print_items(results, dropdown_list,
+		select_multiple_id, click_fn);
+}
+
+const print_search_results = (
+    results, dropdown_list, select_multiple_id) => print_items_clear(
+ 	results, dropdown_list,
+ 	select_multiple_id,
+ 	click_fn=(event, select_multiple_id_=select_multiple_id) => {
+	    console.log(select_multiple_id);
+ 	    let option = $("<option></option>");
+ 	    option.attr("value", event.currentTarget.id)
+ 	    	.text(event.currentTarget.textContent);
+ 	    $(`${select_multiple_id_}`).append(option);
+ 	});
+
 
 function get_ajax_fn(endpoint, data, success_fn,
 		     fail_fn=(jqXHR, status) => alert(
@@ -140,7 +134,7 @@ function get_search_results(endpoint, query, field, root, page=1) {
 
     function success_fn(results) {
 	spinner.remove();
-	print_search_results(results[0], $(field), root);
+	print_quicksearch_results(results[0], $(field), root);
 	$(load_next).off("click");
 	if(results[1]) {
 	    $(load_next).click(
@@ -209,12 +203,12 @@ function unselect_all(multisel_id) {
     $(`#${multisel_id}`).val([]);
 }
 
-function select_all_from_multiselect(id) { 
+function select_all_from_multiselect(multiselect_id) { 
     let values = []; 
-    $(id).children().each((id, item) => { 
+    $(multiselect_id).children().each((multiselect_id, item) => { 
 	values.push(item.value); 
     }); 
-    $(id).val(values); 
+    $(multiselect_id).val(values); 
 }
 
 function remove_sel_from_multiselect(id) {
@@ -228,4 +222,15 @@ function get_search_function(endpoint, success_fn) {
     	let query = {"query": $(`#${search_field_id}`).val()};
     	get_ajax_fn(endpoint, query, success_fn)();
     });
+}
+
+// get_search_function może tą zastąpić
+function get_filter_cb(
+    input_name, fn_url, drop_down, parent, ids_list) {
+    return () => {
+	let query = {"query": $(input_name).val()};
+	get_ajax_fn(fn_url, query,
+	list => print_list(list[0], drop_down, parent, ids_list)
+	)()
+    };
 }

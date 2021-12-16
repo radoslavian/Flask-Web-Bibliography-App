@@ -1,5 +1,6 @@
 from app import db
 from sys import stderr
+import json
 from ..models import *
 from flask import flash, request, jsonify
 from flask_wtf import FlaskForm
@@ -97,6 +98,8 @@ class PersonEditForm(ModelEditForm):
         self.name_variants.choices.sort()
 
     def add_variants(self):
+        # adds to db
+        # if jest tu chyba zbędny, wystarczy for...else
         if self.name_variants.raw_data:
             variants = []
             # takie samo jak w get_variants
@@ -113,6 +116,9 @@ class PersonEditForm(ModelEditForm):
     def commit_row(self):
         # jak to połączyć z commit_row z nadrzędnej klasy?
         # można zmieniać obie metody (z tej i tamtej klasy)
+        # wydzielić elementy wspólne: dodawanie pól tekstowych
+        # wg listy tych pól zapisanej w obiekcie
+        # elementy różne: relationships
         id_number = self.id.data
         if self.id.data:
             self.row = self.model.query.get(id_number)
@@ -355,49 +361,6 @@ class PersonNameVariantEditForm(ModelEditForm):
                 'variant_id': self.row.id}
 
 
-from wtforms.compat import iteritems, text_type
-
-def my_html_params(**kwargs):
-    '''WTForms html_params without characters escaping
-    (needed for a multiple select field list where value is
-    a JSON object).
-    '''
-    params = []
-    for k, v in sorted(iteritems(kwargs)):
-        if k in ('class_', 'class__', 'for_'):
-            k = k[:-1]
-        elif k.startswith('data_') or k.startswith('aria_'):
-            k = k.replace('_', '-')
-        if v is True:
-            params.append(k)
-        elif v is False:
-            pass
-        else:
-            params.append('%s="%s"' % (text_type(k), v))
-    return ' '.join(params)
-
-
-def select_multiple_fields(field, **kwargs):
-    '''Custom widget for SelectMultipleField - without character escaping.
-    '''
-    # https://wtforms.readthedocs.io/en/2.3.x/_modules/wtforms/widgets/core/#Select
-    # html = [u'<ul %s>' % html_params(id=field_id, class_=ul_class)]
-    html = ['<select multiple {}>'.format(
-        my_html_params(name=field.name, id=field.name, **kwargs))]
-
-    id_iter = 0
-    for value, label, selected in field.iter_choices():
-        options = dict(kwargs, name=field.name, value=value,
-                       id=f'{field.name}-{id_iter}')
-        id_iter += 1
-        if selected:
-            options['selected'] = 'selected'
-        html.append('<option {}> '.format(my_html_params(**options)))
-        html.append(f'{label}</option>')
-    html.append('</select>')
-    return u''.join(html)
-
-
 class DocumentEditForm(ModelEditForm):
     def __init__(self, *pargs, **kwargs):
         super().__init__(*pargs, **kwargs)
@@ -414,21 +377,73 @@ class DocumentEditForm(ModelEditForm):
         else:
             return False
 
+    def commit_row(self):
+        self.save_stmts_of_responsibility_coll_bodies()
+        self._commit()
+
+    def _commit(self):
+        # przenieść do głównej klasy
+        try:
+            db.session.commit()
+        except IntegrityError as err:
+            db.session.rollback()
+            flash('Failed to perform operation due to '
+                  'the data integrity error.')
+            # to powinno iść do loga
+            print(f'Failed to perform operation: {err}', file=stderr)
+            return False
+        else:
+            flash('Successfully updated document')
+            return True
+
     def load_statements_of_responsibility(self):
+        '''Loads statements-o-r. from the object into
+        the values of form options.
+        '''
         # początkowo tylko coll.bodies
         if getattr(self, 'obj'):
             responsibility_statements = [
-                ({
-                    # person or collectivie body
-                    'entity_id': entity.collectivity.id,
-                    'responsibility_id': entity.responsibility.id
-                },
-                 f'{str(entity.responsibility)}: {str(entity.collectivity)}'
-                )
+               (
+                   json.dumps({
+                       # person or collectivie body
+                       "entity_id": entity.collectivity.id,
+                       "responsibility_id": entity.responsibility.id
+                   }),
+                   f"{str(entity.responsibility)}: {str(entity.collectivity)}"
+               )
                 for entity in self.obj.responsibility_collectivities
             ]
-        self.responsibility_collectivities.choices = \
-            responsibility_statements
+            self.responsibility_collectivities.choices = \
+                responsibility_statements
+
+    def save_stmts_of_responsibility_coll_bodies(self):
+        '''Saves statements of responsibilities for collective bodies
+        from the form into the database.
+        '''
+        responsibilities_collectivities = []
+
+        for resp_collectivity in self.responsibility_collectivities.raw_data:
+            responsibility_coll = json.loads(resp_collectivity)
+            collective_body = CollectiveBody.query.get(
+                responsibility_coll['entity_id'])
+            responsibility = ResponsibilityName.query.get(
+                responsibility_coll['responsibility_id'])
+
+            # in case such a relationship already exists in the db:
+            resp_coll = (
+                ResponsibilityCollectivity.query.filter_by(
+                    responsibility_id=responsibility.id,
+                    collectivity_id=collective_body.id,
+                    document_id=self.obj.id).first()
+
+                or ResponsibilityCollectivity(
+                    document=self.obj,
+                    responsibility=responsibility,
+                    collectivity=collective_body))
+            responsibilities_collectivities.append(resp_coll)
+
+        self.obj.responsibility_collectivities = \
+            responsibilities_collectivities
 
     def redirect_to(self):
         return {'endpoint': 'main.document_view',
@@ -505,8 +520,7 @@ class DocumentEditForm(ModelEditForm):
     responsibility_names = QuerySelectField(
         'Select responsibility name:',
         query_factory=lambda: ResponsibilityName.query.all())
-    submit = SubmitField()
+    submit = SubmitField(id='submit-document')
     responsibility_collectivities = SelectMultipleField(
         'Statements of responsibility (collective bodies):',
-        widget=select_multiple_fields,
         choices=[])
