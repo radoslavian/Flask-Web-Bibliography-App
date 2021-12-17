@@ -399,52 +399,55 @@ class DocumentEditForm(ModelEditForm):
             flash('Successfully updated document')
             return True
 
+    def load_stmts_of_responsibility(self, title_string, entity_dict,
+                                    list_generator):
+        '''General method for loading statements of responsibility.
+        '''
+        if getattr(self, 'obj'):
+            return [(json.dumps(entity_dict(entity)),
+                     title_string(entity)) for entity in list_generator()]
+
     def load_stmts_of_responsibility_cbodies(self):
         '''Loads statements-o-r. from the object into the form.
         '''
-        # początkowo tylko coll.bodies
-        if getattr(self, 'obj'):
-            responsibility_statements = [
-               (
-                   json.dumps({
-                       'entity_id': entity.collectivity.id,
-                       'responsibility_id': entity.responsibility.id,
-                       'ordering': entity.ordering
-                   }),
-                   f'{entity.ordering}. {str(entity.responsibility)}: '
-                   + f'{str(entity.collectivity)}'
-               )
-                for entity in sorted(self.obj.responsibility_collectivities,
-                                     key=lambda item: (
-                                         item.ordering,
-                                         item.collectivity.name))
-            ]
-            self.responsibility_collectivities.choices = \
-                responsibility_statements
+        title_string = lambda entity: (
+            f'{entity.ordering}. {str(entity.responsibility)}: '
+            + f'{str(entity.collectivity)}')
+        entity_dict = lambda entity: {
+            'entity_id': entity.collectivity.id,
+            'responsibility_id': entity.responsibility.id,
+            'ordering': entity.ordering
+        }
+        list_generator = lambda: sorted(
+            self.obj.responsibility_collectivities,
+            key=lambda item: (item.ordering,
+                              item.collectivity.name))
 
-    # jak połączyć poniższe z load_statements_of_responsibility ?
-    # pomysły: funkcja map(); parametr-słownik z nazwami atrybutów
-    # funkcją sortowania i f-stringiem do tytułu <option>
+        self.responsibility_collectivities.choices = \
+            self.load_stmts_of_responsibility(title_string=title_string,
+                                         entity_dict=entity_dict,
+                                         list_generator=list_generator)
+
     def load_stmts_of_responsibility_individuals(self):
-        if getattr(self, 'obj', None):
-            responsibility_statements = [
-                (
-                    json.dumps({
-                        # entity_dict
-                        'entity_id': entity.person.id,
-                        'responsibility_id': entity.responsibility.id,
-                        'ordering': entity.ordering
-                    }),
-                    f'{entity.ordering}. {str(entity.responsibility)}: '
-                    + f'{str(entity.person)}' # title_string
-                )
-                for entity in sorted(self.obj.responsibilities_people,
-                                     # sort_fn
-                                     key=lambda item: (item.ordering,
-                                                       item.person.last_name))
-            ]
-            # choices
-            self.responsibilities_people.choices = responsibility_statements
+        '''Loads individual document responsibilities from the database
+        into the document editing form.
+        '''
+        title_string = lambda entity: (
+            f'{entity.ordering}. {str(entity.responsibility)}: '
+            + f'{str(entity.person)}')
+        entity_dict = lambda entity: {
+            'entity_id': entity.person.id,
+            'responsibility_id': entity.responsibility.id,
+            'ordering': entity.ordering
+        }
+        list_generator = lambda: sorted(
+            self.obj.responsibilities_people,
+            key=lambda item: (item.ordering, item.person.last_name))
+
+        self.responsibilities_people.choices = \
+            self.load_stmts_of_responsibility(title_string=title_string,
+                                              entity_dict=entity_dict,
+                                              list_generator=list_generator)
 
     def save_stmts_of_responsibility_coll_bodies(self):
         '''Saves statements of responsibilities for collective bodies
