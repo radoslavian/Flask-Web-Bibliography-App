@@ -48,10 +48,12 @@ def edit_database_entry(model_name):
         model_form = models[model_name][0]
         model = models[model_name][1]
 
+    options = {}
     if model_name == 'person':
         template = 'edit_person_details.html'
     elif model_name == 'document':
         template = 'edit_document_details.html'
+        options['ordering_range'] = 10
     else:
         template = 'edit_entity.html'
 
@@ -67,7 +69,7 @@ def edit_database_entry(model_name):
         if entity_form.commit_row():
             return redirect(url_for(**entity_form.redirect_to()))
 
-    return render_template(template, entity_form=entity_form)
+    return render_template(template, entity_form=entity_form, options=options)
 
 
 @main.route('/browse/people/')

@@ -234,3 +234,44 @@ function get_filter_cb(
 	)()
     };
 }
+
+function get_add_responsibility_fn(selected_entity_num, ordering_id,
+				   responsibilities_list_id, sel_entity,
+				   entities_multisel_id) {
+    /* selected_entity_num - (variable name as a string):
+     * db id number of a selected entity
+     * ordering_id - html element id of the ordering form control
+     * responsibilities_list_id - form select list with
+     * responsibility names
+     * sel_entity - individual or coll.body html id
+     * selected from the list.
+     * entities_multisel_id - select multiple control with
+     * coll.bodies or individuals
+     */
+    return target => {
+	//let option_value;
+	//let option;
+	target.preventDefault();
+
+	if(window[selected_entity_num]) {
+	    let selected_ordering = $(ordering_id + " option:selected");
+	    let selected_responsibility_name = $(responsibilities_list_id
+					     + " option:selected");
+	    let option_value = JSON.stringify({
+		"entity_id": window[selected_entity_num],
+		"responsibility_id":
+		selected_responsibility_name.val(),
+		"ordering": selected_ordering.val()
+	    });
+	    let option = $("<option></option>").text(
+		selected_ordering.val() + ". "
+		    + selected_responsibility_name.text() + ": "
+		    + $(sel_entity).text())
+		.attr("value", option_value);
+
+	    window[selected_entity_num] = undefined;
+	    $(sel_entity).html("&nbsp;");
+	    $(entities_multisel_id).append(option);
+	}
+    }
+}

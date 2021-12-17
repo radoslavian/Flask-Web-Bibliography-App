@@ -7,7 +7,7 @@ from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms import (StringField, SubmitField, TextAreaField, HiddenField,
-                     SelectMultipleField)
+                     SelectMultipleField, FieldList)
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Length
 from app.utils.helpers import length
@@ -369,7 +369,9 @@ class DocumentEditForm(ModelEditForm):
             self.header = 'Update Document entry:'
         else:
             self.header = 'Create new Document entry:'
-        self.load_statements_of_responsibility()
+
+        self.load_stmts_of_responsibility_cbodies()
+        self.load_stmts_of_responsibility_individuals()
 
     def validate_on_submit(self):
         if request.method == 'POST':
@@ -379,6 +381,7 @@ class DocumentEditForm(ModelEditForm):
 
     def commit_row(self):
         self.save_stmts_of_responsibility_coll_bodies()
+        self.save_stmts_of_responsibility_individuals()
         self._commit()
 
     def _commit(self):
@@ -396,25 +399,52 @@ class DocumentEditForm(ModelEditForm):
             flash('Successfully updated document')
             return True
 
-    def load_statements_of_responsibility(self):
-        '''Loads statements-o-r. from the object into
-        the values of form options.
+    def load_stmts_of_responsibility_cbodies(self):
+        '''Loads statements-o-r. from the object into the form.
         '''
         # początkowo tylko coll.bodies
         if getattr(self, 'obj'):
             responsibility_statements = [
                (
                    json.dumps({
-                       # person or collectivie body
-                       "entity_id": entity.collectivity.id,
-                       "responsibility_id": entity.responsibility.id
+                       'entity_id': entity.collectivity.id,
+                       'responsibility_id': entity.responsibility.id,
+                       'ordering': entity.ordering
                    }),
-                   f"{str(entity.responsibility)}: {str(entity.collectivity)}"
+                   f'{entity.ordering}. {str(entity.responsibility)}: '
+                   + f'{str(entity.collectivity)}'
                )
-                for entity in self.obj.responsibility_collectivities
+                for entity in sorted(self.obj.responsibility_collectivities,
+                                     key=lambda item: (
+                                         item.ordering,
+                                         item.collectivity.name))
             ]
             self.responsibility_collectivities.choices = \
                 responsibility_statements
+
+    # jak połączyć poniższe z load_statements_of_responsibility ?
+    # pomysły: funkcja map(); parametr-słownik z nazwami atrybutów
+    # funkcją sortowania i f-stringiem do tytułu <option>
+    def load_stmts_of_responsibility_individuals(self):
+        if getattr(self, 'obj', None):
+            responsibility_statements = [
+                (
+                    json.dumps({
+                        # entity_dict
+                        'entity_id': entity.person.id,
+                        'responsibility_id': entity.responsibility.id,
+                        'ordering': entity.ordering
+                    }),
+                    f'{entity.ordering}. {str(entity.responsibility)}: '
+                    + f'{str(entity.person)}' # title_string
+                )
+                for entity in sorted(self.obj.responsibilities_people,
+                                     # sort_fn
+                                     key=lambda item: (item.ordering,
+                                                       item.person.last_name))
+            ]
+            # choices
+            self.responsibilities_people.choices = responsibility_statements
 
     def save_stmts_of_responsibility_coll_bodies(self):
         '''Saves statements of responsibilities for collective bodies
@@ -429,7 +459,7 @@ class DocumentEditForm(ModelEditForm):
             responsibility = ResponsibilityName.query.get(
                 responsibility_coll['responsibility_id'])
 
-            # in case such a relationship already exists in the db:
+            # in case a particular relationship already exists in the db:
             resp_coll = (
                 ResponsibilityCollectivity.query.filter_by(
                     responsibility_id=responsibility.id,
@@ -440,10 +470,37 @@ class DocumentEditForm(ModelEditForm):
                     document=self.obj,
                     responsibility=responsibility,
                     collectivity=collective_body))
+            resp_coll.ordering = responsibility_coll.get(
+                'ordering', None) or 0
             responsibilities_collectivities.append(resp_coll)
 
         self.obj.responsibility_collectivities = \
             responsibilities_collectivities
+
+    # jak połączyć to z save_stmts_of_responsibility_coll_bodies ?
+    def save_stmts_of_responsibility_individuals(self):
+        responsibilities_individuals = []
+        for responsibility_json in self.responsibilities_people.raw_data:
+            responsibility_individual = json.loads(responsibility_json)
+            person = Person.query.get(
+                responsibility_individual['entity_id'])
+            responsibility = ResponsibilityName.query.get(
+                responsibility_individual['responsibility_id'])
+            resp_person = (
+                ResponsibilityPerson.query.filter_by(
+                    responsibility_id=responsibility.id,
+                    person_id=person.id,
+                    document_id=self.obj.id).first()
+
+                or ResponsibilityPerson(
+                    document=self.obj,
+                    responsibility=responsibility,
+                    person=person))
+            resp_person.ordering = responsibility_individual.get(
+                'ordering', None) or 0
+            responsibilities_individuals.append(resp_person)
+
+        self.obj.responsibilities_people = responsibilities_individuals
 
     def redirect_to(self):
         return {'endpoint': 'main.document_view',
@@ -523,4 +580,7 @@ class DocumentEditForm(ModelEditForm):
     submit = SubmitField(id='submit-document')
     responsibility_collectivities = SelectMultipleField(
         'Statements of responsibility (collective bodies):',
+        choices=[])
+    responsibilities_people = SelectMultipleField(
+        'Statements of responsibility (individuals-people):',
         choices=[])

@@ -404,8 +404,7 @@ class Document(db.Model, Lock, SearchableMixin):
         'Language',
         secondary='subjects_languages_join',
         backref=db.backref('documents_topics', lazy='dynamic'),
-        lazy='dynamic'
-    )
+        lazy='dynamic')
     keywords = db.relationship(
         'Keyword',
         secondary='subject_keywords',
