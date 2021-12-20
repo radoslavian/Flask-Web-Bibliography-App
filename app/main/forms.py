@@ -34,15 +34,16 @@ class ModelEditForm(FlaskForm):
         pass
 
     def commit_row(self):
-        id_number = self.id.data
-        if id_number.isdigit():
-            # zamiast tego można zapisywać atrybut 'obj' z konstruktora
-            self.row = self.model.query.get(id_number)
-            success_message = 'Entry successfully updated.'
-        else:
+        try:
+            int(self.id.data)
+        except ValueError:
             self.id.data = None
             self.row = self.model()
             success_message = 'Successfully created new entry.'
+        else:
+            # zamiast tego można zapisywać atrybut 'obj' z konstruktora
+            self.row = self.model.query.get(self.id.data)
+            success_message = 'Entry successfully updated.'
         self.populate_obj(self.row)
         db.session.add(self.row)
 
@@ -99,7 +100,6 @@ class PersonEditForm(ModelEditForm):
 
     def add_variants(self):
         # adds to db
-        # if jest tu chyba zbędny, wystarczy for...else
         if self.name_variants.raw_data:
             variants = []
             # takie samo jak w get_variants
@@ -382,6 +382,8 @@ class DocumentEditForm(ModelEditForm):
     def commit_row(self):
         self.save_stmts_of_responsibility_coll_bodies()
         self.save_stmts_of_responsibility_individuals()
+        self.save_document_language()
+        self.save_original_language()
         self._commit()
 
     def _commit(self):
@@ -449,21 +451,27 @@ class DocumentEditForm(ModelEditForm):
                                               entity_dict=entity_dict,
                                               list_generator=list_generator)
 
-    def save_stmts_of_responsibility_coll_bodies(self):
-        '''Saves statements of responsibilities for collective bodies
-        from the form into the database.
-        '''
-        responsibilities_collectivities = []
+    def save_stmts_of_responsibility(self, form_choices, entity_model,
+                                 document_resp):
+        choices = []
 
-        for resp_collectivity in self.responsibility_collectivities.raw_data:
-            responsibility_coll = json.loads(resp_collectivity)
-            collective_body = CollectiveBody.query.get(
-                responsibility_coll['entity_id'])
+        for json_data in form_choices.raw_data:
+            responsibility_data = json.loads(json_data)
+            entity_item = entity_model.query.get(
+                responsibility_data['entity_id'])
             responsibility = ResponsibilityName.query.get(
-                responsibility_coll['responsibility_id'])
+                responsibility_data['responsibility_id'])
+            document_responsibility = document_resp(
+                entity_item, responsibility)
+            document_responsibility.ordering = responsibility_data.get(
+                'ordering') or 0
+            choices.append(document_responsibility)
 
-            # in case a particular relationship already exists in the db:
-            resp_coll = (
+        return choices
+
+    def save_stmts_of_responsibility_coll_bodies(self):
+        def doc_resp_fn(collective_body, responsibility):
+            return (
                 ResponsibilityCollectivity.query.filter_by(
                     responsibility_id=responsibility.id,
                     collectivity_id=collective_body.id,
@@ -473,23 +481,16 @@ class DocumentEditForm(ModelEditForm):
                     document=self.obj,
                     responsibility=responsibility,
                     collectivity=collective_body))
-            resp_coll.ordering = responsibility_coll.get(
-                'ordering', None) or 0
-            responsibilities_collectivities.append(resp_coll)
 
         self.obj.responsibility_collectivities = \
-            responsibilities_collectivities
+            self.save_stmts_of_responsibility(
+                self.responsibility_collectivities,
+                CollectiveBody, document_resp=doc_resp_fn)
 
-    # jak połączyć to z save_stmts_of_responsibility_coll_bodies ?
     def save_stmts_of_responsibility_individuals(self):
-        responsibilities_individuals = []
-        for responsibility_json in self.responsibilities_people.raw_data:
-            responsibility_individual = json.loads(responsibility_json)
-            person = Person.query.get(
-                responsibility_individual['entity_id'])
-            responsibility = ResponsibilityName.query.get(
-                responsibility_individual['responsibility_id'])
-            resp_person = (
+        def doc_resp_fn(person, responsibility):
+            # można tą met. tworzyć przy pomocy f. wyższ. rzędu
+            return (
                 ResponsibilityPerson.query.filter_by(
                     responsibility_id=responsibility.id,
                     person_id=person.id,
@@ -499,11 +500,26 @@ class DocumentEditForm(ModelEditForm):
                     document=self.obj,
                     responsibility=responsibility,
                     person=person))
-            resp_person.ordering = responsibility_individual.get(
-                'ordering', None) or 0
-            responsibilities_individuals.append(resp_person)
 
-        self.obj.responsibilities_people = responsibilities_individuals
+        self.obj.responsibilities_people = self.save_stmts_of_responsibility(
+            self.responsibilities_people, Person, document_resp=doc_resp_fn)
+
+    @staticmethod
+    def save_language(language):
+        '''language - self.language or self.original_language reference
+        '''
+        if language.data:
+            return int(language.data)
+        else:
+            return None
+
+    def save_document_language(self):
+        self.obj.language_id = DocumentEditForm.save_language(
+            self.language_id)
+
+    def save_original_language(self):
+        self.obj.original_language_id = DocumentEditForm.save_language(
+            self.original_language_id)
 
     def redirect_to(self):
         return {'endpoint': 'main.document_view',
@@ -587,3 +603,9 @@ class DocumentEditForm(ModelEditForm):
     responsibilities_people = SelectMultipleField(
         'Statements of responsibility (individuals-people):',
         choices=[])
+    language_id = HiddenField()
+    original_language_id = HiddenField()
+    language = StringField('Document language:',
+                           render_kw={'readonly': 'readonly'})
+    original_language =  StringField('Original language:',
+                           render_kw={'readonly': 'readonly'})

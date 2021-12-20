@@ -18,6 +18,7 @@
 
 
     <!--responsibilities - collective bodies -->
+    <!-- tworzone w pętli -->
     <div class="border border-light bg-light rounded pr-2 pl-2 m-1">
     {{ render_field(entity_form.responsibility_collectivities) }}
     <button id="remove-sel-collective-body-bt" class="btn btn-warning"> 
@@ -92,6 +93,42 @@
     <div id="resp-individuals-list"></div>
     </div> <!-- border -->
 
+    <!-- languages -->
+    <div class="row">
+      <div class="col">
+	<!-- Document language: -->
+	<div class="row align-items-end">
+	  <div class="col">
+	    {{ render_field(entity_form.language_id) }}
+	    {{ render_field(entity_form.language) }}
+	  </div>
+	  <div class="col">
+	    <button id="clear-document-language" class="btn btn-danger mb-3">
+	      Clear
+	    </button>
+	  </div>
+	</div><!-- row -->
+	<input id="document-language-input" class="w-100 mb-3" placeholder="Type in to search, click item from a list to select.">
+	<div id="document-language-dropdown"></div>
+      </div>
+      <div class="col">
+	<!-- Original language: -->
+	<div class="row align-items-end">
+	  <div class="col">
+	    {{ render_field(entity_form.original_language) }}
+	    {{ render_field(entity_form.original_language_id) }}
+	  </div>
+	  <div class="col">
+	    <button id="clear-original-language" class="btn btn-danger mb-3">
+	      Clear
+	    </button>
+	  </div>
+	  <input id="original-language-input" class="w-100 mb-3" placeholder="Type in to search, click item from a list to select.">
+	  <div id="original-language-dropdown"></div>
+	</div><!-- row -->
+      </div>
+    </div>
+
     {{ render_field(entity_form.submit) }}
   </form>
 {% endblock %}
@@ -120,7 +157,7 @@ var search_coll_body = get_search_function(
 	    })
     });
 
-var search_individual = get_search_function(
+const search_individual = get_search_function(
     "{{ url_for('main.get_person_entries') }}",
     success_fn=results => {
 	print_items_clear(
@@ -130,8 +167,43 @@ var search_individual = get_search_function(
 	    click_fn=event => {
 		selected_individual_id = event.target.id;
 		$("#selected_individual").html(event.target.textContent);
-	    })
-    });
+	    }
+	)
+    }
+);
+
+const search_document_language = get_search_function(
+    "{{ url_for('main.get_language_entries') }}",
+    success_fn=results => {
+	// te funkcje mogą zostać zgeneralizowane
+	// wszystko co nie wymaga wartości renderowanych na serwerze
+	// powinno być poza tym plikiem
+	print_items_clear(
+	    results[0],
+	    $("#document-language-dropdown"),
+	    "#selected-document-language",
+	    click_fn=event => {
+		$("#language").val(event.target.textContent);
+		$("#language_id").val(event.target.id);
+	    }
+	)
+    }
+);
+
+const search_original_language = get_search_function(
+    "{{ url_for('main.get_language_entries') }}",
+    success_fn=results => {
+	print_items_clear(
+	    results[0],
+	    $("#original-language-dropdown"),
+	    "#selected-original-language",
+	    click_fn=event => {
+		$("#original_language").val(event.target.textContent);
+		$("#original_language_id").val(event.target.id);
+	    }
+	)
+    }
+);
 
 $(document).ready(function() {
     let responsibility_multichoice_fields = ["responsibility_collectivities",
@@ -139,10 +211,15 @@ $(document).ready(function() {
 
     responsibility_multichoice_fields.forEach(field => unselect_all(field));
     $("#submit-document").click(
+	// select all items from responsibility multiselect
+	// on submit-click
 	() => responsibility_multichoice_fields.forEach(
 	    field => select_all_from_multiselect("#"+field)));
+
     search_coll_body("collective-body-responsibility-stmt");
+    search_document_language("document-language-input");
     search_individual("individual-responsibility-stmt");
+    search_original_language("original-language-input");
 
     $("#remove-sel-collective-body-bt").click(target => {
 	target.preventDefault();
@@ -164,6 +241,17 @@ $(document).ready(function() {
 	    "selected_individual_id", "#select-ordering-individuals",
 	    "#responsibility-names-individuals", "#selected_individual",
 	    "#responsibilities_people"));
+
+    $("#clear-original-language").click(target => {
+	target.preventDefault();
+	$("#original_language").val("");
+	$("#original_language_id").val("");
+    });
+    $("#clear-document-language").click(target => {
+	target.preventDefault();
+	$("#language").val("");
+	$("#language_id").val("");
+    });  
 });
 </script>
 {% endblock %}

@@ -387,6 +387,7 @@ def get_person_entries():
     output_people.extend(output_variants)
 
     return jsonify(output_people,
+                   # czy poniżej powinny być nawiasy?
                    (next_page_people or next_page_variants))
 
 
@@ -422,7 +423,7 @@ def get_documents():
 @main.route('/search/languages', methods=['POST'])
 def get_language_entries():
     '''Returns json array of languages searched in the db using
-    searchengine.
+    search engine.
     '''
     return get_jsonified(Language)
 
