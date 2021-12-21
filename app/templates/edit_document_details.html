@@ -1,4 +1,8 @@
 {% extends "edit_entity.html" %}
+
+{# Pewne elementy wyeksportować do innych plików, #}
+{# dołączanych dyrektywą include #}
+
 {% block edit_form %}
   <form method="post">
     {{ render_field(entity_form.title_proper) }}
@@ -15,10 +19,7 @@
     {{ render_form_row([entity_form.issn, entity_form.isbn_10,
     entity_form.isbn_13]) }}
     {{ render_field(entity_form.document_type) }}
-
-    <!--responsibilities - collective bodies -->
-    <!-- tworzone w pętli -->
-          {% for resp_field in [
+    {% for resp_field in [
 	{'responsibility_multisel': entity_form.responsibility_collectivities,
 	'remove_bt_id': 'remove-sel-collective-body-bt',
 	'select_ordering_options': 'select-ordering',
@@ -38,7 +39,7 @@
 	'input_id': 'individual-responsibility-stmt',
 	'dropdown_list': 'resp-individuals-list'}] %}
 
-    <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+      <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
 	{{ render_field(resp_field['responsibility_multisel']) }}
 	<button id="{{ resp_field['remove_bt_id'] }}" class="btn btn-warning"> 
 	  Remove&nbsp;selected
@@ -57,7 +58,7 @@
 	    </div>
 	  </div>
 	  <div class="col mt-3">
-	    Selected collective body:
+	    {{ resp_field['selected_responsibility_title'] }}
 	    <strong>
 	      <p class="border border-dark rounded p-1" id="{{ resp_field['selected_responsibility_id'] }}">
 		&nbsp;
@@ -79,7 +80,7 @@
     </div> <!-- border -->
   {% endfor %}
 
-    <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
     <div class="row">
       {% for lang_field in [{'language_clear_bt_id': 'clear-document-language',
 	'lang_input_id': 'document-language-input',
@@ -103,14 +104,61 @@
 	      </button>
 	    </div>
 	  </div> <!-- row -->
-	  <!-- z row czy bez? -->
 	  <input id="{{ lang_field['lang_input_id'] }}" class="w-100 mb-3" placeholder="Type in to search, click item from a list to select.">
 	  <div id="{{ lang_field['lang_dropdown_id'] }}" class="pb-3"></div>
 	</div> <!-- col -->
       {% endfor %}
     </div> <!-- main row -->
-    </div>
-    {{ render_field(entity_form.submit) }}
+  </div>
+  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+    {{ render_field(entity_form.publication_places) }}
+    <button id="remove-sel-publication-place-bt" class="btn btn-warning"> 
+      Remove&nbsp;selected
+    </button>
+    <input id="publication-places-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+    <div id="publication-places-search-dropdown"></div>
+  </div> <!-- div border -->
+  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+    {{ render_field(entity_form.collectivity_subjects) }}
+    <button id="remove-collectivity-subject-bt" class="btn btn-warning"> 
+      Remove&nbsp;selected
+    </button>
+    <input id="collective-bodies-subjects-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+    <div id="collective-bodies-subjects-dropdown"></div>
+  </div> <!-- div border -->
+  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+    {{ render_field(entity_form.language_subjects) }}
+    <button id="remove-language-subject-bt" class="btn btn-warning"> 
+      Remove&nbsp;selected
+    </button>
+    <input id="language-subjects-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+    <div id="language-subjects-dropdown"></div>
+  </div> <!-- div border -->
+  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+    {{ render_field(entity_form.keywords) }}
+    <button id="remove-keyword-bt" class="btn btn-warning"> 
+      Remove&nbsp;selected
+    </button>
+    <input id="keyword-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+    <div id="keyword-dropdown"></div>
+  </div> <!-- div border -->
+  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+    {{ render_field(entity_form.topic_people) }}
+    <button id="remove-topic-person-bt" class="btn btn-warning"> 
+      Remove&nbsp;selected
+    </button>
+    <input id="topic-person-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+    <div id="topic-person-dropdown"></div>
+  </div> <!-- div border -->
+  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+    {{ render_field(entity_form.subjects_locations) }}
+    <button id="remove-subject-location-bt" class="btn btn-warning"> 
+      Remove&nbsp;selected
+    </button>
+    <input id="subject-location-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+    <div id="subject-location-dropdown"></div>
+  </div> <!-- div border -->
+  {{ render_field(entity_form.submit) }}
   </form>
 {% endblock %}
 {% block scripts %}
@@ -120,7 +168,7 @@
 var selected_coll_body_id = undefined;
 var selected_individual_id = undefined;
 
-var search_coll_body = get_search_function(
+const search_coll_body = get_search_function(
     /* search collective body in responsibility section
      * on a document edit page
      * argument: input-id:
@@ -131,12 +179,12 @@ var search_coll_body = get_search_function(
 	print_items_clear(
 	    results[0],
 	    $("#resp-collectivities-list"),
-	    "#selected_collective_body",
 	    click_fn=event => {
 		selected_coll_body_id = event.target.id;
 		$("#selected_collective_body").html(event.target.textContent);
 	    })
-    });
+    }
+);
 
 const search_individual = get_search_function(
     "{{ url_for('main.get_person_entries') }}",
@@ -144,7 +192,6 @@ const search_individual = get_search_function(
 	print_items_clear(
 	    results[0],
 	    $("#resp-individuals-list"),
-	    "#selected_individual",
 	    click_fn=event => {
 		selected_individual_id = event.target.id;
 		$("#selected_individual").html(event.target.textContent);
@@ -162,10 +209,107 @@ const search_document_language = get_search_function(
 	print_items_clear(
 	    results[0],
 	    $("#document-language-dropdown"),
-	    "#selected-document-language",
 	    click_fn=event => {
 		$("#language").val(event.target.textContent);
 		$("#language_id").val(event.target.id);
+	    }
+	)
+    }
+);
+
+const search_publication_places = get_search_function(
+    "{{ url_for('main.get_geographic_location') }}",
+    success_fn=results => {
+	print_items_clear(
+	    results[0],
+	    $("#publication-places-search-dropdown"),
+	    click_fn=event => {
+		let option = $("<option></option>")
+		    .text(event.target.textContent)
+		    .val(event.target.id);
+		$("#publication_places").append(option);
+	    }
+	)
+    }
+);
+
+// podobne do search_publication_places
+const search_coll_body_subject = get_search_function(
+    // search collective body for subject field
+    "{{ url_for('main.get_collective_bodies') }}",
+    success_fn=results => {
+	print_items_clear(
+	    results[0],
+	    $("#collective-bodies-subjects-dropdown"),
+	    click_fn=event => {
+		let option = $("<option></option>")
+		    .text(event.target.textContent)
+		    .val(event.target.id);
+		$("#collectivity_subjects").append(option);
+	    }
+	)
+    }
+);
+
+const search_language_as_subject = get_search_function(
+    "{{ url_for('main.get_language_entries') }}",
+    success_fn=results => {
+	print_items_clear(
+	    results[0],
+	    $("#language-subjects-dropdown"),
+	    click_fn=event => {
+		let option = $("<option></option>")
+		    .text(event.target.textContent)
+		    .val(event.target.id);
+		$("#language_subjects").append(option);
+	    }
+	);
+    }
+);
+
+const search_location_as_subject = get_search_function(
+    "{{ url_for('main.get_geographic_location') }}",
+    success_fn=results => {
+	print_items_clear(
+	    results[0],
+	    $("#subject-location-dropdown"),
+	    click_fn=event => {
+		let option = $("<option></option>")
+		    .text(event.target.textContent)
+		    .val(event.target.id);
+		$("#subjects_locations").append(option);
+	    }
+	);
+    }
+);
+
+const search_keyword = get_search_function(
+    "{{ url_for('main.get_keywords') }}",
+    success_fn=results => {
+	print_items_clear(
+	    results[0],
+	    $("#keyword-dropdown"),
+	    click_fn=event => {
+		let option = $("<option></option>")
+		    .text(event.target.textContent)
+		    .val(event.target.id);
+		$("#keywords").append(option);
+	    }
+	)
+    }
+);
+
+const search_topic_person = get_search_function(
+    "{{ url_for('main.get_person_entries') }}",
+    success_fn=results => {
+	print_items_clear(
+	    results[0],
+	    $("#topic-person-dropdown"),
+	    click_fn=event => {
+		let option = $("<option></option>")
+		    .text(event.target.textContent)
+		    .val(event.target.id);
+		$("#topic_people").append(option);
 	    }
 	)
     }
@@ -177,7 +321,6 @@ const search_original_language = get_search_function(
 	print_items_clear(
 	    results[0],
 	    $("#original-language-dropdown"),
-	    "#selected-original-language",
 	    click_fn=event => {
 		$("#original_language").val(event.target.textContent);
 		$("#original_language_id").val(event.target.id);
@@ -187,28 +330,61 @@ const search_original_language = get_search_function(
 );
 
 $(document).ready(function() {
-    let responsibility_multichoice_fields = ["responsibility_collectivities",
-					     "responsibilities_people"];
+    let multichoice_fields = [
+	"responsibility_collectivities", "responsibilities_people",
+	"publication_places", "collectivity_subjects", "language_subjects",
+	"keywords", "topic_people", "subjects_locations"];
 
-    responsibility_multichoice_fields.forEach(field => unselect_all(field));
+    multichoice_fields.forEach(field => unselect_all(field));
     $("#submit-document").click(
 	// select all items from responsibility multiselect
 	// on submit-click
-	() => responsibility_multichoice_fields.forEach(
+	() => multichoice_fields.forEach(
 	    field => select_all_from_multiselect("#"+field)));
 
+    search_keyword("keyword-input");
+    search_topic_person("topic-person-input");
+    search_coll_body_subject("collective-bodies-subjects-input");
+    search_language_as_subject("language-subjects-input");
+    search_location_as_subject("subject-location-input");
+    search_publication_places("publication-places-input");
     search_coll_body("collective-body-responsibility-stmt");
     search_document_language("document-language-input");
     search_individual("individual-responsibility-stmt");
     search_original_language("original-language-input");
 
+    // te funkcje można zgeneralizować
+    $("#remove-subject-location-bt").click(target => {
+	target.preventDefault();
+	remove_sel_from_multiselect("#subjects_locations");
+    });
+    $("#remove-topic-person-bt").click(target => {
+	target.preventDefault();
+	remove_sel_from_multiselect("#topic_people");
+    });
+    $("#remove-keyword-bt").click(target => {
+	target.preventDefault();
+	remove_sel_from_multiselect("#keywords");
+    });
+    $("#remove-language-subject-bt").click(target => {
+	target.preventDefault();
+	remove_sel_from_multiselect("#language_subjects");
+    });
     $("#remove-sel-collective-body-bt").click(target => {
 	target.preventDefault();
 	remove_sel_from_multiselect("#responsibility_collectivities");
     });
+    $("#remove-sel-publication-place-bt").click(target => {
+	target.preventDefault();
+	remove_sel_from_multiselect("#publication_places");
+    });
     $("#remove-selected-individual-bt").click(target => {
 	target.preventDefault();
 	remove_sel_from_multiselect("#responsibilities_people");
+    });
+    $("#remove-collectivity-subject-bt").click(target => {
+	target.preventDefault();
+	remove_sel_from_multiselect("#collectivity_subjects");
     });
     // add collective body responsibility
     $("#add-responsibility-coll-body").click(

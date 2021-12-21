@@ -372,6 +372,12 @@ class DocumentEditForm(ModelEditForm):
 
         self.load_stmts_of_responsibility_cbodies()
         self.load_stmts_of_responsibility_individuals()
+        self.load_publication_places()
+        self.load_collectivity_subjects()
+        self.load_languages_as_subjects()
+        self.load_keywords()
+        self.load_topics_people()
+        self.load_subjects_locations()
 
     def validate_on_submit(self):
         if request.method == 'POST':
@@ -384,6 +390,12 @@ class DocumentEditForm(ModelEditForm):
         self.save_stmts_of_responsibility_individuals()
         self.save_document_language()
         self.save_original_language()
+        self.save_publication_places()
+        self.save_coll_bodies_as_subjects()
+        self.save_languages_as_subjects()
+        self.save_keywords()
+        self.save_topics_people()
+        self.save_subjects_locations()
         self._commit()
 
     def _commit(self):
@@ -447,12 +459,83 @@ class DocumentEditForm(ModelEditForm):
             key=lambda item: (item.ordering, item.person.last_name))
 
         self.responsibilities_people.choices = \
-            self.load_stmts_of_responsibility(title_string=title_string,
-                                              entity_dict=entity_dict,
-                                              list_generator=list_generator)
+            self.load_stmts_of_responsibility(
+                title_string=title_string,
+                entity_dict=entity_dict,
+                list_generator=list_generator)
+
+    def load_items_into_form(self, object_attr=''):
+        '''Loads particular attribute of the Document model
+        into form.
+        '''
+        if getattr(self, 'obj'):
+            return [(item.id, str(item))
+                    for item in getattr(self.obj, object_attr, [])]
+        return []
+
+    def load_languages_as_subjects(self):
+        self.language_subjects.choices = self.load_items_into_form(
+            'language_subjects')
+
+    def load_publication_places(self):
+        self.publication_places.choices = self.load_items_into_form(
+            'publication_places')
+
+    def load_collectivity_subjects(self):
+        self.collectivity_subjects.choices = self.load_items_into_form(
+            'collectivity_subjects')
+
+    def load_keywords(self):
+        self.keywords.choices = self.load_items_into_form(
+            'keywords')
+
+    def load_topics_people(self):
+        self.topic_people.choices = self.load_items_into_form(
+            'topic_people')
+
+    def load_subjects_locations(self):
+        self.subjects_locations.choices = self.load_items_into_form(
+            'subjects_locations')
+
+    @staticmethod
+    def save_from_multiselect(form_data, model):
+        '''Generic method for saving items from multiple selection fields
+        into the database.
+        '''
+        # list compr.
+        obj_list = []
+        for item_id in form_data:
+            item_obj = model.query.get(item_id)
+            obj_list.append(item_obj)
+        return obj_list
+
+    def save_keywords(self):
+        self.obj.keywords = DocumentEditForm.save_from_multiselect(
+            self.keywords.raw_data, Keyword)
+
+    def save_subjects_locations(self):
+        self.obj.subjects_locations = DocumentEditForm.save_from_multiselect(
+            self.subjects_locations.raw_data, GeographicLocation)
+
+    def save_topics_people(self):
+        self.obj.topic_people = DocumentEditForm.save_from_multiselect(
+            self.topic_people.raw_data, Person)
+
+    def save_publication_places(self):
+        self.obj.publication_places = DocumentEditForm.save_from_multiselect(
+            self.publication_places.raw_data, GeographicLocation)
+
+    def save_coll_bodies_as_subjects(self):
+        self.obj.collectivity_subjects = \
+            DocumentEditForm.save_from_multiselect(
+            self.collectivity_subjects.raw_data, CollectiveBody)
+
+    def save_languages_as_subjects(self):
+        self.obj.language_subjects = DocumentEditForm.save_from_multiselect(
+            self.language_subjects.raw_data, Language)
 
     def save_stmts_of_responsibility(self, form_choices, entity_model,
-                                 document_resp):
+                                     document_resp):
         choices = []
 
         for json_data in form_choices.raw_data:
@@ -609,3 +692,15 @@ class DocumentEditForm(ModelEditForm):
                            render_kw={'readonly': 'readonly'})
     original_language =  StringField('Original language:',
                            render_kw={'readonly': 'readonly'})
+    publication_places = SelectMultipleField(
+        'Publication places:', choices=[])
+    collectivity_subjects = SelectMultipleField(
+        'Collective bodies as document subjects:', choices=[])
+    language_subjects = SelectMultipleField(
+        'Languages as document subjects:', choices=[])
+    keywords = SelectMultipleField(
+        'Subject headers (keywords):', choices=[])
+    topic_people = SelectMultipleField(
+        'Individual (personal) names as topics:', choices=[])
+    subjects_locations = SelectMultipleField(
+        'Geographic locations as topics:', choices=[])

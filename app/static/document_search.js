@@ -70,7 +70,7 @@ function print_list(list, drop_down, parent, ids_list) {
     }
 }
 
-function print_items(results, dropdown_list, select_multiple_id, click_fn) {
+function print_items(results, dropdown_list, click_fn) {
     let list_item;
     for(result of results) {
 	list_item = $("<div></div>").addClass(
@@ -93,12 +93,10 @@ function print_quicksearch_results(results, list, root) {
     }
 }
 
-function print_items_clear(results, dropdown_list,
-			   select_multiple_id, click_fn) {
+function print_items_clear(results, dropdown_list, click_fn) {
     // clears <div></div> with drop-down list and prints items
     dropdown_list.empty();
-    print_items(results, dropdown_list,
-		select_multiple_id, click_fn);
+    print_items(results, dropdown_list, click_fn);
 }
 
 const print_search_results = (
@@ -256,7 +254,8 @@ function get_add_responsibility_fn(selected_entity_num, ordering_id,
 	if(window[selected_entity_num]) {
 	    let selected_ordering = $(ordering_id + " option:selected");
 	    let selected_responsibility_name = $(responsibilities_list_id
-					     + " option:selected");
+						 + " option:selected");
+	    // JSON... można dodawać gdzie indziej, np. w innej funkcji
 	    let option_value = JSON.stringify({
 		"entity_id": window[selected_entity_num],
 		"responsibility_id":
