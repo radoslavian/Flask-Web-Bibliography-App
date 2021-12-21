@@ -16,125 +16,106 @@
     entity_form.isbn_13]) }}
     {{ render_field(entity_form.document_type) }}
 
-
     <!--responsibilities - collective bodies -->
     <!-- tworzone w pętli -->
-    <div class="border border-light bg-light rounded pr-2 pl-2 m-1">
-    {{ render_field(entity_form.responsibility_collectivities) }}
-    <button id="remove-sel-collective-body-bt" class="btn btn-warning"> 
-      Remove&nbsp;selected
-    </button>
-    <div class="row align-items-end pb-3">
-      <div class="col">
-	<div class="form-group">
-	  <label class="form-control-label" for="select-ordering">Ordering:</label>
-	  <select class="form-control" id="select-ordering" name="select-ordering">
-	    {% for n in range(options['ordering_range']) %}
-	      <option value="{{ n }}">{{ n }}</option>
-	    {% endfor %}
-	  </select>
-	</div>
-      </div>
-      <div class="col mt-3">
-	Selected collective body:
-	<strong>
-	  <p class="border border-dark rounded p-1" id="selected_collective_body">
-	    &nbsp;
-	  </p>
-	</strong>
-      </div>
-      <div class="col">
-	{{ render_field(entity_form.responsibility_names) }}
-      </div>
-      <div class="col">
-	<button id="add-responsibility-coll-body" class="btn btn-secondary mb-3">Add</button>
-      </div>
-    </div><!-- row -->
-    <!--<label class="form-control-label" for="collective-body-responsibility-stmt">Search for a collective body:</label>-->
-    <input id="collective-body-responsibility-stmt" class="w-100 mb-3" placeholder="Type to search and add">
-    <div id="resp-collectivities-list"></div>
-    </div> <!-- border -->
+          {% for resp_field in [
+	{'responsibility_multisel': entity_form.responsibility_collectivities,
+	'remove_bt_id': 'remove-sel-collective-body-bt',
+	'select_ordering_options': 'select-ordering',
+	'selected_responsibility_title': 'Selected collective body:',
+	'selected_responsibility_id': 'selected_collective_body',
+	'responsibility_names_field_id': 'responsibility-names-collective-bodies',
+	'add_responsibility_button_id': 'add-responsibility-coll-body',
+	'input_id': 'collective-body-responsibility-stmt',
+	'dropdown_list': 'resp-collectivities-list'},
+	{'responsibility_multisel': entity_form.responsibilities_people,
+	'remove_bt_id': 'remove-selected-individual-bt',
+	'select_ordering_options': 'select-ordering-individuals',
+	'selected_responsibility_title': 'Selected individual:',
+	'selected_responsibility_id': 'selected_individual',
+	'responsibility_names_field_id': 'responsibility-names-individuals',
+	'add_responsibility_button_id': 'add-responsibility-individual',
+	'input_id': 'individual-responsibility-stmt',
+	'dropdown_list': 'resp-individuals-list'}] %}
 
-    <!--responsibilities - people-individuals -->
-    <div class="border border-light bg-light rounded pr-2 pl-2 m-1">
-      {{ render_field(entity_form.responsibilities_people) }}
-    <button id="remove-selected-individual-bt" class="btn btn-warning">
-      Remove&nbsp;selected
-    </button>
-    <div class="row align-items-end pb-3">
-      <div class="col">
-	<div class="form-group">
-	  <label class="form-control-label" for="select-ordering-individuals">Ordering:</label>
-	  <select class="form-control" id="select-ordering-individuals" name="select-ordering-individuals">
-	    {% for n in range(options['ordering_range']) %}
-	      <option value="{{ n }}">{{ n }}</option>
-	    {% endfor %}
-	  </select>
-	</div>
-      </div>
-      <div class="col mt-3">
-	Selected individual:
-	<strong>
-	  <p class="border border-dark rounded p-1" id="selected_individual">
-	    &nbsp;
-	  </p>
-	</strong>
-      </div>
-      <div class="col">
-	
-	{{ render_field(entity_form.responsibility_names,
-	id="responsibility-names-individuals") }}
-      </div>
-      <div class="col">
-	<button id="add-responsibility-individual" class="btn btn-secondary mb-3">Add</button>
-      </div>
-    </div><!-- row -->
-    <input id="individual-responsibility-stmt" class="w-100 mb-3" placeholder="Type in to search, click item from a list to add.">
-    <div id="resp-individuals-list"></div>
+    <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+	{{ render_field(resp_field['responsibility_multisel']) }}
+	<button id="{{ resp_field['remove_bt_id'] }}" class="btn btn-warning"> 
+	  Remove&nbsp;selected
+	</button>
+	<div class="row align-items-end pb-3">
+	  <div class="col">
+	    <div class="form-group">
+	      <label class="form-control-label" for="select-ordering">
+		Ordering:
+	      </label>
+	      <select class="form-control" id="{{ resp_field['select_ordering_options'] }}" name="{{ resp_field['select_ordering_options'] }}">
+		{% for n in range(options['ordering_range']) %}
+		  <option value="{{ n }}">{{ n }}</option>
+		{% endfor %}
+	      </select>
+	    </div>
+	  </div>
+	  <div class="col mt-3">
+	    Selected collective body:
+	    <strong>
+	      <p class="border border-dark rounded p-1" id="{{ resp_field['selected_responsibility_id'] }}">
+		&nbsp;
+	      </p>
+	    </strong>
+	  </div>
+	  <div class="col">
+	    {{ render_field(entity_form.responsibility_names,
+	    id=resp_field['responsibility_names_field_id'] ) }}
+	  </div>
+	  <div class="col">
+	    <button id="{{ resp_field['add_responsibility_button_id'] }}" class="btn btn-secondary mb-3">
+	      Add
+	    </button>
+	  </div>
+	</div><!-- row -->
+	<input id="{{ resp_field['input_id'] }}" class="w-100 mb-3" placeholder="Type to search and add">
+	<div id="{{ resp_field['dropdown_list'] }}" class="pb-3"></div>
     </div> <!-- border -->
+  {% endfor %}
 
-    <!-- languages -->
+    <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
     <div class="row">
-      <div class="col">
-	<!-- Document language: -->
-	<div class="row align-items-end">
-	  <div class="col">
-	    {{ render_field(entity_form.language_id) }}
-	    {{ render_field(entity_form.language) }}
-	  </div>
-	  <div class="col">
-	    <button id="clear-document-language" class="btn btn-danger mb-3">
-	      Clear
-	    </button>
-	  </div>
-	</div><!-- row -->
-	<input id="document-language-input" class="w-100 mb-3" placeholder="Type in to search, click item from a list to select.">
-	<div id="document-language-dropdown"></div>
-      </div>
-      <div class="col">
-	<!-- Original language: -->
-	<div class="row align-items-end">
-	  <div class="col">
-	    {{ render_field(entity_form.original_language) }}
-	    {{ render_field(entity_form.original_language_id) }}
-	  </div>
-	  <div class="col">
-	    <button id="clear-original-language" class="btn btn-danger mb-3">
-	      Clear
-	    </button>
-	  </div>
-	  <input id="original-language-input" class="w-100 mb-3" placeholder="Type in to search, click item from a list to select.">
-	  <div id="original-language-dropdown"></div>
-	</div><!-- row -->
-      </div>
+      {% for lang_field in [{'language_clear_bt_id': 'clear-document-language',
+	'lang_input_id': 'document-language-input',
+	'lang_dropdown_id': 'document-language-dropdown',
+	'lang_id_hidden_input': entity_form.language_id,
+	'lang_text_input': entity_form.language},
+	{'language_clear_bt_id': 'clear-original-language',
+	'lang_input_id': 'original-language-input',
+	'lang_dropdown_id': 'original-language-dropdown',
+	'lang_id_hidden_input': entity_form.original_language_id,
+	'lang_text_input': entity_form.original_language}] %}
+	<div class="col">
+	  <div class="row align-items-end">
+	    <div class="col">
+	      {{ render_field(lang_field['lang_id_hidden_input']) }}
+	      {{ render_field(lang_field['lang_text_input']) }}
+	    </div>
+	    <div class="col">
+	      <button id="{{ lang_field['language_clear_bt_id'] }}" class="btn btn-warning mb-3">
+		Clear
+	      </button>
+	    </div>
+	  </div> <!-- row -->
+	  <!-- z row czy bez? -->
+	  <input id="{{ lang_field['lang_input_id'] }}" class="w-100 mb-3" placeholder="Type in to search, click item from a list to select.">
+	  <div id="{{ lang_field['lang_dropdown_id'] }}" class="pb-3"></div>
+	</div> <!-- col -->
+      {% endfor %}
+    </div> <!-- main row -->
     </div>
-
     {{ render_field(entity_form.submit) }}
   </form>
 {% endblock %}
 {% block scripts %}
 {{ super() }}
-    <script type="application/javascript">
+  <script type="application/javascript">
 
 var selected_coll_body_id = undefined;
 var selected_individual_id = undefined;
@@ -233,7 +214,8 @@ $(document).ready(function() {
     $("#add-responsibility-coll-body").click(
 	get_add_responsibility_fn(
 	    "selected_coll_body_id", "#select-ordering",
-	    "#responsibility_names", "#selected_collective_body",
+	    "#responsibility-names-collective-bodies",
+	    "#selected_collective_body",
 	    "#responsibility_collectivities"));
     // add individual responsibility
     $("#add-responsibility-individual").click(
