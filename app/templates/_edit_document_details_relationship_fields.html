@@ -1,51 +1,47 @@
-{###################################}
-{# Dopisać pętlę tworzącą te pola. #}
-{###################################}
-<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-  {{ render_field(entity_form.publication_places) }}
-  <button id="remove-sel-publication-place-bt" class="btn btn-warning"> 
-    Remove&nbsp;selected
-  </button>
-  <input id="publication-places-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-  <div id="publication-places-search-dropdown"></div>
-</div> <!-- div border -->
-<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-  {{ render_field(entity_form.collectivity_subjects) }}
-  <button id="remove-collectivity-subject-bt" class="btn btn-warning"> 
-    Remove&nbsp;selected
-  </button>
-  <input id="collective-bodies-subjects-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-  <div id="collective-bodies-subjects-dropdown"></div>
-</div> <!-- div border -->
-<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-  {{ render_field(entity_form.language_subjects) }}
-  <button id="remove-language-subject-bt" class="btn btn-warning"> 
-    Remove&nbsp;selected
-  </button>
-  <input id="language-subjects-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-  <div id="language-subjects-dropdown"></div>
-</div> <!-- div border -->
-<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-  {{ render_field(entity_form.keywords) }}
-  <button id="remove-keyword-bt" class="btn btn-warning"> 
-    Remove&nbsp;selected
-  </button>
-  <input id="keyword-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-  <div id="keyword-dropdown"></div>
-</div> <!-- div border -->
-<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-  {{ render_field(entity_form.topic_people) }}
-  <button id="remove-topic-person-bt" class="btn btn-warning"> 
-    Remove&nbsp;selected
-  </button>
-  <input id="topic-person-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-  <div id="topic-person-dropdown"></div>
-</div> <!-- div border -->
-<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-  {{ render_field(entity_form.subjects_locations) }}
-  <button id="remove-subject-location-bt" class="btn btn-warning"> 
-    Remove&nbsp;selected
-  </button>
-  <input id="subject-location-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-  <div id="subject-location-dropdown"></div>
-</div> <!-- div border -->
+{% for field in [
+    {
+        'entity_field': entity_form.publication_places,
+        'remove_button_id': 'remove-sel-publication-place-bt',
+        'input_id': 'publication-places-input',
+        'dropdown_id': 'publication-places-search-dropdown',
+    },
+    {
+        'entity_field': entity_form.collectivity_subjects,
+        'remove_button_id': 'remove-collectivity-subject-bt',
+        'input_id': 'collective-bodies-subjects-input',
+        'dropdown_id': 'collective-bodies-subjects-dropdown',
+     },
+    {
+        'entity_field': entity_form.language_subjects,
+        'remove_button_id': 'remove-language-subject-bt',
+        'input_id': 'language-subjects-input',
+        'dropdown_id': 'language-subjects-dropdown'
+    },
+    {
+        'entity_field': entity_form.keywords,
+        'remove_button_id': 'remove-keyword-bt',
+        'input_id': 'keyword-input',
+        'dropdown_id': 'keyword-dropdown'
+    },
+    {
+        'entity_field': entity_form.topic_people, 
+        'remove_button_id': 'remove-topic-person-bt',
+        'input_id': 'topic-person-input',
+        'dropdown_id': 'topic-person-dropdown'
+    },
+    {
+        'entity_field': entity_form.subjects_locations,
+        'remove_button_id': 'remove-subject-location-bt',
+        'input_id': 'subject-location-input',
+        'dropdown_id': 'subject-location-dropdown'
+    }
+  ] %}
+  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+    {{ render_field(field['entity_field']) }}
+    <button id="{{ field['remove_button_id'] }}" class="btn btn-warning"> 
+      Remove&nbsp;selected
+    </button>
+    <input id="{{ field['input_id'] }}" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+    <div id="{{ field['dropdown_id'] }}"></div>
+  </div> <!-- div border -->
+{% endfor %}
