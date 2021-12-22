@@ -251,6 +251,7 @@ function get_add_responsibility_fn(selected_entity_num, ordering_id,
 	//let option;
 	target.preventDefault();
 
+	// zmienić - pobiera inf. z pola value ...
 	if(window[selected_entity_num]) {
 	    let selected_ordering = $(ordering_id + " option:selected");
 	    let selected_responsibility_name = $(responsibilities_list_id
@@ -272,5 +273,37 @@ function get_add_responsibility_fn(selected_entity_num, ordering_id,
 	    $(sel_entity).html("&nbsp;");
 	    $(entities_multisel_id).append(option);
 	}
+    }
+}
+
+function get_add_dependent_doc(
+    ordering_id, selected_dependent_doc_id, description_field_id,
+    dependent_doc_id, select_multiple_field_id) {
+
+    return target => {
+	let selected_dependent_doc = $(selected_dependent_doc_id);
+	let selected_ordering = $(ordering_id + " option:selected").val();
+	let dependent_doc = [];
+
+	dependent_doc["id"] = window[dependent_doc_id];
+	dependent_doc["value"] = selected_dependent_doc.val();
+	dependent_doc["description"] = $(description_field_id).val();
+
+	if(!dependent_doc["id"]) {
+	    return;
+	}
+
+	let value = JSON.stringify({
+	    "id": dependent_doc["id"],
+	    "description": dependent_doc["description"],
+	    "ordering": selected_ordering
+	});
+	let option = $("<option></option>")
+	    .val(value)
+	    .text(selected_ordering + ' - ' + dependent_doc["value"]
+		  + (dependent_doc["description"] ?
+		     ` (${dependent_doc["description"]})` : ''));
+	$(select_multiple_field_id).append(option);
+	console.log($(select_multiple_field_id));
     }
 }

@@ -1,0 +1,30 @@
+<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+  <div class="row">
+    {% for lang_field in [{'language_clear_bt_id': 'clear-document-language',
+      'lang_input_id': 'document-language-input',
+      'lang_dropdown_id': 'document-language-dropdown',
+      'lang_id_hidden_input': entity_form.language_id,
+      'lang_text_input': entity_form.language},
+      {'language_clear_bt_id': 'clear-original-language',
+      'lang_input_id': 'original-language-input',
+      'lang_dropdown_id': 'original-language-dropdown',
+      'lang_id_hidden_input': entity_form.original_language_id,
+      'lang_text_input': entity_form.original_language}] %}
+      <div class="col">
+	<div class="row align-items-end">
+	  <div class="col">
+	    {{ render_field(lang_field['lang_id_hidden_input']) }}
+	    {{ render_field(lang_field['lang_text_input']) }}
+	  </div>
+	  <div class="col">
+	    <button id="{{ lang_field['language_clear_bt_id'] }}" class="btn btn-warning mb-3">
+	      Clear
+	    </button>
+	  </div>
+	</div> <!-- row -->
+	<input id="{{ lang_field['lang_input_id'] }}" class="w-100 mb-3" placeholder="Type in to search, click item from a list to select.">
+	<div id="{{ lang_field['lang_dropdown_id'] }}" class="pb-3"></div>
+      </div> <!-- col -->
+    {% endfor %}
+  </div> <!-- main row -->
+</div>

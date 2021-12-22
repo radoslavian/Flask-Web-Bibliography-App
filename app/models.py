@@ -777,10 +777,15 @@ class RelatedDocuments(db.Model):
     '''Self-referential relationship table for the documents table.
     '''
     __tablename__ = 'related_documents'
+    # += check constraint - nie mogą być takie same wartości
+    # w obu polach (czyli dokument nie może referencjonować
+    # samego siebie
     __table_args__ = (db.UniqueConstraint(
         'master_doc_id', 'dependent_doc_id'),)
 
     id = db.Column(db.Integer, primary_key=True)
+
+    # FK tu i w Document?
     master_doc_id = db.Column(
         db.Integer, db.ForeignKey('documents.document_id'),
         nullable=False)

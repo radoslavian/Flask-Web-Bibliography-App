@@ -1,15 +1,13 @@
 {% extends "edit_entity.html" %}
-
-{# Pewne elementy wyeksportować do innych plików, #}
-{# dołączanych dyrektywą include #}
-
 {% block edit_form %}
   <form method="post">
+    {{ entity_form.id }}  
     {{ render_field(entity_form.title_proper) }}
     {{ render_field(entity_form.parallel_title) }}
     {{ render_field(entity_form.other_title_inf) }}
     {{ render_form_row([entity_form.edition_statement,
-    entity_form.parallel_edition_stmt, entity_form.additional_edition_stmt]) }}
+    entity_form.parallel_edition_stmt,
+    entity_form.additional_edition_stmt]) }}
     {{ render_form_row([entity_form.numbering, entity_form.publication_date,
     entity_form.pagination]) }}
     {{ render_form_row([entity_form.physical_details, entity_form.dimensions,
@@ -19,146 +17,13 @@
     {{ render_form_row([entity_form.issn, entity_form.isbn_10,
     entity_form.isbn_13]) }}
     {{ render_field(entity_form.document_type) }}
-    {% for resp_field in [
-	{'responsibility_multisel': entity_form.responsibility_collectivities,
-	'remove_bt_id': 'remove-sel-collective-body-bt',
-	'select_ordering_options': 'select-ordering',
-	'selected_responsibility_title': 'Selected collective body:',
-	'selected_responsibility_id': 'selected_collective_body',
-	'responsibility_names_field_id': 'responsibility-names-collective-bodies',
-	'add_responsibility_button_id': 'add-responsibility-coll-body',
-	'input_id': 'collective-body-responsibility-stmt',
-	'dropdown_list': 'resp-collectivities-list'},
-	{'responsibility_multisel': entity_form.responsibilities_people,
-	'remove_bt_id': 'remove-selected-individual-bt',
-	'select_ordering_options': 'select-ordering-individuals',
-	'selected_responsibility_title': 'Selected individual:',
-	'selected_responsibility_id': 'selected_individual',
-	'responsibility_names_field_id': 'responsibility-names-individuals',
-	'add_responsibility_button_id': 'add-responsibility-individual',
-	'input_id': 'individual-responsibility-stmt',
-	'dropdown_list': 'resp-individuals-list'}] %}
 
-      <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-	{{ render_field(resp_field['responsibility_multisel']) }}
-	<button id="{{ resp_field['remove_bt_id'] }}" class="btn btn-warning"> 
-	  Remove&nbsp;selected
-	</button>
-	<div class="row align-items-end pb-3">
-	  <div class="col">
-	    <div class="form-group">
-	      <label class="form-control-label" for="select-ordering">
-		Ordering:
-	      </label>
-	      <select class="form-control" id="{{ resp_field['select_ordering_options'] }}" name="{{ resp_field['select_ordering_options'] }}">
-		{% for n in range(options['ordering_range']) %}
-		  <option value="{{ n }}">{{ n }}</option>
-		{% endfor %}
-	      </select>
-	    </div>
-	  </div>
-	  <div class="col mt-3">
-	    {{ resp_field['selected_responsibility_title'] }}
-	    <strong>
-	      <p class="border border-dark rounded p-1" id="{{ resp_field['selected_responsibility_id'] }}">
-		&nbsp;
-	      </p>
-	    </strong>
-	  </div>
-	  <div class="col">
-	    {{ render_field(entity_form.responsibility_names,
-	    id=resp_field['responsibility_names_field_id'] ) }}
-	  </div>
-	  <div class="col">
-	    <button id="{{ resp_field['add_responsibility_button_id'] }}" class="btn btn-secondary mb-3">
-	      Add
-	    </button>
-	  </div>
-	</div><!-- row -->
-	<input id="{{ resp_field['input_id'] }}" class="w-100 mb-3" placeholder="Type to search and add">
-	<div id="{{ resp_field['dropdown_list'] }}" class="pb-3"></div>
-    </div> <!-- border -->
-  {% endfor %}
+    {% include "_edit_document_details_responsibility_fields.html" %}
+    {% include "_edit_document_details_language_fields.html" %}
+    {% include "_edit_document_details_relationship_fields.html" %}
+    {% include "_edit_document_details_dependent_docs.html" %}
 
-  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-    <div class="row">
-      {% for lang_field in [{'language_clear_bt_id': 'clear-document-language',
-	'lang_input_id': 'document-language-input',
-	'lang_dropdown_id': 'document-language-dropdown',
-	'lang_id_hidden_input': entity_form.language_id,
-	'lang_text_input': entity_form.language},
-	{'language_clear_bt_id': 'clear-original-language',
-	'lang_input_id': 'original-language-input',
-	'lang_dropdown_id': 'original-language-dropdown',
-	'lang_id_hidden_input': entity_form.original_language_id,
-	'lang_text_input': entity_form.original_language}] %}
-	<div class="col">
-	  <div class="row align-items-end">
-	    <div class="col">
-	      {{ render_field(lang_field['lang_id_hidden_input']) }}
-	      {{ render_field(lang_field['lang_text_input']) }}
-	    </div>
-	    <div class="col">
-	      <button id="{{ lang_field['language_clear_bt_id'] }}" class="btn btn-warning mb-3">
-		Clear
-	      </button>
-	    </div>
-	  </div> <!-- row -->
-	  <input id="{{ lang_field['lang_input_id'] }}" class="w-100 mb-3" placeholder="Type in to search, click item from a list to select.">
-	  <div id="{{ lang_field['lang_dropdown_id'] }}" class="pb-3"></div>
-	</div> <!-- col -->
-      {% endfor %}
-    </div> <!-- main row -->
-  </div>
-  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-    {{ render_field(entity_form.publication_places) }}
-    <button id="remove-sel-publication-place-bt" class="btn btn-warning"> 
-      Remove&nbsp;selected
-    </button>
-    <input id="publication-places-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-    <div id="publication-places-search-dropdown"></div>
-  </div> <!-- div border -->
-  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-    {{ render_field(entity_form.collectivity_subjects) }}
-    <button id="remove-collectivity-subject-bt" class="btn btn-warning"> 
-      Remove&nbsp;selected
-    </button>
-    <input id="collective-bodies-subjects-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-    <div id="collective-bodies-subjects-dropdown"></div>
-  </div> <!-- div border -->
-  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-    {{ render_field(entity_form.language_subjects) }}
-    <button id="remove-language-subject-bt" class="btn btn-warning"> 
-      Remove&nbsp;selected
-    </button>
-    <input id="language-subjects-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-    <div id="language-subjects-dropdown"></div>
-  </div> <!-- div border -->
-  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-    {{ render_field(entity_form.keywords) }}
-    <button id="remove-keyword-bt" class="btn btn-warning"> 
-      Remove&nbsp;selected
-    </button>
-    <input id="keyword-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-    <div id="keyword-dropdown"></div>
-  </div> <!-- div border -->
-  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-    {{ render_field(entity_form.topic_people) }}
-    <button id="remove-topic-person-bt" class="btn btn-warning"> 
-      Remove&nbsp;selected
-    </button>
-    <input id="topic-person-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-    <div id="topic-person-dropdown"></div>
-  </div> <!-- div border -->
-  <div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
-    {{ render_field(entity_form.subjects_locations) }}
-    <button id="remove-subject-location-bt" class="btn btn-warning"> 
-      Remove&nbsp;selected
-    </button>
-    <input id="subject-location-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
-    <div id="subject-location-dropdown"></div>
-  </div> <!-- div border -->
-  {{ render_field(entity_form.submit) }}
+    {{ render_field(entity_form.submit) }}
   </form>
 {% endblock %}
 {% block scripts %}
@@ -167,6 +32,7 @@
 
 var selected_coll_body_id = undefined;
 var selected_individual_id = undefined;
+var selected_dependent_doc_id = undefined;
 
 const search_coll_body = get_search_function(
     /* search collective body in responsibility section
@@ -315,6 +181,22 @@ const search_topic_person = get_search_function(
     }
 );
 
+// do modyfikacji !
+const search_dependent_doc = get_search_function(
+    "{{ url_for('main.get_documents') }}",
+    success_fn=results => {
+	print_items_clear(
+	    results[0],
+	    $("#dependent-documents-dropdown"),
+	    click_fn=event => {
+		$("#selected-dependent-document")
+		    .val(event.target.textContent);
+		selected_dependent_doc_id = event.target.id;
+	    }
+	)
+    }
+);
+
 const search_original_language = get_search_function(
     "{{ url_for('main.get_language_entries') }}",
     success_fn=results => {
@@ -333,7 +215,8 @@ $(document).ready(function() {
     let multichoice_fields = [
 	"responsibility_collectivities", "responsibilities_people",
 	"publication_places", "collectivity_subjects", "language_subjects",
-	"keywords", "topic_people", "subjects_locations"];
+	"keywords", "topic_people", "subjects_locations",
+	"dependent_docs"];
 
     multichoice_fields.forEach(field => unselect_all(field));
     $("#submit-document").click(
@@ -342,6 +225,7 @@ $(document).ready(function() {
 	() => multichoice_fields.forEach(
 	    field => select_all_from_multiselect("#"+field)));
 
+    search_dependent_doc("dependent-document-input");
     search_keyword("keyword-input");
     search_topic_person("topic-person-input");
     search_coll_body_subject("collective-bodies-subjects-input");
@@ -354,6 +238,10 @@ $(document).ready(function() {
     search_original_language("original-language-input");
 
     // te funkcje można zgeneralizować
+    $("#remove-dependent-document-bt").click(target => {
+	target.preventDefault();
+	remove_sel_from_multiselect("#dependent_docs");
+    });
     $("#remove-subject-location-bt").click(target => {
 	target.preventDefault();
 	remove_sel_from_multiselect("#subjects_locations");
@@ -409,7 +297,29 @@ $(document).ready(function() {
 	target.preventDefault();
 	$("#language").val("");
 	$("#language_id").val("");
-    });  
+    });
+
+    function check_dependent_doc_id(fn) {
+	/* Decorator calls fn only if id of a selected dependent document
+	 * is different from the id of the document currently
+	 * loaded into the form.
+	 */
+	return function() {
+	    arguments[0].preventDefault();
+	    if(selected_dependent_doc_id != $("input[name=id").val()) {
+		fn.apply(this, arguments);
+	    }
+	    else {
+		alert("Can't add: selected document is the same as the one "
+		      + "currently loaded into the form!");
+	    }
+	}
+    }
+    $("#add-dependent-document").click(check_dependent_doc_id(
+	get_add_dependent_doc(
+	    "#dependent-docs-ordering", "#selected-dependent-document",
+	    "#dependent_doc_rel_description", "selected_dependent_doc_id",
+	    "#dependent_docs")));
 });
 </script>
 {% endblock %}

@@ -1,0 +1,41 @@
+{########################################}
+{# dependent documents (articles etc.)  #}
+{########################################}
+<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+  {{ render_field(entity_form.dependent_docs) }}
+  <button id="remove-dependent-document-bt" class="btn btn-warning"> 
+    Remove&nbsp;selected
+  </button>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+	<label class="form-control-label" for="dependent-docs-ordering">
+	  Ordering:
+	</label>
+	<select class="form-control" id="dependent-docs-ordering" name="dependent-docs-ordering">
+	  {% for n in range(options['ordering_range']) %}
+	    <option value="{{ n }}">{{ n }}</option>
+	  {% endfor %}
+	</select>
+      </div> <!-- form-group (select) -->
+    </div>
+    <div class="col-sm-11">
+      <div class="form-group">
+	<label class="form-control-label" for="selected-dependent-document">
+	  Selected document:
+	</label>
+	<input type="text" readonly class="form-control" id="selected-dependent-document">
+      </div> <!-- form-group -->
+    </div>
+  </div> <!-- row -->
+  <input id="dependent-document-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+  <div id="dependent-documents-dropdown"></div>
+  <div class="row">
+    <div class="col">
+      {{ render_field(entity_form.dependent_doc_rel_description) }}
+    </div>
+  </div> <!-- row -->
+  <button id="add-dependent-document" class="btn btn-success">
+    Add&nbsp;document
+  </button>
+</div> <!-- div border -->

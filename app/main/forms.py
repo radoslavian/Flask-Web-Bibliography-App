@@ -378,6 +378,7 @@ class DocumentEditForm(ModelEditForm):
         self.load_keywords()
         self.load_topics_people()
         self.load_subjects_locations()
+        self.load_dependent_documents()
 
     def validate_on_submit(self):
         if request.method == 'POST':
@@ -396,6 +397,7 @@ class DocumentEditForm(ModelEditForm):
         self.save_keywords()
         self.save_topics_people()
         self.save_subjects_locations()
+        self.save_dependent_docs()
         self._commit()
 
     def _commit(self):
@@ -463,6 +465,25 @@ class DocumentEditForm(ModelEditForm):
                 title_string=title_string,
                 entity_dict=entity_dict,
                 list_generator=list_generator)
+
+    def load_dependent_documents(self):
+        description_max_len = 15
+        self.dependent_docs.choices = [
+            # tuple: option value, text
+            (
+                # value
+                json.dumps({'id': doc.dependent_doc.id,
+                            'description': doc.description,
+                            'ordering': doc.ordering}),
+                # text
+                f'{doc.ordering} - '
+                + str(doc.dependent_doc)
+                + (f' ({doc.description})'[:description_max_len]
+                   if doc.description else '')
+                + ('...' if len(doc.description) > description_max_len
+                   else '')
+            )
+            for doc in self.obj.dependent_docs]
 
     def load_items_into_form(self, object_attr=''):
         '''Loads particular attribute of the Document model
@@ -551,6 +572,33 @@ class DocumentEditForm(ModelEditForm):
             choices.append(document_responsibility)
 
         return choices
+
+    def save_dependent_docs(self):
+        new_related_document_pairs = []
+
+        for json_data in self.dependent_docs.raw_data:
+            relationship_data = json.loads(json_data)
+            dependent_doc_id = relationship_data['id']
+            description = relationship_data['description']
+            ordering = relationship_data['ordering']
+
+            related_documents = (
+                RelatedDocuments.query.filter_by(
+                    master_doc_id=self.obj.id,
+                    dependent_doc_id=dependent_doc_id).first()
+                or
+                RelatedDocuments(
+                    master_doc=self.obj,
+                    dependent_doc=Document.query.get(dependent_doc_id))
+            )
+            related_documents.ordering = ordering
+            related_documents.description = description
+            new_related_document_pairs.append(related_documents)
+
+        if new_related_document_pairs:
+            db.session.add(*new_related_document_pairs)
+        else:
+            self.obj.dependent_docs = []
 
     def save_stmts_of_responsibility_coll_bodies(self):
         def doc_resp_fn(collective_body, responsibility):
@@ -666,13 +714,13 @@ class DocumentEditForm(ModelEditForm):
         render_kw={'maxlength': f'{length(Document.isbn_10)}',
                    'data-toggle': 'tooltip',
                    'title': 'example: 0-545-01022-5',
-                   'pattern': '\d-\d{4}-\d{4}-\d'})
+                   'pattern': '[\d-]*'})
     isbn_13 = StringField(
         'ISBN-13:',
         render_kw={'maxlength': f'{length(Document.isbn_13)}',
                    'data-toggle': 'tooltip',
                    'title': 'example: 978-3-16-148410-0',
-                   'pattern': '\d{3}-\d-\d{2}-\d{6}-\d'})
+                   'pattern': '[\d-]*'})
     document_type = QuerySelectField(
         'Document type:', query_factory=lambda: DocumentType.query.all(),
         get_label=lambda model: model.name.capitalize())
@@ -704,3 +752,11 @@ class DocumentEditForm(ModelEditForm):
         'Individual (personal) names as topics:', choices=[])
     subjects_locations = SelectMultipleField(
         'Geographic locations as topics:', choices=[])
+    dependent_docs = SelectMultipleField(
+        'Dependent documents:', choices=[],
+        render_kw={'data-toggle': 'tooltip',
+                   'title': '''Such as articles within a periodical,
+                   parts of the series etc.'''})
+    dependent_doc_rel_description = StringField(
+        'Relationship description (leave empty if not needed):',
+        render_kw={'maxlength': f'{length(RelatedDocuments.description)}'})

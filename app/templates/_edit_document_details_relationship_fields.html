@@ -1,0 +1,51 @@
+{###################################}
+{# Dopisać pętlę tworzącą te pola. #}
+{###################################}
+<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+  {{ render_field(entity_form.publication_places) }}
+  <button id="remove-sel-publication-place-bt" class="btn btn-warning"> 
+    Remove&nbsp;selected
+  </button>
+  <input id="publication-places-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+  <div id="publication-places-search-dropdown"></div>
+</div> <!-- div border -->
+<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+  {{ render_field(entity_form.collectivity_subjects) }}
+  <button id="remove-collectivity-subject-bt" class="btn btn-warning"> 
+    Remove&nbsp;selected
+  </button>
+  <input id="collective-bodies-subjects-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+  <div id="collective-bodies-subjects-dropdown"></div>
+</div> <!-- div border -->
+<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+  {{ render_field(entity_form.language_subjects) }}
+  <button id="remove-language-subject-bt" class="btn btn-warning"> 
+    Remove&nbsp;selected
+  </button>
+  <input id="language-subjects-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+  <div id="language-subjects-dropdown"></div>
+</div> <!-- div border -->
+<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+  {{ render_field(entity_form.keywords) }}
+  <button id="remove-keyword-bt" class="btn btn-warning"> 
+    Remove&nbsp;selected
+  </button>
+  <input id="keyword-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+  <div id="keyword-dropdown"></div>
+</div> <!-- div border -->
+<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+  {{ render_field(entity_form.topic_people) }}
+  <button id="remove-topic-person-bt" class="btn btn-warning"> 
+    Remove&nbsp;selected
+  </button>
+  <input id="topic-person-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+  <div id="topic-person-dropdown"></div>
+</div> <!-- div border -->
+<div class="border border-light bg-light rounded pr-2 pl-2 m-1 mb-3">
+  {{ render_field(entity_form.subjects_locations) }}
+  <button id="remove-subject-location-bt" class="btn btn-warning"> 
+    Remove&nbsp;selected
+  </button>
+  <input id="subject-location-input" class="w-100 mb-1 mt-3" placeholder="Type in to search, click to add.">
+  <div id="subject-location-dropdown"></div>
+</div> <!-- div border -->
