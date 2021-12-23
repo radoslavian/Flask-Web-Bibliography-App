@@ -25,6 +25,7 @@
 
     {{ render_field(entity_form.submit) }}
   </form>
+  
 {% endblock %}
 {% block scripts %}
 {{ super() }}
@@ -35,180 +36,87 @@ var selected_individual_id = undefined;
 var selected_dependent_doc_id = undefined;
 
 const search_coll_body = get_search_function(
-    /* search collective body in responsibility section
-     * on a document edit page
+    /* return function to perform search collective body
+     * in a responsibility section on a document edit page
      * argument: input-id:
      * search_coll_body("collective-body-responsibility-stmt")
      */
     "{{ url_for('main.get_collective_bodies') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#resp-collectivities-list"),
-	    click_fn=event => {
-		selected_coll_body_id = event.target.id;
-		$("#selected_collective_body").html(event.target.textContent);
-	    })
-    }
+    success_fn=search_success_fn(
+	"#resp-collectivities-list",
+	responsibility_callback("#selected_collective_body",
+				"selected_coll_body_id"))
 );
 
 const search_individual = get_search_function(
-    "{{ url_for('main.get_person_entries') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#resp-individuals-list"),
-	    click_fn=event => {
-		selected_individual_id = event.target.id;
-		$("#selected_individual").html(event.target.textContent);
-	    }
-	)
-    }
+    "{{ url_for('main.get_person_entries') }}", // arg. 1
+    success_fn=search_success_fn(		// arg. 2
+	"#resp-individuals-list",		// arg. 1
+	responsibility_callback(		// arg. 2
+	    "#selected_individual", "selected_individual_id"))
 );
 
 const search_document_language = get_search_function(
     "{{ url_for('main.get_language_entries') }}",
-    success_fn=results => {
-	// te funkcje mogą zostać zgeneralizowane
-	// wszystko co nie wymaga wartości renderowanych na serwerze
-	// powinno być poza tym plikiem
-	print_items_clear(
-	    results[0],
-	    $("#document-language-dropdown"),
-	    click_fn=event => {
-		$("#language").val(event.target.textContent);
-		$("#language_id").val(event.target.id);
-	    }
-	)
-    }
-);
-
-const search_publication_places = get_search_function(
-    "{{ url_for('main.get_geographic_location') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#publication-places-search-dropdown"),
-	    click_fn=event => {
-		let option = $("<option></option>")
-		    .text(event.target.textContent)
-		    .val(event.target.id);
-		$("#publication_places").append(option);
-	    }
-	)
-    }
-);
-
-// podobne do search_publication_places
-const search_coll_body_subject = get_search_function(
-    // search collective body for subject field
-    "{{ url_for('main.get_collective_bodies') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#collective-bodies-subjects-dropdown"),
-	    click_fn=event => {
-		let option = $("<option></option>")
-		    .text(event.target.textContent)
-		    .val(event.target.id);
-		$("#collectivity_subjects").append(option);
-	    }
-	)
-    }
-);
-
-const search_language_as_subject = get_search_function(
-    "{{ url_for('main.get_language_entries') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#language-subjects-dropdown"),
-	    click_fn=event => {
-		let option = $("<option></option>")
-		    .text(event.target.textContent)
-		    .val(event.target.id);
-		$("#language_subjects").append(option);
-	    }
-	);
-    }
-);
-
-const search_location_as_subject = get_search_function(
-    "{{ url_for('main.get_geographic_location') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#subject-location-dropdown"),
-	    click_fn=event => {
-		let option = $("<option></option>")
-		    .text(event.target.textContent)
-		    .val(event.target.id);
-		$("#subjects_locations").append(option);
-	    }
-	);
-    }
-);
-
-const search_keyword = get_search_function(
-    "{{ url_for('main.get_keywords') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#keyword-dropdown"),
-	    click_fn=event => {
-		let option = $("<option></option>")
-		    .text(event.target.textContent)
-		    .val(event.target.id);
-		$("#keywords").append(option);
-	    }
-	)
-    }
-);
-
-const search_topic_person = get_search_function(
-    "{{ url_for('main.get_person_entries') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#topic-person-dropdown"),
-	    click_fn=event => {
-		let option = $("<option></option>")
-		    .text(event.target.textContent)
-		    .val(event.target.id);
-		$("#topic_people").append(option);
-	    }
-	)
-    }
-);
-
-// do modyfikacji !
-const search_dependent_doc = get_search_function(
-    "{{ url_for('main.get_documents') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#dependent-documents-dropdown"),
-	    click_fn=event => {
-		$("#selected-dependent-document")
-		    .val(event.target.textContent);
-		selected_dependent_doc_id = event.target.id;
-	    }
-	)
-    }
+    success_fn=search_success_fn(
+	"#document-language-dropdown",
+	language_callback("#language", "#language_id"))
 );
 
 const search_original_language = get_search_function(
     "{{ url_for('main.get_language_entries') }}",
-    success_fn=results => {
-	print_items_clear(
-	    results[0],
-	    $("#original-language-dropdown"),
-	    click_fn=event => {
-		$("#original_language").val(event.target.textContent);
-		$("#original_language_id").val(event.target.id);
-	    }
-	)
-    }
+    success_fn=search_success_fn(
+	"#original-language-dropdown",
+	language_callback("#original_language", "#original_language_id"))
+);
+
+const search_publication_places = get_search_function(
+    "{{ url_for('main.get_geographic_location') }}",
+    success_fn=search_success_fn(
+	"#publication-places-search-dropdown",
+	relationship_callback("#publication_places"))
+);
+
+const search_coll_body_subject = get_search_function(
+    "{{ url_for('main.get_collective_bodies') }}",
+    success_fn=search_success_fn(
+	"#collective-bodies-subjects-dropdown",
+	relationship_callback("#collectivity_subjects"))
+);
+
+const search_language_as_subject = get_search_function(
+    "{{ url_for('main.get_language_entries') }}",
+    success_fn=search_success_fn(
+	"#language-subjects-dropdown",
+	relationship_callback("#language_subjects"))
+);
+
+const search_location_as_subject = get_search_function(
+    "{{ url_for('main.get_geographic_location') }}",
+    success_fn=search_success_fn(
+	"#subject-location-dropdown",
+	relationship_callback("#subjects_locations"))
+);
+
+const search_keyword = get_search_function(
+    "{{ url_for('main.get_keywords') }}",
+    success_fn=search_success_fn(
+	"#keyword-dropdown", relationship_callback("#keywords"))
+);
+
+const search_topic_person = get_search_function(
+    "{{ url_for('main.get_person_entries') }}",
+    success_fn=search_success_fn(
+	"#topic-person-dropdown", relationship_callback("#topic_people"))
+);
+
+const search_dependent_doc = get_search_function(
+    "{{ url_for('main.get_documents') }}",
+    success_fn=search_success_fn(
+	"#dependent-documents-dropdown", event => {
+	    $("#selected-dependent-document").val(event.target.textContent);
+	    selected_dependent_doc_id = event.target.id;
+	})
 );
 
 $(document).ready(function() {
@@ -237,43 +145,46 @@ $(document).ready(function() {
     search_individual("individual-responsibility-stmt");
     search_original_language("original-language-input");
 
-    // te funkcje można zgeneralizować
-    $("#remove-dependent-document-bt").click(target => {
-	target.preventDefault();
-	remove_sel_from_multiselect("#dependent_docs");
-    });
-    $("#remove-subject-location-bt").click(target => {
-	target.preventDefault();
-	remove_sel_from_multiselect("#subjects_locations");
-    });
-    $("#remove-topic-person-bt").click(target => {
-	target.preventDefault();
-	remove_sel_from_multiselect("#topic_people");
-    });
-    $("#remove-keyword-bt").click(target => {
-	target.preventDefault();
-	remove_sel_from_multiselect("#keywords");
-    });
-    $("#remove-language-subject-bt").click(target => {
-	target.preventDefault();
-	remove_sel_from_multiselect("#language_subjects");
-    });
-    $("#remove-sel-collective-body-bt").click(target => {
-	target.preventDefault();
-	remove_sel_from_multiselect("#responsibility_collectivities");
-    });
-    $("#remove-sel-publication-place-bt").click(target => {
-	target.preventDefault();
-	remove_sel_from_multiselect("#publication_places");
-    });
-    $("#remove-selected-individual-bt").click(target => {
-	target.preventDefault();
-	remove_sel_from_multiselect("#responsibilities_people");
-    });
-    $("#remove-collectivity-subject-bt").click(target => {
-	target.preventDefault();
-	remove_sel_from_multiselect("#collectivity_subjects");
-    });
+    [
+	{
+            "button_id": "#remove-dependent-document-bt",
+            "multiple_select_id":"#dependent_docs"
+	},
+	{
+            "button_id": "#remove-subject-location-bt",
+            "multiple_select_id": "#subjects_locations"
+	},
+	{
+            "button_id": "#remove-keyword-bt",
+            "multiple_select_id": "#keywords"
+	},
+	{
+            "button_id": "#remove-language-subject-bt",
+            "multiple_select_id": "#language_subjects"
+	},
+	{
+            "button_id": "#remove-sel-collective-body-bt",
+            "multiple_select_id": "#responsibility_collectivitie"
+	},
+	{
+            "button_id": "#remove-sel-publication-place-bt",
+            "multiple_select_id": "#publication_places"
+	},
+	{
+            "button_id": "#remove-selected-individual-bt",
+            "multiple_select_id": "#responsibilities_people"
+	},
+	{
+            "button_id": "#remove-collectivity-subject-bt",
+            "multiple_select_id": "#collectivity_subjects"
+	},
+	{
+	    "button_id": "#remove-topic-person-bt",
+	    "multiple_select_id": "#topic_people"
+	}
+    ].forEach(args => $(args["button_id"]).click(
+	remove_button_callback(args["multiple_select_id"])));
+
     // add collective body responsibility
     $("#add-responsibility-coll-body").click(
 	get_add_responsibility_fn(
@@ -300,9 +211,8 @@ $(document).ready(function() {
     });
 
     function check_dependent_doc_id(fn) {
-	/* Decorator calls fn only if id of a selected dependent document
-	 * is different from the id of the document currently
-	 * loaded into the form.
+	/* Decorator calls fn only if a selected dependent document
+	 * is different from the document currently loaded into the form.
 	 */
 	return function() {
 	    arguments[0].preventDefault();

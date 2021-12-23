@@ -44,7 +44,7 @@ function url_query_for(root) {
 	    config_list[config_item]["ids_list"].forEach(
 		id => url.searchParams.append(config_item, id));
 	}
-	let document_text_search = $("#document-text-fields-search").val()
+	let document_text_search = $("#document-text-fields-search").val();
 	if(document_text_search) {
 	    url.searchParams.append('document_text_search',
 				    document_text_search);
@@ -276,6 +276,57 @@ function get_add_responsibility_fn(selected_entity_num, ordering_id,
     }
 }
 
+function responsibility_callback(selected_responsibility_id, coll_body_id) {
+    /* Returns callback invoked on clicking item from the list of
+     * the search field for a document responsibility
+     * (in edit_document_details.html).
+     */
+    return function(event) {
+	window[coll_body_id] = event.target.id;
+	$(selected_responsibility_id).html(event.target.textContent);
+    }
+}
+
+function language_callback(input_text_id, hidden_input_id) {
+    // Returns c-back for language search field in edit_document_details.html
+    return function(event) {
+	$(input_text_id).val(event.target.textContent);
+	$(hidden_input_id).val(event.target.id);
+    }
+}
+
+function relationship_callback(select_field_id) {
+    /* Returns callback for a relationship (topics, publication places etc.)
+     * field in the edit_documents_details.html template.
+     */
+    return function(event) {
+	let option = $("<option></option>")
+	    .text(event.target.textContent)
+	    .val(event.target.id);
+	$(select_field_id).append(option);
+    }
+}
+
+function search_success_fn(dropdown_list_id, click_func) {
+    return function(results) {
+	print_items_clear(results[0], $(dropdown_list_id),
+			  click_fn=click_func)
+    }
+}
+
+function remove_button_callback(select_field_id) {
+    /*
+     * Returns callback for a remove button in a edit_document_details.html
+     * template.
+     * select_field_id - id ("#select_field_id") string of a multiselect field
+     * from which the selected <option> entry/(-ies) has to be removed.
+     */
+    return function(target) {
+	target.preventDefault();
+	remove_sel_from_multiselect(select_field_id);
+    }
+}
+
 function get_add_dependent_doc(
     ordering_id, selected_dependent_doc_id, description_field_id,
     dependent_doc_id, select_multiple_field_id) {
@@ -304,6 +355,5 @@ function get_add_dependent_doc(
 		  + (dependent_doc["description"] ?
 		     ` (${dependent_doc["description"]})` : ''));
 	$(select_multiple_field_id).append(option);
-	console.log($(select_multiple_field_id));
     }
 }

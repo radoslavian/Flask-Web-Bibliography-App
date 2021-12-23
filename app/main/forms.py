@@ -33,20 +33,8 @@ class ModelEditForm(FlaskForm):
         '''
         pass
 
-    def commit_row(self):
-        try:
-            int(self.id.data)
-        except ValueError:
-            self.id.data = None
-            self.row = self.model()
-            success_message = 'Successfully created new entry.'
-        else:
-            # zamiast tego można zapisywać atrybut 'obj' z konstruktora
-            self.row = self.model.query.get(self.id.data)
-            success_message = 'Entry successfully updated.'
-        self.populate_obj(self.row)
-        db.session.add(self.row)
-
+    def _commit(self):
+        db.session.add(self.obj)
         try:
             db.session.commit()
         except IntegrityError as err:
@@ -57,8 +45,25 @@ class ModelEditForm(FlaskForm):
             print(f'Failed to perform operation: {err}', file=stderr)
             return False
         else:
-            flash(success_message)
+            flash(getattr(self, 'success_message', None)
+                  or 'Successfully updated entry.')
             return True
+
+    def commit_row(self):
+        '''Shall be called from the commit_row method of
+        the inheriting class in the following way (and order):
+        super().commit_row()
+        super()._commit()
+        '''
+        try:
+            int(self.id.data)
+        except ValueError:
+            self.id.data = None
+            self.obj = self.model()
+            self.success_message = 'Successfully created new entry.'
+        else:
+            #self.obj = self.model.query.get(self.id.data)
+            self.success_message = 'Entry successfully updated.'
 
 
 class PersonEditForm(ModelEditForm):
@@ -109,47 +114,23 @@ class PersonEditForm(ModelEditForm):
                     variant = PersonNameVariant.query.get(int(variant_id))
                     if variant:
                         variants.append(variant)
-            self.row.name_variants = variants
+            self.obj.name_variants = variants
         else:
-            self.row.name_variants = []
+            self.obj.name_variants = []
 
     def commit_row(self):
-        # jak to połączyć z commit_row z nadrzędnej klasy?
-        # można zmieniać obie metody (z tej i tamtej klasy)
-        # wydzielić elementy wspólne: dodawanie pól tekstowych
-        # wg listy tych pól zapisanej w obiekcie
-        # elementy różne: relationships
-        id_number = self.id.data
-        if self.id.data:
-            self.row = self.model.query.get(id_number)
-            success_message = 'Entry successfully updated.'
-        else:
-            self.id.data = None
-            self.row = self.model()
-            success_message = 'Successfully created new entry.'
+        super().commit_row()
 
         # poniższe el. do add_variants() mogą być w metodzie abs.
         # pobranie wartości do pól
         for field in ['forenames', 'last_name', 'note', 'life_years',
                       'birth_date', 'death_date']:
             value = getattr(self, field).data
-            setattr(self.row, field, value)
+            setattr(self.obj, field, value)
 
         self.add_variants()
-        db.session.add(self.row)
-
-        try:
-            db.session.commit()
-        except IntegrityError as err:
-            db.session.rollback()
-            flash('Failed to perform operation due to '
-                  'the data integrity error.')
-            # to powinno iść do loga
-            print(f'Failed to perform operation: {err}', file=stderr)
-            return False
-        else:
-            flash(success_message)
-            return True
+        db.session.add(self.obj)
+        return self._commit()
 
     id = HiddenField()
     forenames = StringField(
@@ -178,10 +159,18 @@ class PersonEditForm(ModelEditForm):
 
     def redirect_to(self):
         return {'endpoint': 'main.person_details',
-                'person_id': self.row.id}
+                'person_id': self.obj.id}
 
 
-class LanguageEditForm(ModelEditForm):
+class BasicEditForm(ModelEditForm):
+    def commit_row(self):
+        # super(ModelEditForm, self).commit_row() # czemu to nie działa?
+        super().commit_row()
+        self.populate_obj(self.obj)
+        return super()._commit()
+
+
+class LanguageEditForm(BasicEditForm):
     def __init__(self, *pargs, **kwargs):
         super().__init__(*pargs, **kwargs)
         self.model = Language
@@ -205,10 +194,10 @@ class LanguageEditForm(ModelEditForm):
 
     def redirect_to(self):
         return {'endpoint': 'main.language_details',
-                'language_id': self.row.id}
+                'language_id': self.obj.id}
 
 
-class DocumentTypeEditForm(ModelEditForm):
+class DocumentTypeEditForm(BasicEditForm):
     def __init__(self, *pargs, **kwargs):
         super().__init__(*pargs, **kwargs)
         self.model = DocumentType
@@ -227,10 +216,10 @@ class DocumentTypeEditForm(ModelEditForm):
 
     def redirect_to(self):
         return {'endpoint': '.document_type',
-                'type_id': self.row.id}
+                'type_id': self.obj.id}
 
 
-class CollectiveBodyEditForm(ModelEditForm):
+class CollectiveBodyEditForm(BasicEditForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.model = CollectiveBody
@@ -256,10 +245,10 @@ class CollectiveBodyEditForm(ModelEditForm):
 
     def redirect_to(self):
         return {'endpoint': 'main.collective_body_details',
-                'c_body_id': self.row.id}
+                'c_body_id': self.obj.id}
 
 
-class GeographicLocationEditForm(ModelEditForm):
+class GeographicLocationEditForm(BasicEditForm):
     def __init__(self, *pargs, **kwargs):
         super().__init__(*pargs, **kwargs)
         self.model = GeographicLocation
@@ -288,10 +277,10 @@ class GeographicLocationEditForm(ModelEditForm):
 
     def redirect_to(self):
         return {'endpoint': 'main.geographic_location_details',
-                'location_id': self.row.id}
+                'location_id': self.obj.id}
 
 
-class KeywordEditForm(ModelEditForm):
+class KeywordEditForm(BasicEditForm):
     def __init__(self, *pargs, **kwargs):
         super().__init__(*pargs, **kwargs)
         self.model = Keyword
@@ -310,10 +299,10 @@ class KeywordEditForm(ModelEditForm):
 
     def redirect_to(self):
         return {'endpoint': 'main.keyword_details',
-                'keyword_id': self.row.id}
+                'keyword_id': self.obj.id}
 
 
-class ResponsibilityNameEditForm(ModelEditForm):
+class ResponsibilityNameEditForm(BasicEditForm):
     def __init__(self, *pargs, **kwargs):
         super().__init__(*pargs, **kwargs)
         self.model = ResponsibilityName
@@ -333,10 +322,10 @@ class ResponsibilityNameEditForm(ModelEditForm):
 
     def redirect_to(self):
         return {'endpoint': 'main.responsibility_details',
-                'responsibility_id': self.row.id}
+                'responsibility_id': self.obj.id}
 
 
-class PersonNameVariantEditForm(ModelEditForm):
+class PersonNameVariantEditForm(BasicEditForm):
     def __init__(self, *pargs, **kwargs):
         super().__init__(*pargs, **kwargs)
         self.model = PersonNameVariant
@@ -358,27 +347,26 @@ class PersonNameVariantEditForm(ModelEditForm):
 
     def redirect_to(self):
         return {'endpoint': 'main.name_variant',
-                'variant_id': self.row.id}
+                'variant_id': self.obj.id}
 
 
 class DocumentEditForm(ModelEditForm):
     def __init__(self, *pargs, **kwargs):
         super().__init__(*pargs, **kwargs)
-        self.model = PersonNameVariant
+        self.model = Document
         if 'obj' in kwargs:
             self.header = 'Update Document entry:'
+            self.load_stmts_of_responsibility_cbodies()
+            self.load_stmts_of_responsibility_individuals()
+            self.load_publication_places()
+            self.load_collectivity_subjects()
+            self.load_languages_as_subjects()
+            self.load_keywords()
+            self.load_topics_people()
+            self.load_subjects_locations()
+            self.load_dependent_documents()
         else:
             self.header = 'Create new Document entry:'
-
-        self.load_stmts_of_responsibility_cbodies()
-        self.load_stmts_of_responsibility_individuals()
-        self.load_publication_places()
-        self.load_collectivity_subjects()
-        self.load_languages_as_subjects()
-        self.load_keywords()
-        self.load_topics_people()
-        self.load_subjects_locations()
-        self.load_dependent_documents()
 
     def validate_on_submit(self):
         if request.method == 'POST':
@@ -387,6 +375,18 @@ class DocumentEditForm(ModelEditForm):
             return False
 
     def commit_row(self):
+        super(DocumentEditForm, self).commit_row()
+        # try:
+        #     int(self.id.data)
+        # except ValueError:
+        #     self.id.data = None
+        #     self.obj = self.model()
+        #     self.success_message = 'Successfully created new entry.'
+        # else:
+        #     #self.obj = self.model.query.get(self.id.data)
+        #     self.success_message = 'Entry successfully updated.'
+
+        print('========================', self.model)
         self.save_stmts_of_responsibility_coll_bodies()
         self.save_stmts_of_responsibility_individuals()
         self.save_document_language()
@@ -398,30 +398,15 @@ class DocumentEditForm(ModelEditForm):
         self.save_topics_people()
         self.save_subjects_locations()
         self.save_dependent_docs()
-        self._commit()
-
-    def _commit(self):
-        # przenieść do głównej klasy
-        try:
-            db.session.commit()
-        except IntegrityError as err:
-            db.session.rollback()
-            flash('Failed to perform operation due to '
-                  'the data integrity error.')
-            # to powinno iść do loga
-            print(f'Failed to perform operation: {err}', file=stderr)
-            return False
-        else:
-            flash('Successfully updated document')
-            return True
+        self.save_text_fields()
+        return self._commit()
 
     def load_stmts_of_responsibility(self, title_string, entity_dict,
                                     list_generator):
         '''General method for loading statements of responsibility.
         '''
-        if getattr(self, 'obj'):
-            return [(json.dumps(entity_dict(entity)),
-                     title_string(entity)) for entity in list_generator()]
+        return [(json.dumps(entity_dict(entity)),
+                 title_string(entity)) for entity in list_generator()]
 
     def load_stmts_of_responsibility_cbodies(self):
         '''Loads statements-o-r. from the object into the form.
@@ -440,9 +425,10 @@ class DocumentEditForm(ModelEditForm):
                               item.collectivity.name))
 
         self.responsibility_collectivities.choices = \
-            self.load_stmts_of_responsibility(title_string=title_string,
-                                         entity_dict=entity_dict,
-                                         list_generator=list_generator)
+            self.load_stmts_of_responsibility(
+                title_string=title_string,
+                entity_dict=entity_dict,
+                list_generator=list_generator)
 
     def load_stmts_of_responsibility_individuals(self):
         '''Loads individual document responsibilities from the database
@@ -530,6 +516,17 @@ class DocumentEditForm(ModelEditForm):
             obj_list.append(item_obj)
         return obj_list
 
+    def save_text_fields(self):
+        # można chyba przenieść do klasy wyższej
+        for field in ['title_proper', 'parallel_title', 'other_title_inf',
+                      'edition_statement', 'parallel_edition_stmt',
+                      'additional_edition_stmt', 'numbering',
+                      'publication_date', 'pagination', 'physical_details',
+                      'dimensions', 'accompanying_material', 'series',
+                      'note', 'issn', 'isbn_10', 'isbn_13']:
+            value = getattr(self, field).data
+            setattr(self.obj, field, value)
+
     def save_keywords(self):
         self.obj.keywords = DocumentEditForm.save_from_multiselect(
             self.keywords.raw_data, Keyword)
@@ -574,6 +571,8 @@ class DocumentEditForm(ModelEditForm):
         return choices
 
     def save_dependent_docs(self):
+        # czy wpisy z tabeli podłączonej do RelatedDocuments są kasowane?
+        self.obj.dependent_docs = []
         new_related_document_pairs = []
 
         for json_data in self.dependent_docs.raw_data:
@@ -597,8 +596,6 @@ class DocumentEditForm(ModelEditForm):
 
         if new_related_document_pairs:
             db.session.add(*new_related_document_pairs)
-        else:
-            self.obj.dependent_docs = []
 
     def save_stmts_of_responsibility_coll_bodies(self):
         def doc_resp_fn(collective_body, responsibility):
@@ -654,7 +651,7 @@ class DocumentEditForm(ModelEditForm):
 
     def redirect_to(self):
         return {'endpoint': 'main.document_view',
-                'document_id': self.row.id}
+                'document_id': self.obj.id}
 
     id = HiddenField()
     title_proper = StringField(
