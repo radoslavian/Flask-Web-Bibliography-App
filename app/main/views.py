@@ -18,7 +18,49 @@ from app.main.forms import *
 
 @main.before_app_request
 def before_request():
+    if current_user.is_authenticated:
+        current_user.ping()
+        # +przekierowanie na stronę dla uż. niepotwierdzonych
     g.search_form = QuickSearchForm()
+
+
+@main.route('/user-list')
+@login_required
+@admin_required
+def user_list():
+    users = User.query.order_by(User.name)
+    return render_template(
+        'list_of_items.html',
+        title='List of users',
+        subtitle='Alphabetical order, ascending',
+        pagination=paginate(users),
+        endpoint='.user_list',
+        partial_template_name='_user_list.html')
+
+
+@main.route('/user/<username>')
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('user_profile.html', user=user)
+
+
+@main.route('/edit-profile/<username>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def edit_profile(username):
+    '''User profile editing for administrator.
+    '''
+    user = User.query.filter_by(username=username).first_or_404()
+    edit_form = EditProfileForm(obj=user, user=user)
+    if edit_form.validate_on_submit():
+        edit_form.populate_obj(user)
+        db.session.add(user)
+        db.session.commit()
+        flash('User profile successfully updated!')
+        return redirect(url_for('main.user', username=user.username))
+    return render_template('edit_profile.html',
+                           edit_form=edit_form, user=user)
 
 
 @main.route('/edit/<model_name>/', methods=['GET', 'POST'])
@@ -70,6 +112,16 @@ def edit_database_entry(model_name):
             return redirect(url_for(**entity_form.redirect_to()))
 
     return render_template(template, entity_form=entity_form, options=options)
+
+
+@main.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@main.errorhandler(403)
+def forbidden(e):
+    return render_template('403.html'), 403
 
 
 @main.route('/browse/people/')

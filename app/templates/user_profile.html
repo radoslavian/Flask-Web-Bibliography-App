@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>View user {{ user.username }} account details:</title>
+{% endblock %}
+{% block content %}
+  <h1>{{ user.username }}</h1>
+  {% if user.name %}
+    <p>
+      Name: {{ user.name }}
+    </p>
+  {% endif %}
+  {% if user.email %}
+    <p>
+      <strong>Registration email:</strong>
+      <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+    </p>
+<p>
+  <strong>Last seen:</strong> {{ user.last_seen }} UTC
+</p>
+<p>
+  <strong>Member since:</strong> {{ user.member_since }} UTC
+</p>
+<p>
+  <strong>Confirmed:</strong> {{ user.confirmed }}
+</p>
+<p>
+  <strong>Real name:</strong> {{ user.name or 'unknown' }}
+</p>
+{% endif %}
+{% if current_user.is_administrator() %}
+  <a class="btn btn-success" href="{{ url_for('main.edit_profile', username=user.username) }}">
+    Edit profile
+  </a>
+{% endif %}
+{% endblock %}

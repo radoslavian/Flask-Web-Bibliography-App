@@ -11,7 +11,7 @@ class Config:
     APP_ADMIN = os.environ.get('APP_ADMIN')
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
-    MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', '995'))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
         ['true', 'on', '1']
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')

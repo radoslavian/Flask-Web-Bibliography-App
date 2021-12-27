@@ -1,7 +1,5 @@
-'''Custom decorators for the application's view functions.
+'''Custom decorator functions (mainly for use with routes).
 '''
-
-# not yet tested with view functions
 
 from functools import wraps
 from flask import abort
@@ -24,4 +22,4 @@ def permission_required(permission):
 
 
 def admin_required(f):
-    permission_required(Permissions.ADMIN)(f)
+    return permission_required(Permissions.ADMIN)(f)

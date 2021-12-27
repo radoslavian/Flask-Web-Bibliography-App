@@ -7,10 +7,46 @@ from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms import (StringField, SubmitField, TextAreaField, HiddenField,
-                     SelectMultipleField, FieldList)
+                     SelectMultipleField, FieldList, BooleanField,
+                     ValidationError)
 from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, Email, Regexp
 from app.utils.helpers import length
+
+class EditProfileForm(FlaskForm):
+    '''User profile edit form.
+    Adapted from: M. Grinberg...
+    '''
+    def __init__(self, user, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+    def validate_email(self, field):
+        if (field.data != self.user.email and
+            User.query.filter_by(email=field.data).first()):
+            raise ValidationError('Email already registered!')
+
+    def validate_username(self, field):
+        if (field.data != self.user.username and
+            User.query.filter_by(username=field.data).first()):
+            raise ValidationError('Username already in use!')
+
+    email = StringField('User email:', validators=[
+        DataRequired(), Length(1, length(User.email)), Email()])
+    username = StringField(
+        'Username:',
+        validators=[
+            DataRequired(), Length(0, length(User.name),
+            Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
+                   'Only letters, underscores, numbers and dots are allowed'
+                   ' in the username.'))])
+    name = StringField('Real name:',
+                       validators=[Length(0, length(User.name))])
+    confirmed = BooleanField('Confirmed')
+    role = QuerySelectField('Role:', query_factory=lambda: Role.query,
+                            get_label=lambda role: role.name.capitalize())
+    submit = SubmitField('Submit')
+
 
 class ModelEditForm(FlaskForm):
     '''Abstract class for entity editing forms.
@@ -87,7 +123,7 @@ class PersonEditForm(ModelEditForm):
     def get_variants(self):
         '''Loads variants from object or query into form.
         '''
-        if getattr(self, 'obj'):
+        if getattr(self, 'obj', None):
             # id and variant text
             name_variants = [(variant.id, str(variant) +
                               f' (id {variant.id})')
@@ -108,7 +144,7 @@ class PersonEditForm(ModelEditForm):
         if self.name_variants.raw_data:
             variants = []
             # takie samo jak w get_variants
-            # może użyć tu yield?
+            # jak to połączyć?
             for variant_id in self.name_variants.raw_data:
                 if variant_id.isdigit():
                     variant = PersonNameVariant.query.get(int(variant_id))
@@ -165,7 +201,6 @@ class PersonEditForm(ModelEditForm):
 class BasicEditForm(ModelEditForm):
     def commit_row(self):
         # super(ModelEditForm, self).commit_row() # czemu to nie działa?
-        super().commit_row()
         self.populate_obj(self.obj)
         return super()._commit()
 

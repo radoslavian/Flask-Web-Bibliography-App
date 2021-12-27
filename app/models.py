@@ -149,6 +149,8 @@ class Role(db.Model):
         return f'<Role: {self.name}>'
 
 
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 class User(UserMixin, db.Model):
     '''User representation in the application.
     Solutions adapted from: M. Grinberg...
@@ -165,6 +167,15 @@ class User(UserMixin, db.Model):
     member_since = db.Column(db.DateTime, default=datetime.utcnow)
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def __str__(self):
+        username = self.username
+        if self.name:
+            username += f' ({self.name})'
+        return username
+
+    def __html__(self):
+        return self.__str__()
+
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
@@ -176,6 +187,11 @@ class User(UserMixin, db.Model):
     def get_id(self):
         return self.user_id
 
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
+
     @property
     def password(self):
         raise AttributeError('Password is not a readable attribute.')
@@ -186,6 +202,26 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def generate_confirmation_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'confirm': self.user_id}).decode('utf-8')
+
+    def confirm(self, token):
+        '''Email based account confirmation.
+        Based on: M. Grinberg...
+        '''
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+            # jaki wyjątek?
+        except:
+            return False
+        if data.get('confirm') != self.user_id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True
 
     def can(self, perm):
         return self.role is not None and self.role.has_permission(perm)
@@ -203,8 +239,6 @@ class AnonymousUser(AnonymousUserMixin):
 
 
 login_manager.anonymous_user = AnonymousUser
-
-# from . import login_manager
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -316,7 +350,7 @@ class Language(db.Model, Lock, SearchableMixin):
         output = self.language_name
         if self.native_name:
             output += ' - ' + self.native_name
-        # one out of the two
+        # one of the two
         if self.iso_639_1_language_code:
             output += ' (' + self.iso_639_1_language_code + ')'
         elif self.iso_639_2_language_code:

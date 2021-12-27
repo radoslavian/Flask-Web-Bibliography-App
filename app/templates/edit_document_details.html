@@ -36,7 +36,7 @@ var selected_individual_id = undefined;
 var selected_dependent_doc_id = undefined;
 
 const search_coll_body = get_search_function(
-    /* return function to perform search collective body
+    /* returns function which performs search of a collective body
      * in a responsibility section on a document edit page
      * argument: input-id:
      * search_coll_body("collective-body-responsibility-stmt")
@@ -164,7 +164,7 @@ $(document).ready(function() {
 	},
 	{
             "button_id": "#remove-sel-collective-body-bt",
-            "multiple_select_id": "#responsibility_collectivitie"
+            "multiple_select_id": "#responsibility_collectivities"
 	},
 	{
             "button_id": "#remove-sel-publication-place-bt",
@@ -220,7 +220,7 @@ $(document).ready(function() {
 		fn.apply(this, arguments);
 	    }
 	    else {
-		alert("Can't add: selected document is the same as the one "
+		alert("Can not add: selected document is the same as the one "
 		      + "currently loaded into the form!");
 	    }
 	}

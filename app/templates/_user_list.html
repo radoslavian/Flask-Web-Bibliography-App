@@ -1,0 +1,6 @@
+{% for user in pagination.items %}
+  <a class="list-group-item list-group-item-action"
+     href="{{ url_for('.user', username=user.username) }}">
+     {{ user }}
+  </a>
+{% endfor %}
