@@ -355,5 +355,8 @@ function get_add_dependent_doc(
 		  + (dependent_doc["description"] ?
 		     ` (${dependent_doc["description"]})` : ''));
 	$(select_multiple_field_id).append(option);
+
+	window[dependent_doc_id] = undefined;
+	selected_dependent_doc.val('');
     }
 }

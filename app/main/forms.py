@@ -630,7 +630,7 @@ class DocumentEditForm(ModelEditForm):
             new_related_document_pairs.append(related_documents)
 
         if new_related_document_pairs:
-            db.session.add(*new_related_document_pairs)
+            db.session.add_all(new_related_document_pairs)
 
     def save_stmts_of_responsibility_coll_bodies(self):
         def doc_resp_fn(collective_body, responsibility):

@@ -156,7 +156,25 @@ def document_view(document_id):
     document = Document.query.filter_by(
         document_id=document_id).first_or_404()
 
-    return render_template('document.html', document=document)
+    sort = {
+        'responsibilities_collectivities': lambda resp_col: sorted(
+            resp_col,
+            key=lambda item: (
+                item.ordering,
+                item.collectivity.name)),
+        'responsibilities_individuals': lambda resp_ind: sorted(
+            resp_ind,
+            key=lambda item: (
+                item.ordering,
+                item.person.last_name or item.person.forenames)),
+        'dependent_docs': lambda doc: sorted(
+            doc,
+            key=lambda item: (
+                item.ordering,
+                item.dependent_doc.title_proper))
+    }
+
+    return render_template('document.html', document=document, sort=sort)
 
 
 @main.route('/browse/geographic-locations/id=<location_id>')
@@ -434,12 +452,16 @@ def get_person_entries():
     variants, total_variants = get_es_search_params(PersonNameVariant)
     next_page_variants = total_variants > (page * current_app.config[
         'SHORT_LIST_ENTRIES_PER_PAGE'])
-    output_variants = ({'text': item,
-                        'id': item.person_id} for item in variants)
+
+    # filter only name variants referenced by a main person name
+    output_variants = (
+        {'text': item,
+         'id': item.person_id} for item in
+        filter(lambda variant: variant.person_id, variants))
     output_people.extend(output_variants)
 
     return jsonify(output_people,
-                   # czy poniżej powinny być nawiasy?
+                   # czy poniżej muszą być nawiasy?
                    (next_page_people or next_page_variants))
 
 
@@ -696,11 +718,11 @@ def delete_entry(entry_model):
         selection = choice_list[entry_model]
         error_message = delete_entry_from_db(selection['model'], id_number)
         if error_message:
-            flash("Failed to delete entry: ", error_message)
-
-            # do przetestowania !
+            flash(f'''Failed to delete entry: {error_message} - before
+            attempting to delete a document, check if it has all
+            relationships cleared.''')
             return redirect(url_for(selection['endpoint'],
-                                    {selection['arg']:id_number}))
+                                    **{selection['arg']: id_number}))
     else:
         abort(404)
 

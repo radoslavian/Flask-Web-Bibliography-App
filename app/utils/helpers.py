@@ -151,9 +151,9 @@ def get_jsonified(model):
 
 
 def get_es_search_params(model, page=1):
-    '''Fetches parameters for Elasticsearch query from the POST request.
+    '''Returns elements found in a model using search-engine.
     '''
-    # nazwa tej funkcji powinna zostać zmieniona, opis też
+    # nazwa tej funkcji powinna zostać zmieniona
 
     return model.search(
         request.json.get('query', None),
@@ -194,12 +194,11 @@ def search_multiple_models(models):
 def delete_entry_from_db(model, id_number):
     '''Shortcut for deleting rows from database models.
     '''
-    model.query.filter(
-        getattr(model, model.__primary_key__) == id_number).delete()
-
     try:
+        model.query.filter(
+            getattr(model, model.__primary_key__) == id_number).delete()
         db.session.commit()
     except IntegrityError as err:
         db.session.rollback()
-        return str(err)
+        return repr(err)
     return None

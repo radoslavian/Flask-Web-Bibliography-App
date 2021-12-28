@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from elasticsearch import Elasticsearch
 from flask_login import LoginManager
 from config import config
+from flask_sqlalchemy import SQLAlchemy
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -40,5 +41,17 @@ def create_app(config_name='development'):
 
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
         if app.config['ELASTICSEARCH_URL'] else None
+
+    if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
+        def _fk_pragma_on_connect(dbapi_con, con_record):
+            '''Turns on ForeignKey constraint on each connection
+            when using SQLite.
+            https://gist.github.com/asyd/a7aadcf07a66035ac15d284aef10d458
+            '''
+            dbapi_con.execute('pragma foreign_keys=ON')
+
+        with app.app_context():
+            from sqlalchemy import event
+            event.listen(db.engine, 'connect', _fk_pragma_on_connect)
 
     return app

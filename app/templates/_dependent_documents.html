@@ -1,5 +1,5 @@
 <ul>
-  {% for doc in document.dependent_docs %}
+  {% for doc in sort['dependent_docs'](document.dependent_docs) %}
     <li>
       <a href="{{ url_for('.document_view',
 	       document_id=doc.dependent_doc.document_id) }}">

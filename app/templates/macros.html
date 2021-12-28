@@ -43,7 +43,7 @@
 {% macro render_list(items, item_fn) %}
   {# Renders list of items (people, geographic location) #}
   {# using funtion for creating individual item. #}
-  {# Used to create lists of items in detailed document view. #}
+  {# Used to create lists of items in a detailed document view. #}
   <ul class="items-list list-group">
     {% for item in items %}
       <li class="list-group-item">{{ item_fn(item) }}</li>
@@ -264,7 +264,7 @@
 	    </button>
 	  </div>
 	  <div class="modal-body">
-	    <p>Do you really want to delete this entry and its all relationships to other records? This operation is irreversible!</p>
+	    <p>Do you really want to delete this entry? This operation is irreversible!</p>
 	  </div>
 	  <div class="modal-footer">
 	    <button type="button" class="btn btn-secondary" data-dismiss="modal">

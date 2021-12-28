@@ -47,7 +47,8 @@
       <tr>
 	<td>Statements of responsibility (individuals):</td>
 	<td>
-	  {{ macros.render_list(document.responsibilities_people,
+	  {{ macros.render_list(sort['responsibilities_individuals'](
+	  document.responsibilities_people),
 	  macros.render_person_responsibility) }}
 	</td>
       </tr>
@@ -56,8 +57,9 @@
       <tr>
 	<td>Statements of responsibility (collective bodies):</td>
 	<td>
-	    {{ macros.render_list(document.responsibility_collectivities,
-		macros.render_collective_body_responsibility) }}
+	  {{ macros.render_list(sort['responsibilities_collectivities'](
+	  document.responsibility_collectivities),
+	  macros.render_collective_body_responsibility) }}
 	</td>
       </tr>
     {% endif %}
