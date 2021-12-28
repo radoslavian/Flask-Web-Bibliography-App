@@ -114,7 +114,7 @@ class Role(db.Model):
             'User': [Permissions.SAVE_TO_LIST],
             'Editor': [Permissions.SAVE_TO_LIST,
                        Permissions.EDIT_BIBLIOGRAPHY],
-            'Administrator:': [Permissions.SAVE_TO_LIST,
+            'Administrator': [Permissions.SAVE_TO_LIST,
                                Permissions.EDIT_BIBLIOGRAPHY,
                                Permissions.ADMIN]
         }

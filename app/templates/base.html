@@ -60,11 +60,13 @@
 	      Search&nbsp;documents
 	    </a> 
 	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="{{ url_for('main.user_list') }}">
-	      User&nbsp;list
-	    </a> 
-	  </li>
+	  {% if current_user.is_administrator() %}
+	    <li class="nav-item">
+	      <a class="nav-link" href="{{ url_for('main.user_list') }}">
+		User&nbsp;list
+	      </a> 
+	    </li>
+	  {% endif %}
 	  {# Docelowo w tej samej kolejności co w Browse #}
 	  {% if current_user.can(Permissions.EDIT_BIBLIOGRAPHY) %}
 	    <li class="nav-item dropdown">
@@ -93,7 +95,7 @@
 		   data-toggle="tooltip"
 		   data-placement="left"
 		   title="Add new document-type entry"
-		   href="{{ url_for('main.edit_database_entry', model_name='document-types', new='True') }}">
+		   href="{{ url_for('main.edit_database_entry', model_name='document-type', new='True') }}">
 		   Document type
 		</a>
 		<a class="dropdown-item"
@@ -107,7 +109,7 @@
 		   data-toggle="tooltip"
 		   data-placement="left"
 		   title="Add new keyword (subject header) entry"
-		   href="{{ url_for('main.edit_database_entry', model_name='keyword', new='True') }}">
+		   href="{{ url_for('main.edit_database_entry', model_name='subject-keyword', new='True') }}">
 		   Keyword
 		</a>
 		<a class="dropdown-item"
@@ -121,7 +123,7 @@
 		   data-toggle="tooltip"
 		   data-placement="left"
 		   title="Add new responsibility name entry"
-		   href="{{ url_for('main.edit_database_entry', model_name='person', new='True') }}">
+		   href="{{ url_for('main.edit_database_entry', model_name='person-name', new='True') }}">
 		   Person
 		</a>
 		<a class="dropdown-item"

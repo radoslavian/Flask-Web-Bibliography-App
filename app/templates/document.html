@@ -218,9 +218,6 @@
 	</td>
       </tr>
     {% endif %}
-    <tr>
-      <td>{{ macros.edit_entry_bt('document', document.id) }}</td>
-      <td>{{ macros.modal_delete_button_modal('document', document.id) }}</td>
-    </tr>
+    {{ macros.edit_delete_row('document', document.id) }}
     </table>
 {% endblock %}

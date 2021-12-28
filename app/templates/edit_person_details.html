@@ -23,14 +23,12 @@
 {% block scripts %}
   {{ super() }}
   <script type="application/javascript">
-    var search_name_variant = get_search_function(
+var search_name_variant = get_search_function(
 	"{{ url_for('main.get_name_variant') }}",
-	success_fn=results => {
-	    print_search_results(
-		results,
-		$("#results-list"),
-		"#name_variants")
-	});
+    success_fn=results => print_items_clear(
+	results, $("#results-list"),
+	click_fn=relationship_callback("#name_variants"))
+);
 
 $(document).ready(function() {
     unselect_all("name_variants");

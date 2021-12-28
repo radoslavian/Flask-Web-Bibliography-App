@@ -54,9 +54,6 @@
 	id_number=language.language_id) }}
       </td>
     </tr>
-    <tr>
-      <td>{{ macros.edit_entry_bt('language', id=language.language_id) }}</td>
-      <td>{{ macros.modal_delete_button_modal('language', language.language_id) }}</td>
-    </tr>
+    {{ macros.edit_delete_row('language', language.language_id) }}
   </table>
 {% endblock %}

@@ -72,14 +72,14 @@ def edit_database_entry(model_name):
         # + zmiany w tej funkcji (łatwiej będzie to zrobić
         # jak będę miał test automatyczny)
         'language': [LanguageEditForm, Language],
-        'document-types': [DocumentTypeEditForm, DocumentType],
+        'document-type': [DocumentTypeEditForm, DocumentType],
         'collective-body': [CollectiveBodyEditForm, CollectiveBody],
         'geographic-location': [GeographicLocationEditForm,
                                 GeographicLocation],
-        'keyword': [KeywordEditForm, Keyword],
+        'subject-keyword': [KeywordEditForm, Keyword],
         'responsibility-name': [ResponsibilityNameEditForm,
                                 ResponsibilityName],
-        'person': [PersonEditForm, Person],
+        'person-name': [PersonEditForm, Person],
         'person-name-variant': [PersonNameVariantEditForm,
                                 PersonNameVariant],
         'document': [DocumentEditForm, Document]
@@ -91,7 +91,7 @@ def edit_database_entry(model_name):
         model = models[model_name][1]
 
     options = {}
-    if model_name == 'person':
+    if model_name == 'person-name':
         template = 'edit_person_details.html'
     elif model_name == 'document':
         template = 'edit_document_details.html'
@@ -661,13 +661,13 @@ def delete_entry(entry_model):
     choice_list = {
         'collective-body': {
             'model': CollectiveBody,
-            'endpoint': 'main.document_type',
-            'arg': 'document_type',
+            'endpoint': 'main.collective_body_details',
+            'arg': 'c_body_id',
             'list_endpoint': 'main.collective_bodies_list'
         },
         'document-type': {
             'model': DocumentType,
-            'endpoint': 'main.collective_body_details',
+            'endpoint': 'main.document_type',
             'arg': 'type_id',
             'list_endpoint': 'main.document_types_list'
         },
@@ -719,7 +719,7 @@ def delete_entry(entry_model):
         error_message = delete_entry_from_db(selection['model'], id_number)
         if error_message:
             flash(f'''Failed to delete entry: {error_message} - before
-            attempting to delete a document, check if it has all
+            attempting to delete an entry, check if it has all
             relationships cleared.''')
             return redirect(url_for(selection['endpoint'],
                                     **{selection['arg']: id_number}))

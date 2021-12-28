@@ -57,9 +57,6 @@
 	</td>
       </tr>
     {% endif %}
-    <tr>
-      <td>{{ macros.edit_entry_bt('geographic-location', location.location_id) }}</td>
-      <td>{{ macros.modal_delete_button_modal('geographic-location', location.location_id) }}</td>
-    </tr>
+    {{ macros.edit_delete_row('geographic-location', location.location_id) }}
   </table>
 {% endblock %}

@@ -90,15 +90,14 @@ class TestApp(unittest.TestCase):
         self.check_response('main.browse_people', 200)
 
         # check 404 response:
-        self.check_response('main.browse_people', 404,
-                            page=int(COUNT/3))
+        self.check_response('main.browse_people', 404, page=int(COUNT/3))
 
         # compares number of entries from the query with the one
         # displayed on the list
         names_count_from_query = queries.list_people_name_variants().count()
         self.assertEqual(names_count_from_query,
-                         TestApp.PersonNames(self.client, 'main.browse_people'
-                         ).main_loop())
+                         TestApp.PersonNames(
+                             self.client, 'main.browse_people').main_loop())
 
         # check if each item from the list of names and name variants
         # appears only once
@@ -148,6 +147,18 @@ class TestApp(unittest.TestCase):
     def test_document_types_list(self):
         self.check_response('main.document_types_list', 200)
 
+    class DocumentCount(Counter):
+        def __init__(self, *pargs, **kwargs):
+            TestApp.Counter.__init__(self, *pargs, **kwargs)
+
+            self.document_title_proper = Document.query.order_by(
+                func.random()).first().title_proper
+
+        def custom_fn(self):
+            self.return_value += len(re.findall(
+                self.document_title_proper, self.response_text))
+
+
     def test_documents_list(self):
         Language.add_languages(10)
         fake.people(15)
@@ -155,12 +166,27 @@ class TestApp(unittest.TestCase):
         fake.collective_bodies(15)
         fake.keywords(10)
 
-        DOC_COUNT = 30
+        DOC_COUNT = 50
         fake.documents(DOC_COUNT)
 
         self.check_response('main.documents_list', 200)
         self.check_response('main.documents_list', 404,
                             page=int(DOC_COUNT/5))
+
+        self.assertEqual(TestApp.DocumentCount(
+            endpoint='main.documents_list',
+            client=self.client).main_loop(), 1)
+
+    class GeographicLocationCount(Counter):
+        def __init__(self, *pargs, **kwargs):
+            TestApp.Counter.__init__(self, *pargs, **kwargs)
+
+            self.name = GeographicLocation.query.order_by(
+                func.random()).first().name
+
+        def custom_fn(self):
+            self.return_value += len(re.findall(
+                self.name, self.response_text))
 
     def test_geographic_locations_list(self):
         COUNT = 10
@@ -170,6 +196,20 @@ class TestApp(unittest.TestCase):
         self.check_response('main.geographic_locations_list', 404,
                             page=int(COUNT/3))
 
+        self.assertEqual(TestApp.GeographicLocationCount(
+            endpoint='main.geographic_locations_list',
+            client=self.client).main_loop(), 1)
+
+    class KeywordCount(Counter):
+        def __init__(self, *pargs, **kwargs):
+            TestApp.Counter.__init__(self, *pargs, **kwargs)
+
+            self.keyword = Keyword.query.order_by(
+                func.random()).first().keyword
+
+        def custom_fn(self):
+            self.return_value += len(re.findall(
+                self.keyword, self.response_text))
 
     def test_subject_keywords_list(self):
         COUNT = 10
@@ -178,6 +218,20 @@ class TestApp(unittest.TestCase):
         self.check_response('main.keywords_list', 200)
         self.check_response('main.keywords_list', 404,
                             page=int(COUNT/3))
+        self.assertEqual(TestApp.KeywordCount(
+            endpoint='main.keywords_list',
+            client=self.client).main_loop(), 1)
+
+    class LanguageCount(Counter):
+        def __init__(self, *pargs, **kwargs):
+            TestApp.Counter.__init__(self, *pargs, **kwargs)
+
+            self.language_name = Language.query.order_by(
+                func.random()).first().language_name
+
+        def custom_fn(self):
+            self.return_value += len(re.findall(
+                self.language_name, self.response_text))
 
     def test_languages_list(self):
         COUNT = 10
@@ -186,6 +240,10 @@ class TestApp(unittest.TestCase):
         self.check_response('main.language_list', 200)
         self.check_response('main.language_list', 404,
                             page=int(COUNT/3))
+
+        self.assertEqual(TestApp.LanguageCount(
+            endpoint='main.language_list',
+            client=self.client).main_loop(), 1)
 
     def single_occurence(self, endpoint, regexp):
         '''Checks if item appears only once on a non-paginated list.
@@ -211,3 +269,55 @@ class TestApp(unittest.TestCase):
                   f'{doc_type.type_id}">\n'
                   f'\s+{doc_type.name.capitalize()}')
         self.single_occurence('main.document_types_list', regexp)
+
+    # tests for entry detail views
+    def test_collective_body_details_view(self):
+        fake.collective_bodies(6)
+        random_coll_body = CollectiveBody.query.order_by(
+            func.random()).first()
+
+        self.check_response('main.collective_body_details',
+                            200, c_body_id=random_coll_body.id)
+        response = self.client.get(url_for(
+            'main.collective_body_details', c_body_id=random_coll_body.id))
+
+        # find name of a c.body in a response text:
+        self.assertEqual(
+            len(re.findall(random_coll_body.name,
+                           response.get_data(as_text=True))), 1)
+
+    def test_document_types_details_view(self):
+        random_doctype = DocumentType.query.order_by(
+            func.random()).first()
+
+        self.check_response('main.document_type',
+                            200, type_id=random_doctype.id)
+        response = self.client.get(url_for(
+            'main.document_type', type_id=random_doctype.id))
+        self.assertEqual(len(re.findall(f'<h1>{random_doctype.name}</h1>',
+                                        response.get_data(as_text=True))), 1)
+
+    # tests for entry editing routes
+
+    def create_user(self):
+        Role.insert_roles()
+        u = User(email='jo@example.com', password='kot',
+                 confirmed=True,
+                 role=Role.query.filter_by(name='Administrator').first())
+        db.session.add(u)
+        db.session.commit()
+
+    def test_new_entry_routes(self):
+        '''Checks if routes for creating new entries exist.
+        '''
+        self.create_user()
+        response = self.client.post('/auth/login', data={
+            'email': 'jo@example.com',
+            'password': 'kot'
+        }, follow_redirects=True)
+        print(response.get_data(as_text=True))
+        self.assertEqual(response.status_code, 302)
+
+        #self.check_response('main.edit_database_entry', 200,
+        #                    model_name='person-name-variant',
+        #                    new='True')

@@ -280,3 +280,14 @@
     </div>
   {% endif %}
 {% endmacro %}
+
+
+{% macro edit_delete_row(entry_choice, entry_id) %}
+  {# Prints <tr> row with edit/delete buttons. #}
+  {% if current_user.can(Permissions.EDIT_BIBLIOGRAPHY) %}
+    <tr>
+      <td>{{ edit_entry_bt(entry_choice, entry_id) }}</td>
+      <td>{{ modal_delete_button_modal(entry_choice, entry_id) }}</td>
+    </tr>
+  {% endif %}
+{% endmacro %}

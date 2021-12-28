@@ -50,9 +50,6 @@
 	by_entry_type='collective_body') }}
       </td>
     </tr>
-    <tr>
-      <td>{{ macros.edit_entry_bt('collective-body', collective_body.id) }}</td>
-      <td>{{ macros.modal_delete_button_modal('collective-body', collective_body.id) }}</td>
-    </tr>
+    {{ macros.edit_delete_row('collective-body', collective_body.id) }}
   </table>
 {% endblock %}

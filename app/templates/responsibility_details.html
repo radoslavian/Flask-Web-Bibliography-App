@@ -47,9 +47,6 @@
       </td>
     </tr>
   {% endif %}
-  <tr>
-    <td>{{ macros.edit_entry_bt('responsibility-name', responsibility.id) }}</td>
-    <td>{{ macros.modal_delete_button_modal('responsibility-name', responsibility.id) }}</td>
-  </tr>
+  {{ macros.edit_delete_row('responsibility-name', responsibility.id) }}
   </table>
 {% endblock %}
