@@ -141,13 +141,14 @@ def select_document_types():
 
 def get_jsonified(model):
     '''Helper for get_... view functions called from search pages.
-    Returns jsonified database model(s).
+    Returns jsonified database model/list of models.
     '''
     id_number = request.json.get('id', None)
+    page = request.json.get('page', 1)
     if id_number:
         return jsonify(model.query.filter(
             getattr(model, model.__primary_key__) == id_number).first())
-    return jsonify(get_query_list(model))
+    return jsonify(get_query_list(model, page))
 
 
 def get_es_search_params(model, page=1):
@@ -169,8 +170,8 @@ def get_query_list(model, page=1):
     model - SQLAlchemy (Elasticsearch searchable) model from models.py
     '''
     query, total = get_es_search_params(model, page)
-    next_page =  total > (page * current_app.config[
-        'SHORT_LIST_ENTRIES_PER_PAGE'])
+    next_page =  total > page * current_app.config[
+        'SHORT_LIST_ENTRIES_PER_PAGE']
 
     return [{'text': item,
              'id': item.id} for item in query], next_page

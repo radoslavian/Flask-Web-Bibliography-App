@@ -13,5 +13,5 @@ def test():
     '''
     import unittest
     # tests = unittest.TestLoader().discover('tests')
-    tests = unittest.TestLoader().discover('tests', pattern='*user*')
+    tests = unittest.TestLoader().discover('tests', pattern='*view*')
     unittest.TextTestRunner(verbosity=2).run(tests)
