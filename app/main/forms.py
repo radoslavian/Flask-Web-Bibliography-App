@@ -91,6 +91,7 @@ class ModelEditForm(FlaskForm):
         super().commit_row()
         super()._commit()
         '''
+        print('\n\n\ncommit row\n\n\n') # debug
         try:
             int(self.id.data)
         except ValueError:
@@ -98,12 +99,12 @@ class ModelEditForm(FlaskForm):
             self.obj = self.model()
             self.success_message = 'Successfully created new entry.'
         else:
-            #self.obj = self.model.query.get(self.id.data)
+            # self.obj = self.model.query.get(self.id.data)
             self.success_message = 'Entry successfully updated.'
 
 
 class PersonEditForm(ModelEditForm):
-    # klasa do poprawienia (czyli refactoringu)
+    # klasa do poprawienia
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.model = Person
@@ -121,7 +122,7 @@ class PersonEditForm(ModelEditForm):
             return False
 
     def get_variants(self):
-        '''Loads variants from object or query into form.
+        '''Loads variants from object into the form.
         '''
         if getattr(self, 'obj', None):
             # id and variant text
@@ -200,14 +201,14 @@ class PersonEditForm(ModelEditForm):
 
 class BasicEditForm(ModelEditForm):
     def commit_row(self):
-        # super(ModelEditForm, self).commit_row() # czemu to nie działa?
+        super(BasicEditForm, self).commit_row()
         self.populate_obj(self.obj)
-        return super()._commit()
+        return super(BasicEditForm, self)._commit()
 
 
 class LanguageEditForm(BasicEditForm):
     def __init__(self, *pargs, **kwargs):
-        super().__init__(*pargs, **kwargs)
+        super(LanguageEditForm, self).__init__(*pargs, **kwargs)
         self.model = Language
         if 'obj' in kwargs:
             self.header = 'Update Language entry:'
@@ -404,6 +405,7 @@ class DocumentEditForm(ModelEditForm):
             self.header = 'Create new Document entry:'
 
     def validate_on_submit(self):
+        # rozwiązanie póki nie znajdę lepszego
         if request.method == 'POST':
             return True
         else:
@@ -411,17 +413,6 @@ class DocumentEditForm(ModelEditForm):
 
     def commit_row(self):
         super(DocumentEditForm, self).commit_row()
-        # try:
-        #     int(self.id.data)
-        # except ValueError:
-        #     self.id.data = None
-        #     self.obj = self.model()
-        #     self.success_message = 'Successfully created new entry.'
-        # else:
-        #     #self.obj = self.model.query.get(self.id.data)
-        #     self.success_message = 'Entry successfully updated.'
-
-        print('========================', self.model)
         self.save_stmts_of_responsibility_coll_bodies()
         self.save_stmts_of_responsibility_individuals()
         self.save_document_language()
@@ -513,6 +504,7 @@ class DocumentEditForm(ModelEditForm):
         if getattr(self, 'obj'):
             return [(item.id, str(item))
                     for item in getattr(self.obj, object_attr, [])]
+        # poniższe do usunięcia
         return []
 
     def load_languages_as_subjects(self):
@@ -544,7 +536,7 @@ class DocumentEditForm(ModelEditForm):
         '''Generic method for saving items from multiple selection fields
         into the database.
         '''
-        # list compr.
+        # przerobić na list compr.
         obj_list = []
         for item_id in form_data:
             item_obj = model.query.get(item_id)

@@ -75,8 +75,8 @@ class SearchableMixin(object):
         for obj in cls.query:
             add_to_index(cls.__tablename__, obj)
 
-# db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
-# db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
+db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
+db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
 
 class Permissions:
@@ -214,6 +214,7 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token.encode('utf-8'))
+
             # jaki wyjątek?
         except:
             return False
@@ -533,7 +534,7 @@ class CollectiveBody(db.Model, Lock, SearchableMixin):
         return self.__str__()
 
 
-class ResponsibilityName(db.Model, Lock, SearchableMixin):
+class ResponsibilityName(db.Model, Lock):
     '''Entity's (individual, organisation) responsibility/function name in
     the document (author, editor, publisher etc.)
     '''

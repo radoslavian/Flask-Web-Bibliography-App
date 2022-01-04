@@ -251,7 +251,7 @@
 
     <!-- Your page content -->
 
-      <div class="cointainer ml-3 mr-3 mt-3 mb-1">
+      <div class="container ml-3 mr-3 mt-3 mb-1">
 
 	<!-- Flask flashed messages -->
 
@@ -281,6 +281,7 @@
 	    <a class="list-group-item list-group-item-action list-group-item-info" href="https://palletsprojects.com/p/flask/" target="_blank">Flask</a>
 	    <a class="list-group-item list-group-item-action list-group-item-info" href="https://www.sqlalchemy.org/" target="_blank">SQLAlchemy</a>
 	    <a class="list-group-item list-group-item-action list-group-item-info" href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
+	    <a class="list-group-item list-group-item-action list-group-item-info" href="https://www.ifla.org/references/best-practice-for-national-bibliographic-agencies-in-a-digital-age/resource-description-and-standards/bibliographic-control/international-standard-bibliographic-description-isbd/" target="_blank">ISBD (International Standard Bibliographic Description)</a>
 	  </div>
 	 <div class="col-md-4">
 	    <h3>About the project</h3>
@@ -291,21 +292,24 @@
 		<li>Articles from periodicals and from collective works (published as books).</li>
 	      </ul>
 	      The application uses a relational database, allows browsing bibliographic records over the web and has separate views for editing bibliographic information.</p>
-	      <p><a href="https://docs.google.com/document/d/1l2sDb6wOPnfhyzBBr6hmPlrVnx5hCmTDyNj_LDbgHxs/edit?usp=sharing">Read More&nbsp;>></a></p>
+	      <p><a href="https://docs.google.com/document/d/1l2sDb6wOPnfhyzBBr6hmPlrVnx5hCmTDyNj_LDbgHxs/edit?usp=sharing" target="_blank">Read More&nbsp;>></a></p>
 	 </div>
 	 <div class="col-md-4">
 	   <h3>Quick-start</h3>
 	   <ul>
-	     <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-	     <li>Maecenas eu viverra dolor, et dapibus turpis.</li>
-	     <li>Sed eu ante in sapien convallis accumsan.</li>
-	     <li>Nullam at nunc vel mi porttitor porta.</li>
-	     <li>Ut erat nisl, blandit at nibh vitae, tristique bibendum nisl.</li>
+	     <li>Choose entry list from the "Browse" menu.</li>
+	     <li>Click on a list-item to see details.</li>
+	     <li>Subsequent hyperlinks will take you to other referenced items.</li>
+	     <li>Use "Full text" quick-search to look up entries from the database.</li>
+	     <li>Click the "Search documents" for multiaspect document search.</li>
+	     <li>Click user menu to log-in or go to the registration page.</li>
+	     <li>If an administrator elevates your permissions, you'll gain
+acces to additional functionality: adding new and editing existing records.</li>
 	   </ul>
 	 </div>
 	 <div id="footer" class="col-md-12">
-	   Copyright<sup>&copy;</sup> Radosław Kuzyk. Demo web-application for presentational purposes.
-	   Click <a href="#">here</a> for details about licence and disclaimer.
+	   Copyright<sup>&copy;</sup> 2022 Radosław Kuzyk. Demo web-application for presentational purposes.
+	   Click <a href="{{ url_for('main.disclaimer') }}">here</a> to read the disclaimer.
 	 </div>
 	</footer>
       {% endblock %}

@@ -3,7 +3,7 @@
 <node TEXT="Baza bibliograficzna (podobna do Polskiej Bibliografii Literackiej)" FOLDED="false" ID="ID_696893020" CREATED="1636035670733" MODIFIED="1636035738762" STYLE="oval">
 <font SIZE="18"/>
 <hook NAME="MapStyle" zoom="1.365">
-    <properties edgeColorConfiguration="#808080ff,#ff0000ff,#0000ffff,#00ff00ff,#ff00ffff,#00ffffff,#7c0000ff,#00007cff,#007c00ff,#7c007cff,#007c7cff,#7c7c00ff" fit_to_viewport="false"/>
+    <properties edgeColorConfiguration="#808080ff,#ff0000ff,#0000ffff,#00ff00ff,#ff00ffff,#00ffffff,#7c0000ff,#00007cff,#007c00ff,#7c007cff,#007c7cff,#7c7c00ff" show_note_icons="true" fit_to_viewport="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24.0 pt">
@@ -63,8 +63,8 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="136" RULE="ON_BRANCH_CREATION"/>
-<node TEXT="Aplikacja minimalna (z możliwością rozbudowy)" POSITION="right" ID="ID_394421864" CREATED="1635274763546" MODIFIED="1636035723332">
+<hook NAME="AutomaticEdgeColor" COUNTER="143" RULE="ON_BRANCH_CREATION"/>
+<node TEXT="Aplikacja minimalna (z możliwością rozbudowy)" FOLDED="true" POSITION="right" ID="ID_394421864" CREATED="1635274763546" MODIFIED="1636035723332">
 <font BOLD="true"/>
 <richcontent TYPE="DETAILS">
 
@@ -89,8 +89,8 @@
 <node TEXT="Wyszukiwanie w bd" ID="ID_30317132" CREATED="1635274806377" MODIFIED="1638477655726">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="Logowanie" ID="ID_398581221" CREATED="1635275017369" MODIFIED="1638477670128">
-<icon BUILTIN="help"/>
+<node TEXT="Logowanie" ID="ID_398581221" CREATED="1635275017369" MODIFIED="1640709257296">
+<icon BUILTIN="button_ok"/>
 <node TEXT="Tworzenie konta i logowanie" ID="ID_197824021" CREATED="1638477671476" MODIFIED="1638477691879">
 <icon BUILTIN="button_ok"/>
 </node>
@@ -99,64 +99,43 @@
 </node>
 <node TEXT="wymaga dopracowania" ID="ID_136515947" CREATED="1638534916339" MODIFIED="1638534923492"/>
 </node>
-<node TEXT="Edycja bd (projektowane osobno)" ID="ID_516648049" CREATED="1635275031784" MODIFIED="1635275045843"/>
+<node TEXT="Edycja bd (projektowane osobno)" ID="ID_516648049" CREATED="1635275031784" MODIFIED="1640709269804">
+<icon BUILTIN="button_ok"/>
+</node>
 </node>
 <node TEXT="draft - aktualne zadanie:" POSITION="left" ID="ID_1122590423" CREATED="1631875920852" MODIFIED="1636035723316">
 <font BOLD="true"/>
 <edge COLOR="#ff0000"/>
-<node TEXT="zaprojektować: dodawanie/usuwanie/edycja rekordów" ID="ID_979591466" CREATED="1638534205279" MODIFIED="1638534879270">
+<node TEXT="Przygotować to do weryfikacji przez drugą osobę." ID="ID_1040012581" CREATED="1640899556865" MODIFIED="1640899577947">
 <font BOLD="true"/>
-<node TEXT="Możliwość porzucenia zmian na formularzu edycji i powrotu do poprzedniego widoku." ID="ID_40603927" CREATED="1638910031323" MODIFIED="1638910049548">
-<font BOLD="true"/>
-</node>
-<node TEXT="zapisywanie informacji o modyfikacji rekordu" ID="ID_1277321310" CREATED="1635109528069" MODIFIED="1638910377473">
-<node TEXT="informacja o utworzeniu rekordu, aktualizacji rekordu, użytkowniku który dokonał modyfikacji i czas dokonania modyfikacji" ID="ID_1371440234" CREATED="1635109534194" MODIFIED="1638911321488"/>
-<node TEXT="razem przed commit, powinno zostawać zaktualizowane pole modyfikacji" ID="ID_1525736330" CREATED="1638534726979" MODIFIED="1638534747977"/>
-<node TEXT="utworzenie rekordu" ID="ID_326683102" CREATED="1635109655361" MODIFIED="1635109659614">
-<node TEXT="data i czas; informacje o użytkowniku - w polach &quot;aktualizowano&quot; (updated)" ID="ID_1376743720" CREATED="1635109659642" MODIFIED="1635109710170"/>
+<node TEXT="Przetestować to" ID="ID_1462870336" CREATED="1640958257146" MODIFIED="1640989130216">
+<font BOLD="false"/>
+<node TEXT="Sprawdzić czy bezkonfliktowo da się opisać w tym dokument (np. numer czasopisma)" ID="ID_1980338264" CREATED="1640904016261" MODIFIED="1640989126907">
+<icon BUILTIN="button_ok"/>
 </node>
 </node>
-<node TEXT="pozostałe formularze edycji:" ID="ID_892604594" CREATED="1638910215693" MODIFIED="1638910221969">
-<node TEXT="formularz edycji osoby" ID="ID_545076402" CREATED="1638910207530" MODIFIED="1638910214960">
-<node TEXT="Wariant nazwy osoby można też dodawać na formularzu edycji osoby (tylko imię i nazwisko)" ID="ID_957588098" CREATED="1638542494853" MODIFIED="1638910102027"/>
+<node TEXT="Udostępnienie tego w sieci" ID="ID_978253112" CREATED="1640903681122" MODIFIED="1640903693045"/>
+<node TEXT="wrzucić na GitHub" ID="ID_36341617" CREATED="1640646533557" MODIFIED="1640646542185"/>
+<node TEXT="Zainstalować Elasticsearch na drugim komputerze." ID="ID_1202327915" CREATED="1640904070662" MODIFIED="1640904082911"/>
 </node>
-<node TEXT="formularz edycji dokumentu" ID="ID_31877488" CREATED="1638910236703" MODIFIED="1638910241600"/>
+<node TEXT="Pole notes w wariancie nazw musi być dłuższe niż 45 znaków." ID="ID_428259490" CREATED="1640980844122" MODIFIED="1640980859525"/>
+<node TEXT="W wyszukiwaniu dokumentów: lista z typami dokumentów powinna być ukryta jeżeli nie ma wyników wyszukiwania." ID="ID_1523144868" CREATED="1640819418381" MODIFIED="1640819456785"/>
+<node TEXT="Pisać testy (też z użyciem Selenium)" ID="ID_1150329179" CREATED="1640377049793" MODIFIED="1640730251154">
+<font BOLD="false"/>
+<node TEXT="Zrobić test szybkiego wyszukiwania i poprawić funkcje z tym powiązane" ID="ID_520241787" CREATED="1640817056905" MODIFIED="1640818602528">
+<font BOLD="false"/>
+<node TEXT="po tym: ręcznie przetestować, włączyć aktualizację bazy wyszukiwania, zapisać to jako wersję podstawową (aplikacja minimalna) - dodać tag do commitu" ID="ID_45573481" CREATED="1640817317799" MODIFIED="1640818740710"/>
 </node>
-<node TEXT="uwagi" ID="ID_1904346549" CREATED="1638385291579" MODIFIED="1638385294653"/>
+<node TEXT="Zrobić test edycji nazwy osobowej - dostępne po zalogowaniu." ID="ID_929366130" CREATED="1640730262393" MODIFIED="1640730428627"/>
 </node>
+<node TEXT="Implementować pozostałą funkcjonalność" ID="ID_957049112" CREATED="1640377062161" MODIFIED="1640646552410"/>
 </node>
-<node TEXT="napisać testy" FOLDED="true" POSITION="left" ID="ID_1252667547" CREATED="1634676737843" MODIFIED="1636385800021" LINK="#ID_1401736301">
+<node TEXT="napisać testy" POSITION="left" ID="ID_1252667547" CREATED="1634676737843" MODIFIED="1636385800021" LINK="#ID_1401736301">
 <edge COLOR="#007c00"/>
-<node TEXT="widoki" ID="ID_773548487" CREATED="1635973028732" MODIFIED="1635973032233">
-<node TEXT="Ogólne:" ID="ID_1559895521" CREATED="1636062494667" MODIFIED="1636062600448">
+<node TEXT="trasy-widoki" ID="ID_773548487" CREATED="1635973028732" MODIFIED="1640731005924">
+<node TEXT="sprawdzać czy istnieją trasy dla edit/&lt;entry&gt;/?new=True" ID="ID_1660244616" CREATED="1640731007985" MODIFIED="1640731051087">
 <font BOLD="true"/>
-<node TEXT="wyszukiwanie terminu na liście" ID="ID_1313177677" CREATED="1636062498799" MODIFIED="1636062504960">
-<node TEXT="losowanie, np. osoby z bd, wyszukiwanie tej osoby na liście (za każdym uruchomieniem testu będzie to inny rekord) - potwierdzenie, że element ten wystąpił tylko raz" ID="ID_1617432788" CREATED="1636062504968" MODIFIED="1636063453618">
-<node TEXT="ciała zbiorowe" ID="ID_502291863" CREATED="1636063387543" MODIFIED="1636065436066">
-<icon BUILTIN="button_ok"/>
-</node>
-<node TEXT="osoby" ID="ID_1715702780" CREATED="1636063390949" MODIFIED="1636065538287">
-<icon BUILTIN="button_cancel"/>
-<node TEXT="przetestowane w inny sposób" ID="ID_251116527" CREATED="1636065539500" MODIFIED="1636065545513"/>
-</node>
-<node TEXT="warianty nazwy osoby" ID="ID_1309235139" CREATED="1636063473651" MODIFIED="1636401358700">
-<icon BUILTIN="button_cancel"/>
-<node TEXT="przetestowane w inny sposób" ID="ID_532003329" CREATED="1636065539500" MODIFIED="1636065545513"/>
-</node>
-<node TEXT="ozn. odpowiedzialności" ID="ID_1591984271" CREATED="1636063403030" MODIFIED="1636405358300">
-<icon BUILTIN="button_ok"/>
-</node>
-<node TEXT="typy dokumentów" ID="ID_940734132" CREATED="1636063410373" MODIFIED="1636901628082">
-<icon BUILTIN="button_ok"/>
-</node>
-<node TEXT="lista dokumentów" ID="ID_814705851" CREATED="1636063418743" MODIFIED="1636063421984"/>
-<node TEXT="lokalizacje geograficzne" ID="ID_918587485" CREATED="1636063422581" MODIFIED="1636063428554"/>
-<node TEXT="lista języków" ID="ID_1784760849" CREATED="1636063429014" MODIFIED="1636063433760"/>
-<node TEXT="słowa kluczowe" ID="ID_564128013" CREATED="1636063459879" MODIFIED="1636063467823"/>
-</node>
-</node>
-<node TEXT="sprawdzić czy url_for z odpowiednimi argumentami zwróci taki sam url jak te na stronach z listami elementów oraz czy zawartość strony pod tym URL będzie zgodna z oczekiwaniami" ID="ID_1009302702" CREATED="1636114609992" MODIFIED="1636114609992"/>
-<node TEXT="404 na błędnych URL-ach" ID="ID_126409331" CREATED="1636385815546" MODIFIED="1636385824948"/>
+<node TEXT="testowanie z logowaniem - s. 226" ID="ID_1215438927" CREATED="1640732105523" MODIFIED="1640732114430"/>
 </node>
 <node TEXT="osoby" ID="ID_1448106474" CREATED="1634676744996" MODIFIED="1635972736792">
 <node TEXT="Testy dla listy:" FOLDED="true" ID="ID_556699425" CREATED="1634232029410" MODIFIED="1634232078013"><richcontent TYPE="DETAILS">
@@ -183,41 +162,46 @@
 <node TEXT="zrobić kwerendę tylko dla osób; czy lista zwróci listę wszystkich osób (tylko osób)" ID="ID_1793470990" CREATED="1635971741642" MODIFIED="1635971784823"/>
 <node TEXT="zrobić kwerendę tylko dla wariantów; czy lista zwróci wszystkie warianty" ID="ID_575846585" CREATED="1635971761543" MODIFIED="1635971795346"/>
 </node>
-<node TEXT="sprawdzić czy lista wyświetla imiona i nazwiska (a nie np. puste pola)" FOLDED="true" ID="ID_1943921624" CREATED="1635972488933" MODIFIED="1635972502355">
+<node TEXT="sprawdzić czy lista wyświetla imiona i nazwiska (a nie np. puste pola)" ID="ID_1943921624" CREATED="1635972488933" MODIFIED="1635972502355">
 <node TEXT="wylosować paru ludzi" ID="ID_903156282" CREATED="1635972598597" MODIFIED="1635972620661"/>
 <node TEXT="wyszukać ich na liście wg. formatu wyświetlania (nazwisko, imię)" ID="ID_49095528" CREATED="1635972622647" MODIFIED="1635972637216"/>
 </node>
-<node TEXT="Czy w hiperłączu od oznaczenia odpowiedzialności (&quot;responsibility&quot;), na liście osób zostaną wyświetlone wszystkie osoby z danym oznaczeniem odpowiedzialności (w tym - taka sama liczba)?" FOLDED="true" ID="ID_1092998055" CREATED="1635243609377" MODIFIED="1635243656193">
+<node TEXT="Czy w hiperłączu od oznaczenia odpowiedzialności (&quot;responsibility&quot;), na liście osób zostaną wyświetlone wszystkie osoby z danym oznaczeniem odpowiedzialności (w tym - taka sama liczba)?" ID="ID_1092998055" CREATED="1635243609377" MODIFIED="1635243656193">
 <node TEXT="Utworzyć responsibilities, parę osób" ID="ID_1203429095" CREATED="1635969929646" MODIFIED="1635970263362"/>
-<node TEXT="utworzyć dokument" FOLDED="true" ID="ID_1715758074" CREATED="1635970263822" MODIFIED="1635970290544">
+<node TEXT="utworzyć dokument" ID="ID_1715758074" CREATED="1635970263822" MODIFIED="1635970290544">
 <node TEXT="dodać do niego jedno oznaczenie odpowiedzialności" ID="ID_878049597" CREATED="1635970249800" MODIFIED="1635970456953"/>
 <node TEXT="pobrać od oznaczania odpowiedzialności osobę" ID="ID_1113752498" CREATED="1635970292762" MODIFIED="1635970396766"/>
 <node TEXT="sprawdzić czy trasa dla browse_people z id tego ozn. odpowiedzialności wykaże tą osobę i będzie to jedyna osoba" ID="ID_1710442296" CREATED="1635970397211" MODIFIED="1635971179304"/>
 </node>
-<node TEXT="utworzyć dokument" FOLDED="true" ID="ID_1751824048" CREATED="1635970559755" MODIFIED="1635971268629">
+<node TEXT="utworzyć dokument" ID="ID_1751824048" CREATED="1635970559755" MODIFIED="1635971268629">
 <node TEXT="dodać do niego kilka różnych osób z tym samym oznaczeniem odpowiedzialności" ID="ID_1035753158" CREATED="1635971273351" MODIFIED="1635971496772"/>
 <node TEXT="pobrać to oznaczenie odpowiedzialności" ID="ID_464129131" CREATED="1635971309333" MODIFIED="1635971316113"/>
 <node TEXT="sprawdzić czy lista osób z linkiem (z id tego oznaczenia odpowiedzialności) zostanie wyświetlona przez trasę (oraz tylko ta lista oraz czy każda osoba wystąpi tylko raz)" ID="ID_62104505" CREATED="1635971501654" MODIFIED="1635971685425"/>
 </node>
 </node>
 </node>
+<node TEXT="szczegóły" ID="ID_142447070" CREATED="1640716140274" MODIFIED="1640716144085"/>
 </node>
-<node TEXT="ciała zbiorowe" FOLDED="true" ID="ID_1551264746" CREATED="1635971890954" MODIFIED="1635972748742">
-<node TEXT="lista" FOLDED="true" ID="ID_1653591893" CREATED="1635972750296" MODIFIED="1635972752322">
+<node TEXT="ciała zbiorowe" ID="ID_1551264746" CREATED="1635971890954" MODIFIED="1635972748742">
+<node TEXT="lista" ID="ID_1653591893" CREATED="1635972750296" MODIFIED="1635972752322">
 <node TEXT="testy podobne do listy osób" ID="ID_898596990" CREATED="1635971898949" MODIFIED="1635971902900"/>
 </node>
-<node TEXT="szczegóły" FOLDED="true" ID="ID_376250986" CREATED="1635974305138" MODIFIED="1635974308032">
-<node TEXT="zawiera nazwę, id" ID="ID_1445153325" CREATED="1635974313765" MODIFIED="1635974318736"/>
+<node TEXT="szczegóły" ID="ID_376250986" CREATED="1635974305138" MODIFIED="1635974308032">
+<node TEXT="zawiera nazwę, id" ID="ID_1445153325" CREATED="1635974313765" MODIFIED="1640717532746">
+<icon BUILTIN="button_ok"/>
+</node>
 <node TEXT="właściwe hiperłącza" ID="ID_1856504334" CREATED="1635974368997" MODIFIED="1635974373186"/>
 </node>
 </node>
-<node TEXT="typy dokumentów" FOLDED="true" ID="ID_135892517" CREATED="1635972700357" MODIFIED="1635972704269">
-<node TEXT="lista typów dokumentów" FOLDED="true" ID="ID_1138787835" CREATED="1635972043068" MODIFIED="1635972069627">
+<node TEXT="typy dokumentów" ID="ID_135892517" CREATED="1635972700357" MODIFIED="1635972704269">
+<node TEXT="lista typów dokumentów" ID="ID_1138787835" CREATED="1635972043068" MODIFIED="1635972069627">
 <node TEXT="czy wyświetla wszystkie typy dokumentów" ID="ID_1885343884" CREATED="1635972089405" MODIFIED="1635972096169"/>
 <node TEXT="czy linki od typu dokumentów prowadzą do właściwych stron ze szczegółami" ID="ID_1007801017" CREATED="1635972688821" MODIFIED="1635972729335"/>
 </node>
-<node TEXT="szczegóły" FOLDED="true" ID="ID_110573553" CREATED="1635972783401" MODIFIED="1635972787111">
-<node TEXT="czy na stronie ze szczegółami znajdują się nazwa typu i numer id" ID="ID_490441251" CREATED="1635972787140" MODIFIED="1635972834404"/>
+<node TEXT="szczegóły" ID="ID_110573553" CREATED="1635972783401" MODIFIED="1635972787111">
+<node TEXT="czy na stronie ze szczegółami znajdują się nazwa typu i numer id" ID="ID_490441251" CREATED="1635972787140" MODIFIED="1640721364755">
+<icon BUILTIN="button_ok"/>
+</node>
 </node>
 </node>
 <node TEXT="lokalizacje geograficzne" FOLDED="true" ID="ID_139144295" CREATED="1635973046346" MODIFIED="1635973051142">
@@ -273,6 +257,51 @@
 <icon BUILTIN="button_ok"/>
 </node>
 </node>
+<node TEXT="Ogólne:" FOLDED="true" ID="ID_1559895521" CREATED="1636062494667" MODIFIED="1640715342805">
+<font BOLD="false"/>
+<node TEXT="wyszukiwanie terminu na liście" ID="ID_1313177677" CREATED="1636062498799" MODIFIED="1636062504960">
+<node TEXT="losowanie, np. osoby z bd, wyszukiwanie tej osoby na liście (za każdym uruchomieniem testu będzie to inny rekord) - potwierdzenie, że element ten wystąpił tylko raz" ID="ID_1617432788" CREATED="1636062504968" MODIFIED="1636063453618">
+<node TEXT="ciała zbiorowe" ID="ID_502291863" CREATED="1636063387543" MODIFIED="1636065436066">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="osoby" ID="ID_1715702780" CREATED="1636063390949" MODIFIED="1636065538287">
+<icon BUILTIN="button_cancel"/>
+<node TEXT="przetestowane w inny sposób" ID="ID_251116527" CREATED="1636065539500" MODIFIED="1636065545513"/>
+</node>
+<node TEXT="warianty nazwy osoby" ID="ID_1309235139" CREATED="1636063473651" MODIFIED="1636401358700">
+<icon BUILTIN="button_cancel"/>
+<node TEXT="przetestowane w inny sposób" ID="ID_532003329" CREATED="1636065539500" MODIFIED="1636065545513"/>
+</node>
+<node TEXT="ozn. odpowiedzialności" ID="ID_1591984271" CREATED="1636063403030" MODIFIED="1636405358300">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="typy dokumentów" ID="ID_940734132" CREATED="1636063410373" MODIFIED="1636901628082">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="lista dokumentów" ID="ID_814705851" CREATED="1636063418743" MODIFIED="1640712252231">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="lokalizacje geograficzne" ID="ID_918587485" CREATED="1636063422581" MODIFIED="1640713394341">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="lista języków" ID="ID_1784760849" CREATED="1636063429014" MODIFIED="1640714768136">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="słowa kluczowe" ID="ID_564128013" CREATED="1636063459879" MODIFIED="1640715196297">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+</node>
+<node TEXT="sprawdzić czy url_for z odpowiednimi argumentami zwróci taki sam url jak te na stronach z listami elementów oraz czy zawartość strony pod tym URL będzie zgodna z oczekiwaniami" ID="ID_1009302702" CREATED="1636114609992" MODIFIED="1640715338088">
+<icon BUILTIN="help"/>
+</node>
+<node TEXT="404 na błędnych URL-ach" ID="ID_126409331" CREATED="1636385815546" MODIFIED="1636385824948"/>
+</node>
+</node>
+<node TEXT="strona edycji dokumentu" FOLDED="true" ID="ID_703678786" CREATED="1640261691227" MODIFIED="1640713565495">
+<node TEXT="test pól języków: dokumentu i oryginalnego na stronie edycji dokumentu:" FOLDED="true" ID="ID_1785308880" CREATED="1640261697133" MODIFIED="1640713565489">
+<node TEXT="1. wyszukanie języka na liście&#xa;2. dodawnie wyszukanego języka poprzez kliknięcie pozycji na liście&#xa;3. sprawdzenie, czy pojawił się w odpowiednim polu na stronie edycji&#xa;4. zapisanie dokumentu&#xa;5. zweryfikowanie, czy język pojawił się na stronie z widokiem szczegółów dokumentu&#xa;7. usunięcie wpisu języka&#xa;8. zweryfikowanie, czy język zniknął z pola na stronie edycji&#xa;9. zapisanie dokumentu&#xa;10. zweryfikowanie, czy język zniknął ze strony podglądu dokumentu" ID="ID_1797561080" CREATED="1640261704573" MODIFIED="1640261705707"/>
+</node>
 </node>
 <node TEXT="języki" FOLDED="true" ID="ID_387573057" CREATED="1634762145651" MODIFIED="1634766133727">
 <node TEXT="losuje języki (1-3 - zapamiętuje liczbę)" ID="ID_1099156413" CREATED="1634762189713" MODIFIED="1634762207069"/>
@@ -304,17 +333,109 @@
 <node TEXT="jeżeli będę coś sprawdzał ręcznie - zapisać (co sprawdzam ręcznie) i napisać test automatyczny" ID="ID_325597234" CREATED="1635974146018" MODIFIED="1635974163784"/>
 </node>
 <node TEXT="Co się stanie, jeżeli będę chciał wyświetlić na liście dokumentów dokument, który nie ma przypisanego typu?" ID="ID_1824182255" CREATED="1635887032652" MODIFIED="1636478914089"/>
+<node TEXT="Test podstawowych formularzy dodawania/modyfikacji:" ID="ID_1443677716" CREATED="1639051155402" MODIFIED="1639071101194">
+<icon BUILTIN="messagebox_warning"/>
+<node TEXT="dodanie elementu" ID="ID_1118337757" CREATED="1639053097502" MODIFIED="1639053101528">
+<node TEXT="sprawdzenie czy strona z id elementu istnieje" ID="ID_939747472" CREATED="1639056700850" MODIFIED="1639056711494"/>
 </node>
-<node TEXT="do zrobienia" FOLDED="true" POSITION="left" ID="ID_1566301330" CREATED="1636142067596" MODIFIED="1638478449686">
+<node TEXT="sprawdzenie listy" ID="ID_1704049724" CREATED="1639053101942" MODIFIED="1639053105785"/>
+<node TEXT="modyfikacja elementu" ID="ID_886970711" CREATED="1639053106230" MODIFIED="1639053109290">
+<node TEXT="Czy modyfikacje zostały zachowane." ID="ID_1648830645" CREATED="1639052246944" MODIFIED="1639052270774"/>
+<node TEXT="sprawdzam, czy w bd nie pojawił się nowy wpis" ID="ID_803818060" CREATED="1639052279680" MODIFIED="1639052280500"/>
+</node>
+<node TEXT="usunięcie elementu" ID="ID_1014690719" CREATED="1639053109494" MODIFIED="1639053113338">
+<node TEXT="Sprawdzenie czy strona z danym id elementu nie istnieje" ID="ID_907908446" CREATED="1639056677376" MODIFIED="1639056690790"/>
+</node>
+</node>
+</node>
+<node TEXT="do zrobienia" POSITION="left" ID="ID_1566301330" CREATED="1636142067596" MODIFIED="1640374130748">
 <edge COLOR="#007c00"/>
 <font BOLD="false"/>
-<node TEXT="Potwierdzanie konta przez email." FOLDED="true" ID="ID_681371833" CREATED="1638477265970" MODIFIED="1638478408281" COLOR="#ff3333">
+<node TEXT="sprawdzić jak wyszukiwane są warianty nazwy i ewentualnie dodać do nich linki w wyszukiwaniu ogólnym (szybkim) - może wystąpić sytuacja, że wariant nazwy nie ma przypisanej osoby, wówczas jego znalezienie byłoby trudne." ID="ID_1817386153" CREATED="1639168945235" MODIFIED="1639169035578">
+<node TEXT="Co się stanie, jeżeli w wyszukiwaniu osób/wg. osoby, do parametrów szukania dodam wariant nazwy, który nie jest do nikogo przypisany?" ID="ID_1468301689" CREATED="1639169039508" MODIFIED="1639169925096">
+<icon BUILTIN="closed"/>
+</node>
+<node TEXT="W wyszukiwaniu ogólnym warianty nazw" ID="ID_1071569309" CREATED="1639169705712" MODIFIED="1639169764534">
+<node TEXT="wyszukiwane/wyświetlane w tym samym polu, ale odsyłać do widoku szczegółów wariantu, nie do osoby" ID="ID_1512401295" CREATED="1639169767455" MODIFIED="1639170090843">
 <icon BUILTIN="yes"/>
+</node>
+</node>
+<node TEXT="w wyszukiwaniu dokumentów" ID="ID_854863093" CREATED="1639170115554" MODIFIED="1639170121424">
+<node TEXT="wyświetlane/zwracane przez wyszukiwanie tylko te warianty, które posiadają odnośnik do hasła osobowego" ID="ID_364041407" CREATED="1639170121430" MODIFIED="1639170149894"/>
+</node>
+</node>
+<node TEXT="rejestracja, użytkownicy" ID="ID_697873465" CREATED="1638367656311" MODIFIED="1638534291954">
+<font BOLD="false"/>
+<node TEXT="Strony edycji kont użytkowników, zmiana haseł" ID="ID_45026735" CREATED="1638534267169" MODIFIED="1638534278785">
 <font BOLD="true"/>
-<node TEXT="oraz funkcjonalność wymieniona na 125. stronie (M. Grinberg...)" ID="ID_1537301360" CREATED="1638477410867" MODIFIED="1638477444762"/>
+<node TEXT="Jak administrator może znaleźć użytkowników? -&gt; trzeba zrobić ich listę (widoczną tylko dla administratora)." ID="ID_30228986" CREATED="1640622586894" MODIFIED="1640622633753"/>
+</node>
+<node TEXT="Logowanie/rejestracja użytkownika" ID="ID_585407159" CREATED="1629284944354" MODIFIED="1638534260783">
+<icon BUILTIN="help"/>
+<node TEXT="w przypadku redaktora: dostęp do stron edycji rekordów, haseł etc." ID="ID_1466036761" CREATED="1629284972466" MODIFIED="1629285074800"/>
+<node TEXT="w przypadku administratora: uprawnienia redaktora + możliwość aktywowania/blokowania kont użytkowników" ID="ID_1078301124" CREATED="1629285075119" MODIFIED="1629285123837"/>
+<node TEXT="Logowanie tylko na daną sesję (do zamknięcia przeglądarki) lub na dłuższy czas - &apos;Keep me logged in&apos; (wg. podręcznika Flaska)." ID="ID_1771218270" CREATED="1629285159195" MODIFIED="1629285256143">
+<node TEXT="sprawdzić czy działa" ID="ID_1722748089" CREATED="1638477798211" MODIFIED="1638477802916"/>
+</node>
+<node TEXT="Jeżeli użytkownik niezalogowany chciał dostać się do strony z której został przekierowany na formularz logowania, po zalogowaniu ma zostać przeniesiony na powrót do tej strony." ID="ID_429220750" CREATED="1629382316633" MODIFIED="1629382371495">
+<node TEXT="funkcja login() (linia 949) we flask.py i odpowiedni fragment z podręcznika" LOCALIZED_STYLE_REF="defaultstyle.details" ID="ID_760156330" CREATED="1629382379256" MODIFIED="1629382528425"/>
+</node>
+</node>
+<node TEXT="konta użytkowników" FOLDED="true" ID="ID_1696552146" CREATED="1629214145825" MODIFIED="1636143490039">
+<node TEXT="uprawnienia/role" ID="ID_999960712" CREATED="1629214179567" MODIFIED="1629724490928">
+<node TEXT="zwykły użytkownik" ID="ID_562901859" CREATED="1629214190154" MODIFIED="1629218651063">
+<node TEXT="zapisywanie opisów (dodawanie listy do konta)" ID="ID_1247820478" CREATED="1629214154128" MODIFIED="1629214169328"/>
+<node TEXT="Przeglądanie rekordów w szablonach bibliografii." ID="ID_1138732" CREATED="1629723452997" MODIFIED="1629723481752"/>
+</node>
+<node TEXT="redaktor" ID="ID_1732590653" CREATED="1629216927835" MODIFIED="1629216948153">
+<node TEXT="Uprawnienia użytkownika plus ..." ID="ID_167971989" CREATED="1629723487695" MODIFIED="1629723494570">
+<node TEXT="modyfikacja + dodawanie rekordów / haseł etc. w odpowiednich szablonach" ID="ID_1414415893" CREATED="1629723498048" MODIFIED="1629723540055"/>
+</node>
+<node TEXT="Osoba wprowadzająca, modyfikująca rekordy." ID="ID_54836329" CREATED="1629216948163" MODIFIED="1629216967639"/>
+</node>
+<node TEXT="administrator" ID="ID_445063501" CREATED="1629214195533" MODIFIED="1629214200570">
+<node TEXT="Redaktor plus ..." ID="ID_1353087511" CREATED="1629723521793" MODIFIED="1629723526078">
+<node TEXT="aktywowanie kont innych użytkowników, zarządzanie kontami" ID="ID_254744942" CREATED="1629216969019" MODIFIED="1629723583381"/>
+<node TEXT="Uważać, żeby nie było możliwe, że nieaktywny administrator może sobie sam aktywować konto!" ID="ID_225877015" CREATED="1629723583792" MODIFIED="1629723609299">
+<node TEXT="Możliwe rozwiązania:" ID="ID_1204152169" CREATED="1630586826100" MODIFIED="1630586834757">
+<node TEXT="Uprawnienia administratora muszą zostać nadane ręcznie przez innego administratora (potrzebny bezpośredni kontakt - np. email z prośbą)." ID="ID_1873609884" CREATED="1630586834780" MODIFIED="1630586894982"/>
+<node TEXT="Jest jeden administrator. Nie będziesz miał innego administratora przede mną." ID="ID_102668792" CREATED="1640604851914" MODIFIED="1640605192602">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="Administrator rozpoznawany jest po emailu przechowywanym w zmiennej środowiska; kiedy aktywuje konto, natychmiast przyznane mu zostają odpowiednie uprawnienia." ID="ID_961083289" CREATED="1631640761289" MODIFIED="1636143637789"/>
+</node>
+<node TEXT="Uważnie przejrzeć jak to jest rozwiązane w podręczniku do aplikacji internetowych - ew. zrobić diagram." ID="ID_1133464010" CREATED="1629724491692" MODIFIED="1630586925763"/>
+</node>
+<node TEXT="uwierzytelnienie" ID="ID_1235131982" CREATED="1629218630934" MODIFIED="1629218638279">
+<node TEXT="Hashowanie/porównywanie hashy haseł wg. podręcznika (i notatek)." ID="ID_254383866" CREATED="1629218681686" MODIFIED="1640605252734">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Użycie TLS (Transport Layer Security)" ID="ID_638970744" CREATED="1630355290421" MODIFIED="1630355310175">
+<node TEXT="https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https" ID="ID_1601120161" CREATED="1630355359228" MODIFIED="1630355359228" LINK="https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https"/>
+</node>
+</node>
+<node TEXT="Aplikacja rejestruje czas:" ID="ID_113538527" CREATED="1629726352891" MODIFIED="1629726367402">
+<node TEXT="Rejestracji konta" ID="ID_33329792" CREATED="1629726367412" MODIFIED="1629726373006"/>
+<node TEXT="Ostatniego logowania" ID="ID_214886097" CREATED="1629726373242" MODIFIED="1629726377282"/>
+</node>
+</node>
+<node TEXT="możliwość blokowania/zawieszania konta użytkownika" ID="ID_971220876" CREATED="1635151459650" MODIFIED="1636394284648"/>
+<node TEXT="Anonimowy użytkownik/uż. bez uprawnień/uż. konta nie aktywowanego, który będzie chciał wejść np. na stronę edycji rekordu zostanie przekierowany na inną stronę (szczegóły techniczne w pliku ze źródłami-notatkami i notatkach we Freeplane)." ID="ID_123252507" CREATED="1629284097575" MODIFIED="1636394729143">
+<icon BUILTIN="xmag"/>
+<node TEXT="stronę logowania" ID="ID_1091888054" CREATED="1629379887272" MODIFIED="1629379890672"/>
+<node TEXT="wyświetlenie przycisku/linku &quot;zaloguj&quot;/&quot;wyloguj&quot; wg. instrukcji warunkowej w szablonie" ID="ID_654999847" CREATED="1629379926823" MODIFIED="1638478212320">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+</node>
+<node TEXT="Przed wprowadzaniem zmian z tego działu, dodać testy!" ID="ID_372988159" CREATED="1639071902768" MODIFIED="1639071918329">
+<font BOLD="true"/>
 </node>
 <node TEXT="formularze WTForms mają być w osobnym module" ID="ID_1035528749" CREATED="1638458611502" MODIFIED="1638458630010"/>
-<node ID="ID_1227963654" CREATED="1634500543540" MODIFIED="1636142244134"><richcontent TYPE="NODE">
+<node ID="ID_1227963654" CREATED="1634500543540" MODIFIED="1640293057946"><richcontent TYPE="NODE">
 
 <html>
   <head>
@@ -322,7 +443,7 @@
   </head>
   <body>
     <p>
-      Kiedy będę to przenosił do MySQL - kasowanie powiązanych rekordów: dodać 'ondelete cascade' i <b>przetestować</b>&nbsp;kasowanie powiązań (np. kasuję dokument - kasowane są wszystkie wpisy go dotyczące w tabelach asocjacyjnych).
+      Kiedy będę to przenosił do MySQL - kasowanie powiązanych rekordów: dodać 'ondelete cascade' i <b>przetestować</b>&nbsp;kasowanie powiązań (np. kasuję dokument - kasowane są wszystkie wpisów go dotyczących w tabelach asocjacyjnych).
     </p>
   </body>
 </html>
@@ -338,7 +459,8 @@
 <node TEXT="dodać osobną trasę z listą linków prowadzących do rekordów które można przeglądać (&quot;browse&quot;) - szczegóły w diagramach widoków" ID="ID_1229959108" CREATED="1634135358907" MODIFIED="1636142693972"/>
 <node TEXT="w bd dodać check constraint w tabeli self-referential many-to-many między dokumentami: dokument nie może odnosić się sam do siebie (np. czasopismo może być dokumentem nadrzędnym wobec artykułu, artykuł/czasopismo nie może być dok. podrzędnym/nadrzędnym wobec samego siebie)" ID="ID_920647133" CREATED="1634897961331" MODIFIED="1636142995464"/>
 <node TEXT="Dodać do bd listę zapisanych przez użytkownika pozycji" ID="ID_761561780" CREATED="1632998613361" MODIFIED="1636143004595"/>
-<node TEXT="Zrobić funkcje które będą automatycznie dodawały klasy do konkretnych elementów w szablonie html (w celu uzyskania odpowiednich stylów na stronach)." ID="ID_263205327" CREATED="1634721677770" MODIFIED="1636143080951">
+<node TEXT="Zrobić funkcje które będą automatycznie dodawały klasy do konkretnych elementów w szablonie html (w celu uzyskania odpowiednich stylów na stronach)." ID="ID_263205327" CREATED="1634721677770" MODIFIED="1640380301984">
+<icon BUILTIN="button_cancel"/>
 <node TEXT="Automatyczne dodawanie klas do elementów w JS." FOLDED="true" ID="ID_1596444331" CREATED="1634721655869" MODIFIED="1634721669259">
 <node TEXT="https://stackoverflow.com/questions/927312/how-to-append-a-css-class-to-an-element-by-javascript/52052493" ID="ID_781362436" CREATED="1634721671261" MODIFIED="1634721671261" LINK="https://stackoverflow.com/questions/927312/how-to-append-a-css-class-to-an-element-by-javascript/52052493"/>
 </node>
@@ -353,7 +475,9 @@
 <node TEXT="kopie zapasowe" FOLDED="true" ID="ID_946007255" CREATED="1630417726567" MODIFIED="1636143410155">
 <node TEXT="Osobny skrypt zrzucający co pewien czas bazę danych." ID="ID_1208707766" CREATED="1630417784813" MODIFIED="1630417801143"/>
 </node>
-<node TEXT="document_search ma zostać też użyte do uproszczonej listy dokumentów (do przeglądania)" ID="ID_219143555" CREATED="1637675593307" MODIFIED="1637675631873"/>
+<node TEXT="document_search ma zostać też użyte do uproszczonej listy dokumentów (do przeglądania)" ID="ID_219143555" CREATED="1637675593307" MODIFIED="1640380378232">
+<icon BUILTIN="button_cancel"/>
+</node>
 <node ID="ID_888065270" CREATED="1636376057494" MODIFIED="1636376069610"><richcontent TYPE="NODE">
 
 <html>
@@ -368,20 +492,25 @@
 </html>
 </richcontent>
 </node>
-<node TEXT="ResponsibilityName.modifiable powinno mieć atr. nullable=False" ID="ID_1260377471" CREATED="1635157646373" MODIFIED="1636394252999"/>
+<node TEXT="ResponsibilityName.modifiable powinno mieć atr. nullable=False" ID="ID_1260377471" CREATED="1635157646373" MODIFIED="1640380393033">
+<icon BUILTIN="button_cancel"/>
+<node TEXT="atrybut do usunięcia" ID="ID_1868865778" CREATED="1640380395420" MODIFIED="1640380400449"/>
+</node>
 <node TEXT="Jeżeli przewijam np. listę osób po tym, jak dostałem się tam z np. widoku oznaczenia odpowiedzialności, chciałbym łatwym sposobem na stronę widoku ozn. odp. wrócić - jak to zrobić? (Zdaje się, że było o tym w podręczniku)." ID="ID_428121528" CREATED="1635282931718" MODIFIED="1636394355567"/>
 <node TEXT="Z widoków szczegółów od liczby dokumentów wyświetlanej na stronie powinno odsyłać: do listy dokumentów - jeżeli jest ich więcej niż 1, do dokumentu - jeżeli jest tylko 1, hiperłącze nieaktywne - jeżeli jest 0." ID="ID_948933662" CREATED="1634753754227" MODIFIED="1636394672016"/>
 <node TEXT="Rekordu typu miejsce, słowo kluczowe, osoby etc., nie można skasować, jeżeli jest powiązany z jakimkolwiek dokumentem - system ma to blokować (tylko kiedy znikną referencje - wolno skasować)." ID="ID_708705680" CREATED="1635109840847" MODIFIED="1636481341137">
 <icon BUILTIN="xmag"/>
 </node>
-<node TEXT="Usunąć powtarzające się elementy z szablonów i ustalić hierarchię dziedziczenia." FOLDED="true" ID="ID_1420613920" CREATED="1635282772738" MODIFIED="1636394738643">
+<node TEXT="Usunąć powtarzające się elementy z szablonów i ustalić hierarchię dziedziczenia." ID="ID_1420613920" CREATED="1635282772738" MODIFIED="1636394738643">
 <node TEXT="Czyli refactoring plików szablonów." ID="ID_1240815231" CREATED="1636394741140" MODIFIED="1636394754907"/>
 </node>
-<node TEXT="uporządkowanie funkcji dla tras: wg alfabetu a w ramach grup (np. dla detali języka i listy języków) - najpierw lista, potem detale" FOLDED="true" ID="ID_1749744190" CREATED="1634920713423" MODIFIED="1636395047786">
+<node TEXT="uporządkowanie funkcji dla tras: wg alfabetu a w ramach grup (np. dla detali języka i listy języków) - najpierw lista, potem detale" ID="ID_1749744190" CREATED="1634920713423" MODIFIED="1636395047786">
 <node TEXT="warto też oddzielić funkcje interfejsu ogólniedostępnego od tras dla osób redagujących" ID="ID_1832321193" CREATED="1634920769709" MODIFIED="1636395036609"/>
 </node>
 <node TEXT="Szablony z listami elementów zrobić podobnie jak szablon listy dokumentów (zmienione makro do paginacji)." ID="ID_520352425" CREATED="1635355201345" MODIFIED="1636395173241"/>
-<node TEXT="zrobić dokumentację do parametrów do makr (co oznaczają parametry, jakie przyjmują wartości etc.)" ID="ID_53596417" CREATED="1635423978804" MODIFIED="1636395281484"/>
+<node TEXT="zrobić dokumentację do parametrów do makr (co oznaczają parametry, jakie przyjmują wartości etc.)" ID="ID_53596417" CREATED="1635423978804" MODIFIED="1636395281484">
+<node TEXT="i pozostałego kodu" ID="ID_1627985384" CREATED="1640380480732" MODIFIED="1640380488740"/>
+</node>
 <node TEXT="Jeżeli listy (np. słów kluczowych) są puste, powinno wyświetlić komunikat, że brak elementów do wyświetlenia." ID="ID_374679143" CREATED="1634723344368" MODIFIED="1636142228895">
 <node TEXT="na stronie nadrzędnej (abstrakcyjnej?) powinien być opis jakich pól/parametrów wymaga" ID="ID_120377629" CREATED="1634723510471" MODIFIED="1634723532354"/>
 <node TEXT="powinno to działać tak jak metoda first_or_404: wyświetlić szablon lub stronę z inf. nt braku elementów" ID="ID_1983601442" CREATED="1634723989232" MODIFIED="1634724039411"/>
@@ -389,59 +518,17 @@
 <node TEXT="Spróbować jeszcze raz przepisać formularz z typami dokumentów na liście dokumentów z przesyłaniem danych z formularza metodą get wg. tych informacji (bez przesyłania tokena cs... - można go zablokować):" ID="ID_1351934235" CREATED="1636554817963" MODIFIED="1636554889506">
 <node TEXT="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xvi-full-text-search" ID="ID_467358217" CREATED="1636554872045" MODIFIED="1636554872045" LINK="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xvi-full-text-search"/>
 </node>
-<node TEXT="Przy refaktoryzacji, przypilnować żeby funkcje które nie są metodami przyjmowały tylko jeden argument (i zwracały kolejne, bardziej wyspecjalizowane funkcje)." ID="ID_315536547" CREATED="1637265329144" MODIFIED="1637265378144"/>
-<node TEXT="Jeżeli lista dokumentów jest pusta, część strony z wyszukiwaniem jest rozwinięta (i na odwrót)." ID="ID_247795139" CREATED="1637694221161" MODIFIED="1638203176097">
+<node TEXT="Przy refaktoryzacji, przypilnować żeby funkcje które nie są metodami przyjmowały tylko jeden argument (i zwracały kolejne, bardziej wyspecjalizowane funkcje)." ID="ID_315536547" CREATED="1637265329144" MODIFIED="1640380536816">
+<icon BUILTIN="button_cancel"/>
+</node>
+<node TEXT="Jeżeli lista dokumentów jest pusta, część strony z wyszukiwaniem jest rozwinięta (i na odwrót)." FOLDED="true" ID="ID_247795139" CREATED="1637694221161" MODIFIED="1640380579106">
 <icon BUILTIN="xmag"/>
+<icon BUILTIN="button_ok"/>
 <font BOLD="false"/>
 <node TEXT="Jeżeli na liście znajdują się dokumenty (bo przeglądam kolejne strony wyników wyszukiwania), kliknięcie na komponent wyszukiwania załaduje (wg. numerów id w URL) wszystkie kryteria w postaci przycisków z nazwami. Na czas ładowania można wyświetlić obracające się kółko-klepsydrę." ID="ID_1191016959" CREATED="1637694400872" MODIFIED="1637694662560"/>
 <node TEXT="Gdy na liście znajdują się wyszukane dokumenty, powinno wyświetlić formularz z wyborem typów dokumentów (w innym wypadku powinien być ukryty)." ID="ID_1749988204" CREATED="1637694836621" MODIFIED="1637836137435"/>
 </node>
 <node TEXT="+ Wybieram pole wyszukiwania (z filtered fields - np. Document language)&#xa;+ wpisuję tekst w polu wyszukiwania&#xa;+ jeżeli nie będę pisał przez określoną ilość czasu, poniżej pola wyszukiwania wyskakuje lista z wyszukanymi elementami&#xa;+ wybór elementu z listy: jeżeli na liście nie ma już takiego samego filtra -&gt; dodanie do listy" ID="ID_1455302003" CREATED="1636719027430" MODIFIED="1636719028415"/>
-<node TEXT="Zrobić stronę na której będę wybierał parametry wyszukiwania." ID="ID_1360185885" CREATED="1637015091884" MODIFIED="1638204709324">
-<icon BUILTIN="xmag"/>
-<font BOLD="false"/>
-<node TEXT="z wybranych kryteriów ma być generowany poprawny URL" ID="ID_1734019539" CREATED="1637251900230" MODIFIED="1637267342813">
-<icon BUILTIN="button_ok"/>
-<font BOLD="false"/>
-<node TEXT="https://developer.mozilla.org/en-US/docs/Web/API/URL" ID="ID_1061282038" CREATED="1637251915397" MODIFIED="1637251915397" LINK="https://developer.mozilla.org/en-US/docs/Web/API/URL"/>
-<node TEXT="https://www.valentinog.com/blog/url/" ID="ID_1798295522" CREATED="1637251924694" MODIFIED="1637251924694" LINK="https://www.valentinog.com/blog/url/"/>
-</node>
-<node TEXT="zrobić funkcję która: doda element do listy id osób z oznaczeń odpowiedzialności w dokumencie&#xa;+ funkcja zwracana przez add_searched_id:&#xa; - sprawdza czy obiekt jest już w zbiorze: jeżeli nie - dodaje; jeżeli jest - wyświetla powiadomienie (?)&#xa; - dodaje komponent z etykietą i callback (do komponentu) usuwający element z listy" ID="ID_1213621710" CREATED="1637097513268" MODIFIED="1637158602142">
-<icon BUILTIN="button_ok"/>
-</node>
-<node TEXT="Refactoring: przeglądanie" ID="ID_890702224" CREATED="1637158622568" MODIFIED="1637269277800">
-<node ID="ID_1272033103" CREATED="1637158628773" MODIFIED="1638368176433"><richcontent TYPE="NODE">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <p>
-      + otwieram stronę wyszukiwania - jeżeli brak jest wyszukanych elementów, pola do selekcji kryteriów wyszukiwania są rozwinięte
-    </p>
-    <p>
-      + wypełniam formularz szukania
-    </p>
-    <p>
-      + kwerenda leci na serwer (przez URL - GET)
-    </p>
-    <p>
-      + serwer zwraca paginowane wyniki
-    </p>
-    <p>
-      + pola do selekcji kryteriów są zwinięte
-    </p>
-    <p>
-      <b>+ jeżeli rozwinę komponent z polami do selekcji kryteriów, ładuje do list parametry wyszukiwania z URL (w tym wyświetla przyciski-etykiety wybranych parametrów)</b>
-    </p>
-  </body>
-</html>
-</richcontent>
-<node TEXT="można to opisać na diagramie sekwencyjnym" ID="ID_1143210062" CREATED="1637158630644" MODIFIED="1637158640783"/>
-</node>
-</node>
-</node>
 <node TEXT="wyszukiwanie z filtrami" ID="ID_174785008" CREATED="1636719023207" MODIFIED="1638205405366">
 <icon BUILTIN="xmag"/>
 <node TEXT="Wyświetlenie listy drop-down (wyszukiwanie dokumentów z filtrami)" ID="ID_596700692" CREATED="1636722124997" MODIFIED="1638205400990">
@@ -514,78 +601,7 @@
 </node>
 <node TEXT="Funkcje zawierające request.json.get (obecnie w helpers) wymagają przemyślenia i reorganizacji - pobieranie argumentów z request.json powinno mieć miejsce w jednym miejscu, i z tego miejsca selekcja gdzie będą dalej przetwarzane" ID="ID_529214005" CREATED="1638366616688" MODIFIED="1638366708289"/>
 <node TEXT="W fake.documents: dokument nie może mieć dodanego samego siebie jako dokumentu podrzędnego." ID="ID_1932536815" CREATED="1634418183047" MODIFIED="1636142350358"/>
-<node TEXT="blokowanie rekordów do edycji" ID="ID_222293649" CREATED="1634117528225" MODIFIED="1636143251734">
-<node TEXT="Record locking strategies" ID="ID_735266412" CREATED="1631298262727" MODIFIED="1631298284796">
-<node TEXT="źródła" FOLDED="true" ID="ID_1582640380" CREATED="1631298702721" MODIFIED="1631298705517">
-<node TEXT="Gray, Jim &amp; Reuter, Andreas (1993), Distributed Transaction Processing: Concepts and Techniques, Morgan Kaufmann, pp. 375–437, ISBN 1-55860-190-2" ID="ID_1243386771" CREATED="1631298593687" MODIFIED="1631298595113"/>
-<node TEXT="http://www.agiledata.org/essays/concurrencyControl.html" ID="ID_1640762898" CREATED="1631299104653" MODIFIED="1631299104653" LINK="http://www.agiledata.org/essays/concurrencyControl.html"/>
-</node>
-<node TEXT="In database management theory, locking is used to implement isolation among multiple database users. This is the &quot;I&quot; in the acronym ACID." ID="ID_870206224" CREATED="1631298709010" MODIFIED="1631298710461"/>
-</node>
-<node TEXT="wylogowanie użytkownika powinno również powodować odblokowanie rekordu wpisanego w tabeli blokującej" ID="ID_1000627189" CREATED="1631699090998" MODIFIED="1631699112883"/>
-</node>
 <node TEXT="Dodać miejsce do wyświetlania komunikatów flash." ID="ID_726164318" CREATED="1638390243405" MODIFIED="1638390256396"/>
-<node TEXT="rejestracja, użytkownicy" FOLDED="true" ID="ID_697873465" CREATED="1638367656311" MODIFIED="1638534291954">
-<font BOLD="false"/>
-<node TEXT="Strony edycji kont użytkowników, zmiana haseł" ID="ID_45026735" CREATED="1638534267169" MODIFIED="1638534278785">
-<font BOLD="true"/>
-</node>
-<node TEXT="Logowanie/rejestracja użytkownika" ID="ID_585407159" CREATED="1629284944354" MODIFIED="1638534260783">
-<icon BUILTIN="help"/>
-<node TEXT="w przypadku redaktora: dostęp do stron edycji rekordów, haseł etc." ID="ID_1466036761" CREATED="1629284972466" MODIFIED="1629285074800"/>
-<node TEXT="w przypadku administratora: uprawnienia redaktora + możliwość aktywowania/blokowania kont użytkowników" ID="ID_1078301124" CREATED="1629285075119" MODIFIED="1629285123837"/>
-<node TEXT="Logowanie tylko na daną sesję (do zamknięcia przeglądarki) lub na dłuższy czas - &apos;Keep me logged in&apos; (wg. podręcznika Flaska)." ID="ID_1771218270" CREATED="1629285159195" MODIFIED="1629285256143">
-<node TEXT="sprawdzić czy działa" ID="ID_1722748089" CREATED="1638477798211" MODIFIED="1638477802916"/>
-</node>
-<node TEXT="Jeżeli użytkownik niezalogowany chciał dostać się do strony z której został przekierowany na formularz logowania, po zalogowaniu ma zostać przeniesiony na powrót do tej strony." ID="ID_429220750" CREATED="1629382316633" MODIFIED="1629382371495">
-<node TEXT="funkcja login() (linia 949) we flask.py i odpowiedni fragment z podręcznika" LOCALIZED_STYLE_REF="defaultstyle.details" ID="ID_760156330" CREATED="1629382379256" MODIFIED="1629382528425"/>
-</node>
-</node>
-<node TEXT="konta użytkowników" FOLDED="true" ID="ID_1696552146" CREATED="1629214145825" MODIFIED="1636143490039">
-<node TEXT="uprawnienia/role" ID="ID_999960712" CREATED="1629214179567" MODIFIED="1629724490928">
-<node TEXT="zwykły użytkownik" ID="ID_562901859" CREATED="1629214190154" MODIFIED="1629218651063">
-<node TEXT="zapisywanie opisów (dodawanie listy do konta)" ID="ID_1247820478" CREATED="1629214154128" MODIFIED="1629214169328"/>
-<node TEXT="Przeglądanie rekordów w szablonach bibliografii." ID="ID_1138732" CREATED="1629723452997" MODIFIED="1629723481752"/>
-</node>
-<node TEXT="redaktor" ID="ID_1732590653" CREATED="1629216927835" MODIFIED="1629216948153">
-<node TEXT="Uprawnienia użytkownika plus ..." ID="ID_167971989" CREATED="1629723487695" MODIFIED="1629723494570">
-<node TEXT="modyfikacja + dodawanie rekordów / haseł etc. w odpowiednich szablonach" ID="ID_1414415893" CREATED="1629723498048" MODIFIED="1629723540055"/>
-</node>
-<node TEXT="Osoba wprowadzająca, modyfikująca rekordy." ID="ID_54836329" CREATED="1629216948163" MODIFIED="1629216967639"/>
-</node>
-<node TEXT="administrator" ID="ID_445063501" CREATED="1629214195533" MODIFIED="1629214200570">
-<node TEXT="Redaktor plus ..." ID="ID_1353087511" CREATED="1629723521793" MODIFIED="1629723526078">
-<node TEXT="aktywowanie kont innych użytkowników, zarządzanie kontami" ID="ID_254744942" CREATED="1629216969019" MODIFIED="1629723583381"/>
-<node TEXT="Uważać, żeby nie było możliwe, że nieaktywny administrator może sobie sam aktywować konto!" ID="ID_225877015" CREATED="1629723583792" MODIFIED="1629723609299">
-<node TEXT="Możliwe rozwiązania:" ID="ID_1204152169" CREATED="1630586826100" MODIFIED="1630586834757">
-<node TEXT="Uprawnienia administratora muszą zostać nadane ręcznie przez innego administratora (potrzebny bezpośredni kontakt - np. email z prośbą)." ID="ID_1873609884" CREATED="1630586834780" MODIFIED="1630586894982"/>
-</node>
-</node>
-</node>
-<node TEXT="Administrator rozpoznawany jest po emailu przechowywanym w zmiennej środowiska; kiedy aktywuje konto, natychmiast przyznane mu zostają odpowiednie uprawnienia." ID="ID_961083289" CREATED="1631640761289" MODIFIED="1636143637789"/>
-</node>
-<node TEXT="Uważnie przejrzeć jak to jest rozwiązane w podręczniku do aplikacji internetowych - ew. zrobić diagram." ID="ID_1133464010" CREATED="1629724491692" MODIFIED="1630586925763"/>
-</node>
-<node TEXT="uwierzytelnienie" FOLDED="true" ID="ID_1235131982" CREATED="1629218630934" MODIFIED="1629218638279">
-<node TEXT="Hashowanie/porównywanie hashy haseł wg. podręcznika (i notatek)." ID="ID_254383866" CREATED="1629218681686" MODIFIED="1629218752793"/>
-<node TEXT="Użycie TLS (Transport Layer Security)" ID="ID_638970744" CREATED="1630355290421" MODIFIED="1630355310175">
-<node TEXT="https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https" ID="ID_1601120161" CREATED="1630355359228" MODIFIED="1630355359228" LINK="https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https"/>
-</node>
-</node>
-<node TEXT="Aplikacja rejestruje czas:" ID="ID_113538527" CREATED="1629726352891" MODIFIED="1629726367402">
-<node TEXT="Rejestracji konta" ID="ID_33329792" CREATED="1629726367412" MODIFIED="1629726373006"/>
-<node TEXT="Ostatniego logowania" ID="ID_214886097" CREATED="1629726373242" MODIFIED="1629726377282"/>
-</node>
-</node>
-<node TEXT="możliwość blokowania/zawieszania konta użytkownika" ID="ID_971220876" CREATED="1635151459650" MODIFIED="1636394284648"/>
-<node TEXT="Anonimowy użytkownik/uż. bez uprawnień/uż. konta nie aktywowanego, który będzie chciał wejść np. na stronę edycji rekordu zostanie przekierowany na inną stronę (szczegóły techniczne w pliku ze źródłami-notatkami i notatkach we Freeplane)." ID="ID_123252507" CREATED="1629284097575" MODIFIED="1636394729143">
-<icon BUILTIN="xmag"/>
-<node TEXT="stronę logowania" ID="ID_1091888054" CREATED="1629379887272" MODIFIED="1629379890672"/>
-<node TEXT="wyświetlenie przycisku/linku &quot;zaloguj&quot;/&quot;wyloguj&quot; wg. instrukcji warunkowej w szablonie" ID="ID_654999847" CREATED="1629379926823" MODIFIED="1638478212320">
-<icon BUILTIN="button_ok"/>
-</node>
-</node>
-</node>
 <node TEXT="Powinienem dostawać ostrzeżenia przed opuszczeniem strony edycji rekordu jeżeli są tam niezapisane zmiany." ID="ID_1302760052" CREATED="1638891700701" MODIFIED="1638891724711">
 <node TEXT="W JS, prawdopodobnie zdarzenie opuszczania strony." ID="ID_974223301" CREATED="1638891728821" MODIFIED="1638891743213"/>
 </node>
@@ -613,6 +629,150 @@
 </node>
 <node TEXT="do zrobienia w MySQL" ID="ID_363441782" CREATED="1638910398159" MODIFIED="1638910403808"/>
 </node>
+<node TEXT="dodać kategorie do wyświetlanych powiadomień (flash)" ID="ID_1546884284" CREATED="1638912516067" MODIFIED="1638912535043">
+<node TEXT="https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/#flashing-with-categories" ID="ID_1730329890" CREATED="1638912568167" MODIFIED="1638912568167" LINK="https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/#flashing-with-categories"/>
+</node>
+<node TEXT="Możliwość porzucenia zmian na formularzu edycji i powrotu do poprzedniego widoku." ID="ID_40603927" CREATED="1638910031323" MODIFIED="1638957592528">
+<font BOLD="false"/>
+</node>
+<node TEXT="Kiedy można usunąć rekord?" ID="ID_681528662" CREATED="1638957614670" MODIFIED="1638957621091">
+<node TEXT="Zawsze, ale wszystkie powiązania powinny być czyszczone kaskadowo (rekordy usuwane z tabel asocjacyjnych)." ID="ID_517652834" CREATED="1638957949429" MODIFIED="1638957981952">
+<node TEXT="Czy powinienem ręcznie te powiązania czyścić? Chyba powinno się to kasować na poziomie bd -&gt; Lepiej sprawdzić jak to będzie działać na MySQL" ID="ID_754281108" CREATED="1638958111671" MODIFIED="1638958360422"/>
+</node>
+</node>
+<node TEXT="Elementy na listach są porządkowane alfabetycznie, ale powinny być uporządkowane bez względu na rozmiar liter" ID="ID_522393342" CREATED="1639055366094" MODIFIED="1639055408604"/>
+<node TEXT="Wybrane typy dokumentów do wyświetlenia (do listy dokumentów) powinny być przechowywane w obiekcie g, nie session." ID="ID_1985361743" CREATED="1639082439381" MODIFIED="1639082546147"/>
+<node TEXT="foreign key do PersonNameVariants powininen być w modelu Person" ID="ID_805448444" CREATED="1639154620343" MODIFIED="1639154642392"/>
+<node TEXT="formularz edycji osoby" FOLDED="true" ID="ID_545076402" CREATED="1638910207530" MODIFIED="1639418809410">
+<icon BUILTIN="button_ok"/>
+<icon BUILTIN="xmag"/>
+<font BOLD="false"/>
+<node TEXT="zaprojektować" FOLDED="true" ID="ID_1536092340" CREATED="1638960302860" MODIFIED="1638960308032">
+<font BOLD="true"/>
+<node TEXT="dodawanie wariantów nazwy" FOLDED="true" ID="ID_474225651" CREATED="1639242646641" MODIFIED="1639406208185">
+<font BOLD="false"/>
+<node TEXT="w polu wyszukiwania wariantów wpisuję fragment wariantu nazwy" ID="ID_1587198384" CREATED="1639243274774" MODIFIED="1639406208184">
+<node TEXT="wysyła zapytanie na serwer (z wpisanym fragmentem)" ID="ID_166827000" CREATED="1639243280470" MODIFIED="1639243296188">
+<node TEXT="zwracana jest lista nieprzypisanych wariantów (wariant.person_id == None)" ID="ID_1194910522" CREATED="1639243305623" MODIFIED="1639243522017">
+<node TEXT="jeżeli lista jest pusta, wyświetla na liście &quot;empty set&quot;" ID="ID_1751988828" CREATED="1639243343498" MODIFIED="1639243356957"/>
+</node>
+</node>
+</node>
+<node TEXT="Alternatywnie - okno dialogowe: dodaj nowy wariant" ID="ID_1022802636" CREATED="1639243377785" MODIFIED="1639243480337"/>
+</node>
+<node TEXT="Walidacja pól po stronie przeglądarki." ID="ID_72869888" CREATED="1639168702391" MODIFIED="1639242635121">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="podstawowa wersja wg. tego:" ID="ID_134530098" CREATED="1639169260211" MODIFIED="1639169264630">
+<node TEXT="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation" ID="ID_668485505" CREATED="1639169265836" MODIFIED="1639169265836" LINK="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation"/>
+</node>
+</node>
+<node TEXT="pola na formularzu" ID="ID_825108603" CREATED="1638960838610" MODIFIED="1639158928591" LINK="#ID_409356180">
+<font BOLD="false"/>
+</node>
+<node TEXT="Próba dodania wariantu nazwy który jest już przypisany do osoby:" ID="ID_592512468" CREATED="1639159275016" MODIFIED="1639159289435">
+<node TEXT="Wyświetlenie komunikatu błędu i (niedodanie)." ID="ID_733936681" CREATED="1639158929728" MODIFIED="1639159310970"/>
+<node TEXT="Nie wyświetlenie tego na liście." ID="ID_200151728" CREATED="1639159298471" MODIFIED="1639418796220"/>
+</node>
+<node TEXT="ponowne wykorzystanie komponentów:" FOLDED="true" ID="ID_324525673" CREATED="1638960868227" MODIFIED="1638960875416">
+<node TEXT="Czy da się użyć formularza do edycji pozostałych rekordów?" ID="ID_245915038" CREATED="1638960844259" MODIFIED="1638960892165">
+<node TEXT="Cześć elementów musiałaby zostać zapisana na formularzu, wybrane warianty nazwy w inny sposób; wysłanie formularza musiałoby powodować też wysłanie informacji o wybranych wariantach - można je przesłać metodą POST w formacie JSON, czy da się je gdzieś zapisać w obiekcie formularza?" ID="ID_1046498585" CREATED="1638962428128" MODIFIED="1638963005808">
+<node TEXT="Select fields with dynamic choice values:" ID="ID_1931937981" CREATED="1638976963416" MODIFIED="1639070073979">
+<font BOLD="false"/>
+<node TEXT="Sprawdzić czy uda mi się dynamicznie dodawać elementy do listy na formularzu" ID="ID_1355049271" CREATED="1638984840689" MODIFIED="1638999106282">
+<font BOLD="false"/>
+<node TEXT="jak dodawać elementy do multiselect i przechowywać je między przesłaniami formularza?" ID="ID_562121467" CREATED="1638987757315" MODIFIED="1639069344229">
+<font BOLD="true"/>
+<node TEXT="Zaprojektować przepływ wariantów nazw między przeglądarką a serwerem (tak, żeby przy przesłaniu formularza na serwer wartości przeze mnie dodane były zapamiętywane)." ID="ID_409356180" CREATED="1639069754515" MODIFIED="1639069856611">
+<font BOLD="true"/>
+</node>
+<node TEXT="Wybrane warianty przechowywać w obiekcie g." ID="ID_1494389228" CREATED="1639065260013" MODIFIED="1639065271984"/>
+<node TEXT="Dodać do formularza pola którymi ręcznie będę dodawał id i etykietę." ID="ID_116751166" CREATED="1639069606166" MODIFIED="1639069753654"/>
+</node>
+<node TEXT="w multiselect potrzebuję tylko te elementy, które są już w relacji" ID="ID_1989276854" CREATED="1638995768410" MODIFIED="1639069308246">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="https://stackoverflow.com/questions/25118175/update-many-to-many-relationships-using-flask-sqlalchemy-and-wtforms" ID="ID_624136458" CREATED="1638992323789" MODIFIED="1638992323789" LINK="https://stackoverflow.com/questions/25118175/update-many-to-many-relationships-using-flask-sqlalchemy-and-wtforms"/>
+</node>
+<node TEXT="https://wtforms.readthedocs.io/en/2.3.x/fields/" ID="ID_382595743" CREATED="1638976972900" MODIFIED="1638976972900" LINK="https://wtforms.readthedocs.io/en/2.3.x/fields/"/>
+<node TEXT="W polu wyszukiwania wariantu wpisuję fragment nazwy - klikam wybór; następuje załadowanie listy wielokrotnego wyboru z zaznaczonym wybranym wariantem; dodanie każdego kolejnego wariantu powoduje przeładowanie formy - tak, żeby nowa lista wielokrotnego wyboru zawierała nowy wariant; jeżeli chcę któryś wariant wyrzucić - odznaczam go na liście." ID="ID_1965239952" CREATED="1638977396317" MODIFIED="1639069362180">
+<font BOLD="false"/>
+<node TEXT="zastanowić się nad tym:" ID="ID_319858904" CREATED="1638992724163" MODIFIED="1638992729777">
+<node TEXT="https://wtforms-sqlalchemy.readthedocs.io/en/latest/wtforms_sqlalchemy/" ID="ID_829771083" CREATED="1638992730481" MODIFIED="1638992730481" LINK="https://wtforms-sqlalchemy.readthedocs.io/en/latest/wtforms_sqlalchemy/"/>
+</node>
+</node>
+</node>
+<node TEXT="wypełniam formularz" ID="ID_1163782777" CREATED="1638965846099" MODIFIED="1638965853412"/>
+<node TEXT="wybieram warianty nazwy" ID="ID_710751907" CREATED="1638965853633" MODIFIED="1638965858259"/>
+<node TEXT="Klikam &quot;Submit&quot;" ID="ID_955406495" CREATED="1638965933185" MODIFIED="1638965942066">
+<node TEXT="Formularz zostaje przesłany na serwer do walidacji, razem z nim - numery id wybranych wariantów nazwy" ID="ID_510114296" CREATED="1638965942070" MODIFIED="1638978000808"/>
+<node TEXT="forma nie zostaje zwalidowana" ID="ID_12812718" CREATED="1638966480531" MODIFIED="1638966492089">
+<node TEXT="Po wywołaniu metody fill_form() - w obiekcie formularza zostają zapisane wybrane poprzednio numery id wariantów, które zostaną ponownie wyrenderowane w szablonie - przy wysyłaniu danych na serwer, skrypt w JS będzie przeglądał tylko komponenty dodane na stronie, przy renderowaniu strony po stronie serwera - będą renderowane na podstawie danych z obiektu formularza." ID="ID_1852027630" CREATED="1638965964033" MODIFIED="1638967305746"/>
+</node>
+</node>
+</node>
+<node TEXT="dynamiczne dodawanie elementów do listy wyboru" ID="ID_531632339" CREATED="1638963111736" MODIFIED="1638965499796">
+<icon BUILTIN="button_cancel"/>
+</node>
+<node TEXT="Odpowiednie metody w klasie dziedziczącej z (formularza edycji) mogłyby pobierać pozostałe informacje. Do przycisku &apos;Submit&apos; musiałby zostać podłączony kod w JS przesyłający informacje o wybranych wariantach nazwy." ID="ID_677984225" CREATED="1638963695616" MODIFIED="1638963922980"/>
+</node>
+<node TEXT="Czy da się użyć elementu formularza select multiple do wyboru wariantu nazwy?" ID="ID_1047568909" CREATED="1638961523229" MODIFIED="1638961539375">
+<node TEXT="Czy elementy dodane do select multiple zostaną zapamiętane między wywołaniami?" ID="ID_976684098" CREATED="1638962011982" MODIFIED="1638962027346">
+<node TEXT="Zostaną, bo w ten sposób działa wtforms" ID="ID_1455130872" CREATED="1638962098629" MODIFIED="1638962110773"/>
+</node>
+</node>
+</node>
+</node>
+</node>
+<node TEXT="szablony do edycji osoby i dokumentu powinny dziedziczyć z szablonu nadrzędnego" ID="ID_24291603" CREATED="1639568240952" MODIFIED="1639568265572"/>
+<node TEXT="select_multiple_fields generuje błędny kod - przyjrzeć się temu" ID="ID_1032081938" CREATED="1639585156179" MODIFIED="1639585168079"/>
+<node TEXT="responsibility_collectivities" FOLDED="true" ID="ID_267686899" CREATED="1639500239802" MODIFIED="1640004204054">
+<icon BUILTIN="button_ok"/>
+<node TEXT="dokończyć dodawanie oznaczenia odpowiedzialności - wg. komentarzy w edit_document_details.html" ID="ID_352802041" CREATED="1639606494881" MODIFIED="1640003988869">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="połączyć metody: load_ i save_ w formularzu DocumentEditForm" ID="ID_16067895" CREATED="1639763682819" MODIFIED="1640003979595">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+<node TEXT="Dodać pole ordering" ID="ID_1874217883" CREATED="1639683910503" MODIFIED="1639763778518">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+</node>
+<node TEXT="zaprojektować tak, żeby użyć to również do ozn. odp. z osobami" ID="ID_1409345659" CREATED="1639501111887" MODIFIED="1639501125872"/>
+<node TEXT="czy powinno to mieć osobną trasę i stronę do edycji?" ID="ID_1323452996" CREATED="1639500352066" MODIFIED="1639500364792">
+<node TEXT="Ramka z oznaczeniami odpowiedzialności: wewnątrz pole wyszukiwania asynchronicznego: ciało zbiorowe/osoba i nazwa ozn. odpowiedzialności. Wyszukuję c.zb - gdy kliknę je na liście, dodaje mi się (do listy powyżej) - jeżeli kliknę inne, zastępuje poprzednie, obok wybieram nazwę ozn. odpowiedzialności. Jeżeli jestem zadowolony z konfiguracji, klikam na ikonę dodania ozn. odpowiedzialności do dokumentu, wówczas pojawia mi się (nazwa osoby/instytucji z nazwą ozn. odp.) powyżej pól wyboru, obok jest ikona usunięcia tego." ID="ID_373583854" CREATED="1639502142628" MODIFIED="1639522215449">
+<icon BUILTIN="button_ok"/>
+<node TEXT="Najłatwiej by chyba było to dodawać do multiple selection list i przesyłać z resztą formularza - tak jak PersonalNameVariants w Person." ID="ID_883255273" CREATED="1639516856706" MODIFIED="1639516923251">
+<font BOLD="true"/>
+<node TEXT="https://stackoverflow.com/questions/3245967/can-an-option-in-a-select-tag-carry-multiple-values" ID="ID_128966666" CREATED="1639518931637" MODIFIED="1639518931637" LINK="https://stackoverflow.com/questions/3245967/can-an-option-in-a-select-tag-carry-multiple-values"/>
+</node>
+<node TEXT="Zrobić wireframe" ID="ID_1318194554" CREATED="1639504287735" MODIFIED="1639504297170">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Czy potrzebuję inne diagramy, czy na bieżąco robić opis/notatki/pseudokod?" ID="ID_687245160" CREATED="1639504344053" MODIFIED="1639504356859"/>
+<node TEXT="Da się tu użyć search_criterion_component?" ID="ID_541374601" CREATED="1639502827778" MODIFIED="1639502837279"/>
+</node>
+<node TEXT="Na stronie edycji dokumentu klikam tylko przy określonym oznaczeniu odpowiedzialności w celu jego edycji/klikam &quot;dodaj ozn. odp&quot;, otwiera to nową stronę gdzie to edytuję/dodaję, po zakończeniu edycji klikam &quot;zapisz&quot; i nowe oznaczenie jest wyświetlane na stronie edycji dokumentu -lub- klikam &quot;anuluj&quot; i zamykam stronę edycji." ID="ID_953713560" CREATED="1639500435248" MODIFIED="1639522174081">
+<icon BUILTIN="button_cancel"/>
+</node>
+</node>
+<node TEXT="aktualizacja relacji many-to-many" ID="ID_1354656772" CREATED="1639680838760" MODIFIED="1639680846460">
+<node TEXT="https://docs.sqlalchemy.org/en/14/orm/session_api.html#sqlalchemy.orm.Session.merge" ID="ID_610767545" CREATED="1639680847988" MODIFIED="1639680847988" LINK="https://docs.sqlalchemy.org/en/14/orm/session_api.html#sqlalchemy.orm.Session.merge"/>
+</node>
+</node>
+<node TEXT="Poprawić wygląd formularza edycji dokumentu." ID="ID_480209987" CREATED="1640293313639" MODIFIED="1640293324477"/>
+<node TEXT="Pola edycji (np. wybór oznaczeń odpowiedzialności na stronie edycji dokumentu) nie mogą akceptować dodawania wielokrotnie tego samego wpisu." ID="ID_86048493" CREATED="1640113711830" MODIFIED="1640374119945">
+<font BOLD="false"/>
+</node>
+<node TEXT="zapisywanie informacji o modyfikacji rekordu" ID="ID_1277321310" CREATED="1635109528069" MODIFIED="1640377333887">
+<node TEXT="informacja o utworzeniu rekordu, aktualizacji rekordu, użytkowniku który dokonał modyfikacji i czas dokonania modyfikacji" ID="ID_1371440234" CREATED="1635109534194" MODIFIED="1638911321488"/>
+<node TEXT="razem przed commit, powinno zostawać zaktualizowane pole modyfikacji" ID="ID_1525736330" CREATED="1638534726979" MODIFIED="1638534747977"/>
+<node TEXT="utworzenie rekordu" ID="ID_326683102" CREATED="1635109655361" MODIFIED="1635109659614">
+<node TEXT="data i czas; informacje o użytkowniku - w polach &quot;aktualizowano&quot; (updated)" ID="ID_1376743720" CREATED="1635109659642" MODIFIED="1635109710170"/>
+</node>
+</node>
 </node>
 <node TEXT="testy" POSITION="left" ID="ID_1401736301" CREATED="1629383005379" MODIFIED="1636394835927">
 <edge COLOR="#7c007c"/>
@@ -623,11 +783,11 @@
 <node TEXT="Testy pisać razem z kodem (po zrobieniu projektu)." ID="ID_1129021365" CREATED="1630408184273" MODIFIED="1630408200273"/>
 <node TEXT="Korzystać referencyjnie z jakiejś książki na temat testowania aplikacji w Python." ID="ID_115322150" CREATED="1630408153106" MODIFIED="1630408173693"/>
 </node>
-<node TEXT="testy bazy danych" FOLDED="true" ID="ID_1146073976" CREATED="1630936654644" MODIFIED="1630936665680">
+<node TEXT="testy bazy danych" ID="ID_1146073976" CREATED="1630936654644" MODIFIED="1630936665680">
 <node TEXT="Jak będą działały klucze kompozytowe? Czy unikatowa musi być wartość obu pól czy wartości każdego pola osobno?" ID="ID_1029459100" CREATED="1630936666133" MODIFIED="1630936668685"/>
 </node>
 </node>
-<node TEXT="etapy projektowania" FOLDED="true" POSITION="left" ID="ID_235516252" CREATED="1629195216884" MODIFIED="1638368856182">
+<node TEXT="etapy projektowania" POSITION="left" ID="ID_235516252" CREATED="1629195216884" MODIFIED="1638368856182">
 <edge COLOR="#007c00"/>
 <node TEXT="wymogi" FOLDED="true" ID="ID_907043232" CREATED="1629215139908" MODIFIED="1636394938078">
 <icon BUILTIN="button_ok"/>
@@ -693,13 +853,26 @@
 </node>
 <node TEXT="bugtracker" POSITION="right" ID="ID_524977360" CREATED="1634300796153" MODIFIED="1636035723372">
 <edge COLOR="#00ff00"/>
+<node TEXT="Load next w quicksearch - przycisk jest aktywny nawet jeżeli brak jest kolejnych elementów (pozwala na jeszcze jedno naciśnięcie). Prześledzić kod (nawet z diagramem) zarówno po stronie przeglądarki (js) jak i po stronie serwera." ID="ID_108934435" CREATED="1638359662154" MODIFIED="1640815509515">
+<icon BUILTIN="button_ok"/>
+<node TEXT="Strona była cały czas pierwsza, ponieważ nie pobierałem argumentu z numerem strony z łańcucha kwerendy (?page=... w URL)" ID="ID_562611434" CREATED="1640815020503" MODIFIED="1640816961455"/>
+</node>
+<node TEXT="miejsca w szablonach gdzie są przyciski &quot;edytuj&quot;, &quot;usuń&quot; - jeżeli ich tam nie ma, pozostaje pusty wiersz" ID="ID_37264494" CREATED="1640633205479" MODIFIED="1640725168871">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="wyszukiwanie wariantów nazwy na stronie edycji wpisu osoby przestało działać" ID="ID_1003276466" CREATED="1640284722231" MODIFIED="1640729843400">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="ciała zbiorowe -&gt; ozn.odpowiedzialności-&gt;brak id ozn. odp:" ID="ID_174201013" CREATED="1636109182178" MODIFIED="1636478894816">
+<node TEXT="Nie powinno to mieć miejsca: Documents where collective body Baker, Trevino and Bennett holds responsibility - None:" ID="ID_962111098" CREATED="1636109203480" MODIFIED="1636109212685"/>
+</node>
 <node TEXT="Login manager nie działa" FOLDED="true" ID="ID_1314422306" CREATED="1633631167236" MODIFIED="1638909852897">
 <icon BUILTIN="button_ok"/>
 <node TEXT="naprawione" ID="ID_1958164346" CREATED="1638909853750" MODIFIED="1638909855688"/>
 </node>
 <node TEXT="formularz z typami dokumentów przy liście dokumentów:" FOLDED="true" ID="ID_127327879" CREATED="1636376082743" MODIFIED="1638390346967">
 <icon BUILTIN="button_ok"/>
-<node TEXT="Na liście lokalizacji geograficznych klikam na &quot;documents published&quot;, odznaczam jedną kategorię typów dokumentów, klikam &quot;Apply filter&quot;, w przeglądarce klikam 2x &quot;wstecz&quot;: wyświetla mi się pełna lista dokumentów, ale wcześniej odznaczone pole &quot;Document type&quot; jest w dalszym ciągu odznaczone (z dużym prawdopodobieństwem dotyczy to pozostałych tras). Poprawnie są zaznaczone typy po odświeżeniu strony.&#xa;&#xa;Czemu tak się dzieje?&#xa;&#xa;1. Collective bodies-&gt; klikam ...topic/see list&#xa;2. odznaczam &apos;book&apos;-&gt; apply filter&#xa;3. klikam wpis&#xa;4. 2x w przeglądarce klikam wstecz -&gt; na liście pojawiają się wszystkie wpisy włącznie z tymi z odznaczonej kategorii, ale na formularzu kategoria jest dalej odznaczona.&#xa;&#xa;ad 4.: po dwukrotnym kliknięciu wstecz w URL brak jest id zaznaczonych typów&#xa;&#xa;Przeglądarka przy przejściach przyciskiem &quot;wstecz&quot; zapamiętuje jakie pola formularza miałem zaznaczone, zatem stan formularza, aż do wysłania nowego żądania do serwera, będzie reprezentował co innego niż jest na liście (lista będzie np. wyświetlała dokumenty wszystkich typów - przed ich odznaczeniem; formularz może mieć pewne typy dokumentów odznaczone). Rozwiązanie: zaznaczanie właściwych pól formularza powinno następować po stronie przeglądarki." FOLDED="true" ID="ID_1279260684" CREATED="1636111088697" MODIFIED="1636382467385">
+<node TEXT="Na liście lokalizacji geograficznych klikam na &quot;documents published&quot;, odznaczam jedną kategorię typów dokumentów, klikam &quot;Apply filter&quot;, w przeglądarce klikam 2x &quot;wstecz&quot;: wyświetla mi się pełna lista dokumentów, ale wcześniej odznaczone pole &quot;Document type&quot; jest w dalszym ciągu odznaczone (z dużym prawdopodobieństwem dotyczy to pozostałych tras). Poprawnie są zaznaczone typy po odświeżeniu strony.&#xa;&#xa;Czemu tak się dzieje?&#xa;&#xa;1. Collective bodies-&gt; klikam ...topic/see list&#xa;2. odznaczam &apos;book&apos;-&gt; apply filter&#xa;3. klikam wpis&#xa;4. 2x w przeglądarce klikam wstecz -&gt; na liście pojawiają się wszystkie wpisy włącznie z tymi z odznaczonej kategorii, ale na formularzu kategoria jest dalej odznaczona.&#xa;&#xa;ad 4.: po dwukrotnym kliknięciu wstecz w URL brak jest id zaznaczonych typów&#xa;&#xa;Przeglądarka przy przejściach przyciskiem &quot;wstecz&quot; zapamiętuje jakie pola formularza miałem zaznaczone, zatem stan formularza, aż do wysłania nowego żądania do serwera, będzie reprezentował co innego niż jest na liście (lista będzie np. wyświetlała dokumenty wszystkich typów - przed ich odznaczeniem; formularz może mieć pewne typy dokumentów odznaczone). Rozwiązanie: zaznaczanie właściwych pól formularza powinno następować po stronie przeglądarki." ID="ID_1279260684" CREATED="1636111088697" MODIFIED="1636382467385">
 <node TEXT="Prześledzić przepływ kontroli (zrobić diagram aktywności z uwzględnieniem aktywności użytkownika - np. węzły z aktywnością &quot;kliknięcie cofnij&quot; etc.)" ID="ID_98352682" CREATED="1636111275909" MODIFIED="1636111323356"/>
 <node TEXT="Rozwiązania:" FOLDED="true" ID="ID_1106679376" CREATED="1636111271874" MODIFIED="1636111275903">
 <node TEXT="Strona powinna zostać przepisana z użyciem AJAXa." ID="ID_336291607" CREATED="1636111323870" MODIFIED="1636111339610"/>
@@ -714,10 +887,12 @@
 </node>
 </node>
 </node>
-<node TEXT="ciała zbiorowe -&gt; ozn.odpowiedzialności-&gt;brak id ozn. odp:" ID="ID_174201013" CREATED="1636109182178" MODIFIED="1636478894816">
-<node TEXT="Nie powinno to mieć miejsca: Documents where collective body Baker, Trevino and Bennett holds responsibility - None:" ID="ID_962111098" CREATED="1636109203480" MODIFIED="1636109212685"/>
+<node TEXT="kliknięcie na &quot;load next&quot; na liście szybkiego wyszukiwania powoduje kasowanie poprzednich wyników (a powinno do nich dodawać)" ID="ID_346894070" CREATED="1639651714649" MODIFIED="1639654044460">
+<icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="Load next w quicksearch - przycisk jest aktywny nawet jeżeli brak jest kolejnych elementów (pozwala na jeszcze jedno naciśnięcie). Prześledzić kod (nawet z diagramem) zarówno po stronie przeglądarki (js) jak i po stronie serwera." ID="ID_108934435" CREATED="1638359662154" MODIFIED="1638359748651"/>
+<node TEXT="Nie działa usuwanie ozn. odp. przy ciałach zbiorowych" ID="ID_1224740195" CREATED="1640296105436" MODIFIED="1640373934941">
+<icon BUILTIN="button_ok"/>
+</node>
 </node>
 <node TEXT="odrzucone" FOLDED="true" POSITION="right" ID="ID_173883321" CREATED="1636142770917" MODIFIED="1636142773899">
 <edge COLOR="#007c7c"/>
@@ -774,6 +949,9 @@
 </node>
 <node TEXT="zaprojektować ogólne interakcje (na pdstw. use-cases - np. gdzie po danej interakcji aplikacja powinna mnie odesłać - np. po zmodyfikowaniu i zapisaniu opisu bibliograficznego na stronę wyświetlającą ten opis lub wyświetlić komunikat niepowodzenia modyfikacji [etc.])" FOLDED="true" ID="ID_1006816947" CREATED="1630965034139" MODIFIED="1636481536416">
 <node TEXT="tworzenie konta" ID="ID_519157732" CREATED="1632949869890" MODIFIED="1636142943997"/>
+</node>
+<node TEXT="Dodawanie/usuwanie/edycja rekordów - operacje te nazywają się CRUD (Create, Read, Update, Delete)" ID="ID_592184771" CREATED="1639046905491" MODIFIED="1640377447445">
+<node TEXT="Poczytać na ten temat." ID="ID_207932299" CREATED="1639046924904" MODIFIED="1639046930493"/>
 </node>
 </node>
 <node TEXT="wymogi" FOLDED="true" POSITION="left" ID="ID_1828324630" CREATED="1636394801812" MODIFIED="1636394813460">
@@ -2366,6 +2544,134 @@
 <font BOLD="false"/>
 <node TEXT="Dodać do szablonu" ID="ID_1640919493" CREATED="1638536562946" MODIFIED="1638536568100"/>
 </node>
+<node TEXT="formularz edycji dokumentu" ID="ID_31877488" CREATED="1638910236703" MODIFIED="1640374177328">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="zapisywanie/dodawanie nowego dokumentu" ID="ID_357877988" CREATED="1640274539824" MODIFIED="1640290202514">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="przycisk edycji do widoku szczegółów dokumentu" ID="ID_1088389426" CREATED="1640124821584" MODIFIED="1640288482991">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Zapisywanie wszystkich pól z formularza dokumentu." ID="ID_1790790153" CREATED="1640215909798" MODIFIED="1640287962390">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="poprawienie kodu w forms.py" ID="ID_1943546451" CREATED="1640124695598" MODIFIED="1640290418466">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="poprawienie edit_document_details.html wg. komentarzy (kod js i html)" ID="ID_1200262535" CREATED="1640124592684" MODIFIED="1640290426190">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+<node TEXT="Robić pola z relationships" FOLDED="true" ID="ID_1974986866" CREATED="1639431996443" MODIFIED="1640208649576">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="Dodanie dokumentów podrzędnych z kontrolą po stronie przeglądarki - tak, żeby dokument nie referencjonował sam siebie." ID="ID_1658374460" CREATED="1640124542181" MODIFIED="1640208621803">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="dekoratory w js." ID="ID_1615639272" CREATED="1640206240757" MODIFIED="1640206252142">
+<node TEXT="https://www.sitepoint.com/javascript-decorators-what-they-are/" ID="ID_1371970948" CREATED="1640206254757" MODIFIED="1640206254757" LINK="https://www.sitepoint.com/javascript-decorators-what-they-are/"/>
+</node>
+</node>
+<node TEXT="collectivity_subjects" ID="ID_100809320" CREATED="1640097059446" MODIFIED="1640107356664">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Pole z miejscami wydania" FOLDED="true" ID="ID_353297046" CREATED="1640083626383" MODIFIED="1640097058102">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="podobnie do oznaczeń odpowiedzialności" ID="ID_1458329683" CREATED="1640084686660" MODIFIED="1640084693912"/>
+</node>
+<node TEXT="pola: Document.language i Document.original_language" FOLDED="true" ID="ID_1951440775" CREATED="1640004327819" MODIFIED="1640083558617">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="Zrobić menu rozwijane (dropdown) do wyboru języka." ID="ID_1812894980" CREATED="1640013083619" MODIFIED="1640027855738">
+<font BOLD="false"/>
+</node>
+<node TEXT="Wybieram język z listy dropdown" ID="ID_511289352" CREATED="1640013037620" MODIFIED="1640013046350"/>
+<node TEXT="zastępuje on język obecnie w polu ..." ID="ID_1036373351" CREATED="1640013046633" MODIFIED="1640013057912"/>
+<node TEXT="ustawiam odpowiednią zmienną dla języka" ID="ID_597592216" CREATED="1640013062999" MODIFIED="1640013072244"/>
+<node TEXT="powinien być przycisk wyczyszczenia pola języka" ID="ID_1678040452" CREATED="1640027860000" MODIFIED="1640027867899"/>
+</node>
+<node TEXT="Pola z relationships: jak mogę uogólnić np. get_variants?" ID="ID_432613112" CREATED="1639431933406" MODIFIED="1639500247481">
+<font BOLD="false"/>
+</node>
+<node TEXT="dodawanie kolejnych elementów:" ID="ID_511795990" CREATED="1640107358965" MODIFIED="1640107377793">
+<node TEXT="+ pole w form.py" ID="ID_1426803244" CREATED="1640107365804" MODIFIED="1640107365804"/>
+<node TEXT="+ metoda wczytania tematów z bd do formularza (+jej wywołanie w odpowiednim miejscu)" ID="ID_1218006143" CREATED="1640107858216" MODIFIED="1640110889626"/>
+<node TEXT="+ wyśw. form. na stronie" ID="ID_1498117090" CREATED="1640107858216" MODIFIED="1640107858216"/>
+<node TEXT="+ dodanie i uaktywnienie &quot;Remove&quot;" ID="ID_1482630330" CREATED="1640108049884" MODIFIED="1640108049884"/>
+<node TEXT="+ dodanie &quot;input&quot; i dropdown" ID="ID_172356686" CREATED="1640108512603" MODIFIED="1640111513609"/>
+<node TEXT="+ podłączenie wyszukiwania do dropdown i input (funkcja i jej wywołanie w odp. miejscu)" ID="ID_535809029" CREATED="1640109871287" MODIFIED="1640111536874"/>
+<node TEXT="+ zapisywanie do bd w forms.py" ID="ID_1045978628" CREATED="1640110512192" MODIFIED="1640110512192"/>
+<node TEXT="+ dodanie wpisu w multichoice_fields (edit_document_details.html)" ID="ID_1723409802" CREATED="1640110512192" MODIFIED="1640110512192"/>
+</node>
+</node>
+</node>
+<node TEXT="Strony z błędami (403, 404)" ID="ID_864521320" CREATED="1640376847680" MODIFIED="1640624326988">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+<node TEXT="Potwierdzanie konta przez email" ID="ID_874522380" CREATED="1640624731608" MODIFIED="1640642084340">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="Zarejestrowanie się i potwierdzenie konta daje tylko możliwość zalogowania się do aplikacji; żeby móc edytować bazę, administrator musi podnieść uprawnienia (i gdyby to była rzeczywista aplikacja, zapewne robiłby tak po przesłaniu maila z prośbą od użytkownika)." ID="ID_503302972" CREATED="1640633763150" MODIFIED="1640633867807"/>
+</node>
+<node TEXT="lista użytkowników dla administratora" ID="ID_470438774" CREATED="1640642429421" MODIFIED="1640644445831">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Zrobić stronę szczegółów konta użytkownika." FOLDED="true" ID="ID_1912129187" CREATED="1640374542382" MODIFIED="1640644789803" LINK="#ID_697873465">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="wg. modelu - models.User" ID="ID_1153725943" CREATED="1640377593094" MODIFIED="1640377601674"/>
+</node>
+<node TEXT="Włączyć FK w SQLite" ID="ID_1179557183" CREATED="1640432375124" MODIFIED="1640696865387">
+<icon BUILTIN="button_ok"/>
+<node TEXT="https://stackoverflow.com/questions/2614984/sqlite-sqlalchemy-how-to-enforce-foreign-keys" ID="ID_102674146" CREATED="1640431824196" MODIFIED="1640431824196" LINK="https://stackoverflow.com/questions/2614984/sqlite-sqlalchemy-how-to-enforce-foreign-keys"/>
+<node TEXT="Włączyć FK w SQLite i pozostawić jak jest (nie przenosić do MySQL)" ID="ID_592398583" CREATED="1640432354450" MODIFIED="1640696862559">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Wyjątek wskutek próby skasowania rekordu i niepowodzenia wskuktek FK: cofnięcie operacji i wyświetlenie komunikatu." ID="ID_95232057" CREATED="1640694128128" MODIFIED="1640696756912">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+<node TEXT="wyszukiwanie osób do oznaczeń odpowiedzialności, haseł przedmiotowych: powinno wyświetlać tylko osoby (bez wariantów nazw) lub z wariantami - ale tylko tymi, do których podłączone są osoby" ID="ID_1424025072" CREATED="1640645093304" MODIFIED="1640708902718">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+<node TEXT="uwzględnić szeregowanie (ordering) w modelach w których to występuje w opisie dokumentu" ID="ID_1238573092" CREATED="1640645791116" MODIFIED="1640707488235">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+</node>
+<node TEXT="Napisać tekst na stronę główną (+ licencja i disclaimer)" FOLDED="true" ID="ID_920350202" CREATED="1640730238171" MODIFIED="1640897459854">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="Wykorzystane technologie" ID="ID_721861625" CREATED="1640730785667" MODIFIED="1640879016781">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Czym jest bibliograficzna baza danych?" ID="ID_1807414231" CREATED="1640730869439" MODIFIED="1640881865839">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Co projekt ma prezentować?" ID="ID_935977884" CREATED="1640730613365" MODIFIED="1640881872784">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Na czym się wzorowałem?" ID="ID_1228849323" CREATED="1640730876190" MODIFIED="1640881875185">
+<icon BUILTIN="button_ok"/>
+<node TEXT="PBL" ID="ID_1961433718" CREATED="1640868263971" MODIFIED="1640868265246"/>
+</node>
+<node TEXT="funkcjonalność" ID="ID_822083488" CREATED="1640882036159" MODIFIED="1640897192173">
+<icon BUILTIN="button_ok"/>
+<node TEXT="Jakie ma funkcje?" ID="ID_260162229" CREATED="1640882039133" MODIFIED="1640882044836"/>
+</node>
+<node TEXT="Z jakiej literatury korzystałem?" ID="ID_768924762" CREATED="1640876257781" MODIFIED="1640897195764">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Czemu nie wspomniałem CSS?" ID="ID_1725917472" CREATED="1640868250886" MODIFIED="1640897198076">
+<icon BUILTIN="button_cancel"/>
+</node>
+<node TEXT="Z jakich stron korzystałem (np. do konf. Emacsa), książek etc" ID="ID_1621009921" CREATED="1640868179646" MODIFIED="1640897201994">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
 </node>
 <node TEXT="do zrobienia w kolejnej wersji" FOLDED="true" POSITION="right" ID="ID_566144622" CREATED="1636143329422" MODIFIED="1636395367347">
 <edge COLOR="#0000ff"/>
@@ -2428,6 +2734,62 @@
 <node TEXT="Tadzik poszukuje informacji o książkach autora: Jana Nowaka-Kowalskiego. W tym celu w aplikacji bibliograficznej wybiera z menu: przeglądaj (browse) -&gt; nazwy osobowe (personal names). Wyświetla się stronicowana lista nazwisk w alfabetycznym porządku nazwisk, domyślnie rosnącym (A-Z). W górnej części listy znajduje się grupa hiperłączy w postaci liter alfabetu, odsyłających do konkretnej lokalizacji na liście: strony, gdzie nazwiska autorów rozpoczynają się od konkretnej litery. Aby ułatwić sobie przeglądanie, Tadzik klika na &quot;N&quot; po czym wyświetla mu się strona, na której rozpoczynają się nazwiska osób na tą literę." ID="ID_1130692478" CREATED="1635265917629" MODIFIED="1635268704674"/>
 <node TEXT="Linki od litery powinny odsyłać do określonej grupy." ID="ID_244576480" CREATED="1634294577977" MODIFIED="1634294605142"/>
 </node>
+<node TEXT="Zrobić stronę na której będę wybierał parametry wyszukiwania." ID="ID_1360185885" CREATED="1637015091884" MODIFIED="1640380630172">
+<icon BUILTIN="xmag"/>
+<font BOLD="false"/>
+<node TEXT="z wybranych kryteriów ma być generowany poprawny URL" ID="ID_1734019539" CREATED="1637251900230" MODIFIED="1637267342813">
+<icon BUILTIN="button_ok"/>
+<font BOLD="false"/>
+<node TEXT="https://developer.mozilla.org/en-US/docs/Web/API/URL" ID="ID_1061282038" CREATED="1637251915397" MODIFIED="1637251915397" LINK="https://developer.mozilla.org/en-US/docs/Web/API/URL"/>
+<node TEXT="https://www.valentinog.com/blog/url/" ID="ID_1798295522" CREATED="1637251924694" MODIFIED="1637251924694" LINK="https://www.valentinog.com/blog/url/"/>
+</node>
+<node TEXT="zrobić funkcję która: doda element do listy id osób z oznaczeń odpowiedzialności w dokumencie&#xa;+ funkcja zwracana przez add_searched_id:&#xa; - sprawdza czy obiekt jest już w zbiorze: jeżeli nie - dodaje; jeżeli jest - wyświetla powiadomienie (?)&#xa; - dodaje komponent z etykietą i callback (do komponentu) usuwający element z listy" ID="ID_1213621710" CREATED="1637097513268" MODIFIED="1637158602142">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="Refactoring: przeglądanie" ID="ID_890702224" CREATED="1637158622568" MODIFIED="1637269277800">
+<node ID="ID_1272033103" CREATED="1637158628773" MODIFIED="1638368176433"><richcontent TYPE="NODE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      + otwieram stronę wyszukiwania - jeżeli brak jest wyszukanych elementów, pola do selekcji kryteriów wyszukiwania są rozwinięte
+    </p>
+    <p>
+      + wypełniam formularz szukania
+    </p>
+    <p>
+      + kwerenda leci na serwer (przez URL - GET)
+    </p>
+    <p>
+      + serwer zwraca paginowane wyniki
+    </p>
+    <p>
+      + pola do selekcji kryteriów są zwinięte
+    </p>
+    <p>
+      <b>+ jeżeli rozwinę komponent z polami do selekcji kryteriów, ładuje do list parametry wyszukiwania z URL (w tym wyświetla przyciski-etykiety wybranych parametrów)</b>
+    </p>
+  </body>
+</html>
+</richcontent>
+<node TEXT="można to opisać na diagramie sekwencyjnym" ID="ID_1143210062" CREATED="1637158630644" MODIFIED="1637158640783"/>
+</node>
+</node>
+</node>
+<node TEXT="blokowanie rekordów do edycji" ID="ID_222293649" CREATED="1634117528225" MODIFIED="1640380710022">
+<node TEXT="Record locking strategies" ID="ID_735266412" CREATED="1631298262727" MODIFIED="1631298284796">
+<node TEXT="źródła" FOLDED="true" ID="ID_1582640380" CREATED="1631298702721" MODIFIED="1631298705517">
+<node TEXT="Gray, Jim &amp; Reuter, Andreas (1993), Distributed Transaction Processing: Concepts and Techniques, Morgan Kaufmann, pp. 375–437, ISBN 1-55860-190-2" ID="ID_1243386771" CREATED="1631298593687" MODIFIED="1631298595113"/>
+<node TEXT="http://www.agiledata.org/essays/concurrencyControl.html" ID="ID_1640762898" CREATED="1631299104653" MODIFIED="1631299104653" LINK="http://www.agiledata.org/essays/concurrencyControl.html"/>
+</node>
+<node TEXT="In database management theory, locking is used to implement isolation among multiple database users. This is the &quot;I&quot; in the acronym ACID." ID="ID_870206224" CREATED="1631298709010" MODIFIED="1631298710461"/>
+</node>
+<node TEXT="wylogowanie użytkownika powinno również powodować odblokowanie rekordu wpisanego w tabeli blokującej" ID="ID_1000627189" CREATED="1631699090998" MODIFIED="1631699112883"/>
+</node>
+<node TEXT="Resetowanie hasła" ID="ID_1809678548" CREATED="1640624742826" MODIFIED="1640624751824"/>
 </node>
 </node>
 </map>

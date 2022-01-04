@@ -485,6 +485,7 @@ def get_collective_bodies():
 @main.route('/search/name-variant', methods=['POST'])
 def get_name_variant():
     query = get_es_search_params(PersonNameVariant)
+    print([item.id for item in query[0]])
     return jsonify([{'text': str(query_item) + f' (id {query_item.id})',
                      'id': query_item.id} for query_item in query[0]])
 
@@ -728,3 +729,7 @@ def delete_entry(entry_model):
 
     flash('Entry successfully removed.')
     return redirect(url_for(selection['list_endpoint']))
+
+@main.route('/disclaimer')
+def disclaimer():
+    return render_template('disclaimer.html')
