@@ -1,6 +1,6 @@
 Project description
 
-This is a simple bibliography application for viewing and creating collections of records for documents.
+This is a simple bibliography application for viewing and creating collections of records for documents. It was made as a portfolio project and for learning purposes only.
 
 It has the following functionality:
 
