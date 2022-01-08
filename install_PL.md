@@ -5,8 +5,7 @@ z użyciem Python 3.6.9
 
 Po pobraniu repozytorium, w lokalnym katalogu należy utworzyć środowisko
 wirtualne:
-
-`$ python3 -m venv ./venv`
+`$ python3 -m venv ./venv
 
 i je aktywować:
 
@@ -52,14 +51,14 @@ Instance: /home/user/Flask-Web-Bibliography-App/instance
 
 Aby możliwe było używanie aplikacji, należy zainicjować bazę danych. W tym
 celu z pakietu app należy zaimportować obiekt db:
-
-`>>> from app import db
-
+```
+>>> from app import db
+```
 Następnie na obiekcie db należy wywołać metodę inicjującą
 tabele (zdefiniowane w modelelach z modułu models.py):
-
-`>>> db.create_all()
-
+```
+>>> db.create_all()
+```
 Na tym etapie, po wyjściu z interpretera i włączeniu serwera
 rozwojowego, aplikację będzie można uruchomić.
 Alternatywnie, można pozostawić włączoną sesję powłoki Flaska oraz otworzyć
@@ -100,9 +99,9 @@ Dostępne role można podejrzeć używając kwerendy:
 ```
 Jak widać, rola administratora pojawiła się jako trzeci element listy, można
 ją w ten sposób przypisać do zmiennej:
-
-`>>> admin_role = Role.query.all()[2]
-
+```
+>>> admin_role = Role.query.all()[2]
+```
 lub lepiej - uzyskać obiekt roli z kwerendy:
 ```
 >>> admin_role = Role.query.filter_by(name='Administrator').first()
@@ -171,18 +170,18 @@ skasować, gdyż wydaje mi się ono zbędne.
 
 Przed zapełnieniem pozostałych tabel należy zainstalować (wg. instrukcji na
 stronie projektu) i włączyć Elasticsearch:
-
-`$ sudo systemctl start elasticsearch
-
+```
+$ sudo systemctl start elasticsearch
+```
 oraz w środowisku wirtualnym, w którym jest uruchamiany serwer ustawić
 zmienną z adresem usługi - która domyślnie jest włączona na porcie 9200 -
 zatem po instalacji na lokalnym komputerze:
-
-`$ export ELASTICSEARCH_URL=localhost:9200
-
+```
+$ export ELASTICSEARCH_URL=localhost:9200
+```
 Aby utworzyć bazę danych z fałszywymi wpisami, należy skonfigurować
 Elasticsearch (tak jak przedstawiono powyżej), następnie w środowisku
-wirtualnym, w którym ustawiono zmienną ELASTICSEARCH_URL
+wirtualnym, w którym ustawiono zmienną `ELASTICSEARCH_URL`
 (jest to ważne - inaczej baza danych się nie zaindeksuje) uruchomić powłokę
 Flaska, zaimportować moduł fake i wykonać procedurę tworzącą wpisy:
 ```
