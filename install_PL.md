@@ -5,7 +5,7 @@ z użyciem Python 3.6.9
 
 Po pobraniu repozytorium, w lokalnym katalogu należy utworzyć środowisko
 wirtualne:
-`$ python3 -m venv ./venv
+`$ python3 -m venv ./venv`
 
 i je aktywować:
 
