@@ -5,39 +5,40 @@ z użyciem Python 3.6.9
 
 Po pobraniu repozytorium, w lokalnym katalogu należy utworzyć środowisko
 wirtualne:
-`$ python3 -m venv ./venv`
-
+```
+$ python3 -m venv ./venv
+```
 i je aktywować:
-
-`$ source ./venv/bin/activate`
-
+```
+$ source ./venv/bin/activate
+```
 W następnej kolejności należy zainstalować wymagane pakiety - ich lista jest
 zawarta w pliku requirements.txt (w katalogu requirements aplikacji). Należy
 to zrobić przy pomocy instalatora pip:
-
-`$ pip install -r requirements.txt`
-
+```
+$ pip install -r requirements.txt
+```
 Po instalacji, należy ustawić podstawowe zmienne środowiska:
-ścieżkę do aplikacji (w tej formie, jeżeli znajduję się wgłównym
+ścieżkę do aplikacji (w tej formie, jeżeli znajduję się w głównym
 katalogu aplikacji):
-
-`$ export FLASK_APP=./main.py`
-
+```
+$ export FLASK_APP=./main.py
+```
 oraz zmienną wskazującą wybraną konfigurację aplikacji (w tym przypadku
 będzie to wersja "rozwojowa" z włączonym trybem debugowania i restartem
 serwera testowego w razie wykrycia zmian w plikach źródłowych):
-
-`$ export FLASK_ENV=development`
-
+```
+$ export FLASK_ENV=development
+```
 Pozostałe klasy zawierające konfigurację są wymienione w słowniku config w
 module config.py (podczas pisania używałem przeważnie opcji "development"
 i "testing").
 
 W celu dalszej konfiguracji należy wywołać interaktywną sesję interpretera
 Pythona z podłączoną powłoką Flaska:
-
-`$ flask shell`
-
+```
+$ flask shell
+```
 Wiersz zachęty interpretera na tym etapie powinien wyglądać z grubsza tak:
 
 ```
@@ -90,7 +91,7 @@ insert_roles() w celu dodania ról użytkowników do bazy danych:
 >>> from app.models import Role
 >>> Role.insert_roles()
 ```
-W tej części aplikacji nie ma akurat nic odkrywczego - jest prawie-że
+W tej części aplikacji nie ma akurat nic odkrywczego - jest to prawie-że
 powtórzenie podręcznika (różnica jest w definicjach ról).
 Dostępne role można podejrzeć używając kwerendy:
 ```
@@ -108,7 +109,7 @@ lub lepiej - uzyskać obiekt roli z kwerendy:
 >>> admin_role
 <Role: Administrator>
 ```
-Tworzenie użytkownika-administratora:
+### Tworzenie użytkownika-administratora:
 Należy utworzyć instancję klasy User; ponieważ idziemy na skróty (pomijamy
 aktywację użytkownika przez maila etc.), do konstruktora przekazuję wszystkie
 parametry, które będą potrzebne do zalogowania, czyli: nazwę użytkownika,
@@ -149,6 +150,7 @@ systemów bibliotecznych (i tym podobnych) - aktywacją i zarządzaniem kontami
 powinien zajmować się (właśnie) administrator lub np. w bibliotekach - tzw.
 "bibliotekarz systemowy".
 
+### Wypełnienie bazy danych
 Baza danych, jak na razie, jest pusta. W zamyśle: powinna zostać zapełniona
 ręcznie opisami dokumentów. Jednakże aby ułatwić pracę wyobrażonym
 bibliografom, postanowiłem do niej dodać pewne predefiniowane wpisy. Są to:
@@ -189,7 +191,7 @@ Flaska, zaimportować moduł fake i wykonać procedurę tworzącą wpisy:
 >>> fake.create_all()
 ```
 
-# Uwagi:
+### Uwagi:
 
 Jeżeli Elasticsearch nie był uruchomiony podczas tworzenia bazy danych,
 dodawania/usuwania lub modyfikacji rekordów, tabele można
