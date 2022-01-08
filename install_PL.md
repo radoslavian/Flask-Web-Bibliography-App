@@ -196,7 +196,7 @@ Jeżeli Elasticsearch nie był uruchomiony podczas tworzenia bazy danych,
 dodawania/usuwania lub modyfikacji rekordów, tabele można
 zreindeksować/zaindeksować ręcznie (w celu zsynchronizowania bazy ES z bazą
 danych aplikacji). Aby tego dokonać, dla klas z modułu models.py,
-posiadających atrybut __searchable__, w powłoce Flaska należy wykonać
+posiadających atrybut `__searchable__`, w powłoce Flaska należy wykonać
 np. taką instrukcję:
 ```
 >>> from app import models
@@ -205,3 +205,5 @@ np. taką instrukcję:
 ...  if getattr(model, '__searchable__', None):
 ...   model.reindex()
 ```
+
+[wideo z działającą instalacją](https://youtu.be/QaYa7rLCeNw)
