@@ -331,7 +331,7 @@ function get_add_dependent_doc(
     ordering_id, selected_dependent_doc_id, description_field_id,
     dependent_doc_id, select_multiple_field_id) {
 
-    return target => {
+    return () => {
 	let selected_dependent_doc = $(selected_dependent_doc_id);
 	let selected_ordering = $(ordering_id + " option:selected").val();
 	let dependent_doc = [];
