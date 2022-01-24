@@ -1,5 +1,7 @@
 # Project description
 
+[App usage and functionality demo (screen-record) - description of steps performed is currently in Polish](https://youtu.be/QaYa7rLCeNw)
+
 This is a simple bibliography application for viewing and creating collections of records for documents. It was made as a portfolio project and for learning purposes only.
 
 It has the following functionality:
@@ -70,9 +72,6 @@ During (and before) the development of the application I familiarized myself wit
 * Miguel Grinberg's blog about Python, Flask and much more: https://blog.miguelgrinberg.com/
 * SQLAlchemy documentation - https://docs.sqlalchemy.org/en/14/
 * StackOverflow (usually browsing already answered questions): https://stackoverflow.com/
-
-[Working installation screen-record - description of steps performed is currently in Polish](https://youtu.be/QaYa7rLCeNw)
-
 
 Copyright© 2022 Radosław Kuzyk
 ## Disclaimer
