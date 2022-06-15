@@ -773,6 +773,10 @@
 <node TEXT="data i czas; informacje o użytkowniku - w polach &quot;aktualizowano&quot; (updated)" ID="ID_1376743720" CREATED="1635109659642" MODIFIED="1635109710170"/>
 </node>
 </node>
+<node TEXT="tam, gdzie funkcje/metody przyjmują zbyt dużo argumentów, zastosować: partial application lub currying" ID="ID_41848231" CREATED="1642000109697" MODIFIED="1642000131129"/>
+<node TEXT="poprawić strukturę aplikacji - przede wszystkim szablonów" ID="ID_1146525145" CREATED="1642019147288" MODIFIED="1642019182064">
+<node TEXT="https://realpython.com/python-application-layouts/" ID="ID_1812442161" CREATED="1642019183997" MODIFIED="1642019183997" LINK="https://realpython.com/python-application-layouts/"/>
+</node>
 </node>
 <node TEXT="testy" POSITION="left" ID="ID_1401736301" CREATED="1629383005379" MODIFIED="1636394835927">
 <edge COLOR="#7c007c"/>

@@ -1,3 +1,39 @@
+{% macro document_list_item(document) %}
+  <div class="document-item list-group-item list-group-item-action">
+    <div class="document-icon">
+      {% if document.document_type.name == "book" %}
+	<h1 class="bi bi-book"></h1>
+      {% elif document.document_type.name == "article"
+	or document.document_type.name == "periodical" %}
+	<h1 class="bi bi-newspaper"></h1>
+      {% elif document.document_type.name == "series" %}
+	<h1 class="bi bi-book-half"></h1>
+      {% else %}
+	<h1 class="bi bi-file-earmark"></h1>
+      {% endif %}
+      {% if document.document_type.name %}
+	<h6>{{ document.document_type.name.capitalize() }}</h6>
+      {% else %}
+	<h6>Unspecified</h6>
+      {% endif %}
+    </div>
+    <div class="document-item-details ml-3">
+      <a href="{{ url_for('.document_view',
+               document_id=document.document_id) }}">
+	    <h4>{{ document.title_proper }}</h4>
+      </a>
+      {% if document.responsibilities_people %}
+	{{ render_person_responsibility(
+	document.responsibilities_people[0], sep="&nbsp;-&nbsp;") }}
+      {% endif %}
+      {% if document.publication_date %}
+	<p>Date: {{ document.publication_date }}</p>
+      {% endif %}
+    </div><!-- document-item-details -->
+  </div>
+{% endmacro %}
+
+
 {% macro pagination_widget(pagination, endpoint, kargs={}) %}
   {# Generates bootstrap pager for paginated sites. #}
   {# Reused (with changes) from: M. Grinberg, Flask..., p. 159-160 #}
@@ -100,9 +136,10 @@
 {% endmacro %}
 
 
-{% macro render_person_responsibility(person_responsibility) %}
+{% macro render_person_responsibility(person_responsibility,
+  sep=": <br>") %}
   {{ render_responsibility(
-  person_responsibility.responsibility) }}:<br>
+  person_responsibility.responsibility)+ sep|safe }}
   {{ render_person(person_responsibility.person) }}
 {% endmacro %}
 

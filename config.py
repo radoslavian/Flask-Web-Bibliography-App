@@ -40,6 +40,7 @@ class TestingConfig(Config):
     SERVER_NAME = 'localhost.localdomain:5000'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     LIST_ENTRIES_PER_PAGE = 10
+    WTF_CSRF_ENABLED = False
     # os.environ.get('TEST_DATABASE_URL') or \
 
 

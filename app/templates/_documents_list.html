@@ -2,7 +2,7 @@
 {% block list_items %}
   <div class="container">
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-3">
 	<div class="form-group">
 	  <h5>Display documents of the following types:</h5>
 	  {{ render_form(document_types, id="select_doc_type") }}
@@ -13,16 +13,9 @@
 	used for the purpose of checking if the list displays
 	any items
 	-->
-      <div id="document-list" class="col-md-8 list-group">
+      <div id="document-list" class="w-auto col-md list-group">
 	{% for document in pagination.items %}
-	  <a class="document-item list-group-item list-group-item-action"
-	     href="{{ url_for('.document_view',
-	     document_id=document.document_id) }}">
-	     {{ document.title_proper }}
-	    {% if document.document_type %}
-	      ({{ document.document_type.name.capitalize() }})
-	    {% endif %}
-	  </a>
+	  {{ macros.document_list_item(document) }}
 	{% endfor %}
       </div>
     </div>

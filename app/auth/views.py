@@ -1,6 +1,6 @@
-'''View functions for the authorization blueprint.
+"""View functions for the authorization blueprint.
 Mostly adapted from: M. Grinberg...
-'''
+"""
 
 from flask import render_template, url_for, flash, request, redirect
 from flask_login import login_user, logout_user, login_required, current_user
@@ -11,7 +11,7 @@ from ..email import send_mail
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    login_form = LoginForm()
+    login_form = LoginForm(meta={'csrf': False})
     if login_form.validate_on_submit():
         user = User.query.filter_by(email=login_form.email.data).first()
         if user is not None and user.verify_password(login_form.password.data):

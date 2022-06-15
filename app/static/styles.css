@@ -20,6 +20,10 @@ table.responsibilities tr:hover {
     font-size: 0.8rem;
 }
 
+.document-item {
+    display: flex;
+}
+
 /*.filter_drop_down {
     min-height: 20em;
 }*/

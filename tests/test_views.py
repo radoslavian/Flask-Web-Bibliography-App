@@ -158,7 +158,6 @@ class TestApp(unittest.TestCase):
             self.return_value += len(re.findall(
                 self.document_title_proper, self.response_text))
 
-
     def test_documents_list(self):
         Language.add_languages(10)
         fake.people(15)
@@ -300,6 +299,8 @@ class TestApp(unittest.TestCase):
     # tests for entry editing routes
 
     def create_user(self):
+        """Helper for test_logging_in()."""
+
         Role.insert_roles()
         u = User(email='jo@example.com', password='kot',
                  confirmed=True,
@@ -307,17 +308,15 @@ class TestApp(unittest.TestCase):
         db.session.add(u)
         db.session.commit()
 
-    def test_new_entry_routes(self):
-        '''Checks if routes for creating new entries exist.
-        '''
-        self.create_user()
-        response = self.client.post('/auth/login', data={
-            'email': 'jo@example.com',
-            'password': 'kot'
-        }, follow_redirects=True)
-        print(response.get_data(as_text=True))
-        self.assertEqual(response.status_code, 302)
+    def test_logging_in(self):
+        """Check if a user can log into the application."""
 
-        #self.check_response('main.edit_database_entry', 200,
-        #                    model_name='person-name-variant',
-        #                    new='True')
+        self.create_user()
+        response = self.client.post(
+            '/auth/login',
+            data={
+                'email': 'jo@example.com',
+                'password': 'kot',
+            })
+        self.assertEqual(response.status_code, 302
+)

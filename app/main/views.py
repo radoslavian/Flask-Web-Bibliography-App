@@ -1,5 +1,5 @@
-'''View functions for the the application main blueprint.
-'''
+"""View functions for the the application main blueprint.
+"""
 
 __name__ = 'views'
 

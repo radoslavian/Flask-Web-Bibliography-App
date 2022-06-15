@@ -6,9 +6,7 @@
   {% if title %} <h1>{{ title }}</h1> {% endif %}
   {% if subtitle %} <h5>{{ subtitle|safe }}</h5> {% endif %}
   {% block list_items %}
-    <div class="list-group col-md-7">
-      {% include partial_template_name %}
-    </div>
+    {% include partial_template_name %}
   {% endblock %}
   {% if pagination %}
     {{ macros.pagination_widget(pagination, endpoint, kargs) }}
