@@ -64,7 +64,7 @@ class UnambiguousSearchFields(FlaskForm):
 
         # deprecation warning: Pass meta={'csrf': False} instead.
         if 'csrf_enabled' not in kwargs:
-            kwargs['csrf_enabled'] = False
+            kwargs['meta'] = {'csrf': False}
         super(UnambiguousSearchFields, self).__init__(*args, **kwargs)
 
     select_field = SelectField('Select field',
@@ -89,7 +89,7 @@ class QuickSearchForm(FlaskForm):
 
         # deprecation warning: Pass meta={'csrf': False} instead.
         if 'csrf_enabled' not in kwargs:
-            kwargs['csrf_enabled'] = False
+            kwargs['meta'] = {'csrf': False}
         super(QuickSearchForm, self).__init__(*args, **kwargs)
 
     q = StringField(validators=[validators.DataRequired()],
