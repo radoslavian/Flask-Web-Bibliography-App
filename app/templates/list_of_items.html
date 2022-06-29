@@ -3,11 +3,13 @@
 {########################################}
 {% extends "base.html" %}
 {% block content %}
-  {% if title %} <h1>{{ title }}</h1> {% endif %}
-  {% if subtitle %} <h5>{{ subtitle|safe }}</h5> {% endif %}
-  {% block list_items %}
-    {% include partial_template_name %}
-  {% endblock %}
+  <div id="list-headers">
+    {% if title %} <h3 class="list-header">{{ title }}</h3> {% endif %}
+    {% if subtitle %} <h5>{{ subtitle|safe }}</h5> {% endif %}
+  </div>
+    {% block list_items %}
+      {% include partial_template_name %}
+    {% endblock %}
   {% if pagination %}
     {{ macros.pagination_widget(pagination, endpoint, kargs) }}
   {% endif %}

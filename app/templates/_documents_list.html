@@ -1,25 +1,39 @@
 {% from "bootstrap/form.html" import render_form %}
 {% block list_items %}
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-3">
-	<div class="form-group">
-	  <h5>Display documents of the following types:</h5>
-	  {{ render_form(document_types, id="select_doc_type") }}
-	</div>
-      </div>
+<div class="container ml-1">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="accordion" id="doctype-accordion">
+	<div class="card border-primary" style="border: 1px solid"> <!-- quick-fix -->
+	  <div class="card-header" id="doctype-header">
+	    <button class="btn btn-link btn-block text-left" type="button"
+		      data-toggle="collapse" data-target="#select-doc-type"
+		      aria-expanded="true" aria-controls="select-doc-type">
+	      Document types filter:
+	    </button>
+	  </div> <!-- card-header -->
+	  <div id="select-doc-type" class="collapse show" aria-labelledby="doctype-header"
+	       data-parent="#doctype-accordion">
+	    <div id="document-types-form" class="form-group pl-1">
+	      {{ render_form(document_types, id="select_doc_type") }}
+	    </div>
+	  </div> <!-- collapse show -->
+	</div> <!-- card -->
+      </div> <!-- accordion -->
+
+    </div>
       <!-- 
 	id="document-list" and class="document-item" - 
 	used for the purpose of checking if the list displays
 	any items
 	-->
-      <div id="document-list" class="w-auto col-md list-group">
+      <div class="col-lg-8 list-group" id="document-list">
 	{% for document in pagination.items %}
 	  {{ macros.document_list_item(document) }}
 	{% endfor %}
       </div>
     </div>
-  </div>
+</div>
   <script type="application/javascript" defer>
     let checkboxes = document.querySelectorAll(
 	'#select_doc_type input[type=checkbox]');

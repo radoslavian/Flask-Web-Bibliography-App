@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="list-group">
+	{# links #}
+	{% for endpoint in documents.keys() %}
+	  <a class="list-group-item list-group-item-action list-group-item-light"
+	     href=
+	       {% if endpoint == document %}
+		 "#"
+	       {% else %}
+		 "{{ url_for('main.main_page',
+		 document=endpoint) }}"}}
+	       {% endif %}
+	    >
+
+	       {# 0 for title, 1 for template #}
+	       {{ documents[endpoint][0] }}
+	    </a>
+	{% endfor %}
+      </div>
+    </div>
+    <div class="w-auto col-md">
+      {# link destinatiom point #}
+      {% include documents[document][1] %}
+    </div>
+  </div>
+</div>
+{% endblock %}

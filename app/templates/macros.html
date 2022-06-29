@@ -3,11 +3,14 @@
     <div class="document-icon">
       {% if document.document_type.name == "book" %}
 	<h1 class="bi bi-book"></h1>
-      {% elif document.document_type.name == "article"
-	or document.document_type.name == "periodical" %}
+      {% elif document.document_type.name == "article" %}
 	<h1 class="bi bi-newspaper"></h1>
+      {% elif document.document_type.name == "periodical" %}
+	<img src={{ url_for('static',
+	     filename='document_icons/periodical.png') }} />
       {% elif document.document_type.name == "series" %}
-	<h1 class="bi bi-book-half"></h1>
+	<img src={{ url_for('static',
+	     filename='document_icons/book_series.png') }} />
       {% else %}
 	<h1 class="bi bi-file-earmark"></h1>
       {% endif %}

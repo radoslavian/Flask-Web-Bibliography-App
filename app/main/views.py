@@ -200,10 +200,24 @@ def geographic_locations_list():
 
 @main.route('/')
 def index():
-    # url_for('main.index') # main - przestrzeń nazw
-    # url_for('.index') # przestrzeń n. akt. żądania
+    return main_page('description')
 
-    return render_template('index.html')
+
+@main.route('/<document>/')
+def main_page(document):
+    documents = {
+        'description': ('Project description', '_project_description.html'),
+        'technologies-used': ('Technologies used',
+                              '_technologies_used.html'),
+        'references': ('References', '_references.html')
+    }
+
+    if document not in documents:
+        abort(404)
+
+    return render_template('document_page.html',
+                           documents=documents,
+                           document=document)
 
 
 @main.route('/browse/keywords/id=<keyword_id>')
