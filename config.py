@@ -6,6 +6,7 @@ Grinberg, Miguel. Flask Web Development. Beijing [etc.], 2018.
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     APP_ADMIN = os.environ.get('APP_ADMIN')
@@ -58,7 +59,7 @@ class ProductionConfig(Config):
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
-    'testing_mysql' : TestingMysqlConfig,
+    'testing_mysql': TestingMysqlConfig,
     'production': ProductionConfig,
 
     'default': DevelopmentConfig

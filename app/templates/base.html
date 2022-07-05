@@ -49,6 +49,24 @@
 
     <!-- Your page content -->
     <div class="container mx-auto">
+      {% block breadcrumb_nav %}
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    {% for breadcrumb in breadcrumbs %}
+	      <li class={{ "breadcrumb-item active" if loop.last else "breadcrumb-item" }}>
+		{% if loop.last %}
+		  {{ breadcrumb.text }}
+		{% else %}
+		  <a href="{{ breadcrumb.url }}">
+		    {{ breadcrumb.text }}
+		  </a>
+		{% endif %}
+	      </li>
+	      {# {{ '/' if not loop.last }} #}
+	    {% endfor %}
+	  </ol>
+	</nav>
+      {% endblock %}
       {% block content %}
       {% endblock %}
     </div>

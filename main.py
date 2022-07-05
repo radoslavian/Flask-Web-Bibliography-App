@@ -12,6 +12,6 @@ def test():
     '''Run the unit tests.
     '''
     import unittest
-    # tests = unittest.TestLoader().discover('tests')
-    tests = unittest.TestLoader().discover('tests', pattern='*view*')
+    tests = unittest.TestLoader().discover('tests')
+    # tests = unittest.TestLoader().discover('tests', pattern='*view*')
     unittest.TextTestRunner(verbosity=2).run(tests)

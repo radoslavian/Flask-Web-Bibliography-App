@@ -9,6 +9,7 @@ from flask import (render_template, session,
 from flask_login import login_required
 from app import db
 from app.utils import queries
+from flask_breadcrumbs import register_breadcrumb
 from ..models import *
 from app.utils.decorators import *
 from app.utils.helpers import *
@@ -25,6 +26,7 @@ def before_request():
 
 
 @main.route('/user-list')
+@register_breadcrumb(main, '.user_list', 'User list')
 @login_required
 @admin_required
 def user_list():
@@ -189,7 +191,7 @@ def geographic_location_details(location_id):
 @main.route('/browse/geographic-locations/')
 def geographic_locations_list():
     locations = GeographicLocation.query.order_by(GeographicLocation.name)
-    
+
     return render_template(
         'geographic_locations_list.html',
         title='List of geographic locations',
@@ -198,20 +200,36 @@ def geographic_locations_list():
         endpoint='.geographic_locations_list')
 
 
+# TODO: create view_utils module for such functionality
+
+documents = {
+    'description': ('Project description', '_project_description.html'),
+    'technologies-used': ('Technologies used',
+                          '_technologies_used.html'),
+    'references': ('References', '_references.html')
+}
+
+
+def main_page_dlc(*args, **kwargs):
+    """Dynamic list constructor for main page subpages."""
+
+    document_key = request.view_args.get('document', None)
+    text = documents.get(document_key, None)[0]
+    url = url_for('main.main_page', document=document_key)
+
+    return [{'text': text, 'url': url}]
+
+
 @main.route('/')
+@register_breadcrumb(main, '.', 'Main')
 def index():
     return main_page('description')
 
 
 @main.route('/<document>/')
+@register_breadcrumb(main, '.document', '',
+                     dynamic_list_constructor=main_page_dlc)
 def main_page(document):
-    documents = {
-        'description': ('Project description', '_project_description.html'),
-        'technologies-used': ('Technologies used',
-                              '_technologies_used.html'),
-        'references': ('References', '_references.html')
-    }
-
     if document not in documents:
         abort(404)
 
@@ -229,6 +247,7 @@ def keyword_details(keyword_id):
 
 
 @main.route('/browse/keywords/')
+@register_breadcrumb(main, '.keywords', 'Keywords')
 def keywords_list():
     keywords = Keyword.query.order_by(Keyword.keyword)
 
@@ -240,6 +259,7 @@ def keywords_list():
 
 
 @main.route('/browse/languages/')
+@register_breadcrumb(main, '.languages', 'Languages')
 def language_list():
     languages = Language.query.order_by(Language.language_name)
 
@@ -276,7 +296,7 @@ def get_unique_responsibilities(item_responsibilities):
     '''Returns unique list (set) of responsibilities
     from a responsibility relationship in a model.
     '''
-    # to idzie do helpers
+    # move it into views_utils
     return {responsibility_person.responsibility
             for responsibility_person in item_responsibilities}
 
@@ -287,7 +307,7 @@ def responsibility_list(responsibilities, query_fn):
     in which a given entity appears with a particular responsibility.
     '''
 
-    # idzie do helpers
+    # move it into views_utils
     responsibilities_list = []
     for responsibility in responsibilities:
         resp_count = query_fn(responsibility).count()
@@ -317,6 +337,8 @@ def person_details(person_id):
 
 
 @main.route('/browse/responsibilities/')
+@register_breadcrumb(main, '.responsibilities_list',
+                     'Document responsibilities')
 def responsibilities_list():
     responsibilities = ResponsibilityName.query.order_by(
         ResponsibilityName.responsibility_name)
@@ -357,6 +379,7 @@ def collective_body_details(c_body_id):
 
 
 @main.route('/browse/collective-bodies/')
+@register_breadcrumb(main, '.collective_bodies_list', 'Collective names')
 def collective_bodies_list():
     page = request.args.get('page', 1, type=int)
     responsibility_id, responsibility_name = get_responsibility_identifiers(
@@ -396,6 +419,7 @@ def document_type(type_id):
 
 
 @main.route('/browse/document-types/')
+@register_breadcrumb(main, '.document_types_list', 'Document types')
 def document_types_list():
     '''Generates view for the list of document types from the database.
     '''
@@ -411,6 +435,7 @@ def document_types_list():
 
 
 @main.route('/browse/documents/', methods=['GET', 'POST'])
+@register_breadcrumb(main, '.documents_list', 'Documents')
 def documents_list():
     start_page = 0
     document_types_form = select_document_types()(id='myform')
@@ -543,7 +568,9 @@ search_parameters = {
 }
 
 
+# function requires some work/improvements
 @main.route('/document-search', methods=['GET', 'POST'])
+@register_breadcrumb(main, '.document_search', 'Document search')
 def document_search():
     start_page = 0
     document_types_form = select_document_types()(id='myform')
@@ -617,6 +644,7 @@ def document_search():
 
 
 @main.route('/quick-search')
+@register_breadcrumb(main, '.quick_search', 'Quick search results')
 def quick_search():
     result_fields = [
         {
@@ -745,5 +773,6 @@ def delete_entry(entry_model):
     return redirect(url_for(selection['list_endpoint']))
 
 @main.route('/disclaimer')
+@register_breadcrumb(main, '.disclaimer', 'Disclaimer')
 def disclaimer():
     return render_template('disclaimer.html')

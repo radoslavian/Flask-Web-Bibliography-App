@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from elasticsearch import Elasticsearch
 from flask_login import LoginManager
 from config import config
-from flask_sqlalchemy import SQLAlchemy
+from flask_breadcrumbs import Breadcrumbs
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -16,6 +16,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 mail = Mail()
+
 
 def create_app(config_name='development'):
     '''Application factory function.
@@ -28,6 +29,7 @@ def create_app(config_name='development'):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
+    Breadcrumbs(app=app)
     bootstrap.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
