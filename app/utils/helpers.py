@@ -1,7 +1,6 @@
 '''Helper classes/functions for the app.
 '''
 
-from app import models
 from app.models import ResponsibilityName, DocumentType
 from flask import request, current_app, jsonify
 from flask_wtf import FlaskForm
@@ -80,28 +79,6 @@ class UnambiguousSearchFields(FlaskForm):
                    'title': 'Enter searched number with hyphens.'})
     submit = SubmitField('Search',
                          render_kw={'class': 'btn btn-primary'})
-
-
-class QuickSearchForm(FlaskForm):
-    def __init__(self, *args, **kwargs):
-        if 'formdata' not in kwargs:
-            kwargs['formdata'] = request.args
-
-        # deprecation warning: Pass meta={'csrf': False} instead.
-        if 'csrf_enabled' not in kwargs:
-            kwargs['meta'] = {'csrf': False}
-        super(QuickSearchForm, self).__init__(*args, **kwargs)
-
-    q = StringField(validators=[validators.DataRequired()],
-                    render_kw={'class': 'form-control w-100',
-                               'placeholder': 'Full text quick-search',
-                               'data-toggle': 'tooltip',
-                               'size': 40,
-                               'title': '''Search for documents,
-			       personal/geographic/
-			       collective names and subject keywords.'''})
-    search = SubmitField('Search',
-                         render_kw={'class': 'btn btn-success mr-3'})
 
 
 def select_document_types():

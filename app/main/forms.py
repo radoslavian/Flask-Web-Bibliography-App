@@ -2,16 +2,38 @@ from app import db
 from sys import stderr
 import json
 from ..models import *
-from flask import flash, request, jsonify
+from flask import request
 from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms import (StringField, SubmitField, TextAreaField, HiddenField,
                      SelectMultipleField, FieldList, BooleanField,
-                     ValidationError)
+                     ValidationError, validators)
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from app.utils.helpers import length
+
+
+class QuickSearchForm(FlaskForm):
+    def __init__(self, *args, **kwargs):
+        if 'formdata' not in kwargs:
+            kwargs['formdata'] = request.args
+
+        if 'csrf_enabled' not in kwargs:
+            kwargs['meta'] = {'csrf': False}
+        super(QuickSearchForm, self).__init__(*args, **kwargs)
+
+    q = StringField(validators=[validators.DataRequired()],
+                    render_kw={'class': 'form-control w-75',
+                               'placeholder': 'Full text quick-search',
+                               'data-toggle': 'tooltip',
+                               'size': 40,
+                               'title': '''Search for documents,
+			       personal/geographic/
+			       collective names and subject keywords.'''})
+    search = SubmitField('Search', render_kw={
+        'class': 'btn btn-success my-2 my-sm-0'})
+
 
 class EditProfileForm(FlaskForm):
     '''User profile edit form.

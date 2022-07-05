@@ -16,11 +16,11 @@ from app.utils.queries import *
 from app.utils.app_utils import *
 from app.main.forms import *
 
+
 @main.before_app_request
 def before_request():
     if current_user.is_authenticated:
         current_user.ping()
-        # +przekierowanie na stronę dla uż. niepotwierdzonych
     g.search_form = QuickSearchForm()
 
 
