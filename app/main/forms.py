@@ -2,7 +2,7 @@ from app import db
 from sys import stderr
 import json
 from ..models import *
-from flask import request
+from flask import request, flash
 from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
 from wtforms_sqlalchemy.fields import QuerySelectField

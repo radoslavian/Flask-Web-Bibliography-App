@@ -40,7 +40,19 @@ def user_list():
         partial_template_name='_user_list.html')
 
 
+def user_dlc(*args, **kwargs):
+    """Dynamic list constructor for the user() breadcrumb."""
+
+    username = request.view_args.get('username', None)
+    user = User.query.filter_by(username=username).first()
+    text =  user.name or user.username or f'User id: {user.user_id}'
+    return [{'text': text,
+             'url': url_for('main.user', username=username)}]
+
+
 @main.route('/user/<username>')
+@register_breadcrumb(main, '.user_list.user', 'User',
+                     dynamic_list_constructor=user_dlc)
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
@@ -49,6 +61,7 @@ def user(username):
 
 @main.route('/edit-profile/<username>', methods=['GET', 'POST'])
 @login_required
+@register_breadcrumb(main, '.user_list.user.edit_profile', 'Edit profile')
 @admin_required
 def edit_profile(username):
     '''User profile editing for administrator.
@@ -210,6 +223,12 @@ documents = {
 }
 
 
+@main.route('/')
+@register_breadcrumb(main, '.', 'Main')
+def index():
+    return main_page('description')
+
+
 def main_page_dlc(*args, **kwargs):
     """Dynamic list constructor for main page subpages."""
 
@@ -218,12 +237,6 @@ def main_page_dlc(*args, **kwargs):
     url = url_for('main.main_page', document=document_key)
 
     return [{'text': text, 'url': url}]
-
-
-@main.route('/')
-@register_breadcrumb(main, '.', 'Main')
-def index():
-    return main_page('description')
 
 
 @main.route('/<document>/')
@@ -360,7 +373,20 @@ def responsibility_details(responsibility_id):
                            responsibility=responsibility)
 
 
+def collective_body_dlc(*args, **kwargs):
+    c_body_id = request.view_args.get('c_body_id')
+    collective_body_record = CollectiveBody.query.filter_by(
+        id=c_body_id).first()
+
+    return [{'text': collective_body_record.name,
+             'url': url_for('main.collective_body_details',
+                            c_body_id=c_body_id)}]
+
+
 @main.route('/browse/collective-bodies/id=<c_body_id>')
+@register_breadcrumb(main, '.collective_bodies_list.collective_body_details',
+                     'Collective names',
+                     dynamic_list_constructor=collective_body_dlc)
 def collective_body_details(c_body_id):
     '''Route for detailed view of collective body record.
     '''
@@ -406,7 +432,19 @@ def collective_bodies_list():
         pagination=paginate(query))
 
 
+def document_type_dlc(*args, **kwargs):
+    document_type = DocumentType.query.filter_by(
+        type_id=request.view_args.get('type_id')).first()
+
+    return [{'text': document_type.name,
+             'url': url_for('main.document_type', type_id=document_type.id)}]
+
+
 @main.route('/browse/document-types/id=<type_id>')
+@register_breadcrumb(main,
+                     '.document_types_list.document_type',
+                     'Document type',
+                     dynamic_list_constructor=document_type_dlc)
 def document_type(type_id):
     '''Route for details of the document type entry from
     the database, identified by type_id.

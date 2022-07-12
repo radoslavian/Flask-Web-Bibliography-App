@@ -230,7 +230,9 @@ class TestApp(unittest.TestCase):
 
         def custom_fn(self):
             self.return_value += len(re.findall(
-                self.language_name, self.response_text))
+                f'''>
+     {self.language_name}
+  </a>''', self.response_text))
 
     def test_languages_list(self):
         COUNT = 10
@@ -238,7 +240,7 @@ class TestApp(unittest.TestCase):
 
         self.check_response('main.language_list', 200)
         self.check_response('main.language_list', 404,
-                            page=int(COUNT/3))
+                            page=int(COUNT/2))
 
         self.assertEqual(TestApp.LanguageCount(
             endpoint='main.language_list',
@@ -298,25 +300,56 @@ class TestApp(unittest.TestCase):
 
     # tests for entry editing routes
 
-    def create_user(self):
+    def create_user(self, userdata):
         """Helper for test_logging_in()."""
 
         Role.insert_roles()
-        u = User(email='jo@example.com', password='kot',
-                 confirmed=True,
-                 role=Role.query.filter_by(name='Administrator').first())
+        u = User(**userdata, role=Role.query.filter_by(
+            name='Administrator').first())
         db.session.add(u)
         db.session.commit()
 
     def test_logging_in(self):
         """Check if a user can log into the application."""
 
-        self.create_user()
+        self.create_user({'email': 'jo@example.com',
+                          'password': 'kot',
+                          'confirmed': True})
         response = self.client.post(
             '/auth/login',
             data={
                 'email': 'jo@example.com',
                 'password': 'kot',
             })
-        self.assertEqual(response.status_code, 302
-)
+        self.assertEqual(response.status_code, 302)
+
+    def test_user_view_breadcrumb(self):
+        """Test breadcrumb on a user page."""
+        self.create_user({'email': 'jo@example.com',
+                          'username': 'Joe',
+                          'password': 'kot',
+                          'confirmed': True})
+        self.client.post(
+            '/auth/login',
+            data={
+                'email': 'jo@example.com',
+                'password': 'kot',
+            })
+        response = self.client.get(
+            url_for('main.user', username='Joe'))
+        response_text = response.get_data(as_text=True)
+        self.assertTrue('''<li class=breadcrumb-item>
+		
+		  <a href="/user-list">
+		    User list
+		  </a>
+		
+	      </li>
+	      
+	    
+	      <li class=breadcrumb-item active>
+		
+		  Joe
+		
+	      </li>''' in  response_text)
+        
