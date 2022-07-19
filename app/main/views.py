@@ -51,9 +51,9 @@ def user_dlc(*args, **kwargs):
 
 
 @main.route('/user/<username>')
+@login_required
 @register_breadcrumb(main, '.user_list.user', 'User',
                      dynamic_list_constructor=user_dlc)
-@login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user_profile.html', user=user)
@@ -61,8 +61,8 @@ def user(username):
 
 @main.route('/edit-profile/<username>', methods=['GET', 'POST'])
 @login_required
-@register_breadcrumb(main, '.user_list.user.edit_profile', 'Edit profile')
 @admin_required
+@register_breadcrumb(main, '.user_list.user.edit_profile', 'Edit profile')
 def edit_profile(username):
     '''User profile editing for administrator.
     '''
@@ -78,9 +78,182 @@ def edit_profile(username):
                            edit_form=edit_form, user=user)
 
 
+def edit_database_entry_dlc(*args, **kwargs):
+    model_name = request.view_args.get('model_name', None)
+    new_entry = request.args.get('new', False)
+    entry_id = request.args.get('id', None)
+
+    item = {
+        'language': lambda: {
+            'list_text': 'Languages',
+            'list_url': url_for('main.language_list'),
+            'entry_text': (Language.query.get(entry_id)
+                           if entry_id else 'Add new entry'),
+            'entry_url': (
+                {
+                    'endpoint': 'main.language_details',
+                    'language_id': entry_id
+                } if entry_id else {
+                    'endpoint': 'main.edit_database_entry',
+                    'model_name': 'language',
+                    'new': True
+                }
+            )
+        },
+        'document-type': lambda: {
+            'list_text': 'Document types',
+            'list_url': url_for('main.document_types_list'),
+            'entry_text': (DocumentType.query.get(entry_id)
+                           if entry_id else 'Add new entry'),
+            'entry_url': (
+                {
+                    'endpoint': 'main.document_type',
+                    'type_id': entry_id
+                } if entry_id else {
+                    'endpoint': 'main.edit_database_entry',
+                    'model_name': 'document_type',
+                    'new': True
+                }
+            )
+        },
+        'collective-body': lambda: {
+            'list_text': 'Collective names',
+            'list_url': url_for('main.collective_bodies_list'),
+            'entry_text': (CollectiveBody.query.get(entry_id)
+                           if entry_id else 'Add new entry'),
+            'entry_url': (
+                {
+                    'endpoint': 'main.collective_body_details',
+                    'c_body_id': entry_id
+                } if entry_id else {
+                    'endpoint': 'main.edit_database_entry',
+                    'model_name': 'collective_body',
+                    'new': True
+                }
+            )
+        },
+        'geographic-location': lambda: {
+            'list_text': 'Geographic locations',
+            'list_url': url_for('main.geographic_locations_list'),
+            'entry_text': (GeographicLocation.query.get(entry_id)
+                           if entry_id else 'Add new entry'),
+            'entry_url': (
+                {
+                    'endpoint': 'main.geographic_location_details',
+                    'location_id': entry_id
+                } if entry_id else {
+                    'endpoint': 'main.edit_database_entry',
+                    'model_name': 'geographic_location',
+                    'new': True
+                }
+            )
+        },
+        'subject-keyword': lambda: {
+            'list_text': 'Subject keywords',
+            'list_url': url_for('main.keywords_list'),
+            'entry_text': (Keyword.query.get(entry_id)
+                           if entry_id else 'Add new entry'),
+            'entry_url': (
+                {
+                    'endpoint': 'main.keyword_details',
+                    'keyword_id': entry_id
+                } if entry_id else {
+                    'endpoint': 'main.edit_database_entry',
+                    'model_name': 'keyword',
+                    'new': True
+                }
+            )
+        },
+        'responsibility-name': lambda: {
+            'list_text': 'Document responsibilities',
+            'list_url': url_for('main.responsibilities_list'),
+            'entry_text': (ResponsibilityName.query.get(entry_id)
+                           if entry_id else 'Add new entry'),
+            'entry_url': (
+                {
+                    'endpoint': 'main.responsibility_details',
+                    'responsibility_id': entry_id
+                } if entry_id else {
+                    'endpoint': 'main.edit_database_entry',
+                    'model_name': 'responsibility-name',
+                    'new': True
+                }
+            )
+        },
+        'person-name': lambda: {
+            'list_text': 'Individual names',
+            'list_url': url_for('main.browse_people'),
+            'entry_text': (Person.query.get(entry_id)
+                           if entry_id else 'Add new entry'),
+            'entry_url': (
+                {
+                    'endpoint': 'main.person_details',
+                    'person_id': entry_id
+                } if entry_id else {
+                    'endpoint': 'main.edit_database_entry',
+                    'model_name': 'person-name',
+                    'new': True
+                }
+            )
+        },
+        'person-name-variant': lambda: {
+            'list_text': 'Individual names',
+            'list_url': url_for('main.browse_people'),
+            'entry_text': (str(PersonNameVariant.query.get(entry_id))
+                           if entry_id else 'Add new entry'),
+            'entry_url': (
+                {
+                    'endpoint': 'main.name_variant',
+                    'variant_id': entry_id
+                } if entry_id else {
+                    'endpoint': 'main.edit_database_entry',
+                    'model_name': 'person-name-variant',
+                    'new': True
+                }
+            )
+        },
+        'document': lambda: {
+            'list_text': 'Documents',
+            'list_url': url_for('main.documents_list'),
+            'entry_text': (Document.query.get(entry_id).title_proper.rstrip('.')
+                           if entry_id else 'Add new entry'),
+            'entry_url': (
+                {
+                    'endpoint': 'main.document_view',
+                    'document_id': entry_id
+                } if entry_id else {
+                    'endpoint': 'main.edit_database_entry',
+                    'model_name': 'document',
+                    'new': True
+                }
+            )
+        }
+    }.get(model_name, lambda: abort(404))()
+
+    breadcrumbs = [
+        {
+            'text': item['list_text'],
+            'url': item['list_url']
+        },  # list breadcrumb
+        {
+            'text': item['entry_text'],
+            'url': url_for(**item['entry_url'])
+        } # item (language, document etc.) breadcrumb
+    ]
+    if not new_entry and entry_id:
+        # optional 'Edit' entry breadcrumb
+        breadcrumbs.append({'text': 'Edit',
+                            'url': url_for('main.edit_database_entry',
+                                           model_name=model_name,
+                                           id=entry_id)})
+    return breadcrumbs
+
+
 @main.route('/edit/<model_name>/', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permissions.EDIT_BIBLIOGRAPHY)
+@register_breadcrumb(main, '.edit_database_entry', 'Add new entry',
+                     dynamic_list_constructor=edit_database_entry_dlc)
 def edit_database_entry(model_name):
     models = {
         # model bd może iść do konstruktora ModelEditForm
@@ -166,7 +339,18 @@ def browse_people():
         pagination=paginate(query))
 
 
+def document_dlc(*args, **kwargs):
+    document_id = request.view_args.get('document_id', None)
+    document = Document.query.get(document_id)
+
+    return [{'text': document.title_proper.rstrip('.'),
+             'url': url_for('main.document_view',
+                            document_id=document.document_id)}]
+
+
 @main.route('/browse/documents/id=<document_id>')
+@register_breadcrumb(main, '.documents_list.document_view', 'Document',
+                     dynamic_list_constructor=document_dlc)
 def document_view(document_id):
     document = Document.query.filter_by(
         document_id=document_id).first_or_404()
@@ -260,7 +444,7 @@ def keyword_details(keyword_id):
 
 
 @main.route('/browse/keywords/')
-@register_breadcrumb(main, '.keywords', 'Keywords')
+@register_breadcrumb(main, '.keywords', 'Subject keywords')
 def keywords_list():
     keywords = Keyword.query.order_by(Keyword.keyword)
 
@@ -436,7 +620,7 @@ def document_type_dlc(*args, **kwargs):
     document_type = DocumentType.query.filter_by(
         type_id=request.view_args.get('type_id')).first()
 
-    return [{'text': document_type.name,
+    return [{'text': document_type.name.capitalize(),
              'url': url_for('main.document_type', type_id=document_type.id)}]
 
 
@@ -711,9 +895,9 @@ def quick_search():
             'path': '/browse/geographic-locations/'
         },
         {
-	    'title': 'Subject headers (keywords) found:',
-	    'results_id': 'subject_keywords',
-	    'endpoint': '.get_keywords',
+            'title': 'Subject headers (keywords) found:',
+            'results_id': 'subject_keywords',
+            'endpoint': '.get_keywords',
             'path': '/browse/keywords/'
         },
         {

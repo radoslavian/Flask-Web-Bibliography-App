@@ -374,7 +374,7 @@ class Document(db.Model, Lock, SearchableMixin):
         db.Integer, db.ForeignKey('languages.language_id'))
     original_language_id = db.Column(
         db.Integer, db.ForeignKey('languages.language_id'))
-    title_proper = db.Column(db.String(255), index=True)
+    title_proper = db.Column(db.String(255), index=True, nullable=False)
     parallel_title = db.Column(db.String(255))
     other_title_inf = db.Column(db.String(255))
     edition_statement = db.Column(db.String(40))
@@ -502,6 +502,9 @@ class DocumentType(db.Model, Lock, SearchableMixin):
 
     def __repr__(self):
         return f'<Document type: {self.name}>'
+
+    def __str__(self):
+        return self.name.capitalize()
 
 
 class CollectiveBody(db.Model, Lock, SearchableMixin):
