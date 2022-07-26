@@ -328,7 +328,7 @@ class Language(db.Model, Lock, SearchableMixin):
         a pycountry dataset.
         '''
         import pycountry
-        i = 0
+        i = 1
 
         for language in pycountry.languages:
             if Language.query.filter_by(
@@ -339,10 +339,10 @@ class Language(db.Model, Lock, SearchableMixin):
                     language_name=language.name,
                     iso_639_1_language_code=iso_639_1_code,
                     iso_639_2_language_code=iso_639_2_code))
+                db.session.commit()
                 if number:
-                    if i > number: break
+                    if i >= number: break
                     i += 1
-        db.session.commit()
 
     def __repr__(self):
         return f'Language: <{self.language_name}>'

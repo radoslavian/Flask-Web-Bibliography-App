@@ -463,8 +463,6 @@ Ossoliński Institute is a Polish cultural foundation''',
         fake.collective_bodies(5)
         fake.keywords(5)
         documents = fake.documents(5)
-
-        # document = choice(documents)
         for document in documents:
             responsibilities_authors = list(
                 ResponsibilityName.query.filter_by(

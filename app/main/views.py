@@ -16,6 +16,7 @@ from app.utils.helpers import *
 from app.utils.queries import *
 from app.utils.app_utils import *
 from app.main.forms import *
+from app.main.dynamic_list_constructors import *
 
 
 @main.before_app_request
@@ -38,16 +39,6 @@ def user_list():
         pagination=paginate(users),
         endpoint='.user_list',
         partial_template_name='_user_list.html')
-
-
-def user_dlc(*args, **kwargs):
-    """Dynamic list constructor for the user() breadcrumb."""
-
-    username = request.view_args.get('username', None)
-    user = User.query.filter_by(username=username).first()
-    text =  user.name or user.username or f'User id: {user.user_id}'
-    return [{'text': text,
-             'url': url_for('main.user', username=username)}]
 
 
 @main.route('/user/<username>')
@@ -76,177 +67,6 @@ def edit_profile(username):
         return redirect(url_for('main.user', username=user.username))
     return render_template('edit_profile.html',
                            edit_form=edit_form, user=user)
-
-
-def edit_database_entry_dlc(*args, **kwargs):
-    model_name = request.view_args.get('model_name', None)
-    new_entry = request.args.get('new', False)
-    entry_id = request.args.get('id', None)
-
-    item = {
-        'language': lambda: {
-            'list_text': 'Languages',
-            'list_url': url_for('main.language_list'),
-            'entry_text': (Language.query.get(entry_id)
-                           if entry_id else 'Add new entry'),
-            'entry_url': (
-                {
-                    'endpoint': 'main.language_details',
-                    'language_id': entry_id
-                } if entry_id else {
-                    'endpoint': 'main.edit_database_entry',
-                    'model_name': 'language',
-                    'new': True
-                }
-            )
-        },
-        'document-type': lambda: {
-            'list_text': 'Document types',
-            'list_url': url_for('main.document_types_list'),
-            'entry_text': (DocumentType.query.get(entry_id)
-                           if entry_id else 'Add new entry'),
-            'entry_url': (
-                {
-                    'endpoint': 'main.document_type',
-                    'type_id': entry_id
-                } if entry_id else {
-                    'endpoint': 'main.edit_database_entry',
-                    'model_name': 'document_type',
-                    'new': True
-                }
-            )
-        },
-        'collective-body': lambda: {
-            'list_text': 'Collective names',
-            'list_url': url_for('main.collective_bodies_list'),
-            'entry_text': (CollectiveBody.query.get(entry_id)
-                           if entry_id else 'Add new entry'),
-            'entry_url': (
-                {
-                    'endpoint': 'main.collective_body_details',
-                    'c_body_id': entry_id
-                } if entry_id else {
-                    'endpoint': 'main.edit_database_entry',
-                    'model_name': 'collective_body',
-                    'new': True
-                }
-            )
-        },
-        'geographic-location': lambda: {
-            'list_text': 'Geographic locations',
-            'list_url': url_for('main.geographic_locations_list'),
-            'entry_text': (GeographicLocation.query.get(entry_id)
-                           if entry_id else 'Add new entry'),
-            'entry_url': (
-                {
-                    'endpoint': 'main.geographic_location_details',
-                    'location_id': entry_id
-                } if entry_id else {
-                    'endpoint': 'main.edit_database_entry',
-                    'model_name': 'geographic_location',
-                    'new': True
-                }
-            )
-        },
-        'subject-keyword': lambda: {
-            'list_text': 'Subject keywords',
-            'list_url': url_for('main.keywords_list'),
-            'entry_text': (Keyword.query.get(entry_id)
-                           if entry_id else 'Add new entry'),
-            'entry_url': (
-                {
-                    'endpoint': 'main.keyword_details',
-                    'keyword_id': entry_id
-                } if entry_id else {
-                    'endpoint': 'main.edit_database_entry',
-                    'model_name': 'keyword',
-                    'new': True
-                }
-            )
-        },
-        'responsibility-name': lambda: {
-            'list_text': 'Document responsibilities',
-            'list_url': url_for('main.responsibilities_list'),
-            'entry_text': (ResponsibilityName.query.get(entry_id)
-                           if entry_id else 'Add new entry'),
-            'entry_url': (
-                {
-                    'endpoint': 'main.responsibility_details',
-                    'responsibility_id': entry_id
-                } if entry_id else {
-                    'endpoint': 'main.edit_database_entry',
-                    'model_name': 'responsibility-name',
-                    'new': True
-                }
-            )
-        },
-        'person-name': lambda: {
-            'list_text': 'Individual names',
-            'list_url': url_for('main.browse_people'),
-            'entry_text': (Person.query.get(entry_id)
-                           if entry_id else 'Add new entry'),
-            'entry_url': (
-                {
-                    'endpoint': 'main.person_details',
-                    'person_id': entry_id
-                } if entry_id else {
-                    'endpoint': 'main.edit_database_entry',
-                    'model_name': 'person-name',
-                    'new': True
-                }
-            )
-        },
-        'person-name-variant': lambda: {
-            'list_text': 'Individual names',
-            'list_url': url_for('main.browse_people'),
-            'entry_text': (str(PersonNameVariant.query.get(entry_id))
-                           if entry_id else 'Add new entry'),
-            'entry_url': (
-                {
-                    'endpoint': 'main.name_variant',
-                    'variant_id': entry_id
-                } if entry_id else {
-                    'endpoint': 'main.edit_database_entry',
-                    'model_name': 'person-name-variant',
-                    'new': True
-                }
-            )
-        },
-        'document': lambda: {
-            'list_text': 'Documents',
-            'list_url': url_for('main.documents_list'),
-            'entry_text': (Document.query.get(entry_id).title_proper.rstrip('.')
-                           if entry_id else 'Add new entry'),
-            'entry_url': (
-                {
-                    'endpoint': 'main.document_view',
-                    'document_id': entry_id
-                } if entry_id else {
-                    'endpoint': 'main.edit_database_entry',
-                    'model_name': 'document',
-                    'new': True
-                }
-            )
-        }
-    }.get(model_name, lambda: abort(404))()
-
-    breadcrumbs = [
-        {
-            'text': item['list_text'],
-            'url': item['list_url']
-        },  # list breadcrumb
-        {
-            'text': item['entry_text'],
-            'url': url_for(**item['entry_url'])
-        } # item (language, document etc.) breadcrumb
-    ]
-    if not new_entry and entry_id:
-        # optional 'Edit' entry breadcrumb
-        breadcrumbs.append({'text': 'Edit',
-                            'url': url_for('main.edit_database_entry',
-                                           model_name=model_name,
-                                           id=entry_id)})
-    return breadcrumbs
 
 
 @main.route('/edit/<model_name>/', methods=['GET', 'POST'])
@@ -313,6 +133,7 @@ def forbidden(e):
 
 
 @main.route('/browse/people/')
+@register_breadcrumb(main, '.browse_people', 'People')
 def browse_people():
     '''Displays list of people - individual record authorities.
     '''
@@ -337,15 +158,6 @@ def browse_people():
         literal_column=db.literal_column,
         endpoint='.browse_people',
         pagination=paginate(query))
-
-
-def document_dlc(*args, **kwargs):
-    document_id = request.view_args.get('document_id', None)
-    document = Document.query.get(document_id)
-
-    return [{'text': document.title_proper.rstrip('.'),
-             'url': url_for('main.document_view',
-                            document_id=document.document_id)}]
 
 
 @main.route('/browse/documents/id=<document_id>')
@@ -377,6 +189,10 @@ def document_view(document_id):
 
 
 @main.route('/browse/geographic-locations/id=<location_id>')
+@register_breadcrumb(
+    main, '.geographic_locations_list.geographic_location_details',
+    'Geographic location details',
+    dynamic_list_constructor=geographic_location_details_dlc)
 def geographic_location_details(location_id):
     location = GeographicLocation.query.filter_by(
         location_id=location_id).first_or_404()
@@ -385,6 +201,8 @@ def geographic_location_details(location_id):
                            location=location)
 
 
+@register_breadcrumb(main, '.geographic_locations_list',
+                     'Geographic locations')
 @main.route('/browse/geographic-locations/')
 def geographic_locations_list():
     locations = GeographicLocation.query.order_by(GeographicLocation.name)
@@ -397,34 +215,14 @@ def geographic_locations_list():
         endpoint='.geographic_locations_list')
 
 
-# TODO: create view_utils module for such functionality
-
-documents = {
-    'description': ('Project description', '_project_description.html'),
-    'technologies-used': ('Technologies used',
-                          '_technologies_used.html'),
-    'references': ('References', '_references.html')
-}
-
-
 @main.route('/')
 @register_breadcrumb(main, '.', 'Main')
 def index():
     return main_page('description')
 
 
-def main_page_dlc(*args, **kwargs):
-    """Dynamic list constructor for main page subpages."""
-
-    document_key = request.view_args.get('document', None)
-    text = documents.get(document_key, None)[0]
-    url = url_for('main.main_page', document=document_key)
-
-    return [{'text': text, 'url': url}]
-
-
 @main.route('/<document>/')
-@register_breadcrumb(main, '.document', '',
+@register_breadcrumb(main, '.document', 'Document',
                      dynamic_list_constructor=main_page_dlc)
 def main_page(document):
     if document not in documents:
@@ -436,6 +234,9 @@ def main_page(document):
 
 
 @main.route('/browse/keywords/id=<keyword_id>')
+@register_breadcrumb(main, '.keywords.keyword_details',
+                     'Keyword details',
+                     dynamic_list_constructor=keyword_details_dlc)
 def keyword_details(keyword_id):
     keyword = Keyword.query.filter_by(id=keyword_id).first_or_404()
 
@@ -470,6 +271,9 @@ def language_list():
 
 
 @main.route('/browse/languages/id=<language_id>')
+@register_breadcrumb(main, '.languages.language_details',
+                     'Language details',
+                     dynamic_list_constructor=language_details_dlc)
 def language_details(language_id):
     language = Language.query.filter_by(
         language_id=language_id).first_or_404()
@@ -479,6 +283,8 @@ def language_details(language_id):
 
 
 @main.route('/browse/people/name-variants/id=<variant_id>')
+@register_breadcrumb(main, '.browse_people.name_variant', 'Name variant',
+                     dynamic_list_constructor=name_variant_dlc)
 def name_variant(variant_id):
     '''Name variant route for individual (person) name.
     '''
@@ -493,7 +299,7 @@ def get_unique_responsibilities(item_responsibilities):
     '''Returns unique list (set) of responsibilities
     from a responsibility relationship in a model.
     '''
-    # move it into views_utils
+    # move it into utils
     return {responsibility_person.responsibility
             for responsibility_person in item_responsibilities}
 
@@ -504,7 +310,7 @@ def responsibility_list(responsibilities, query_fn):
     in which a given entity appears with a particular responsibility.
     '''
 
-    # move it into views_utils
+    # move it into utils
     responsibilities_list = []
     for responsibility in responsibilities:
         resp_count = query_fn(responsibility).count()
@@ -516,6 +322,9 @@ def responsibility_list(responsibilities, query_fn):
 
 
 @main.route('/browse/people/id=<person_id>')
+@register_breadcrumb(main, '.browse_people.person_details',
+                     'Person details',
+                     dynamic_list_constructor=person_details_dlc)
 def person_details(person_id):
     '''Route for detailed view of person authority (people as
     document's authors, translators, subjects etc.)
@@ -549,22 +358,16 @@ def responsibilities_list():
 
 
 @main.route('/browse/responsibilities/id=<responsibility_id>')
+@register_breadcrumb(main, '.responsibilities_list.responsibility_details',
+                     'Responsibility details',
+                     dynamic_list_constructor=responsibility_details_dlc)
 def responsibility_details(responsibility_id):
+    # change to get_or_404
     responsibility = ResponsibilityName.query.filter_by(
         id=responsibility_id).first_or_404()
 
     return render_template('responsibility_details.html',
                            responsibility=responsibility)
-
-
-def collective_body_dlc(*args, **kwargs):
-    c_body_id = request.view_args.get('c_body_id')
-    collective_body_record = CollectiveBody.query.filter_by(
-        id=c_body_id).first()
-
-    return [{'text': collective_body_record.name,
-             'url': url_for('main.collective_body_details',
-                            c_body_id=c_body_id)}]
 
 
 @main.route('/browse/collective-bodies/id=<c_body_id>')
@@ -614,14 +417,6 @@ def collective_bodies_list():
         responsibility_id=responsibility_id,
         endpoint='.collective_bodies_list',
         pagination=paginate(query))
-
-
-def document_type_dlc(*args, **kwargs):
-    document_type = DocumentType.query.filter_by(
-        type_id=request.view_args.get('type_id')).first()
-
-    return [{'text': document_type.name.capitalize(),
-             'url': url_for('main.document_type', type_id=document_type.id)}]
 
 
 @main.route('/browse/document-types/id=<type_id>')

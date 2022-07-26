@@ -71,8 +71,11 @@ def geographic_locations(count=100):
 
 
 def collective_bodies(count=100):
-    for _ in range(count):
+    i = 0
+    while i < count:
         collectivity_name = fake.company()
+        if CollectiveBody.query.filter_by(name=collectivity_name).first():
+            continue
         company_abbr = '.'.join(
             [initial[0].upper()
              for initial in re.split(r'\s|\-', collectivity_name)]) + '.'
@@ -82,6 +85,7 @@ def collective_bodies(count=100):
                                          abbr=company_abbr,
                                          description=fake.text())
         db.session.add(collective_body)
+        i += 1
     db.session.commit()
 
 
@@ -114,7 +118,7 @@ def _entity_list(model, max_repetition=4):
     return entities
 
 
-def add_language_subjects(document, max_number):
+def add_language_subjects(document, max_number=3):
     '''Adds languages as document subjects.
     '''
     i = 0
@@ -157,8 +161,35 @@ def documents(count=1):
 
     while i < count:
         document = Document()
-        add_language_subjects(document, 4)
+        document.title_proper = fake.text(20)
+        document.other_title_inf = fake.text(25)
+        document.parallel_title = fake.text(20)
+        document.publication_date = fake.year()
+        document.note = fake.text()
+        document.isbn_10 = fake.isbn10()
+        document.isbn_13 = fake.isbn13()
+        document.dimensions = f"{randint(10, 50)} cm"
+        document.physical_details = choice(
+            ['transparency', 'ill.', 'wood', 'various materials'])
+        document.pagination = f'[{randint(3, 10)}], {randint(40, 600)} p.'
+        document.accompanying_material = choice(
+            ['answer book', 'atlas (37 p., 19 leaves : col. maps ; 37 cm.)',
+             'reference manual', 'study score', 'art reproduction',
+             'film cassette', 'lithograph, black and white'])
+        document.edition_statement = (choice(['1st', '2nd', '3nd'])
+                                      + ' edition'
+                                      + choice([', with minor revisions',
+                                                ', third impression',
+                                                ', Canadian revision']))
+        document.additional_edition_stmt = choice(
+            ['Medium voice range',
+             'Interactive version',
+             'Authorized French language edition',
+             'Revised and up-to-date'])
 
+        # potem - na końcu (jeżeli artykuł):
+
+        add_language_subjects(document, 4)
         document_type = DocumentType.query.order_by(func.random()).first()
         if document_type.name == 'article':
             periodical = DocumentType.query.filter_by(
@@ -230,33 +261,6 @@ def documents(count=1):
             numbering = f"{choice(['Vol.', 'Bd.'])} {randint(1, 90)}"
         document.series = series
         document.numbering = numbering
-        document.title_proper = fake.text(20)
-        document.other_title_inf = fake.text(25)
-        document.parallel_title = fake.text(20)
-        document.publication_date = fake.year()
-        document.note = fake.text()
-        document.isbn_10 = fake.isbn10()
-        document.isbn_13 = fake.isbn13()
-        document.dimensions = f"{randint(10, 50)} cm"
-        document.physical_details = choice(
-            ['transparency', 'ill.', 'wood', 'various materials'])
-        document.pagination = f'[{randint(3, 10)}], {randint(40, 600)} p.'
-        document.accompanying_material = choice(
-            ['answer book', 'atlas (37 p., 19 leaves : col. maps ; 37 cm.)',
-             'reference manual', 'study score', 'art reproduction',
-             'film cassette', 'lithograph, black and white'])
-        document.edition_statement = (choice(['1st', '2nd', '3nd'])
-                                      + ' edition'
-                                      + choice([', with minor revisions',
-                                                ', third impression',
-                                                ', Canadian revision']))
-        document.additional_edition_stmt = choice(
-            ['Medium voice range',
-             'Interactive version',
-             'Authorized French language edition',
-             'Revised and up-to-date'])
-
-        # potem - na końcu (jeżeli artykuł):
 
         db.session.add(document)
         db.session.commit()

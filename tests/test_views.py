@@ -32,6 +32,18 @@ class TestApp(unittest.TestCase):
         response = self.client.get(url_for(endpoint, **kwargs))
         self.assertEqual(response.status_code, response_code)
 
+    def endpoint_text(self, endpoint, **kwargs):
+        '''Returns text from the view webpage pointed by endpoint.'''
+
+        return self.client.get(url_for(endpoint, **kwargs)).get_data(
+            as_text=True)
+
+    def check_breadcrumb(self, regex, response_text):
+        '''Shorthand for testing breadcumb navigation.'''
+
+        breadcrumb_regex = re.compile(regex, re.DOTALL | re.MULTILINE)
+        self.assertTrue(breadcrumb_regex, response_text)
+
     # pomyśleć o lepszych nazwach metod i klas
     class Counter:
         '''Helper abstract class for testing routes.
@@ -207,8 +219,11 @@ class TestApp(unittest.TestCase):
                 func.random()).first().keyword
 
         def custom_fn(self):
-            self.return_value += len(re.findall(
-                self.keyword, self.response_text))
+            print(self.keyword)
+            regex = re.compile(
+                f'<a href.*[\r\n]*{self.keyword}.*[\r\n]*</a>',
+                re.DOTALL | re.MULTILINE)
+            self.return_value += len(re.findall(regex, self.response_text))
 
     def test_subject_keywords_list(self):
         COUNT = 10
@@ -273,7 +288,7 @@ class TestApp(unittest.TestCase):
 
     # tests for entry detail views
     def test_collective_body_details_view(self):
-        fake.collective_bodies(6)
+        fake.collective_bodies(3)
         random_coll_body = CollectiveBody.query.order_by(
             func.random()).first()
 
@@ -281,11 +296,16 @@ class TestApp(unittest.TestCase):
                             200, c_body_id=random_coll_body.id)
         response = self.client.get(url_for(
             'main.collective_body_details', c_body_id=random_coll_body.id))
+        response_text = response.get_data(as_text=True)
 
         # find name of a c.body in a response text:
         self.assertEqual(
-            len(re.findall(random_coll_body.name,
-                           response.get_data(as_text=True))), 1)
+            len(re.findall(f'<h1>{random_coll_body.name}</h1>',
+                           response_text)), 1)
+        # test breadcrumb
+        self.check_breadcrumb(
+            f'Main.*[\r\n]*Collective names.*[\r\n]*{random_coll_body.name}',
+            response_text)
 
     def test_document_types_details_view(self):
         random_doctype = DocumentType.query.order_by(
@@ -295,10 +315,75 @@ class TestApp(unittest.TestCase):
                             200, type_id=random_doctype.id)
         response = self.client.get(url_for(
             'main.document_type', type_id=random_doctype.id))
-        self.assertEqual(len(re.findall(f'<h1>{random_doctype.name}</h1>',
-                                        response.get_data(as_text=True))), 1)
 
-    # tests for entry editing routes
+        response_text = response.get_data(as_text=True)
+        # test header
+        self.assertEqual(len(re.findall(f'<h1>{random_doctype.name}</h1>',
+                                        response_text)), 1)
+        # test breadcrumb
+        self.check_breadcrumb(
+            f'Main.*[\r\n]*Document types.*[\r\n]*{random_doctype.name}',
+            response_text)
+
+    def test_person_details_view(self):
+        """Test person details view."""
+        # test response, header and breadcrumb
+
+        fake.people(5)
+        random_person = Person.query.order_by(func.random()).first()
+
+        self.check_response('main.person_details',
+                            200, person_id=random_person.id)
+        response_text = self.endpoint_text('main.person_details',
+                                           person_id=random_person.id)
+
+        # check if header is present
+        self.check_breadcrumb(
+            f"<h1>.*{random_person.__html__().split('(')[0]}.*</h1>",
+            response_text)
+
+        # check if breadcrumb is present
+        self.check_breadcrumb(
+            f'Main.*[\r\n]*People.*[\r\n]*{str(random_person).split("(")[0]}',
+            response_text)
+
+    def test_keyword_details(self):
+        '''Test keyword details view.'''
+        fake.keywords(1)
+        keyword = Keyword.query.first()
+        self.check_response('main.keyword_details', 200,
+                            keyword_id=keyword.id)
+        self.check_response('main.keyword_details', 404,
+                            keyword_id=keyword.id+1)
+        response_text = self.client.get(url_for(
+            'main.keyword_details',
+            keyword_id=keyword.id)).get_data(as_text=True)
+
+        # Check if header is present
+        re.search(f'<h1>{keyword.keyword}</h1>', response_text)
+
+        # check if breadcrumb is present
+        self.check_breadcrumb('Main.*[\r\n]*Subject keywords.*[\r\n]*'
+                              f'{str(keyword.keyword).split("(")[0]}',
+                              response_text)
+
+    def test_language_details(self):
+        '''Test language details view.'''
+        Language.add_languages(1)
+        language = Language.query.first()
+        self.assertEqual(Language.query.count(), 1)
+        self.check_response('main.language_details', 200,
+                            language_id=language.id)
+        self.check_response('main.language_details', 404,
+                            language_id=language.id+1)
+        response_text = self.endpoint_text('main.language_details',
+                                           language_id=language.id)
+        self.assertTrue(re.search(
+            f'<h1>{language.language_name}</h1>', response_text))
+        self.check_breadcrumb('Main.*[\r\n]*Languages.*[\r\n]*'
+                              f'{language.language_name}', response_text)
+
+    # tests for entries editing routes
 
     def create_user(self, userdata):
         """Helper for test_logging_in()."""

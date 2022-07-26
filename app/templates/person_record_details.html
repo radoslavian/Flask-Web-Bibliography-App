@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>
-    {{ person_record.last_name }}, {{ person_record.forenames }}
-    {% if person_record.life_years %}
-      ({{ person_record.life_years }})
-    {% endif %}
+    {{ person_record }}
   </h1>
   <h6>Details for personal entry, id number
     {{ person_record.person_id }}:
