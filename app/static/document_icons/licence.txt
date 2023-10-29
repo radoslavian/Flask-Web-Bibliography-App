@@ -1,0 +1,10 @@
+book_series.png
+licence: Linkware (Backlink to http://www.iconsmind.com required)
+
+leaflet.png
+https://uxwing.com/leaflet-icon/
+All icons are free to use any personal and commercial projects without any attribution or credit.
+
+Scientific_journal_icon.png
+https://commons.wikimedia.org/wiki/File:Scientific_journal_icon.svg
+This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license.
