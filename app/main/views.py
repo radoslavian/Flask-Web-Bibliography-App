@@ -114,7 +114,6 @@ def edit_database_entry(model_name):
         entity_form = model_form()
     else:
         abort(404)
-
     if entity_form.validate_on_submit():
         if entity_form.commit_row():
             return redirect(url_for(**entity_form.redirect_to()))

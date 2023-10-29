@@ -7,8 +7,8 @@ from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms import (StringField, SubmitField, TextAreaField, HiddenField,
-                     SelectMultipleField, FieldList, BooleanField,
-                     ValidationError, validators)
+                     SelectMultipleField, BooleanField, ValidationError,
+                     validators)
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from app.utils.helpers import length
@@ -72,7 +72,7 @@ class EditProfileForm(FlaskForm):
 
 class ModelEditForm(FlaskForm):
     '''Abstract class for entity editing forms.
-    Form fields should have the same names as attributes 
+    Form fields should have the same names as attributes
     in the database model.
     '''
     submit = SubmitField()
@@ -113,7 +113,6 @@ class ModelEditForm(FlaskForm):
         super().commit_row()
         super()._commit()
         '''
-        print('\n\n\ncommit row\n\n\n') # debug
         try:
             int(self.id.data)
         except ValueError:
@@ -447,10 +446,11 @@ class DocumentEditForm(ModelEditForm):
         self.save_subjects_locations()
         self.save_dependent_docs()
         self.save_text_fields()
+        self.save_document_type()
         return self._commit()
 
     def load_stmts_of_responsibility(self, title_string, entity_dict,
-                                    list_generator):
+                                     list_generator):
         '''General method for loading statements of responsibility.
         '''
         return [(json.dumps(entity_dict(entity)),
@@ -566,7 +566,6 @@ class DocumentEditForm(ModelEditForm):
         return obj_list
 
     def save_text_fields(self):
-        # można chyba przenieść do klasy wyższej
         for field in ['title_proper', 'parallel_title', 'other_title_inf',
                       'edition_statement', 'parallel_edition_stmt',
                       'additional_edition_stmt', 'numbering',
@@ -575,6 +574,10 @@ class DocumentEditForm(ModelEditForm):
                       'note', 'issn', 'isbn_10', 'isbn_13']:
             value = getattr(self, field).data
             setattr(self.obj, field, value)
+
+    def save_document_type(self):
+        doc_type = self.document_type.data
+        setattr(self.obj, 'document_type', doc_type)
 
     def save_keywords(self):
         self.obj.keywords = DocumentEditForm.save_from_multiselect(
@@ -769,7 +772,8 @@ class DocumentEditForm(ModelEditForm):
                    'pattern': '[\d-]*'})
     document_type = QuerySelectField(
         'Document type:', query_factory=lambda: DocumentType.query.all(),
-        get_label=lambda model: model.name.capitalize())
+        get_label=lambda model: model.name.capitalize(),
+        get_pk=lambda model: model.id)
     responsibility_names = QuerySelectField(
         'Select responsibility name:',
         query_factory=lambda: ResponsibilityName.query.all())
